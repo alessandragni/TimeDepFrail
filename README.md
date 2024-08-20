@@ -1,5 +1,5 @@
 # Time-Dependent Shared Frailty Cox Models-R
-This Github repository is associated to my work thesis, developed in the statistical context of "survival analysis" and based on the paper "Centre-Effect on Survival After Bone Marrow Transplantation: Application of Time-Dependent Frailty Models", written by C.M. Wintrebert, H. Putter, A.H. Zwinderman and J.C. van Houwelingen.
+This Github repository is based on the paper "Centre-Effect on Survival After Bone Marrow Transplantation: Application of Time-Dependent Frailty Models", written by C.M. Wintrebert, H. Putter, A.H. Zwinderman and J.C. van Houwelingen.
 
 Briefly, this paper describes three different "Time-Dependent Shared Frailty Cox Models", that are elaborated and complex Cox regression models, at which a time-dependent random term (called frailty) is added for studying the temporal behaviour of a portion of data heterogeneity that cannot be solely explained by the regression coefficients. More details are provided in my thesis. 
 
@@ -60,7 +60,7 @@ The callable ones are reported in the following list, without arguments for conv
 
 
 ## Authors and maintener of the codes
+Alessandra Ragni (alessandra.ragni@polimi.it)
 Giulia Romani (giulia.romani@mail.polimi.it),
-Chiara Masci,
-Alessandra Ragni.
+Chiara Masci (chiara.masci@polimi.it).
 
