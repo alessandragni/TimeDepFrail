@@ -1,0 +1,18 @@
+Package: TimeDepFrail
+Type: Package
+Title: Time Dependent Shared Frailty Cox Model
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Alessandra", "Ragni", , "alessandra.ragni@polimi.it", role = "cre",
+           comment = c(ORCID = "0000-0002-3647-734")),
+    person("Giulia", "Romani", , "giulia.romani@mail.polimi.it", role = "aut"),
+    person("Chiara", "Masci", , "chiara.masci@polimi.it", role = "ctb",
+           comment = c(ORCID = "0000-0002-9208-3194")) )
+Description: Fits time-dependent shared frailty Cox model based on the paper "Centre-Effect on Survival After Bone Marrow Transplantation: Application of Time-Dependent Frailty Models", written by C.M. Wintrebert, H. Putter, A.H. Zwinderman and J.C. van Houwelingen.
+License: `use_gpl3_license()`
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Depends: 
+    R (>= 2.10)
+LazyData: true
