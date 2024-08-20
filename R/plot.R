@@ -79,6 +79,8 @@
 #'
 #' @return Plot of the baseline hazard step-function and value of the function in each interval.
 #'
+#' @export
+#' 
 #' @examples
 #' # Define the variables needed for the model execution
 #' formula <-
@@ -91,7 +93,6 @@
 #'                       categories_range_min, categories_range_max, TRUE)
 #'
 #' plot.bas_hazard(result)
-#' #' @export
 plot.bas_hazard <- function(result,
                            xlim = c(0,length(result$TimeDomain)-1), ylim = c(0,max(result$BaselineHazard)),
                            xlab = "x", ylab = "y", main_title = "Baseline hazard step-function",
@@ -171,6 +172,8 @@ plot.bas_hazard <- function(result,
 #'
 #' @return The plot of the posterior frailty estimates.
 #'
+#' @export
+#' 
 #' @examples
 #' # Define the variabled needed for the model execution
 #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
@@ -187,7 +190,6 @@ plot.bas_hazard <- function(result,
 #'
 #' plot.post_frailty_est(result, data_dropout, ylim=c(0,2),
 #'                       pch_type = pch_type, color_bg = color_bg)
-#' @export
 plot.post_frailty_est <- function(result, data,
                                   flag_eps = FALSE, flag_alpha = FALSE,
                                   xlim = c(1, length(time_axis) - 1), ylim = c(0, 10),
@@ -314,7 +316,9 @@ plot.post_frailty_est <- function(result, data,
 #' @param cex_points Dimension of the symbols. Deafult is 0.7.
 #'
 #' @return Plot of either the frailty standard deviation or the frailty variance.
-#'
+#' 
+#' @export
+#' 
 #' @examples
 #' # Define the variables needed for the model execution
 #' formula <-
@@ -328,7 +332,6 @@ plot.post_frailty_est <- function(result, data,
 #'
 #'
 #' plot.frailty_sd(sd, time_axis, FALSE, ylim = c(0,1))
-#' @export
 plot.frailty_sd <- function(result, frailty_sd = NULL, flag_variance = FALSE, flag_sd_external = FALSE,
                             xlim = c(1, length(time_axis)-1), ylim = c(0, 10),
                             xlab = "Intervals", ylab = "Values", main_title = "Frailty standard deviation",
@@ -407,7 +410,6 @@ plot.frailty_sd <- function(result, frailty_sd = NULL, flag_variance = FALSE, fl
 #' @param pch Shape of the plotted point. Deafult is a circle (21).
 #'
 #' @return Plot of the log-likelihood trend from the point of view of a single parameter.
-
 plot.ll_1D.AdPaik <- function(param_1D, index_param_1D, ll_1D, params, param_range_min, param_range_max,
                               dataset, centre, time_axis, dropout_matrix, e_matrix,
                               n_points = 150,
@@ -464,7 +466,6 @@ plot.ll_1D.AdPaik <- function(param_1D, index_param_1D, ll_1D, params, param_ran
 #' @color_bg Color of the points (n_points). Default is black.
 #' @color_max_bg Color of the optimal point. Deafult is red.
 #' @pch Shape of the points, with no distinction between optimal point and points.
-
 plot.ll_1D.PowPar <- function(param_1D, index_param_1D, ll_1D, params, param_range_min, param_range_max,
                               dataset, centre, time_axis, dropout_matrix, e_matrix,
                               n_points = 150,
@@ -521,7 +522,6 @@ plot.ll_1D.PowPar <- function(param_1D, index_param_1D, ll_1D, params, param_ran
 #' @color_bg Color of the points (n_points). Default is black.
 #' @color_max_bg Color of the optimal point. Deafult is red.
 #' @pch Shape of the points, with no distinction between optimal point and points.
-
 plot.ll_1D.StocTimeDep <- function(param_1D, index_param_1D, ll_1D, params, param_range_min, param_range_max,
                                    dataset, centre, time_axis, dropout_matrix, e_matrix, time_to_event,
                                    n_points = 150,
