@@ -57,8 +57,8 @@ plot_post_frailty_est(result, data_dropout, flag_esp = TRUE, flag_alpha = FALSE,
                       pos_legend = 'bottomright')
 
 plot_post_frailty_est(result, data_dropout,
-                      flag_eps = TRUE, flag_alpha = FALSE,
-                      ylim=c(0.6,2.5),
+                      flag_eps = FALSE, flag_alpha = TRUE,
+                      ylim=c(0.2,1.2), xlab = 'Time [intervals]', ylab = 'Posterior estimates',
                       pch_type = pch_type, color_bg = color_bg)
 
 #-------------------------------------------------------------------------------

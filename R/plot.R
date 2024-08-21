@@ -258,19 +258,27 @@ plot_post_frailty_est <- function(result, data,
 
   # Plot posterior frailty estimates
   # dev.new()
-  plot(seq(1,n_intervals,1), post_frailty[1,],
-       pch = pch_type[1], bg = color_bg[1], cex = cex,
-       main = main_title, xlab = xlab, ylab = ylab,
-       xlim = xlim, ylim = ylim)
-  for(k in 1:(n_intervals-1))
-    lines(c(k,k+1), c(post_frailty[1,k], post_frailty[1,k+1]))
-  for(i in 2:n_centres){
-    for(k in 1:(n_intervals-1)){
-      points(k, post_frailty[i,k], pch = pch_type[i], bg = color_bg[i], cex = cex)
-      points(k+1, post_frailty[i,k+1], pch = pch_type[i], bg = color_bg[i], cex = cex)
-      lines(c(k,k+1), c(post_frailty[i,k], post_frailty[i,k+1]))
+  if(flag_alpha == FALSE) {
+    plot(seq(1,n_intervals,1), post_frailty[1,],
+         pch = pch_type[1], bg = color_bg[1], cex = cex,
+         main = main_title, xlab = xlab, ylab = ylab,
+         xlim = xlim, ylim = ylim)
+    for(k in 1:(n_intervals-1))
+      lines(c(k,k+1), c(post_frailty[1,k], post_frailty[1,k+1]))
+    for(i in 2:n_centres){
+      for(k in 1:(n_intervals-1)){
+        points(k, post_frailty[i,k], pch = pch_type[i], bg = color_bg[i], cex = cex)
+        points(k+1, post_frailty[i,k+1], pch = pch_type[i], bg = color_bg[i], cex = cex)
+        lines(c(k,k+1), c(post_frailty[i,k], post_frailty[i,k+1]))
+      }
     }
+  } else {
+    plot(rep(1, length(post_frailty)), post_frailty,
+         pch = pch_type[1], bg = color_bg[1], cex = cex,
+         main = main_title, xlab = xlab, ylab = ylab,
+         xlim = xlim, ylim = ylim)
   }
+  
   if(is.vector(pos_legend))
     legend(pos_legend[1], pos_legend[2], legend = centre_codes, col = color_bg,
            pch = pch_type, pt.bg = color_bg, cex = cex_legend)
