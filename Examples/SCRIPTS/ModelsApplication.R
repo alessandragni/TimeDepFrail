@@ -50,16 +50,19 @@ plot_frailty_sd(result, frailty_sd = reduced_frailty_sd, flag_variance = TRUE,
 # Plot posterior frailty estimates
 pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
 color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
-plot_post_frailty_est(result, data_dropout, flag_esp = TRUE, flag_alpha = FALSE,
-                      ylim=c(0,3), xlim =c (1, 11),
+plot_post_frailty_est(result, data_dropout, 
+                      flag_eps = TRUE, flag_alpha = FALSE,
+                      ylim=c(0.3,1), xlim =c (1, 12),
                       pch_type = pch_type, color_bg = color_bg,
                       xlab = 'Time [intervals]', ylab = 'Posterior estimates',
                       pos_legend = 'bottomright')
 
 plot_post_frailty_est(result, data_dropout,
                       flag_eps = FALSE, flag_alpha = TRUE,
-                      ylim=c(0.2,1.2), xlab = 'Time [intervals]', ylab = 'Posterior estimates',
-                      pch_type = pch_type, color_bg = color_bg)
+                      xlim=c(0.95, 1.05), ylim = c(0.3,1.05), 
+                      pch_type = pch_type, color_bg = color_bg,
+                      xlab = 'Time [intervals]', ylab = 'Posterior estimates',
+                      pos_legend = 'bottomright')
 
 #-------------------------------------------------------------------------------
 # One dimensional analysis of the log-likelihood function

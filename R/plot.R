@@ -277,6 +277,9 @@ plot_post_frailty_est <- function(result, data,
          pch = pch_type[1], bg = color_bg[1], cex = cex,
          main = main_title, xlab = xlab, ylab = ylab,
          xlim = xlim, ylim = ylim)
+    for(i in 2:n_centres){
+        points(1, post_frailty[i], pch = pch_type[i], bg = color_bg[i], cex = cex)
+    }
   }
   
   if(is.vector(pos_legend))
