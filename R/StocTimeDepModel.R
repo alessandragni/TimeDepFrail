@@ -732,7 +732,7 @@ StocTimeDep_1D <- function(formula, data, time_axis,
     if(flag_plot){
       param_1D <- param_optimal[iter]
       ll_1D <- ll_optimized[iter]
-      plot.ll_1D.StocTimeDep(param_1D, index_param_to_vary, ll_1D, params,
+      plot_ll_1D.StocTimeDep(param_1D, index_param_to_vary, ll_1D, params,
                              params_range_min[index_param_to_vary], params_range_max[index_param_to_vary],
                              dataset, centre, time_axis, dropout_matrix, e_matrix, time_to_event,
                              n_points, cex, cex_max, color_bg, color_max_bg, pch)

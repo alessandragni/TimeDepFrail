@@ -410,7 +410,7 @@ plot_frailty_sd <- function(result, frailty_sd = NULL, flag_variance = FALSE, fl
 #' @param pch Shape of the plotted point. Deafult is a circle (21).
 #'
 #' @return Plot of the log-likelihood trend from the point of view of a single parameter.
-plot.ll_1D.AdPaik <- function(param_1D, index_param_1D, ll_1D, params, param_range_min, param_range_max,
+plot_ll_1D.AdPaik <- function(param_1D, index_param_1D, ll_1D, params, param_range_min, param_range_max,
                               dataset, centre, time_axis, dropout_matrix, e_matrix,
                               n_points = 150,
                               cex = 0.7, cex_max = 0.8, color_bg = "black", color_max_bg = "red",
@@ -466,7 +466,7 @@ plot.ll_1D.AdPaik <- function(param_1D, index_param_1D, ll_1D, params, param_ran
 #' @color_bg Color of the points (n_points). Default is black.
 #' @color_max_bg Color of the optimal point. Deafult is red.
 #' @pch Shape of the points, with no distinction between optimal point and points.
-plot.ll_1D.PowPar <- function(param_1D, index_param_1D, ll_1D, params, param_range_min, param_range_max,
+plot_ll_1D.PowPar <- function(param_1D, index_param_1D, ll_1D, params, param_range_min, param_range_max,
                               dataset, centre, time_axis, dropout_matrix, e_matrix,
                               n_points = 150,
                               cex = 0.7, cex_max = 0.8, color_bg = "black", color_max_bg = "red",
@@ -522,7 +522,7 @@ plot.ll_1D.PowPar <- function(param_1D, index_param_1D, ll_1D, params, param_ran
 #' @color_bg Color of the points (n_points). Default is black.
 #' @color_max_bg Color of the optimal point. Deafult is red.
 #' @pch Shape of the points, with no distinction between optimal point and points.
-plot.ll_1D.StocTimeDep <- function(param_1D, index_param_1D, ll_1D, params, param_range_min, param_range_max,
+plot_ll_1D.StocTimeDep <- function(param_1D, index_param_1D, ll_1D, params, param_range_min, param_range_max,
                                    dataset, centre, time_axis, dropout_matrix, e_matrix, time_to_event,
                                    n_points = 150,
                                    cex = 0.7, cex_max = 0.8, color_bg = "black", color_max_bg = "red",

@@ -46,24 +46,25 @@ summary.AdPaik(result)
 summary(result)
 
 # Plot baseline hazard step-function
-plot.bas_hazard(result, xlim=c(1,result$TimeDomain[result$NIntervals+1]))
+plot_bas_hazard(result, xlim=c(1,result$TimeDomain[result$NIntervals+1]))
 
 # Plot frailty standard deviation
-plot.frailty_sd(result, ylim=c(0, 0.80))
+plot_frailty_sd(result, ylim=c(0, 0.80))
 
 # Plot posterior frailty estimates
 pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
 color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
-plot.post_frailty_est(result, data_dropout,
+plot_post_frailty_est(result, data_dropout,
                       ylim=c(0,3),
                       pch_type = pch_type, color_bg = color_bg)
 
 #-------------------------------------------------------------------------------
 # Compute the frailty standard deviation in the reduced mode
-reduced_frailty_sd <- frailty.sd.AdPaik(result, FALSE)
+reduced_frailty_sd <- frailty_sd.AdPaik(result, FALSE)
+reduced_frailty_sd <- frailty_sd.AdPaik(result, FALSE)
 
 # Plot frailty standard deviation
-plot.frailty_sd(result, frailty_sd = reduced_frailty_sd, flag_variance = TRUE,
+plot_frailty_sd(result, frailty_sd = reduced_frailty_sd, flag_variance = TRUE,
                 ylim=c(0, 0.40), main_title = 'Frailty variance')
 #-------------------------------------------------------------------------------
 # One dimensional analysis of the log-likelihood function
@@ -97,10 +98,10 @@ result <- PowParModel(formula, data_dropout, time_axis,
 summary(result)
 
 # Plot baseline hazard step-function
-plot.bas_hazard(result, xlim=c(1,result$TimeDomain[result$NIntervals+1]))
+plot_bas_hazard(result, xlim=c(1,result$TimeDomain[result$NIntervals+1]))
 
 # Plot frailty standard deviation
-plot.frailty_sd(result, ylim=c(0, 0.80))
+plot_frailty_sd(result, ylim=c(0, 0.80))
 
 
 #-------------------------------------------------------------------------------

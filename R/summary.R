@@ -286,8 +286,10 @@ summary.StocTimeDep <- function(result){
   cat(output)
 }
 #-------------------------------------------------------------------------------
-#' Function for plotting on the R console a summary of the model call, given the
+#' @title Function for displaying on the R console a summary of the model call, given the
 #' output of the same call.
+#' 
+#' @description
 #' According to the model it has been called, this function inspects the class output and then call
 #' the proper summary function.
 #'

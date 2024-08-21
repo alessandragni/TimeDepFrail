@@ -2,7 +2,7 @@
 
 export(AdPaikModel)
 export(AdPaik_1D)
-export(frailty.sd.AdPaik)
+export(frailty_sd.AdPaik)
 export(plot_bas_hazard)
 export(plot_frailty_sd)
 export(plot_post_frailty_est)
