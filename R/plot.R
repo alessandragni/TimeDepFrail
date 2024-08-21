@@ -92,8 +92,8 @@
 #' result <- AdPaikModel(formula, data, time_axis,
 #'                       categories_range_min, categories_range_max, TRUE)
 #'
-#' plot.bas_hazard(result)
-plot.bas_hazard <- function(result,
+#' plot_bas_hazard(result)
+plot_bas_hazard <- function(result,
                            xlim = c(0,length(result$TimeDomain)-1), ylim = c(0,max(result$BaselineHazard)),
                            xlab = "x", ylab = "y", main_title = "Baseline hazard step-function",
                            color = "black", pch = 21, bg = "black", cex_points = 0.7){
@@ -188,9 +188,9 @@ plot.bas_hazard <- function(result,
 #' result <- AdPaikModel(formula, data, time_axis,
 #'                       categories_range_min, categories_range_max, TRUE)
 #'
-#' plot.post_frailty_est(result, data_dropout, ylim=c(0,2),
+#' plot_post_frailty_est(result, data_dropout, ylim=c(0,2),
 #'                       pch_type = pch_type, color_bg = color_bg)
-plot.post_frailty_est <- function(result, data,
+plot_post_frailty_est <- function(result, data,
                                   flag_eps = FALSE, flag_alpha = FALSE,
                                   xlim = c(1, length(time_axis) - 1), ylim = c(0, 10),
                                   xlab = "Intervals", ylab = "Values", main_title = "Posterior frailty estimates",
@@ -331,8 +331,8 @@ plot.post_frailty_est <- function(result, data,
 #'                       categories_range_min, categories_range_max, TRUE)
 #'
 #'
-#' plot.frailty_sd(sd, time_axis, FALSE, ylim = c(0,1))
-plot.frailty_sd <- function(result, frailty_sd = NULL, flag_variance = FALSE, flag_sd_external = FALSE,
+#' plot_frailty_sd(sd, time_axis, FALSE, ylim = c(0,1))
+plot_frailty_sd <- function(result, frailty_sd = NULL, flag_variance = FALSE, flag_sd_external = FALSE,
                             xlim = c(1, length(time_axis)-1), ylim = c(0, 10),
                             xlab = "Intervals", ylab = "Values", main_title = "Frailty standard deviation",
                             pch = 21, color_bg = "blue", cex_points = 0.7){
