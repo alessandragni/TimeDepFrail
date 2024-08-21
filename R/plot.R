@@ -250,7 +250,7 @@ plot_post_frailty_est <- function(result, data,
   # Define what to plot, according to the flag
   post_fralty <- 0
   if(flag_eps == TRUE)
-    post_fralty <- post_frailty_est$eps
+    post_frailty <- post_frailty_est$eps
   if(flag_alpha == TRUE)
     post_frailty <- post_frailty_est$alpha
   if((flag_eps == FALSE) & (flag_alpha == FALSE))

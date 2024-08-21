@@ -24,26 +24,43 @@ summary.AdPaik(result)
 summary(result)
 
 # Plot baseline hazard step-function
-plot_bas_hazard(result, xlim=c(1,result$TimeDomain[result$NIntervals+1]))
+plot_bas_hazard(result, xlim=c(1,result$TimeDomain[result$NIntervals+1]),
+                xlab = 'Time [semesters]', ylab = 'Baseline hazard')
 
 # Plot frailty standard deviation
-plot_frailty_sd(result, ylim=c(0, 0.80))
+plot_frailty_sd(result, ylim=c(0, 0.50), xlab = 'Time [intervals]', ylab = 'Standard deviation')
 
 # Plot posterior frailty estimates
 pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
 color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
 plot_post_frailty_est(result, data_dropout,
-                      ylim=c(0,3),
-                      pch_type = pch_type, color_bg = color_bg)
+                      ylim=c(0,3), xlim =c (1, 11),
+                      pch_type = pch_type, color_bg = color_bg,
+                      xlab = 'Time [intervals]', ylab = 'Posterior estimates',
+                      pos_legend = 'bottomright')
 
 #-------------------------------------------------------------------------------
 # Compute the frailty standard deviation in the reduced mode
-reduced_frailty_sd <- frailty_sd.AdPaik(result, FALSE)
 reduced_frailty_sd <- frailty_sd.AdPaik(result, FALSE)
 
 # Plot frailty standard deviation
 plot_frailty_sd(result, frailty_sd = reduced_frailty_sd, flag_variance = TRUE,
                 ylim=c(0, 0.40), main_title = 'Frailty variance')
+
+# Plot posterior frailty estimates
+pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
+color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
+plot_post_frailty_est(result, data_dropout, flag_esp = TRUE, flag_alpha = FALSE,
+                      ylim=c(0,3), xlim =c (1, 11),
+                      pch_type = pch_type, color_bg = color_bg,
+                      xlab = 'Time [intervals]', ylab = 'Posterior estimates',
+                      pos_legend = 'bottomright')
+
+plot_post_frailty_est(result, data_dropout,
+                      flag_eps = TRUE, flag_alpha = FALSE,
+                      ylim=c(0.6,2.5),
+                      pch_type = pch_type, color_bg = color_bg)
+
 #-------------------------------------------------------------------------------
 # One dimensional analysis of the log-likelihood function
 index_param_to_vary <- 2
