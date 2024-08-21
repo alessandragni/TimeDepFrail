@@ -72,7 +72,7 @@ The callable ones are reported in the following list, without arguments for conv
 
 
 ## Authors and maintener of the codes
-Alessandra Ragni (alessandra.ragni@polimi.it)
+Alessandra Ragni (alessandra.ragni@polimi.it),
 Giulia Romani (giulia.romani@mail.polimi.it),
 Chiara Masci (chiara.masci@polimi.it).
 
