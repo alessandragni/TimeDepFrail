@@ -79,6 +79,7 @@ analysis_1D_opt <- AdPaik_1D(formula, data_dropout, time_axis,
 analysis_1D_opt$EstimatedParameter
 result$OptimalParameters[index_param_to_vary]
 
+# Arrive up to here
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 # CENTRE-SPECIFIC FRAILTY MODEL WITH POWER PARAMETER
@@ -92,15 +93,15 @@ time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
 
 formula <- time_to_event ~ Gender + CFUP + cluster(group)
 
-result <- PowParModel(formula, data_dropout, time_axis,
+result2 <- PowParModel(formula, data_dropout, time_axis,
                       categories_range_min, categories_range_max, C_mult)
-summary(result)
+summary(result2)
 
 # Plot baseline hazard step-function
-plot_bas_hazard(result, xlim=c(1,result$TimeDomain[result$NIntervals+1]))
+plot_bas_hazard(result2, xlim=c(1,result$TimeDomain[result$NIntervals+1]))
 
 # Plot frailty standard deviation
-plot_frailty_sd(result, ylim=c(0, 0.80))
+plot_frailty_sd(result2, ylim=c(0, 0.80))
 
 
 #-------------------------------------------------------------------------------
