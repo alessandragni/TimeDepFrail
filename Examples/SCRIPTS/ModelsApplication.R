@@ -2,7 +2,8 @@
 devtools::install_github("alessandragni/TimeDepFrail")
 
 library(TimeDepFrail)
-data("data_dropout")
+data(data_dropout)
+head(data_dropout)
 
 #-------------------------------------------------------------------------------
 # MODEL APPLICATION
