@@ -1,35 +1,13 @@
-# WINDOWS SETUP
-# Set working directory, save the functions and load the dataset
-setwd("C:/Users/admin/Documents/R/Thesis/TimeDependentSharedFrailtyCoxModels-R")
-load("C:/Users/admin/Documents/R/Thesis/TimeDependentSharedFrailtyCoxModels-R/Data/Functions.RData")
-load("C:/Users/admin/Documents/R/Thesis/TimeDependentSharedFrailtyCoxModels-R/Data/data_dropout.RData")
-#save.image("C:/Users/admin/Documents/R/Thesis/TimeDependentSharedFrailtyCoxModels-R/Data/Functions.RData")
-#load("C:/Users/admin/Documents/R/Thesis/TimeDependentSharedFrailtyCoxModels-R/Data/dataless_time_varying_year2012.RData")
 
-# MAC SETUP
-setwd("/Users/noa/Desktop/Giulia/TimeDependentSharedFrailtyCoxModels-R")
-load("/Users/noa/Desktop/Giulia/TimeDependentSharedFrailtyCoxModels-R/Data/Functions.RData")
-load("/Users/noa/Desktop/Giulia/TimeDependentSharedFrailtyCoxModels-R/Data/data_dropout.RData")
-#save.image("/Users/noa/Desktop/Giulia/TimeDependentSharedFrailtyCoxModels-R/Data/Functions.RData")
-#load("/Users/noa/Desktop/Giulia/TimeDependentSharedFrailtyCoxModels-R/Data/dataless_time_varying_year2012.RData")
+devtools::install_github("alessandragni/TimeDepFrail")
 
-#-------------------------------------------------------------------------------
+library(TimeDepFrail)
+data("data_dropout")
+
 #-------------------------------------------------------------------------------
 # MODEL APPLICATION
 #-------------------------------------------------------------------------------
-# # Create dataset for model application: already saved in the workspace in the correct way
-# data_dropout <- as.matrix(data_app_year[,1:2])
-# time_to_event <- data_app_year[,3]
-# centre <- faculty_codes
-# time_axis <- a_interval
-#
-# # Dataframe
-# data_dropout <- data.frame(data_dropout)
-# data_dropout <- cbind(data_dropout, time_to_event, centre)
-# colnames(data_dropout) <- c("Gender", "CFUP", "time_to_event", "group")
-#-------------------------------------------------------------------------------
-# RECALL TO CHANGE THE NUMBER OF RUNS IN THE FIRST TWO MODELS (internal variable)
-#-------------------------------------------------------------------------------
+
 ## ADAPTED PAIK ET AL MODEL
 # Model call
 eps_paik <- 1e-10
@@ -130,7 +108,7 @@ result.PowPar <- TimeDepFrailty(formula, data_dropout, time_axis,
                                 model_type = 'PowParModel')
 
 #-------------------------------------------------------------------------------
-save("C:/Users/admin/Documents/R/Thesis/TimeVaryingSharedFrailtyCoxModels-R/Data/Functions.RData")
+
 
 
 

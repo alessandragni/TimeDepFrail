@@ -74,18 +74,22 @@ possible to plot the entire posterior frailty estimate \eqn{\hat{Z}_{jk}} or jus
 To do so, the user has to specify the alue of two flags.
 }
 \examples{
-# Define the variabled needed for the model execution
+# Import data
+data(data_dropout)
+
+# Define the variables needed for the model execution
+eps_paik <- 1e-10
+categories_range_min <- c(-8, -2, eps_paik, eps_paik, eps_paik)
+categories_range_max <- c(-eps_paik, 0.4, 1 - eps_paik, 1, 10)
+time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
 formula <- time_to_event ~ Gender + CFUP + cluster(group)
 
-time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
+# Call the main model function
+result <- AdPaikModel(formula, data, time_axis, categories_range_min, categories_range_max)
 
 # Define variables for plotting the estimates
 pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
 color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
-
-# Call the main model
-result <- AdPaikModel(formula, data, time_axis,
-                      categories_range_min, categories_range_max, TRUE)
 
 plot_post_frailty_est(result, data_dropout, ylim=c(0,2),
                       pch_type = pch_type, color_bg = color_bg)

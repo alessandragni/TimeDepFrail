@@ -28,8 +28,8 @@ categories_range_min <- c()
 categories_range_max <- c()
 
 # Call the main model function
-result <- AdPaikModel(formula, data, time_axis, categories_range_min, categories_range_max, flag_fullsd = TRUE)
+result <- StocTimeDep(formula, data, time_axis, categories_range_min, categories_range_max)
 
 # Call the summary
-summary.AdPaik(result)
+summary.StocTimeDep(result)
 }

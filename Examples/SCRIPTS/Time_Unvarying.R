@@ -1,3 +1,7 @@
+
+library(TimeDepFrail)
+data("data_dropout")
+
 data_dropout2 = data_dropout
 data_dropout2$status = ifelse(data_dropout2$time_to_event < 6.1, 1, 0)
 

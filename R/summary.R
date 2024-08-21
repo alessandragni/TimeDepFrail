@@ -17,16 +17,21 @@
 #'
 #' @examples
 #' # Define the variables needed for the model execution
-#' formula <-
-#' time_axis <-
-#' categories_range_min <- c()
-#' categories_range_max <- c()
+#' 
+#' data(data_dropout)
+#' eps_paik <- 1e-10
+#' categories_range_min <- c(-8, -2, eps_paik, eps_paik, eps_paik)
+#' categories_range_max <- c(-eps_paik, 0.4, 1 - eps_paik, 1, 10)
+#' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
+#' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #'
 #' # Call the main model function
-#' result <- AdPaikModel(formula, data, time_axis, categories_range_min, categories_range_max, flag_fullsd = TRUE)
+#' result <- AdPaikModel(formula, data, time_axis, categories_range_min, categories_range_max)
 #'
 #' # Call the summary
-#' summary.AdPaik(result)
+#' summary.AdPaik(result) 
+#' # or
+#' summary(result)
 
 summary.AdPaik <- function(result){
   check.result(result)
@@ -205,10 +210,10 @@ summary.PowPar <- function(result){
 #' categories_range_max <- c()
 #'
 #' # Call the main model function
-#' result <- AdPaikModel(formula, data, time_axis, categories_range_min, categories_range_max, flag_fullsd = TRUE)
+#' result <- StocTimeDep(formula, data, time_axis, categories_range_min, categories_range_max)
 #'
 #' # Call the summary
-#' summary.AdPaik(result)
+#' summary.StocTimeDep(result)
 
 summary.StocTimeDep <- function(result){
   check.result(result)
