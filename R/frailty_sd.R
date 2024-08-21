@@ -29,7 +29,7 @@
 #' - FrailtyVariance
 #' - FrailtyStandardDevation
 
-frailty_sd.AdPaik <- function (optimal_params, time_axis, n_regressors,
+frailty__sd.AdPaik <- function (optimal_params, time_axis, n_regressors,
                         categories_range_min, categories_range_max,
                         flag_fullsd = TRUE){
 

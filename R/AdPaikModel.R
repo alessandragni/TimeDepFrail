@@ -361,7 +361,7 @@ AdPaikModel <- function(formula, data, time_axis,
   
   # Compute frailty standard deviation
   writeLines(sprintf(paste("Compute frailty standard deviation")))
-  frailty_dispersion <- frailty_sd.AdPaik(optimal_params, time_axis, n_regressors,
+  frailty_dispersion <- frailty__sd.AdPaik(optimal_params, time_axis, n_regressors,
                                           categories_range_min, categories_range_max, TRUE)
   
   # Compute posterior frailty estimates
