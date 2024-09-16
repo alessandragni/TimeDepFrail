@@ -449,23 +449,12 @@ plot_ll_1D.AdPaik <- function(param_1D, index_param_1D, ll_1D, params, param_ran
     ll_values[i] <- ll_AdPaik_eval(params, dataset, centre, time_axis, dropout_matrix, e_matrix)
   }
   
-  # Filter out non-finite log-likelihood values
-  finite_indices <- is.finite(ll_values)
-  param_values_finite <- param_values[finite_indices]
-  ll_values_finite <- ll_values[finite_indices]
-  
-  # Check if there are any finite values to plot
-  if (length(ll_values_finite) == 0) {
-    stop("No finite log-likelihood values to plot.")
-  }
-  
   # Plot the log-likelihood trend with respect to the indicated parameter
   string_title <- paste("Log-likelihood trend wrt parameter ", index_param_1D)
   
   # dev.new()
-  print(ll_values_finite)
   plot(param_values, ll_values, pch=pch, col=color_bg, cex = cex,
-       xlim = c(param_range_min, param_range_max), ylim=c(min(ll_values_finite), max(ll_values_finite)),
+       xlim = c(param_range_min, param_range_max), #, ylim=c(min(ll_values), max(ll_values)),
        main = string_title, xlab = "Values", ylab = "Log-likelihood")
   points(param_1D, ll_1D, bg = color_max_bg, pch = pch, cex = cex_max)
 }
