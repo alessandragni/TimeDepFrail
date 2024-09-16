@@ -127,7 +127,7 @@
 #' data(data_dropout)
 #'
 #' # Define the variables needed for the model execution
-#' formula <- time_to_event ~ GenderF + CFUP + cluster(group)
+#' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
 #' eps <- 1e-10
 #' categories_range_min <- c(-8, -2, eps, eps, eps)
@@ -807,7 +807,7 @@ ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
 #'
 #' @examples
 #' # Define the variables needed for the model execution
-#' formula <- time_to_event ~ GenderF + CFUP + cluster(group)
+#' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
 #' eps <- 1e-10
 #' categories_range_min <- c(-8, -2, eps, eps, eps)
@@ -817,15 +817,15 @@ ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
 #' index_param_to_vary <- 1
 #'
 #' # Call the main model without providing optimal parameter
-#' result <- AdPaikModel(formula, data, time_axis,
-#'                       index_param_to_vay, FALSE, NULL
-#'                       categories_range_min, categories_range_max)
+#' result <- AdPaik_1D(formula, data, time_axis,
+#'                     index_param_to_vay, FALSE, NULL,
+#'                     categories_range_min, categories_range_max)
 #'
 #' # Call the main model, providing optimal parameter
 #' optimal_params <- c()
-#' result <- AdPaikModel(formula, data, time_axis,
-#'                       index_param_to_vay, TRUE, optimal_params,
-#'                       categories_range_min, categories_range_max, n_iter = 1)
+#' result <- AdPaik_1D(formula, data, time_axis,
+#'                     index_param_to_vay, TRUE, optimal_params,
+#'                     categories_range_min, categories_range_max, n_iter = 1)
 
 
 AdPaik_1D <- function(formula, data, time_axis,

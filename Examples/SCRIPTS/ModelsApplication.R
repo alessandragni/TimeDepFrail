@@ -67,17 +67,27 @@ plot_post_frailty_est(result, data_dropout,
 
 #-------------------------------------------------------------------------------
 # One dimensional analysis of the log-likelihood function
-index_param_to_vary <- 2
+index_param_to_vary <- 14
+analysis_1D_opt <- AdPaik_1D(formula, data_dropout, time_axis,
+                             index_param_to_vary, flag_optimal_params = TRUE, optimal_params = result$OptimalParameters,
+                             categories_range_min, categories_range_max, n_iter = 1)
+analysis_1D_opt$EstimatedParameter
+analysis_1D_opt$OptimizedLoglikelihood
+
+result$OptimalParameters[index_param_to_vary]
+
+categories_range_max <- c(-eps_paik, 0.5, 1 - eps_paik, 2, 10)
+analysis_1D_opt <- AdPaik_1D(formula, data_dropout, time_axis,
+                             index_param_to_vary, flag_optimal_params = TRUE, optimal_params = result$OptimalParameters,
+                             categories_range_min, categories_range_max, n_iter = 1)
+
+
+
+index_param_to_vary <- 14
 analysis_1D_var <- AdPaik_1D(formula, data_dropout, time_axis,
                              index_param_to_vary, flag_optimal_params = FALSE, optimal_params = NULL,
                              categories_range_min, categories_range_max)
 
-index_param_to_vary <- 2
-analysis_1D_opt <- AdPaik_1D(formula, data_dropout, time_axis,
-                             index_param_to_vary, flag_optimal_params = TRUE, optimal_params = result$OptimalParameters,
-                             categories_range_min, categories_range_max)
-analysis_1D_opt$EstimatedParameter
-result$OptimalParameters[index_param_to_vary]
 
 # Arrive up to here
 #-------------------------------------------------------------------------------

@@ -2,18 +2,17 @@
 library(TimeDepFrail)
 data("data_dropout")
 
-data_dropout2 = data_dropout
-data_dropout2$status = ifelse(data_dropout2$time_to_event <= 6.0, 1, 0)
-data_dropout2$time_to_event = as.numeric(data_dropout2$time_to_event)
+data_dropout$status = ifelse(data_dropout$time_to_event < 6.1, 1, 0)
+data_dropout$time_to_event = as.numeric(data_dropout$time_to_event)
 
 
 
 library(frailtypack)
 
 # SHARED FRAILTY COX HAZARD MODEL
-frailty_model <- frailtyPenal(Surv(time_to_event, status) ~ cluster(group) + Gender + CFUP, data = data_dropout2, 
+frailty_model <- frailtyPenal(Surv(time_to_event, status) ~ cluster(group) + Gender + CFUP, data = data_dropout, 
                               cross.validation = FALSE,
-                              n.knots = 15, kappa = 5, hazard="Splines")
+                              n.knots = 20, kappa = 1, hazard="Splines")
 summary(frailty_model)
 
 # Regression coefficients and their p_values
@@ -45,22 +44,23 @@ frailty_hazard <- frailty_model$lam[,1,1]
 frailty_survival <- frailty_model$surv[,1,1]
 
 # Plot with default commands on the whole time domain
-plot(frailty_model, type.plot = "Survival", conf.bands=FALSE,
-     main = "Estimated baseline survival function", color="darkorange", median=TRUE, Xlab = "Time [semesters]", Ylab = "Survival probability")
+#plot(frailty_model, type.plot = "Survival", conf.bands=FALSE,
+#     main = "Estimated baseline survival function", color="darkorange", median=TRUE, Xlab = "Time [semesters]", Ylab = "Survival probability")
 
 # dev.new()
 # plot(frailty_model, type.plot = "Hazard", conf.bands=FALSE,
 #      main = "Estimated baseline Hazard function", color="black", median=TRUE, Xlab = "Time[semester]", Ylab = "Instantaneous risk of failure")
 
+frailty_time <- frailty_model$x
+frailty_hazard <- frailty_model$lam[,1,1]
 # Plot corrected baseline hazard function (area divided)
-smoothingSpline = smooth.spline(frailty_time,frailty_hazard, spar=0.35)
-area<-0 # normalize Spline
+smoothingSpline = smooth.spline(frailty_time, frailty_hazard, spar=0.35)
+area = 0 
 for(ii in 1:(length(smoothingSpline$y)-1)){
   area<-area+(smoothingSpline$x[ii+1]-smoothingSpline$x[ii])*smoothingSpline$y[ii+1]
 }
-smoothingSpline$y<-smoothingSpline$y/area
-plot(smoothingSpline, type="l",
-     main = "Estimated baseline hazard function", color="black", median=TRUE, xlab = "Time [semesters]", ylab = "Instantaneous risk of failure")
+smoothingSpline$y <- smoothingSpline$y/area
 
-plot(smoothingSpline$x[17:100], smoothingSpline$y[17:100], type = 'l', col="black",
+plot(smoothingSpline$x[17:98], smoothingSpline$y[17:98], type = 'l', col="black",
      main = "Estimated baseline hazard function", xlab = "Time [semesters]", ylab="Instantaneous risk of failure")
+
