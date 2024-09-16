@@ -76,18 +76,20 @@ analysis_1D_opt$OptimizedLoglikelihood
 
 result$OptimalParameters[index_param_to_vary]
 
-categories_range_max <- c(-eps_paik, 0.5, 1 - eps_paik, 2, 10)
+
 analysis_1D_opt <- AdPaik_1D(formula, data_dropout, time_axis,
                              index_param_to_vary, flag_optimal_params = TRUE, optimal_params = result$OptimalParameters,
                              categories_range_min, categories_range_max, n_iter = 1)
 
 
-
-index_param_to_vary <- 14
-analysis_1D_var <- AdPaik_1D(formula, data_dropout, time_axis,
+eps = eps_paik
+categories_range_min <- c(-8, -1, eps, eps, eps)
+categories_range_max <- c(-eps, 0.5, 1 - eps, 1, 10)
+index_param_to_vary <- 12
+analysis_1D_opt <- AdPaik_1D(formula, data_dropout, time_axis,
                              index_param_to_vary, flag_optimal_params = FALSE, optimal_params = NULL,
-                             categories_range_min, categories_range_max)
-
+                             categories_range_min, categories_range_max, n_iter = 5, flag_plot = TRUE)
+analysis_1D_opt
 
 # Arrive up to here
 #-------------------------------------------------------------------------------

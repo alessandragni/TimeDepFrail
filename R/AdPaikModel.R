@@ -785,8 +785,8 @@ ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
 #' Default value is 5. See details for more information.
 #' @param tol_optimize Tolerance used in the optimize R function for the one-dimensional optimization
 #' of the log-likelihood function.
-#' @param flag_plot Default value (TRUE) for plotting the trend of the log-likelihood function with respect to the parameter under consideration.
-#' A plot for each iteration (n_iter) is reported.
+#' @param flag_plot Logical value for plotting the trend of the log-likelihood function with respect to the parameter under consideration.
+#' A plot for each iteration (n_iter) is reported. Defaults to FALSE.
 #' Be careful that if the optimal parameters are provided, then the trend may be always the same and therefore it may be sufficient to
 #' set n_iter = 1. On the other hand, if optimal parameters are not provided, then it is recommended to impose a higher n_iter.
 #' @param n_points Number of internal points in which the log-likelihood function must be evaluated, to
@@ -832,7 +832,7 @@ AdPaik_1D <- function(formula, data, time_axis,
                       index_param_to_vary, flag_optimal_params = FALSE, optimal_params = NULL,
                       categories_range_min, categories_range_max,
                       n_iter = 5, tol_optimize = 1e-6,
-                      flag_plot = TRUE, n_points = 150,
+                      flag_plot = FALSE, n_points = 150,
                       cex = 0.7, cex_max = 0.8, color_bg = "black", color_max_bg = "red",
                       pch = 21){
   

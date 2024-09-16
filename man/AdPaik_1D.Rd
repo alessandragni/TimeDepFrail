@@ -15,7 +15,7 @@ AdPaik_1D(
   categories_range_max,
   n_iter = 5,
   tol_optimize = 1e-06,
-  flag_plot = TRUE,
+  flag_plot = FALSE,
   n_points = 150,
   cex = 0.7,
   cex_max = 0.8,
@@ -52,8 +52,8 @@ Default value is 5. See details for more information.}
 \item{tol_optimize}{Tolerance used in the optimize R function for the one-dimensional optimization
 of the log-likelihood function.}
 
-\item{flag_plot}{Default value (TRUE) for plotting the trend of the log-likelihood function with respect to the parameter under consideration.
-A plot for each iteration (n_iter) is reported.
+\item{flag_plot}{Logical value for plotting the trend of the log-likelihood function with respect to the parameter under consideration.
+A plot for each iteration (n_iter) is reported. Defaults to FALSE.
 Be careful that if the optimal parameters are provided, then the trend may be always the same and therefore it may be sufficient to
 set n_iter = 1. On the other hand, if optimal parameters are not provided, then it is recommended to impose a higher n_iter.}
 
@@ -101,7 +101,7 @@ so that it is possible to identify a precise existence region for such parameter
 }
 \examples{
 # Define the variables needed for the model execution
-formula <- time_to_event ~ GenderF + CFUP + cluster(group)
+formula <- time_to_event ~ Gender + CFUP + cluster(group)
 time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
 eps <- 1e-10
 categories_range_min <- c(-8, -2, eps, eps, eps)
@@ -111,13 +111,13 @@ categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
 index_param_to_vary <- 1
 
 # Call the main model without providing optimal parameter
-result <- AdPaikModel(formula, data, time_axis,
-                      index_param_to_vay, FALSE, NULL
-                      categories_range_min, categories_range_max)
+result <- AdPaik_1D(formula, data, time_axis,
+                    index_param_to_vay, FALSE, NULL,
+                    categories_range_min, categories_range_max)
 
 # Call the main model, providing optimal parameter
 optimal_params <- c()
-result <- AdPaikModel(formula, data, time_axis,
-                      index_param_to_vay, TRUE, optimal_params,
-                      categories_range_min, categories_range_max, n_iter = 1)
+result <- AdPaik_1D(formula, data, time_axis,
+                    index_param_to_vay, TRUE, optimal_params,
+                    categories_range_min, categories_range_max, n_iter = 1)
 }
