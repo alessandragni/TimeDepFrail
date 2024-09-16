@@ -83,7 +83,7 @@ analysis_1D_opt <- AdPaik_1D(formula, data_dropout, time_axis,
 
 
 
-index_param_to_vary <- 14
+index_param_to_vary <- 1
 analysis_1D_var <- AdPaik_1D(formula, data_dropout, time_axis,
                              index_param_to_vary, flag_optimal_params = FALSE, optimal_params = NULL,
                              categories_range_min, categories_range_max)

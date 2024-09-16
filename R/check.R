@@ -555,12 +555,12 @@ check.time_domain <- function(time_domain, flag_time_domain){
 check.flag_optimal_params <- function(optimal_params, flag_optimal_params){
   # If the flag is activated, then the user needs to provide the optimal parameter vector
   if(flag_optimal_params){
-    if((! is.vector(optimal_params)) || (is.null(optimal_params)))
+    if((!is.vector(optimal_params)) || (is.null(optimal_params)))
       stop("'optimal_params' must be provided with TRUE 'flag_optimal_params'.")
   }
   # If the flag is not activated, then no optimal parameters should be provided
   else{
-    if((!is.null(optimal_params)))
+    if((!is.null(optimal_params)) || (is.vector(optimal_params)))
       warning("'optimal_params' provided but FALSE 'flag_optimal_params'.")
   }
 }
