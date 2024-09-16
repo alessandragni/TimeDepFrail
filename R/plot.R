@@ -463,6 +463,7 @@ plot_ll_1D.AdPaik <- function(param_1D, index_param_1D, ll_1D, params, param_ran
   string_title <- paste("Log-likelihood trend wrt parameter ", index_param_1D)
   
   # dev.new()
+  print(ll_values_finite)
   plot(param_values, ll_values, pch=pch, col=color_bg, cex = cex,
        xlim = c(param_range_min, param_range_max), ylim=c(min(ll_values_finite), max(ll_values_finite)),
        main = string_title, xlab = "Values", ylab = "Log-likelihood")
