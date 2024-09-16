@@ -639,14 +639,6 @@ ll_AdPaik_eval <- function(params, dataset, centre, time_axis, dropout_matrix, e
     
     # Compute the log-likelihood of the centre
     ll_centre <- ll_AdPaik_centre_eval(params, dataset_centre, dropout_matrix_centre, e_matrix_centre)
-    
-    # Check if the computed log-likelihood is finite
-    if (!is.finite(ll_centre)) {
-      message("Non-finite log-likelihood for centre: ", centre_codes[i], 
-              ". Skipping contribution for this centre.")
-      next  # Skip this centre
-    }
-    
     ll_overall <- ll_overall + ll_centre
   }
   return (ll_overall)

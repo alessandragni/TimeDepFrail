@@ -435,60 +435,38 @@ plot_ll_1D.AdPaik <- function(param_1D, index_param_1D, ll_1D, params, param_ran
                               n_points = 150,
                               cex = 0.7, cex_max = 0.8, color_bg = "black", color_max_bg = "red",
                               pch = 21){
-
-  # Generate equally spaced points for the indicated parameter inside its min, max range
-  param_values <- seq(param_range_min, param_range_max, length.out = n_points)
-  ll_values <- numeric(n_points)
+  
+  # Define the structure containing the generated points and the associated log-likelihood value
+  #param_values <- rep(0, n_points)
+  ll_values <- rep(0, n_points)
+  
+  # Generate n_points for the indicated parameter inside its min, max range
+  param_values <- runif(n_points, param_range_min, param_range_max)
   
   # For each point, evaluate the log-likelihood function
-  for (i in 1:n_points) {
+  for(i in 1:n_points){
     params[index_param_1D] <- param_values[i]
     ll_values[i] <- ll_AdPaik_eval(params, dataset, centre, time_axis, dropout_matrix, e_matrix)
   }
   
-  # Check for non-finite values in the log-likelihood evaluations
-  if (any(!is.finite(ll_values))) {
-    warning("Non-finite log-likelihood values encountered. Check ll_AdPaik_eval output.")
-    ll_values <- ll_values[is.finite(ll_values)]  # Remove non-finite values for plotting
-    param_values <- param_values[is.finite(ll_values)]
-  }
+  # Filter out non-finite log-likelihood values
+  finite_indices <- is.finite(ll_values)
+  param_values_finite <- param_values[finite_indices]
+  ll_values_finite <- ll_values[finite_indices]
   
-  # Safeguard against empty ll_values
-  if (length(ll_values) == 0) {
-    stop("All log-likelihood values are non-finite. Cannot generate plot.")
+  # Check if there are any finite values to plot
+  if (length(ll_values_finite) == 0) {
+    stop("No finite log-likelihood values to plot.")
   }
   
   # Plot the log-likelihood trend with respect to the indicated parameter
-  string_title <- paste("Log-likelihood trend wrt parameter", index_param_1D)
+  string_title <- paste("Log-likelihood trend wrt parameter ", index_param_1D)
   
-  plot(param_values, ll_values, pch = pch, col = color_bg, cex = cex,
-       xlim = c(param_range_min, param_range_max), ylim = range(ll_values, finite = TRUE),
+  # dev.new()
+  plot(param_values, ll_values, pch=pch, col=color_bg, cex = cex,
+       xlim = c(param_range_min, param_range_max), ylim=c(min(ll_values_finite), max(ll_values_finite)),
        main = string_title, xlab = "Values", ylab = "Log-likelihood")
-  
-  # Highlight the optimal parameter point
   points(param_1D, ll_1D, bg = color_max_bg, pch = pch, cex = cex_max)
-  
-  # # Define the structure containing the generated points and the associated log-likelihood value
-  # param_values <- rep(0, n_points)
-  # ll_values <- rep(0, n_points)
-# 
-  # # Generate n_points for the indicated parameter inside its min, max range
-  # param_values <- runif(n_points, param_range_min, param_range_max)
-# 
-  # # For each point, evaluate the log-likelihood function
-  # for(i in 1:n_points){
-  #   params[index_param_1D] <- param_values[i]
-  #   ll_values[i] <- ll_AdPaik_eval(params, dataset, centre, time_axis, dropout_matrix, e_matrix)
-  # }
-# 
-  # # Plot the log-likelihood trend with respect to the indicated parameter
-  # string_title <- paste("Log-likelihood trend wrt parameter ", index_param_1D)
-# 
-  # # dev.new()
-  # plot(param_values, ll_values, pch=pch, col=color_bg, cex = cex,
-  #      xlim = c(param_range_min, param_range_max), ylim=c(min(ll_values), max(ll_values)),
-  #      main = string_title, xlab = "Values", ylab = "Log-likelihood")
-  # points(param_1D, ll_1D, bg = color_max_bg, pch = pch, cex = cex_max)
 }
 #-------------------------------------------------------------------------------
 #' Function for plotting the trend of the log-likelihood function with respect to
