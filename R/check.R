@@ -560,7 +560,7 @@ check.flag_optimal_params <- function(optimal_params, flag_optimal_params){
   }
   # If the flag is not activated, then no optimal parameters should be provided
   else{
-    if((!is.vector(optimal_params)) || (!is.null(optimal_params)))
+    if((is.vector(optimal_params)) || (!is.null(optimal_params)))
       warning("'optimal_params' provided but FALSE 'flag_optimal_params'.")
   }
 }
