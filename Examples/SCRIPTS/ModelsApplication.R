@@ -24,6 +24,14 @@ result <- AdPaikModel(formula, data_dropout, time_axis,
 summary.AdPaik(result)
 summary(result)
 
+L <- result$NIntervals
+R <- result$NRegressors
+result$OptimalParameters[(L+1):(L+R)]
+result$StandardErrorParameters[(L+1):(L+R)]
+
+result$OptimalParameters[L+R+2]
+result$StandardErrorParameters[L+R+2]
+
 # Plot baseline hazard step-function
 plot_bas_hazard(result, xlim=c(1,result$TimeDomain[result$NIntervals+1]),
                 xlab = 'Time [semesters]', ylab = 'Baseline hazard')
@@ -67,6 +75,9 @@ plot_post_frailty_est(result, data_dropout,
 
 #-------------------------------------------------------------------------------
 # One dimensional analysis of the log-likelihood function
+categories_range_min <- c(-8, -2, eps_paik, eps_paik, eps_paik)
+categories_range_max <- c(-eps_paik, 0.4, 1 - eps_paik, 1, 10)
+
 index_param_to_vary <- 14
 analysis_1D_opt <- AdPaik_1D(formula, data_dropout, time_axis,
                              index_param_to_vary, flag_optimal_params = TRUE, optimal_params = result$OptimalParameters,

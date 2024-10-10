@@ -12,12 +12,13 @@ library(frailtypack)
 # SHARED FRAILTY COX HAZARD MODEL
 frailty_model <- frailtyPenal(Surv(time_to_event, status) ~ cluster(group) + Gender + CFUP, data = data_dropout, 
                               cross.validation = FALSE,
-                              n.knots = 20, kappa = 1, hazard="Splines")
+                              n.knots = 20, kappa = 1, hazard="Splines") # 20,1
 summary(frailty_model)
 
 # Regression coefficients and their p_values
 coeff_reg <- frailty_model$coef
 hazard_ratio_frailty <- exp(coeff_reg)
+frailty_model$beta_p.value
 p_values_coeff_reg <- frailty_model$beta_p.value
 
 # # Comparison with Cox-PH base
