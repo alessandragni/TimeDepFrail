@@ -31,8 +31,6 @@
 #' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
 #' # Call the summary
-#' summary.AdPaik(result) 
-#' # or
 #' summary(result)
 
 summary.AdPaik <- function(result){
