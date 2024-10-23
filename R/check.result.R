@@ -1,6 +1,27 @@
+#-------------------------------------------------------------------------------
+#' @title
+#' Internal function to check the structure of the model output
+#'
+#' @description
+#' This internal function checks if the input `result` object belongs to one of the 
+#' expected S3 classes ('AdPaik', 'PowPar', or 'StocTimeDep') and calls the 
+#' appropriate checking function based on the class.
+#'
+#' @param result S3 object. Expected to be of class 'AdPaik', 'PowPar', or 'StocTimeDep'.
+#'
+#' @details
+#' This function is internal and dispatches the appropriate structure-checking function 
+#' based on the class of the input. Currently, it supports 'AdPaik' class. The structure-checking 
+#' functions for 'PowPar' and 'StocTimeDep' are placeholders and should be implemented if needed.
+#'
+#' @return Throws an error if the `result` object does not belong to one of the expected classes, 
+#' or if the object’s structure is incorrect.
+#'
+#' @keywords internal
+
 check.result <- function(result){
   # Check the class of result
-  if(!inherits(result, 'AdPaik') & (!inherits(result, 'PowPar')) & (!inherits(result, 'StocTimeDep')))
+  if(!inherits(result, 'AdPaik')) # & (!inherits(result, 'PowPar')) & (!inherits(result, 'StocTimeDep')))
     stop("Wrong S3 class object for input 'result' argument.")
   
   if(inherits(result, 'AdPaik'))
@@ -10,6 +31,7 @@ check.result <- function(result){
   #else
   #  check.result.StocTimeDep(result)
 }
+
 #-------------------------------------------------------------------------------
 #' @title
 #' Check structure of the 'AdPaikModel' output

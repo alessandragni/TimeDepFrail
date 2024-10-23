@@ -39,7 +39,7 @@
 #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #'
 #' # Call the main model function
-#' result <- AdPaikModel(formula, data, time_axis, categories_range_min, categories_range_max)
+#' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
 #' plot_bas_hazard(result)
 plot_bas_hazard <- function(result,
@@ -135,7 +135,7 @@ plot_bas_hazard <- function(result,
 #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #'
 #' # Call the main model function
-#' result <- AdPaikModel(formula, data, time_axis, categories_range_min, categories_range_max)
+#' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
 #' # Define variables for plotting the estimates
 #' pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
@@ -295,7 +295,7 @@ plot_post_frailty_est <- function(result, data,
 #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #'
 #' # Call the main model function
-#' result <- AdPaikModel(formula, data, time_axis, categories_range_min, categories_range_max)
+#' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
 #' plot_frailty_sd(sd, time_axis, FALSE, ylim = c(0,1))
 plot_frailty_sd <- function(result, frailty_sd = NULL, flag_variance = FALSE, flag_sd_external = FALSE,
