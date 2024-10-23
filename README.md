@@ -2,7 +2,7 @@
 
 TimeDepFrail is the ultimate R package for fitting and analyzing Time-Dependent Shared Frailty Cox Models. These models extend the traditional Shared (Gamma) Frailty Cox Models by incorporating a time-dependent frailty component, offering powerful tools for studying how unexplained heterogeneity in data evolves over time.
 
-This package implements the models discussed in the influential paper "Centre-Effect on Survival After Bone Marrow Transplantation: Application of Time-Dependent Frailty Models" by C.M. Wintrebert et al. (2013).
+This package implements the models discussed in "Centre-Effect on Survival After Bone Marrow Transplantation: Application of Time-Dependent Frailty Models" by C.M. Wintrebert et al. (2013).
 
 
 ## Installation
