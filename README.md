@@ -1,12 +1,12 @@
 # TimeDepFrail: Time-Dependent Shared Frailty Cox Models in R
 
-TimeDepFrail is the ultimate R package for fitting and analyzing Time-Dependent Shared Frailty Cox Models. These models extend the traditional Shared (Gamma) Frailty Cox Models by incorporating a time-dependent frailty component, offering powerful tools for studying how unexplained heterogeneity in data evolves over time.
+TimeDepFrail is the ultimate R package for fitting and analyzing Time-Dependent Shared Frailty Cox Models. These models extend the traditional Shared (Gamma) Frailty Cox Models by incorporating a time-dependent frailty component, making it a robust tool for studying how unexplained heterogeneity in data evolves over time.
 
-This package implements the models discussed in "Centre-Effect on Survival After Bone Marrow Transplantation: Application of Time-Dependent Frailty Models" by C.M. Wintrebert et al. (2013).
+This package implements the methods discussed in "Centre-Effect on Survival After Bone Marrow Transplantation: Application of Time-Dependent Frailty Models" by C.M. Wintrebert et al. (2013).
 
 
 ## Installation
-Get started by installing the development version from `GitHub`:
+You can install the development version of the package from `GitHub`:
 
 ```{r, eval=FALSE}
 devtools::install_github("alessandragni/TimeDepFrail")
@@ -14,23 +14,21 @@ devtools::install_github("alessandragni/TimeDepFrail")
 
 
 ## Dataset data_dropout
-To exemplify the package, the model are applied on a dataset called 'data_dropout'.
-
-This dataset is extracted from an administrative database provided by a non-specified university and tracks students enrolled in 2012 over three academic years (or 6 semesters). We are interested in understanding what factors lead to students dropping out.
-Dropout students with a time-instant in the first semester have been removed, for internal reasons (the university cannot take preventive action to reduce or avoid their withdrawal).
-
-The students are followed for at most 3 academic years or, equivalently, 6 semesters (follow-up periods), from the first day of lecture up to the time-instant of withdrawal (i.e. survival event) or the end of the academic year.
+The `data_dropout` dataset is used to exemplify the package. 
+It tracks the academic progress of students enrolled in 2012 over three academic years (six semesters). This dataset aims to explore the factors leading to student dropout.
 
 The dataset is composed of four variables:
-- Gender: categorical covariate (Male or Female).
-- CFUP: standardized numerical covariate indicating the number of CFU (Credito Formativo Universitario) passed by the students by the end of the first semester. 
-- time_to_event: time (in semesters) at which a student decides to leave the university. A value greater than 6.0 indicates the student did not drop out during the follow-up (e.g. 6.1 semesters).
-- group: categorical variable indicating the student's course of study, with 16 different levels from CosA, CosB, ... , CosP.
+- `Gender`: Categorical covariate indicating gender (Male or Female).
+- `CFUP`: Numeric covariate representing the standardized number of CFUs (Credito Formativo Universitario) passed by the student in the first semester.
+- `time_to_event`: The time (in semesters) when a student decides to drop out. A value greater than 6.0 means the student did not drop out during the follow-up period.
+- `group`: Categorical variable representing the student's course of study, with 16 levels from CosA to CosP.
+
+Students are followed for a maximum of 6 semesters (3 academic years), from the start of lectures until they drop out or the follow-up ends.
 
 
-## How to execute a model
-To execute a model several variables need to be specified:
-- dataset: e.g. 'data_dropout'
+## Model execution
+To fit a Time-Dependent Shared Frailty model, the following elements are required:
+- dataset: e.g. `data_dropout`
 - time-domain vector: it can coincide with the follow-up or can be contained in it. For our dataset, no events are registered in the first semester and it would be useless to fit the model there. Thus, the time-domain starts at the end of the first semester (t=1) and it ends at the end of the third academic year (t=6). The temporal unit of measure is semester.
 - categories_range_min and categories_range_max vectors: to maximize the log-likelihood function, we apply a constraint optimization method in multi-dimension and we need to provide the minimum and maximum existence range of each parameter (even though some parameters are not linked to any constraint). Since the latter may have the same meaning, we decide to group them in categories and to provide both the minimum and maximum range to each category.
 According to the model, different categories are individuated.
@@ -70,7 +68,7 @@ The callable ones are reported in the following list, without arguments for conv
 - The 'Stochastic Time-Dependent' Centre-Specific Frailty Model' is really slow and it may not reach convergence.
 
 
-## Authors and maintener of the codes
+## Authors and maintainers of the code
 Alessandra Ragni (alessandra.ragni@polimi.it),
 Giulia Romani (giulia.romani@mail.polimi.it),
 Chiara Masci (chiara.masci@polimi.it).
