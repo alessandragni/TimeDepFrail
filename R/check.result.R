@@ -1,11 +1,11 @@
 check.result <- function(result){
   # Check the class of result
-  if((class(result) != 'AdPaik') & (class(result) != 'PowPar') & (class(result) != 'StocTimeDep'))
+  if(!inherits(result, 'AdPaik') & (!inherits(result, 'PowPar')) & (!inherits(result, 'StocTimeDep')))
     stop("Wrong S3 class object for input 'result' argument.")
   
-  if(class(result) == 'AdPaik')
+  if(inherits(result, 'AdPaik'))
     check.result.AdPaik(result)
-  #else if(class(result) == 'PowPar')
+  #else if(inherits(result, 'PowPar'))
   #  check.result.PowPar(result)
   #else
   #  check.result.StocTimeDep(result)
@@ -102,7 +102,7 @@ check.result.AdPaik <- function(result){
   n_params <- result$NIntervals * 2 + result$NRegressors + 2
   
   # For each element of the list, control its structure
-  if(class(result$formula) != "formula")
+  if(!inherits(result$formula, "formula"))
     stop("'formula' is not a formula object.")
   if(!is.vector(result$Regressors))
     stop("'Regressors' is not a vector.")

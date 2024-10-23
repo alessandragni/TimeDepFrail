@@ -803,9 +803,14 @@ ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
 #' - numerical vector of length @n_iter containing the optimal estimated parameter.
 #' - numerical vector of length @n_iter containing the associated one-dimensional optimized log-likelihood value
 #'
+#' @importFrom stats terms runif optimize
+#' @importFrom graphics lines points legend
+#' 
 #' @export
 #'
 #' @examples
+#' # Consider the 'Academic Dropout dataset'
+#' data(data_dropout)
 #' # Define the variables needed for the model execution
 #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
@@ -813,27 +818,28 @@ ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
 #' categories_range_min <- c(-8, -2, eps, eps, eps)
 #' categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
 #'
-#' # Choose the parameter with respect to which you want to study the log-likelihood function and provide its position in the parameter vector
+#' # Choose the parameter with respect to which you want to study the \
+#' # log-likelihood function and provide its position in the parameter vector \
+#' # for identifying a parameter existence range
+#' 
 #' index_param_to_vary <- 1
 #'
 #' # Call the main model without providing optimal parameter
-#' result <- AdPaik_1D(formula, data, time_axis,
-#'                     index_param_to_vay, FALSE, NULL,
-#'                     categories_range_min, categories_range_max)
+#' result <- AdPaik_1D(formula, data_dropout, time_axis,
+#'                     index_param_to_vary, FALSE, NULL,
+#'                     categories_range_min, categories_range_max, n_iter = 5)
 #'
-#' # Call the main model, providing optimal parameter
-#' optimal_params <- c()
-#' result <- AdPaik_1D(formula, data, time_axis,
-#'                     index_param_to_vay, TRUE, optimal_params,
-#'                     categories_range_min, categories_range_max, n_iter = 1)
+#' # or for studying the log-likelihood behaviour.
 
 
 AdPaik_1D <- function(formula, data, time_axis,
-                      index_param_to_vary, flag_optimal_params = FALSE, optimal_params = NULL,
+                      index_param_to_vary, flag_optimal_params = FALSE, 
+                      optimal_params = NULL,
                       categories_range_min, categories_range_max,
                       n_iter = 5, tol_optimize = 1e-6,
                       flag_plot = FALSE, n_points = 150,
-                      cex = 0.7, cex_max = 0.8, color_bg = "black", color_max_bg = "red",
+                      cex = 0.7, cex_max = 0.8, 
+                      color_bg = "black", color_max_bg = "red",
                       pch = 21){
   
   # Check all input variables are provided
@@ -887,7 +893,8 @@ AdPaik_1D <- function(formula, data, time_axis,
       new_covariates <- c(new_covariates, covariates[j])
     }
     else{
-      dummy_extracted <- extract_dummy_variables(data[,covariates[j]], covariates[j])
+      dummy_extracted <- extract_dummy_variables(data[,covariates[j]], 
+                                                 covariates[j])
       dataset <- cbind(dataset, dummy_extracted$DummyMatrix)
       new_covariates <- c(new_covariates,dummy_extracted$DummyVariablesName)
     }
@@ -915,8 +922,10 @@ AdPaik_1D <- function(formula, data, time_axis,
   params_range_min <- params_range_max <- c()
   for(c in 1: n_categories){
     n_params_in_c <- params_categories[c]
-    params_range_min <- c(params_range_min, rep(categories_range_min[c], n_params_in_c))
-    params_range_max <- c(params_range_max, rep(categories_range_max[c], n_params_in_c))
+    params_range_min <- c(params_range_min, 
+                          rep(categories_range_min[c], n_params_in_c))
+    params_range_max <- c(params_range_max, 
+                          rep(categories_range_max[c], n_params_in_c))
   }
   
   # Check that provided optimal parameters are contained in their min, max range
@@ -924,8 +933,10 @@ AdPaik_1D <- function(formula, data, time_axis,
     check.range_params(optimal_params, params_range_min, params_range_max)
   
   # Build the matrices e_{ijk} and d_{ijk}
-  e_matrix <- matrix(rep(0, n_intervals * n_individuals), n_individuals, n_intervals)
-  dropout_matrix <- matrix(rep(0, n_intervals * n_individuals), n_individuals, n_intervals)
+  e_matrix <- matrix(rep(0, n_intervals * n_individuals), 
+                     n_individuals, n_intervals)
+  dropout_matrix <- matrix(rep(0, n_intervals * n_individuals), 
+                           n_individuals, n_intervals)
   for(j in 1:n_individuals){
     for(k in 1:n_intervals){
       e_matrix[j,k] <- time_int_eval(time_to_event[j], k, time_axis)
@@ -950,12 +961,14 @@ AdPaik_1D <- function(formula, data, time_axis,
     }
     else{
       params <- optimal_params
-      params[index_param_to_vary] <- runif(1, params_range_min[index_param_to_vary], params_range_max[index_param_to_vary])
+      params[index_param_to_vary] <- runif(1, params_range_min[index_param_to_vary], 
+                                           params_range_max[index_param_to_vary])
     }
     
     # Optimize the log-likelihood wrt the indicated parameter
     result_optimize <- optimize(ll_AdPaik_1D,
-                                c(params_range_min[index_param_to_vary], params_range_max[index_param_to_vary]),
+                                c(params_range_min[index_param_to_vary], 
+                                  params_range_max[index_param_to_vary]),
                                 maximum = TRUE, tol = tol_optimize,
                                 index_param_to_vary, params, dataset, centre,
                                 time_axis, dropout_matrix, e_matrix)
@@ -967,7 +980,8 @@ AdPaik_1D <- function(formula, data, time_axis,
       param_1D <- param_optimal[iter]
       ll_1D <- ll_optimized[iter]
       plot_ll_1D.AdPaik(param_1D, index_param_to_vary, ll_1D, params,
-                        params_range_min[index_param_to_vary], params_range_max[index_param_to_vary],
+                        params_range_min[index_param_to_vary], 
+                        params_range_max[index_param_to_vary],
                         dataset, centre, time_axis, dropout_matrix, e_matrix,
                         n_points, cex, cex_max, color_bg, color_max_bg, pch)
     }

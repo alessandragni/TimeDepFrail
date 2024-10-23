@@ -54,7 +54,7 @@ check.time_axis <- function(time_axis){
 
 check.structure_post_frailty_est <- function(post_frailty_est, n_intervals, n_centres){
   # Check class
-  if(class(post_frailty_est) != "PFE.AdPaik")
+  if (!inherits(post_frailty_est, "PFE.AdPaik"))
     stop("First argument is not of class 'PFE.AdPaik'.")
   
   if((! is.list(post_frailty_est)) || (length(post_frailty_est) != 3))
@@ -103,7 +103,7 @@ check.structure_post_frailty_est <- function(post_frailty_est, n_intervals, n_ce
 #' 
 check.structure_post_frailty_var <- function(post_frailty_var, n_intervals, n_centres){
   # Check class
-  if(class(post_frailty_var) != "PFV.AdPaik")
+  if(!inherits(post_frailty_var, "PFV.AdPaik"))
     stop("First argument is not of class 'PFV.AdPaik'.")
   
   if((! is.list(post_frailty_var)) || (length(post_frailty_var) != 3))
@@ -205,7 +205,7 @@ check.post_frailty_centre <- function(post_frailty_est, centre_codes){
 #' @return An error if any condition is not satisfied.
 check.structure_post_frailty_CI <- function(post_frailty_CI, n_intervals, n_centres){
   # Check class
-  if(class(post_frailty_CI) != "PFCI.AdPaik")
+  if(!inherits(post_frailty_CI, "PFCI.AdPaik"))
     stop("First argument is not of class 'PFCI.AdPaik'.")
   
   # Check structure
@@ -348,16 +348,15 @@ check.poslegend <- function(pos_legend){
 #' The function controls that the frailty standard deviation vector has a length equal to the number of inyervals of the time domain and
 #' that its elements are non-negative.
 #'
-#'
-#' @param sd Numerical vector of length equal to the number of intervals of the time-domain and containing the frailty standard deviation.
-#' @param time_axis Numerical vector of the temporal domain subdivision.
+#' @param frailty_dispersion Frailty dispersion
+#' @param n_intervals Number of intervals of the time-domain
 #'
 #' @return An error if any condition is not satisfied.
 
 check.frailty_dispersion <- function(frailty_dispersion, n_intervals){
   
   # Check structure
-  if(class(frailty_dispersion) != 'FrailtyDispersion')
+  if(!inherits(frailty_dispersion, 'FrailtyDispersion'))
     stop("Wrong class of 'frailty_dispersion'.")
   
   if(length(frailty_dispersion) != 2)
@@ -579,7 +578,7 @@ check.flag_optimal_params <- function(optimal_params, flag_optimal_params){
 
 check.structure_paramsCI <- function(parametersCI){
   # Control class
-  if(class(parametersCI) != "ParametersCI")
+  if(!inherits(parametersCI, "ParametersCI"))
     stop("Wrong S3 class object for 'ParametersCI'.")
   
   # Control structure
@@ -596,7 +595,7 @@ check.structure_paramsCI <- function(parametersCI){
 #-------------------------------------------------------------------------------
 check.params_range <- function(params_range, n_params){
   # Check structure of input class
-  if(class(params_range) != "ParametersRange")
+  if(!inherits(params_range, "ParametersRange"))
     stop("'params_range' is not of class 'ParametersRange'.")
   
   # Check its number of elements

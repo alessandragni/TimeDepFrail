@@ -67,11 +67,11 @@ using a single point. For the same group, the sequence of points is then connect
 line.
 }
 \details{
-Recalling the frailty structure as \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k} and the posterior
-frailty estimate as \eqn{\hat{Z}_{jk} = \hat{\alpha}_j/\hat{\alpha}_{max} + \hat{\epsilon}_{jk}/\hat{\epsilon}_{max}}, it is
+Recalling the frailty structure as \eqn{Z_{jk} = \alpha_{j} + \epsilon_{jk}, \forall j,k} and the posterior
+frailty estimate as \eqn{\hat{Z}_{jk} = \hat{\alpha}_{j}/\hat{\alpha}_{max} + \hat{\epsilon}_{jk}/\hat{\epsilon}_{max}}, it is
 possible to plot the entire posterior frailty estimate \eqn{\hat{Z}_{jk}} or just a part: either the time-dependent estimate
-\hat{\epsilon}\emph{{jk}/\hat{\epsilon}}{max} or the time-independent one \hat{\alpha}\emph{j/\hat{\alpha}}{max}.
-To do so, the user has to specify the alue of two flags.
+\eqn{\frac{\hat{\epsilon}_{jk}}{\hat{\epsilon}_{\text{max}}}} or the time-independent one \eqn{\frac{\hat{\alpha}_{j}}{\hat{\alpha}_{\text{max}}}}.
+To do so, the user has to specify the value of two flags.
 }
 \examples{
 # Import data

@@ -26,7 +26,8 @@ Default value goes from 0 up to the number of intervals of the time-domain.}
 \item{ylim}{Numeric vector of length 2, giving the y coordinate ranges.
 Deafult value goes from 0 up to the maximum value reached by the baseline hazard.}
 
-\item{xlab}{Name for the horizontal axis (x)}
+\item{xlab, ylab}{String giving the x and y axis name.
+Deafult values are 'x' and 'y'.}
 
 \item{main_title}{Title of the plot. Default title is 'Baseline hazard step-function'.}
 
@@ -37,15 +38,6 @@ Deafult value goes from 0 up to the maximum value reached by the baseline hazard
 \item{bg}{Color used for plotting the boundary symbol. Default one is equal to the plot color ('black').}
 
 \item{cex_points}{Dimension of the boundary symbol. Deafult is 0.7.}
-
-\item{ylba}{Name for the vertical axis (y)}
-
-\item{name}{descriptionlwd Width of the line connecting two consecutive segments (default 1)}
-
-\item{eps}{Small quantity to be subtracted on both sides of the internal segments. Default value equal to 5e-2.}
-
-\item{xlab, ylab}{String giving the x and y axis name.
-Deafult values are 'x' and 'y'.}
 }
 \value{
 Plot of the baseline hazard step-function and value of the function in each interval.
@@ -54,12 +46,6 @@ Plot of the baseline hazard step-function and value of the function in each inte
 Function for plotting the baseline hazard step-function, using the estimated parameters.
 }
 \details{
-Function for plotting the baseline hazard step-function, using the estimated parameters.
-For each interval of the time-domain a horizontal segment is traced and subsequent elements
-are connected through a line (default dotted), which dimension and type are user-specified.
-To have a nice graphical representation, and not a vertical line connecting two subsequent steps,
-it is suggested to shrink the internal segments of a small quantity (@eps), on both sides.
-
 For each interval of the time-domain a horizontal segment is traced and its boundaries are marked with a full colored dot.
 Subsequent segments are not connected, for a design matter.
 }

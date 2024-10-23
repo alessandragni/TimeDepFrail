@@ -11,6 +11,8 @@
 #'
 #' @param result 'S3' class object returned by the main model call, i.e. output of the 'Adapted Paik et al.'s Model'.
 #'
+#' @method summary AdPaik
+#' 
 #' @return Model summary printed on output.
 #'
 #' @export
@@ -121,11 +123,11 @@ summary.AdPaik <- function(result){
 #' @param result Output of the model call. The result has its own class, associated to the called model.
 
 summary <- function(result){
-  if(class(result) == "AdPaik")
+  if(inherits(result, "AdPaik"))
     summary.AdPaik(result)
-  #else if(class(result) == "PowPar")
+  #else if(inheriths(result, "PowPar"))
   #  summary.PowPar(result)
-  #else if(class(result) == "StocTimeDep")
+  #else if(inheriths(result, "StocTimeDep"))
   #  summary.StocTimeDep(result)
 }
 

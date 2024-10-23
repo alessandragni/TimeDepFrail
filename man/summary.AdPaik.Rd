@@ -4,7 +4,7 @@
 \alias{summary.AdPaik}
 \title{Summary of the 'Adapted Paik et al.'s Model'}
 \usage{
-summary.AdPaik(result)
+\method{summary}{AdPaik}(result)
 }
 \arguments{
 \item{result}{'S3' class object returned by the main model call, i.e. output of the 'Adapted Paik et al.'s Model'.}

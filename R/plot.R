@@ -1,57 +1,3 @@
-#' Function for plotting the baseline hazard step-function, using the estimated parameters.
-#' For each interval of the time-domain a horizontal segment is traced and subsequent elements
-#' are connected through a line (default dotted), which dimension and type are user-specified.
-#' To have a nice graphical representation, and not a vertical line connecting two subsequent steps,
-#' it is suggested to shrink the internal segments of a small quantity (@eps), on both sides.
-#'
-#' @param result S3 object of class 'AdPaik', returned by the method call 'AdPaikModel(...)'.
-#' @param xlim Limits of the horizontal axis (x)
-#' @param ylim Limits of the vertical axis (y)
-#' @param xlab Name for the horizontal axis (x)
-#' @param ylba Name for the vertical axis (y)
-#' @param main_title Title for the plot
-#' @param color Color to be used for the graphical representation of the baseline hazard step-function
-#' @param name descriptioncex_points Dimension of the points, delimiting each interval horizontal segment of the plot
-#' @param name descriptionlty Type of line connecting two consecutive segments (default (3) dotted)
-#' @param name descriptionlwd Width of the line connecting two consecutive segments (default 1)
-#' @param eps Small quantity to be subtracted on both sides of the internal segments. Default value equal to 5e-2.
-
-# plot.bas_hazard_con <- function(result,
-#                             xlim = c(0,time_axis[length(time_axis)]), ylim = c(0,1),
-#                             xlab = "x", ylab = "y", main_title = "Baseline hazard step-function",
-#                             color = "black", pch = 21, bg = "black", cex_points = 0.7,
-#                             lty = 3, lwd = 1, eps = 5e-2){
-#
-#   # Check correctness of result structure
-#   check.result(result)
-#
-#   # Extract information from input variables
-#   time_axis <- result$TimeDomain
-#   L <- n_intervals <- result$NIntervals
-#   optimal_params <- result$OptimalParameters
-#
-#   # Compute the baseline hazard function
-#   baseline_hazard <- result$BaselineHazard
-#
-#   # Plot the baseline hazard using a horizontal segment for each interval
-#   dev.new()
-#   plot(c(time_axis[1], time_axis[2] - eps), c(baseline_hazard[1], baseline_hazard[1]), col = color,
-#        main = main_title, xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim,
-#        cex = cex_points, pch = pch, bg = "black")
-#   lines(c(time_axis[1], time_axis[2]-eps), c(baseline_hazard[1], baseline_hazard[1]), col= color)
-#   for(i in 2:L){
-#     points(time_axis[i] + eps, baseline_hazard[i], col = color, cex = cex_points, pch = pch, bg = "black")
-#     points(time_axis[i+1] - eps, baseline_hazard[i], col = color, cex = cex_points, pch = pch, bg = "black")
-#     lines(c(time_axis[i] + eps, time_axis[i+1] - eps), c(baseline_hazard[i], baseline_hazard[i]), col = color)
-#   }
-#   for(i in 2:L){
-#     lines(c(time_axis[i]-eps, time_axis[i]+eps), c(baseline_hazard[i-1], baseline_hazard[i]),
-#           lty = lty, lwd = lwd, col = color)
-#   }
-#   points(time_axis[1], 0.0, col = color, cex = cex_points, pch = pch, bg = "black")
-#   lines(c(time_axis[1], time_axis[1]), c(0.0, baseline_hazard[1]),
-#         lty = lty, lwd = lwd, col = color)
-# }
 
 #-------------------------------------------------------------------------------
 #' @title
@@ -143,11 +89,11 @@ plot_bas_hazard <- function(result,
 #' line.
 #'
 #' @details
-#' Recalling the frailty structure as \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k} and the posterior
-#' frailty estimate as \eqn{\hat{Z}_{jk} = \hat{\alpha}_j/\hat{\alpha}_{max} + \hat{\epsilon}_{jk}/\hat{\epsilon}_{max}}, it is
+#' Recalling the frailty structure as \eqn{Z_{jk} = \alpha_{j} + \epsilon_{jk}, \forall j,k} and the posterior
+#' frailty estimate as \eqn{\hat{Z}_{jk} = \hat{\alpha}_{j}/\hat{\alpha}_{max} + \hat{\epsilon}_{jk}/\hat{\epsilon}_{max}}, it is
 #' possible to plot the entire posterior frailty estimate \eqn{\hat{Z}_{jk}} or just a part: either the time-dependent estimate
-#' \hat{\epsilon}_{jk}/\hat{\epsilon}_{max} or the time-independent one \hat{\alpha}_j/\hat{\alpha}_{max}.
-#' To do so, the user has to specify the alue of two flags.
+#' \eqn{\frac{\hat{\epsilon}_{jk}}{\hat{\epsilon}_{\text{max}}}} or the time-independent one \eqn{\frac{\hat{\alpha}_{j}}{\hat{\alpha}_{\text{max}}}}.
+#' To do so, the user has to specify the value of two flags.
 
 #' @param result S3 object of class 'AdPaik', returned by the method call 'AdPaikModel(...)'.
 #' @param data Dataset (dataframe) in which all variables of the formula object must be found and contained.

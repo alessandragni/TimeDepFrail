@@ -7,9 +7,9 @@
 check.frailty_dispersion(frailty_dispersion, n_intervals)
 }
 \arguments{
-\item{sd}{Numerical vector of length equal to the number of intervals of the time-domain and containing the frailty standard deviation.}
+\item{frailty_dispersion}{Frailty dispersion}
 
-\item{time_axis}{Numerical vector of the temporal domain subdivision.}
+\item{n_intervals}{Number of intervals of the time-domain}
 }
 \value{
 An error if any condition is not satisfied.

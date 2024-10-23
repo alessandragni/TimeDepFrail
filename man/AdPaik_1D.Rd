@@ -100,6 +100,8 @@ so that it is possible to identify a precise existence region for such parameter
 }
 }
 \examples{
+# Consider the 'Academic Dropout dataset'
+data(data_dropout)
 # Define the variables needed for the model execution
 formula <- time_to_event ~ Gender + CFUP + cluster(group)
 time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
@@ -107,17 +109,16 @@ eps <- 1e-10
 categories_range_min <- c(-8, -2, eps, eps, eps)
 categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
 
-# Choose the parameter with respect to which you want to study the log-likelihood function and provide its position in the parameter vector
+# Choose the parameter with respect to which you want to study the \
+# log-likelihood function and provide its position in the parameter vector \
+# for identifying a parameter existence range
+
 index_param_to_vary <- 1
 
 # Call the main model without providing optimal parameter
-result <- AdPaik_1D(formula, data, time_axis,
-                    index_param_to_vay, FALSE, NULL,
-                    categories_range_min, categories_range_max)
+result <- AdPaik_1D(formula, data_dropout, time_axis,
+                    index_param_to_vary, FALSE, NULL,
+                    categories_range_min, categories_range_max, n_iter = 5)
 
-# Call the main model, providing optimal parameter
-optimal_params <- c()
-result <- AdPaik_1D(formula, data, time_axis,
-                    index_param_to_vay, TRUE, optimal_params,
-                    categories_range_min, categories_range_max, n_iter = 1)
+# or for studying the log-likelihood behaviour.
 }

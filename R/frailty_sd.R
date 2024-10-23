@@ -239,7 +239,7 @@ frailty_sd.AdPaik <- function (result, flag_fullsd = TRUE){
 #' frailty_sd(result, FALSE)
 
 frailty_sd <- function(result, flag_fullsd = TRUE){
-  if(class(result) == "AdPaik")
+  if(inheriths(result, "AdPaik"))
     frailty_sd.AdPaik(result, flag_fullsd = TRUE)
 #   else if(class(result) == "PowPar")
 #     frailty_sd.PowPar(result$OptimalParameters, result$TimeDomain, result$NRegressors,
