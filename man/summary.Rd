@@ -7,6 +7,9 @@ output of the same call.}
 \usage{
 summary(result)
 }
+\arguments{
+\item{result}{Output of the model call. The result has its own class, associated to the called model.}
+}
 \description{
 According to the model it has been called, this function inspects the class output and then call
 the proper summary function.

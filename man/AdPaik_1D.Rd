@@ -40,7 +40,7 @@ Otherwise, the flag is equal to FALSE.}
 
 \item{optimal_params}{Vector of optimal parameters, determined through an entire multi-dimensional maximization
 of the log-likelihood function. The default value (NULL) indicates that no vector is provided
-and the parameters are let to vary in their range.}
+and the parameters are randomly extracted in their range.}
 
 \item{categories_range_min}{Vector containing the minimum value assumed by each parameter category.}
 

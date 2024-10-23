@@ -778,7 +778,7 @@ ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
 #' Otherwise, the flag is equal to FALSE.
 #' @param optimal_params Vector of optimal parameters, determined through an entire multi-dimensional maximization
 #' of the log-likelihood function. The default value (NULL) indicates that no vector is provided
-#' and the parameters are let to vary in their range.
+#' and the parameters are randomly extracted in their range.
 #' @param categories_range_min Vector containing the minimum value assumed by each parameter category.
 #' @param categories_range_max Vector containing the maximum value assumed by each parameter category.
 #' @param n_iter Number of times the one-dimensional analysis with respect to the indicated parameter must be executed.

@@ -1,3 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 Examples*
+^R/PowPar.*
+^R/StocTimeDep.*

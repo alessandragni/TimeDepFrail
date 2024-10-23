@@ -599,5 +599,391 @@ PowPar_1D <- function(formula, data, time_axis,
   
   return (return_list)
 }
+
+
 #-------------------------------------------------------------------------------
+frailty_sd.PowPar <- function (optimal_params, time_axis, n_regressors,
+                               categories_range_min, categories_range_max){
+  
+  # Extract information from input variables
+  L <- n_intervals <- length(time_axis) - 1
+  R <- n_regressors
+  n_params <- length(optimal_params)
+  
+  # Define vector of categories for Centre-Specific Frailty Model with Power Parameter
+  params_categories <- c(n_intervals, n_regressors, n_intervals - 1, 1)
+  n_categories <- length(params_categories)
+  
+  # Check correctness of input categories
+  check.categories_params(n_categories, categories_range_min, categories_range_max)
+  
+  # Check correctness of input optimal parameter vector
+  if(n_params != (2*n_intervals + n_regressors))
+    stop("Provided 'optimal_params' vector of length different from theoretical one for current model.")
+  
+  # Generate extended vector of parameters ranges
+  params_range_min <- params_range_max <- c()
+  for(c in 1: n_categories){
+    n_params_in_c <- params_categories[c]
+    params_range_min <- c(params_range_min, rep(categories_range_min[c], n_params_in_c))
+    params_range_max <- c(params_range_max, rep(categories_range_max[c], n_params_in_c))
+  }
+  
+  # Controll optimal_parameters are contained in the min and max range
+  check.range_params(optimal_params, params_range_min, params_range_max)
+  
+  # Extract parameters from the optimal vector
+  gammak <- matrix(rep(0,L), nrow = L, ncol = 1)
+  gammak[2:L,1] <- optimal_params[(L+1+R):(2*L+R-1)]                # frailty time-dependence parameter. The first element is assigned later
+  gammak[1,1] <- 1
+  sigma <- optimal_params[2*L+R]                                    # standard deviation of normal Yi  
+  
+  # Store the variance of the frailty
+  variance <- sd <- rep(0, L)
+  for (k in 1:L){
+    variance[k] <- (sigma * gammak[k,1])^2
+    sd[k] <- sqrt(variance[k])
+  } #   exp(2*(gammak[k,1]*sigma)^2) - exp((gammak[k,1]*sigma)^2)      (sigma * gammak[k,1])^2
+  
+  return_list <- list("FrailtyVariance" = variance,
+                      "FrailtyStandardDeviation" = sd)
+  class(return_list) <- 'FrailtyDispersion'
+  
+  return (return_list)
+}
+
+#-------------------------------------------------------------------------------
+#' Function for plotting the trend of the log-likelihood function with respect to
+#' a single parameter, specified in the arguments.
+#' The log-likelihood function is plotted using a certain number of points specified by @n_points
+#' and they are not connected by a straight line.
+#'
+#' @param_1D Optimal parameter value determined maximizing the log-likelihood function with respect to it.
+#' @index_param_1D Index of the optimal parameter.
+#' @ll_1D Log-likelihood value in correspondence of the optimal parameter, with other parameters fixed
+#' to their optimal value or to a default value.
+#' @params Value of the other parameters. A said, they could be fixed to a default value or to their optimal value.
+#' @param_range_min Minimum value assumable by the parameter param_1D.
+#' @param_range_max Maximum value assumable by the parameter param_1D.
+#' @dataset Dataset with individual covariates. It can be either a matrix or a dataframe.
+#' @centre Individual cluster membership. It is a vectorof the same dimension of the dataset.
+#' @time_axis Temporal domain.
+#' @dropout_matrix Binary matrix indicating in which interval of the time domain and individual failed. For an individual,
+#' the sum of the row elements must be equal to 1 (if he/she failed) or 0 (if he/she does not failed).
+#' It has dimension equal to (n_individuals, n_intervals)
+#' @e_matrix Matrix of dimension (n_individual, n_intervals), where each element contains the evaluation of the temporal
+#' integral, performed through the function @time_int_eval.
+#' @n_points Number of points in which the log-likelihood function must be evaluated and then plotted.
+#' To have a nice graphical representation, chose an intermediate value: not to small and not too high. Default value is 150.
+#' @cex Dimension of the points (n_points). Deafult vaue is 0.7.
+#' @cex_max Dimension of the optimal point. Default value is 0.8.
+#' @color_bg Color of the points (n_points). Default is black.
+#' @color_max_bg Color of the optimal point. Deafult is red.
+#' @pch Shape of the points, with no distinction between optimal point and points.
+plot_ll_1D.PowPar <- function(param_1D, index_param_1D, ll_1D, params, param_range_min, param_range_max,
+                              dataset, centre, time_axis, dropout_matrix, e_matrix,
+                              n_points = 150,
+                              cex = 0.7, cex_max = 0.8, color_bg = "black", color_max_bg = "red",
+                              pch = 21){
+  
+  # Define the structure containing the generated points and the associated log-likelihood value
+  param_values <- rep(0, n_points)
+  ll_values <- rep(0, n_points)
+  
+  # Generate n_points for the indicated parameter inside its min, max range
+  param_values <- runif(n_points, param_range_min, param_range_max)
+  
+  # For each point, evaluate the log-likelihood function
+  for(i in 1:n_points){
+    params[index_param_1D] <- param_values[i]
+    ll_values[i] <- ll_PowPar_eval(params, dataset, centre, time_axis, dropout_matrix, e_matrix)
+  }
+  
+  # Plot the log-likelihood trend with respect to the indicated parameter
+  string_title <- paste("Log-likelihood trend wrt parameter ", index_param_1D)
+  
+  # dev.new()
+  plot(param_values, ll_values, pch=pch, col=color_bg, cex = cex,
+       xlim = c(param_range_min, param_range_max), ylim=c(min(ll_values), max(ll_values)),
+       main = string_title, xlab = "Values", ylab = "Log-likelihood")
+  points(param_1D, ll_1D, bg = color_max_bg, pch = pch, cex = cex_max)
+}
+
+#-------------------------------------------------------------------------------
+summary.PowPar <- function(result){
+  check.result(result)
+  
+  # Extract information from the model output
+  params_categories <- result$ParametersCategories
+  n_categories <- length(params_categories)
+  L <- n_intervals <- params_categories[1]
+  R <- n_regressors <- params_categories[2]
+  
+  # Create new vector where each optimal parameter is followed by its standard error
+  n_params <- result$NParameters
+  optimal_parameters <- rep(0, n_params)
+  for(p in 1:n_params){
+    optimal_parameters[p] <- paste(round(result$OptimalParameters[p],4), round(result$StandardErrorParameters[p],4), sep = " (")
+    optimal_parameters[p] <- paste(optimal_parameters[p], "", sep=")")
+  }
+  
+  # Initialize vector for estimated regressors
+  betar <- optimal_parameters[(L+1):(L+R)]
+  
+  # Create other variables for the ouput
+  convergence <- ""
+  if(result$Status == TRUE){
+    convergence <- paste("TRUE (Convergence in ", result$NRun)
+    convergence <- paste(convergence, " runs).")
+  }else
+    convergence <- "FALSE (No Convergence)"
+  
+  string_parameters <- paste("Overall number of parameters ", result$NParameters)
+  string_parameters <- paste(string_parameters, "divided as (phi, betar, gammak, sigma) = (", sep=",\n")
+  for(p in 1:n_categories){
+    if(p == n_categories)
+      string_parameters <- paste(string_parameters, params_categories[p],")")
+    else
+      string_parameters <- paste(string_parameters, params_categories[p],",")
+  }
+  
+  # Extract entire formula call
+  formula_string <- paste(result$formula[2], result$formula[1], result$formula[3])
+  
+  # Print output
+  paste0 <- paste("Call: ", formula_string)
+  paste9 <- paste("with cluster variable '",result$ClusterVariable,"' (", result$NClusters,"clusters).")
+  paste1 <- paste("Log-likelihood:           ", round(result$Loglikelihood,4))
+  paste2 <- paste("AIC:                       ", round(result$AIC,4))
+  paste3 <- paste("Status of the algorithm:   ", convergence)
+  paste4 <- "-------------------------------------------------------------------------------"
+  paste5 <- string_parameters
+  paste6 <- paste("with: number of intervals =", n_intervals)
+  paste7 <- paste("      number of regressors =", n_regressors, ".")
+  paste8 <- paste("Estimated regressors (standard error):")
+  
+  output <- paste("Output of the 'Centre-Specific Frailty Model with Power Parameter'", paste4, sep="\n")
+  output <- paste(output, paste0, sep="\n")
+  output <- paste(output, paste9, sep="\n")
+  output <- paste(output, paste4, sep="\n")
+  #--------------
+  output <- paste(output, paste1, sep="\n")
+  output <- paste(output, paste2, sep="\n")
+  output <- paste(output, paste3, sep="\n")
+  output <- paste(output, paste4, sep="\n")
+  #--------------
+  output <- paste(output, paste5, sep="\n")
+  output <- paste(output, paste6, sep=",\n")
+  output <- paste(output, paste7, sep="\n")
+  output <- paste(output, paste4, sep="\n")
+  #-------------
+  output <- paste(output, paste8, sep="\n")
+  for(r in 1:R){
+    string_regressor <- paste(result$Regressors[r],":",betar[r])
+    output <- paste(output, string_regressor, sep="\n")
+  }
+  output <- paste(output, paste4, sep="\n")
+  cat(output)
+}
+
+#-------------------------------------------------------------------------------
+check.result.PowPar <- function(result){
+  # Save the names of the list elements
+  names_list.PowPar <- c("formula", "Regressors", "NRegressors", "ClusterVariable", "NClusters",
+                         "TimeDomain", "NIntervals",
+                         "NParameters", "ParametersCategories",
+                         "ParametersRange",
+                         "Loglikelihood", "AIC", "Status", "NRun",
+                         "OptimalParameters", "StandardErrorParameters",
+                         "ParametersCI", "BaselineHazard",
+                         "FrailtyDispersion", "EstimatedFrailtyMean")
+  
+  # Other than a class, it is a list
+  if(! is.list(result))
+    stop("Wrong structure for input 'result' argument.")
+  
+  names_list <- names_list.PowPar
+  for(i in 1:length(names_list)){
+    if(names(result)[i] != names_list[i]){
+      msg <- paste(names_list[i], "does not appear in the input 'result' argument. ")
+      stop(msg)
+    }
+  }
+  
+  # Compute the number of parameters
+  n_params <- result$NIntervals * 2 + result$NRegressors
+  
+  # For each element of the list, control its structure
+  if(class(result$formula) != "formula")
+    stop("'formula' is not a formula object.")
+  if(!is.vector(result$Regressors))
+    stop("'Regressors' is not a vector.")
+  if(!is.numeric(result$NRegressors))
+    stop("'NRegressors' is not a number.")
+  if(!is.character(result$ClusterVariable))
+    stop("'ClusterVariable' is not a string.")
+  if(!is.numeric(result$NClusters))
+    stop("'NCluster' is not a number.")
+  
+  if(! is.vector(result$TimeDomain))
+    stop("'TimeDomain' is not a vector.")
+  if(!is.numeric(result$NIntervals))
+    stop("'NIntervals' is not a number.")
+  if(length(result$TimeDomain) - 1 != result$NIntervals)
+    stop("Different values for number of intervals in 'TimeDomain' and 'NIntervals'")
+  
+  if(! is.numeric(result$NParameters))
+    stop("'NParameters' is not a number.")
+  if(! is.vector(result$ParametersCategories))
+    stop("'ParametersCategories' is not a vector.")
+  if(length(result$ParametersCategories) != 4)
+    stop("Wrong length of 'ParametersCategories' vector.")
+  
+  check.params_range(result$ParametersRange, n_params)
+  
+  if(! is.numeric(result$Loglikelihood))
+    stop("'Loglikelihood' is not a value.")
+  if(! is.numeric(result$AIC))
+    stop("'AIC' is not a value.")
+  if(! is.logical(result$Status))
+    stop("'Status' is not a binary variable.")
+  if(! is.numeric(result$NRun))
+    stop("NRun' is not a number.")
+  
+  if(! is.vector(result$OptimalParameters))
+    stop("'OptimalParameters' is not a vector.")
+  if(! is.vector(result$StandardErrorParameters))
+    stop("'StandardErrorParameters' is not a vector.")
+  if(length(result$OptimalParameters) != n_params)
+    stop("Wrong length of 'OptimalParameters' vector.")
+  if(length(result$StandardErrorParameters) != n_params)
+    stop("Wrong length of 'StandardErrorParameters' vector.")
+  
+  check.structure_paramsCI(result$ParametersCI)
+  
+  if(! is.vector(result$BaselineHazard))
+    stop("'BaselineHazard' is not a vector.")
+  if(length(result$BaselineHazard) != result$NIntervals)
+    stop("Wrong length of 'BaselineHazrad' vector.")
+  
+  check.frailty_dispersion(result$FrailtyDispersion, result$NIntervals)
+  
+  if (! is.vector(result$EstimatedFrailtyMean))
+    stop(" 'EstimatedFrailtyMean' is not a vector.")
+  if(length(result$EstimatedFrailtyMean) != result$NIntervals)
+    stop("Wrong length of 'EstimatedFrailtyMean' vector.")
+}
+
+
+#-------------------------------------------------------------------------------
+
+#' @title
+#' Estimated frailty mean for the 'Centre-Specific Frailty Model with Power Parameter'
+#'
+#' @description
+#' The function computes the model estimated frailty mean, giving the estimated parameters.
+#'
+#' @param optimal_params Numerical vector of optimal estimated parameters, of length equal to the number of
+#' model parameters.
+#' @param time_axis Numerical vector of the time-domain.
+#' @param n_regressors Number of regressors of the model
+#'
+#' @return Numerical vector of length equal to the number of intervals, containing the estimated frailty 
+#' mean of each interval.
+
+frailty_mean.PowPar <- function(optimal_params, time_axis, n_regressors){
+  # Extract information from input variables
+  L <- length(time_axis) - 1
+  R <- n_regressors
+  
+  # Extract parameters from the optimal vector
+  gammak <- rep(0,L)
+  gammak[2:L] <- optimal_params[(L+1+R):(2*L+R-1)]
+  gammak[1] <- 1
+  sigma <- optimal_params[2*L+R]
+  
+  # Compute estimated frailty mean
+  frailty_mean <- rep(0,L)
+  for(k in 1:L){
+    frailty_mean[k] <- exp(((sigma * gammak[k])^2)/2)
+  }
+  
+  return (frailty_mean)
+}
+
+
+#-------------------------------------------------------------------------------
+# Functions for computing the second derivative
+params_se.PowPar <- function(optimal_params, params_range_min, params_range_max,
+                             dataset, centre, time_axis, dropout_matrix, e_matrix, h_dd){
+  
+  # Assign nodes and weights
+  nodes_ghqm <- nodes9_ghqm
+  weights_ghqm <- weights9_ghqm
+  
+  # Extract information from input variables
+  n_params <- length(optimal_params)
+  n_intervals <- length(time_axis) - 1
+  n_regressors <- dim(dataset)[2]
+  
+  # Define vector of categories for Adapted Paik et al.'s Model
+  params_categories <- c(n_intervals, n_regressors, n_intervals - 1, 1)
+  n_categories <- length(params_categories)
+  
+  # Generate extended vector of parameters ranges
+  params_range_min <- params_range_max <- c()
+  for(c in 1: n_categories){
+    n_params_in_c <- params_categories[c]
+    params_range_min <- c(params_range_min, rep(categories_range_min[c], n_params_in_c))
+    params_range_max <- c(params_range_max, rep(categories_range_max[c], n_params_in_c))
+  }
+  
+  # Initialize parameters standard error vector
+  se <- rep(0, n_params)
+  
+  # Initialize information and hessian element
+  information_element <- hessian_element <- 0
+  
+  for(p in 1:n_params){
+    # Store current parameter value and saved its updated value
+    value <- optimal_params[p]
+    value_plus_h <- value + h_dd
+    value_minus_h <- value - h_dd
+    if(value_plus_h > params_range_max[p])
+      values_plus_h <- params_range_max[p]
+    else if(value_minus_h < params_range_min[p])
+      value_minus_h <- params_range_min[p]
+    
+    # Store original optimal parameters
+    params_plus  <- optimal_params
+    params_minus <- optimal_params
+    
+    # Update current parameters value
+    params_plus[p] <- value_plus_h
+    params_minus[p] <- value_minus_h
+    
+    ll_eval <- ll_PowPar_eval(optimal_params, dataset, centre, time_axis, dropout_matrix, e_matrix)
+    ll_eval_plus <- ll_PowPar_eval(params_plus, dataset, centre, time_axis, dropout_matrix, e_matrix)
+    ll_eval_minus <- ll_PowPar_eval(params_minus, dataset, centre, time_axis, dropout_matrix, e_matrix)
+    
+    # Approximate the second derivative of the log-likelihood function
+    hessian_element <- (ll_eval_plus + ll_eval_minus - 2*ll_eval)/(h_dd * h_dd)
+    
+    if((hessian_element == Inf) || (hessian_element == -Inf)){
+      #information_element <- hessian_element
+      se[p] <- 1e-4
+    }
+    else if(is.nan(hessian_element)){
+      se[p] <- NaN
+    }
+    else{
+      # Compute the information element from the hessian
+      information_element <- - hessian_element
+      
+      # Compute standard error of the parameter
+      se[p] <- 1/sqrt(information_element)
+    }
+  }
+  return (se)
+}
 

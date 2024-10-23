@@ -395,7 +395,9 @@ plot_frailty_sd <- function(result, frailty_sd = NULL, flag_variance = FALSE, fl
     points(k, values[k], pch = pch, bg = color_bg, cex = cex_points)
     lines(c(k-1,k), c(values[k-1], values[k]))
   }
-}#-------------------------------------------------------------------------------
+}
+
+#-------------------------------------------------------------------------------
 #' @title
 #' Plot the one-dimensional log-likelihood function
 #'
@@ -458,116 +460,71 @@ plot_ll_1D.AdPaik <- function(param_1D, index_param_1D, ll_1D, params, param_ran
        main = string_title, xlab = "Values", ylab = "Log-likelihood")
   points(param_1D, ll_1D, bg = color_max_bg, pch = pch, cex = cex_max)
 }
+
+
+
 #-------------------------------------------------------------------------------
-#' Function for plotting the trend of the log-likelihood function with respect to
-#' a single parameter, specified in the arguments.
-#' The log-likelihood function is plotted using a certain number of points specified by @n_points
-#' and they are not connected by a straight line.
+#' @title
+#' Plot the one-dimensional log-likelihood function
 #'
-#' @param_1D Optimal parameter value determined maximizing the log-likelihood function with respect to it.
-#' @index_param_1D Index of the optimal parameter.
-#' @ll_1D Log-likelihood value in correspondence of the optimal parameter, with other parameters fixed
-#' to their optimal value or to a default value.
-#' @params Value of the other parameters. A said, they could be fixed to a default value or to their optimal value.
-#' @param_range_min Minimum value assumable by the parameter param_1D.
-#' @param_range_max Maximum value assumable by the parameter param_1D.
-#' @dataset Dataset with individual covariates. It can be either a matrix or a dataframe.
-#' @centre Individual cluster membership. It is a vectorof the same dimension of the dataset.
-#' @time_axis Temporal domain.
-#' @dropout_matrix Binary matrix indicating in which interval of the time domain and individual failed. For an individual,
+#' @description
+#' Function for plotting the trend of the log-likelihood function with respect to
+#' a single parameter, whose position in the parameter vector is specified in the argument call.
+#' For such plot, some samples of the parameter under consideration are generated and
+#' then evaluated in the log-likelihood function. These are plotted together with the maximum point of the
+#' one-dimensional log-likelihood function, provided in input.
+#'
+#' @param param_1D Optimal parameter value determined maximizing the log-likelihood function with respect to it.
+#' @param index_param_1D Index of the optimal parameter inside the parameter vector.
+#' @param ll_1D Log-likelihood function evaluated at the optimal parameter @param_1D, with the other parameters assuming a fixed value.
+#' @param params Numerical vector of length equal to the number of parameters minus one. It contains the fixed value of the other parameters.
+#' @param param_range_min Minimum value assumable by the parameter param_1D.
+#' @param param_range_max Maximum value assumable by the parameter param_1D.
+#' @param dataset Dataset with individual covariates. It can be either a matrix or a dataframe.
+#' @param centre Numerical vector of individual cluster membership. It must be length as the number of individual in the dataset.
+#' @param time_axis Numerical vector of length 2, corresponding to the subdivision of the temporal domain.
+#' @param dropout_matrix Binary matrix indicating in which interval of the time domain an individual failed. For each individual,
 #' the sum of the row elements must be equal to 1 (if he/she failed) or 0 (if he/she does not failed).
 #' It has dimension equal to (n_individuals, n_intervals)
-#' @e_matrix Matrix of dimension (n_individual, n_intervals), where each element contains the evaluation of the temporal
+#' @param e_matrix Matrix of dimension (n_individual, n_intervals), where each element contains the evaluation of the temporal
 #' integral, performed through the function @time_int_eval.
-#' @n_points Number of points in which the log-likelihood function must be evaluated and then plotted.
+#' @param n_points Number of points in which the log-likelihood function must be evaluated and then plotted.
 #' To have a nice graphical representation, chose an intermediate value: not to small and not too high. Default value is 150.
-#' @cex Dimension of the points (n_points). Deafult vaue is 0.7.
-#' @cex_max Dimension of the optimal point. Default value is 0.8.
-#' @color_bg Color of the points (n_points). Default is black.
-#' @color_max_bg Color of the optimal point. Deafult is red.
-#' @pch Shape of the points, with no distinction between optimal point and points.
-plot_ll_1D.PowPar <- function(param_1D, index_param_1D, ll_1D, params, param_range_min, param_range_max,
-                              dataset, centre, time_axis, dropout_matrix, e_matrix,
-                              n_points = 150,
-                              cex = 0.7, cex_max = 0.8, color_bg = "black", color_max_bg = "red",
-                              pch = 21){
-
+#' @param cex Dimension of the points used for the graphical representation of the log-likelihood function. Default value is 0.7.
+#' @param cex_max Dimension of the optimal point provided as first argument (i.e. the point that maximizes the log-likelihood
+#' function from the point of view of a single parameter). Default value is 0.8.
+#' @param color_bg Color to be used for the points of the log-likelihood trend. Deafult is 'black'.
+#' @param color_max_bg Color to be used for the optimal point provided as first argument. Default is 'red'.
+#' @param pch Shape of the plotted point. Deafult is a circle (21).
+#'
+#' @return Plot of the log-likelihood trend from the point of view of a single parameter.
+plot_ll_1D <- function(param_1D, index_param_1D, ll_1D, params, param_range_min, param_range_max,
+                       dataset, centre, time_axis, dropout_matrix, e_matrix,
+                       n_points = 150,
+                       cex = 0.7, cex_max = 0.8, color_bg = "black", color_max_bg = "red",
+                       pch = 21){
+  
   # Define the structure containing the generated points and the associated log-likelihood value
-  param_values <- rep(0, n_points)
+  #param_values <- rep(0, n_points)
   ll_values <- rep(0, n_points)
-
+  
   # Generate n_points for the indicated parameter inside its min, max range
   param_values <- runif(n_points, param_range_min, param_range_max)
-
+  
   # For each point, evaluate the log-likelihood function
   for(i in 1:n_points){
     params[index_param_1D] <- param_values[i]
-    ll_values[i] <- ll_PowPar_eval(params, dataset, centre, time_axis, dropout_matrix, e_matrix)
+    ll_values[i] <- ll_AdPaik_eval(params, dataset, centre, time_axis, dropout_matrix, e_matrix)
   }
-
+  
   # Plot the log-likelihood trend with respect to the indicated parameter
   string_title <- paste("Log-likelihood trend wrt parameter ", index_param_1D)
-
+  
   # dev.new()
   plot(param_values, ll_values, pch=pch, col=color_bg, cex = cex,
-       xlim = c(param_range_min, param_range_max), ylim=c(min(ll_values), max(ll_values)),
+       xlim = c(param_range_min, param_range_max), #ylim=c(min(ll_values), max(ll_values)),
        main = string_title, xlab = "Values", ylab = "Log-likelihood")
   points(param_1D, ll_1D, bg = color_max_bg, pch = pch, cex = cex_max)
 }
 #-------------------------------------------------------------------------------
-#' Function for plotting the trend of the log-likelihood function with respect to
-#' a single parameter, specified in the arguments.
-#' The log-likelihood function is plotted using a certain number of points specified by @n_points
-#' and they are not connected by a straight line.
-#'
-#' @param_1D Optimal parameter value determined maximizing the log-likelihood function with respect to it.
-#' @index_param_1D Index of the optimal parameter.
-#' @ll_1D Log-likelihood value in correspondence of the optimal parameter, with other parameters fixed
-#' to their optimal value or to a default value.
-#' @params Value of the other parameters. A said, they could be fixed to a default value or to their optimal value.
-#' @param_range_min Minimum value assumable by the parameter param_1D.
-#' @param_range_max Maximum value assumable by the parameter param_1D.
-#' @dataset Dataset with individual covariates. It can be either a matrix or a dataframe.
-#' @centre Individual cluster membership. It is a vectorof the same dimension of the dataset.
-#' @time_axis Temporal domain.
-#' @dropout_matrix Binary matrix indicating in which interval of the time domain and individual failed. For an individual,
-#' the sum of the row elements must be equal to 1 (if he/she failed) or 0 (if he/she does not failed).
-#' It has dimension equal to (n_individuals, n_intervals)
-#' @e_matrix Matrix of dimension (n_individual, n_intervals), where each element contains the evaluation of the temporal
-#' integral, performed through the function @time_int_eval.
-#' @n_points Number of points in which the log-likelihood function must be evaluated and then plotted.
-#' To have a nice graphical representation, chose an intermediate value: not to small and not too high. Default value is 150.
-#' @cex Dimension of the points (n_points). Deafult vaue is 0.7.
-#' @cex_max Dimension of the optimal point. Default value is 0.8.
-#' @color_bg Color of the points (n_points). Default is black.
-#' @color_max_bg Color of the optimal point. Deafult is red.
-#' @pch Shape of the points, with no distinction between optimal point and points.
-plot_ll_1D.StocTimeDep <- function(param_1D, index_param_1D, ll_1D, params, param_range_min, param_range_max,
-                                   dataset, centre, time_axis, dropout_matrix, e_matrix, time_to_event,
-                                   n_points = 150,
-                                   cex = 0.7, cex_max = 0.8, color_bg = "black", color_max_bg = "red",
-                                   pch = 21){
 
-  # Define the structure containing the generated points and the associated log-likelihood value
-  param_values <- rep(0, n_points)
-  ll_values <- rep(0, n_points)
-
-  # Generate n_points for the indicated parameter inside its min, max range
-  param_values <- runif(n_points, param_range_min, param_range_max)
-
-  # For each point, evaluate the log-likelihood function
-  for(i in 1:n_points){
-    params[index_param_1D] <- param_values[i]
-    ll_values[i] <- ll_StocTimeDep_eval(params, dataset, centre, time_axis, dropout_matrix, e_matrix, time_to_event)
-  }
-
-  # Plot the log-likelihood trend with respect to the indicated parameter
-  string_title <- paste("Log-likelihood trend wrt parameter ", index_param_1D)
-
-  # dev.new()
-  plot(param_values, ll_values, pch=pch, col=color_bg, cex = cex,
-       xlim = c(param_range_min, param_range_max), ylim=c(min(ll_values), max(ll_values)),
-       main = string_title, xlab = "Values", ylab = "Log-likelihood")
-  points(param_1D, ll_1D, bg = color_max_bg, pch = pch, cex = cex_max)
-}
-#-------------------------------------------------------------------------------
