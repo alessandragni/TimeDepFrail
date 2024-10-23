@@ -28,7 +28,7 @@
 #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #'
 #' # Call the main model function
-#' result <- AdPaikModel(formula, data, time_axis, categories_range_min, categories_range_max)
+#' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
 #' # Call the summary
 #' summary.AdPaik(result) 
