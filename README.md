@@ -28,7 +28,7 @@ Students are followed for a maximum of 6 semesters (3 academic years), from the 
 
 ## Model execution
 To fit a Time-Dependent Shared Frailty model, the following elements are required:
-- dataset: e.g. `data_dropout`
+- dataset as `data.frame`: e.g. `data_dropout`
 - `time_axis` vector: The time intervals for which the model is applied. For example, in the `data_dropout` dataset, no events occur in the first semester, so the `time_axis` starts at the end of the first semester (t = 1) and ends at the end of the third year (t = 6).
 - `categories_range_min` and `categories_range_max` vectors: Provide minimum (`categories_range_min`) and maximum (`categories_range_max`) bounds for each parameter category to constrain the optimization.
 - `formula` object: Specify the relationship between time-to-event, covariates, and group. For the clustering variable (`group`), it must be provided as `cluster(group)` in the formula.
