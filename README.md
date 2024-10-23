@@ -38,7 +38,7 @@ According to the model, different categories are individuated.
 - formula object: it specifies the relationship between the time-to-event, the dataset covariates and the group variable. The names reported in the formula must be contained also in the dataset, otherwise an error is thrown and the model stops the execution. 
 Concerning the clustering variable (i.e. 'group'), it must be the arguments of a sort of cluster function: e.g. cluster(group).
 
-Then we call the general method, specified which is the model we want to apply: 'AdPaikModel', 'PowParModel' or 'StocTimeDepModel'.
+Then we call the general method, specified which is the model we want to apply: 'AdPaikModel'. Code also include implementation of 'PowParModel' and 'StocTimeDepModel', but their efficiency could be improved and thus related functions are secondary.
 The execution returns an S3 class object with all the provided information and computed variables.
 
 Look at the 'Examples/ModelsApplication.R' script for an example on how to proceed.
