@@ -16,17 +16,16 @@ devtools::install_github("alessandragni/TimeDepFrail")
 ## Dataset data_dropout
 To exemplify the package, the model are applied on a dataset called 'data_dropout'.
 
-This dataset comes from a university administrative database and tracks students enrolled in 2012 over three academic years (or 6 semesters). We are interested in understanding what factors lead to students dropping out.
+This dataset is extracted from an administrative database provided by a non-specified university and tracks students enrolled in 2012 over three academic years (or 6 semesters). We are interested in understanding what factors lead to students dropping out.
 Dropout students with a time-instant in the first semester have been removed, for internal reasons (the university cannot take preventive action to reduce or avoid their withdrawal).
 
-, extracted from an administrative database provided by a non-specified university. 
 The students are followed for at most 3 academic years or, equivalently, 6 semesters (follow-up periods), from the first day of lecture up to the time-instant of withdrawal (i.e. survival event) or the end of the academic year. We need to specify that the 
 
 The dataset is composed of four variables:
 - Gender: categorical covariate (Male or Female).
 - CFUP: standardized numerical covariate indicating the number of CFU (Credito Formativo Universitario) passed by the students by the end of the first semester. 
-- time_to_event: the time (in semesters) when a student decides to leave the university. A value greater than 6.0 indicates the student did not drop out during the follow-up (e.g. 6.1 semesters).
--group: categorical variable indicating the student's course of study, with 16 different levels from CosA, CosB, ... , CosP.
+- time_to_event: time (in semesters) at which a student decides to leave the university. A value greater than 6.0 indicates the student did not drop out during the follow-up (e.g. 6.1 semesters).
+- group: categorical variable indicating the student's course of study, with 16 different levels from CosA, CosB, ... , CosP.
 
 
 ## How to execute a model
