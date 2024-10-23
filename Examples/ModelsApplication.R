@@ -54,7 +54,7 @@ reduced_frailty_sd <- frailty_sd.AdPaik(result, FALSE)
 
 # Plot frailty standard deviation
 plot_frailty_sd(result, frailty_sd = reduced_frailty_sd, flag_variance = TRUE,
-                ylim=c(0, 0.40), main_title = 'Frailty variance')
+                ylim=c(0, 0.25), main_title = 'Frailty variance')
 
 # Plot posterior frailty estimates
 pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
@@ -101,61 +101,4 @@ analysis_1D_opt <- AdPaik_1D(formula, data_dropout, time_axis,
                              index_param_to_vary, flag_optimal_params = FALSE, optimal_params = NULL,
                              categories_range_min, categories_range_max, n_iter = 5, flag_plot = TRUE)
 analysis_1D_opt
-
-# Arrive up to here
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-# CENTRE-SPECIFIC FRAILTY MODEL WITH POWER PARAMETER
-eps_pp <- 1e-10
-categories_range_min <- c(-8, -2, eps_pp, eps_pp)
-categories_range_max <- c(-eps_pp, 0.5, 10, 1 - eps_pp)
-
-C_mult <- 1
-
-time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
-
-formula <- time_to_event ~ Gender + CFUP + cluster(group)
-
-result2 <- PowParModel(formula, data_dropout, time_axis,
-                      categories_range_min, categories_range_max, C_mult)
-summary(result2)
-
-# Plot baseline hazard step-function
-plot_bas_hazard(result2, xlim=c(1,result$TimeDomain[result$NIntervals+1]))
-
-# Plot frailty standard deviation
-plot_frailty_sd(result2, ylim=c(0, 0.80))
-
-
-#-------------------------------------------------------------------------------
-# STOCHASTIC TIME-DEPENDENT CENTRE-SPECIFIC FRAILTY MODELS
-eps_log <- 1e-6
-range_min_lf <- c(rep(-8, n_interval), rep(-2, n_regressor), eps_log, eps_log, eps_log)
-range_max_lf <- c(rep(-eps_log, n_interval), rep(0.5, n_regressor), 2, 2, pi)
-
-C_mult <- 1
-
-time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
-
-formula <- time_to_event ~ Gender + CFUP + cluster(group)
-
-result <- StocTimeDepModel(formula, data_dropout, time_axis,
-                           categories_range_min, categories_range_max, C_mult)
-summary(result)
-
-#-------------------------------------------------------------------------------
-# Model call with global method and specifying the name of desired model
-result.AdPaik <- TimeDepFrailty(formula, data_dropout, time_axis,
-                         categories_range_min, categories_range_max, model_type = 'AdPaikModel')
-
-result.PowPar <- TimeDepFrailty(formula, data_dropout, time_axis,
-                                categories_range_min, categories_range_max, C_mult = 1,
-                                model_type = 'PowParModel')
-
-#-------------------------------------------------------------------------------
-
-
-
-
-
 

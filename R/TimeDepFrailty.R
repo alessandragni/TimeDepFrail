@@ -1,6 +1,6 @@
 # Define a unique function that receives all the parameters and the name of the
 # frailty model we want to apply.
-TimeDepFrailty <- function (formula, data, time_axis,
+TimeDepFrail <- function (formula, data, time_axis,
                             categories_range_min, categories_range_max,
                             C_mult = 0, flag_fullsd = TRUE,
                             time_domain = 0, flag_time_domain = FALSE,
