@@ -13,7 +13,7 @@ devtools::install_github("alessandragni/TimeDepFrail")
 ```
 
 
-## Dataset data_dropout
+## Dataset `data_dropout`
 The `data_dropout` dataset is used to exemplify the package. 
 It tracks the academic progress of students enrolled in 2012 over three academic years (six semesters). This dataset aims to explore the factors leading to student dropout.
 
