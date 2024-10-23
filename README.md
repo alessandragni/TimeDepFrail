@@ -19,7 +19,7 @@ It tracks the academic progress of students enrolled in 2012 over three academic
 
 The dataset is composed of four variables:
 - `Gender`: Categorical covariate indicating gender (Male or Female).
-- `CFUP`: Numeric covariate representing the standardized number of CFUs (Credito Formativo Universitario) passed by the student in the first semester.
+- `CFUP`: Numeric covariate representing the standardized number of credits or CFUs (Credito Formativo Universitario) passed by the student in the first semester.
 - `time_to_event`: The time (in semesters) when a student decides to drop out. A value greater than 6.0 means the student did not drop out during the follow-up period.
 - `group`: Categorical variable representing the student's course of study, with 16 levels from CosA to CosP.
 
