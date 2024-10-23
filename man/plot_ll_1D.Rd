@@ -41,7 +41,7 @@ plot_ll_1D(
 
 \item{centre}{Numerical vector of individual cluster membership. It must be length as the number of individual in the dataset.}
 
-\item{time_axis}{Numerical vector of length 2, corresponding to the subdivision of the temporal domain.}
+\item{time_axis}{Numerical vector, corresponding to the subdivision of the temporal domain.}
 
 \item{dropout_matrix}{Binary matrix indicating in which interval of the time domain an individual failed. For each individual,
 the sum of the row elements must be equal to 1 (if he/she failed) or 0 (if he/she does not failed).

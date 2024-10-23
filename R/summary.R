@@ -9,9 +9,9 @@
 #' @details
 #' Among the estimated parameters, only the regressors are reported together with their standard error and confidence interval.
 #'
-#' @param result 'S3' class object returned by the main model call, i.e. output of the 'Adapted Paik et al.'s Model'.
-#'
 #' @method summary AdPaik
+#' 
+#' @param result 'S3' class object returned by the main model call, i.e. output of the 'Adapted Paik et al.'s Model'.
 #' 
 #' @return Model summary printed on output.
 #'
@@ -112,16 +112,20 @@ summary.AdPaik <- function(result){
 }
 
 
+
 #-------------------------------------------------------------------------------
-#' @title Function for displaying on the R console a summary of the model call, given the
-#' output of the same call.
+#' @title Summarize Model Output
 #' 
 #' @description
-#' According to the model it has been called, this function inspects the class output and then call
-#' the proper summary function.
+#' This function displays a summary of the model output based on the class of the result object.
+#' It delegates to the appropriate summary method according to the class of the result.
 #'
-#' @param result Output of the model call. The result has its own class, associated to the called model.
-
+#' @param result An object containing the output of the model call. 
+#' The class of this object determines which summary method is invoked.
+#' 
+#' @return A summary of the model output printed to the console.
+#' 
+#' @export
 summary <- function(result){
   if(inherits(result, "AdPaik"))
     summary.AdPaik(result)

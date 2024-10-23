@@ -9,7 +9,7 @@ plot_frailty_sd(
   frailty_sd = NULL,
   flag_variance = FALSE,
   flag_sd_external = FALSE,
-  xlim = c(1, length(time_axis) - 1),
+  xlim = c(1, length(result$TimeDomain) - 1),
   ylim = c(0, 10),
   xlab = "Intervals",
   ylab = "Values",

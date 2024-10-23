@@ -2,15 +2,18 @@
 % Please edit documentation in R/summary.R
 \name{summary}
 \alias{summary}
-\title{Function for displaying on the R console a summary of the model call, given the
-output of the same call.}
+\title{Summarize Model Output}
 \usage{
 summary(result)
 }
 \arguments{
-\item{result}{Output of the model call. The result has its own class, associated to the called model.}
+\item{result}{An object containing the output of the model call.
+The class of this object determines which summary method is invoked.}
+}
+\value{
+A summary of the model output printed to the console.
 }
 \description{
-According to the model it has been called, this function inspects the class output and then call
-the proper summary function.
+This function displays a summary of the model output based on the class of the result object.
+It delegates to the appropriate summary method according to the class of the result.
 }

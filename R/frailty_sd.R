@@ -123,6 +123,9 @@ frailty_Sd.AdPaik <- function (optimal_params, time_axis, n_regressors,
 #' @export
 #'
 #' @examples
+#' # Consider the 'Academic Dropout dataset'
+#' data(data_dropout)
+#' 
 #' # Define the variables needed for the model execution
 #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
@@ -131,7 +134,7 @@ frailty_Sd.AdPaik <- function (optimal_params, time_axis, n_regressors,
 #' categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
 #'
 #' # Call the main model
-#' result <- AdPaikModel(formula, data, time_axis,
+#' result <- AdPaikModel(formula, data_dropout, time_axis,
 #'                       categories_range_min, categories_range_max, TRUE)
 #'
 #' frailty_sd(result, TRUE)
@@ -224,6 +227,9 @@ frailty_sd.AdPaik <- function (result, flag_fullsd = TRUE){
 #' @export
 #'
 #' @examples
+#' # Consider the 'Academic Dropout dataset'
+#' data(data_dropout)
+#' 
 #' # Define the variables needed for the model execution
 #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
@@ -232,14 +238,14 @@ frailty_sd.AdPaik <- function (result, flag_fullsd = TRUE){
 #' categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
 #'
 #' # Call the main model
-#' result <- AdPaikModel(formula, data, time_axis,
+#' result <- AdPaikModel(formula, data_dropout, time_axis,
 #'                       categories_range_min, categories_range_max, TRUE)
 #'
 #' frailty_sd(result, TRUE)
 #' frailty_sd(result, FALSE)
 
 frailty_sd <- function(result, flag_fullsd = TRUE){
-  if(inheriths(result, "AdPaik"))
+  if(inherits(result, "AdPaik"))
     frailty_sd.AdPaik(result, flag_fullsd = TRUE)
 #   else if(class(result) == "PowPar")
 #     frailty_sd.PowPar(result$OptimalParameters, result$TimeDomain, result$NRegressors,

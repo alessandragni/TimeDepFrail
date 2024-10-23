@@ -37,6 +37,9 @@ The new added term only moves upward the other case and the flag_fullsd should b
 The final case only depends on what we want to observe.
 }
 \examples{
+# Consider the 'Academic Dropout dataset'
+data(data_dropout)
+
 # Define the variables needed for the model execution
 formula <- time_to_event ~ Gender + CFUP + cluster(group)
 time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
@@ -45,7 +48,7 @@ categories_range_min <- c(-8, -2, eps, eps, eps)
 categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
 
 # Call the main model
-result <- AdPaikModel(formula, data, time_axis,
+result <- AdPaikModel(formula, data_dropout, time_axis,
                       categories_range_min, categories_range_max, TRUE)
 
 frailty_sd(result, TRUE)

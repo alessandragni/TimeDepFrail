@@ -299,7 +299,7 @@ plot_post_frailty_est <- function(result, data,
 #'
 #' plot_frailty_sd(sd, time_axis, FALSE, ylim = c(0,1))
 plot_frailty_sd <- function(result, frailty_sd = NULL, flag_variance = FALSE, flag_sd_external = FALSE,
-                            xlim = c(1, length(time_axis)-1), ylim = c(0, 10),
+                            xlim = c(1, length(result$TimeDomain)-1), ylim = c(0, 10),
                             xlab = "Intervals", ylab = "Values", main_title = "Frailty standard deviation",
                             pch = 21, color_bg = "blue", cex_points = 0.7){
   # Check result
@@ -362,7 +362,7 @@ plot_frailty_sd <- function(result, frailty_sd = NULL, flag_variance = FALSE, fl
 #' @param param_range_max Maximum value assumable by the parameter param_1D.
 #' @param dataset Dataset with individual covariates. It can be either a matrix or a dataframe.
 #' @param centre Numerical vector of individual cluster membership. It must be length as the number of individual in the dataset.
-#' @param time_axis Numerical vector of length 2, corresponding to the subdivision of the temporal domain.
+#' @param time_axis Numerical vector, corresponding to the subdivision of the temporal domain.
 #' @param dropout_matrix Binary matrix indicating in which interval of the time domain an individual failed. For each individual,
 #' the sum of the row elements must be equal to 1 (if he/she failed) or 0 (if he/she does not failed).
 #' It has dimension equal to (n_individuals, n_intervals)
@@ -428,7 +428,7 @@ plot_ll_1D.AdPaik <- function(param_1D, index_param_1D, ll_1D, params, param_ran
 #' @param param_range_max Maximum value assumable by the parameter param_1D.
 #' @param dataset Dataset with individual covariates. It can be either a matrix or a dataframe.
 #' @param centre Numerical vector of individual cluster membership. It must be length as the number of individual in the dataset.
-#' @param time_axis Numerical vector of length 2, corresponding to the subdivision of the temporal domain.
+#' @param time_axis Numerical vector, corresponding to the subdivision of the temporal domain.
 #' @param dropout_matrix Binary matrix indicating in which interval of the time domain an individual failed. For each individual,
 #' the sum of the row elements must be equal to 1 (if he/she failed) or 0 (if he/she does not failed).
 #' It has dimension equal to (n_individuals, n_intervals)
