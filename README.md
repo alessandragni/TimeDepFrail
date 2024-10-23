@@ -57,17 +57,17 @@ Look at the 'Examples/ModelsApplication.R' script for an example on how to proce
 ## Which are the exportable functions?
 Among all the functions saved in the workspace, some of them can be directly called by the user, while others cannot because they are internally used by other methods.
 The callable ones are reported in the following list, without arguments for convenience:
-- AdPaikModel(), PowParModel(), StocTimeDepModel()
-- AdPaik_1D(),PowPar_1D(), StocTimeDep_1D()
+- AdPaikModel(), (also available PowParModel(), StocTimeDepModel())
+- AdPaik_1D(), (also available PowPar_1D(), StocTimeDep_1D())
 - TimeDepFrailty()
-- summary(), summary.AdPaik(), summary.PowPar(), summary.StocTimeDep(...coming)
+- summary(), summary.AdPaik(), (also available summary.PowPar(), summary.StocTimeDep)
 - frailty_sd.AdPaik()
 - plot_bas_hazard(), plot_frailty_sd(), plot_post_frailty_est().
 
 
 ## To be aware of
-- The first model is quite fast to optimize the log-likelihood function and to produce an output. However, considering the current dataset, it takes longer to estimated the 'Male' regression coefficient rather than the 'Female' one (reference). Therefore, I suggest to switch them and to set the 'Male' to the reference level and to estimate the 'Female' one. The estimated coefficient changes, but not the optimal log-likelihood value.
-- The 'Centre-Specific Frailty Model with Power Parameter' is not as fast as the first one, but it produces coherent and expected results.
+- The AdPaikModel model is quite fast to optimize the log-likelihood function and to produce an output. However, considering the current dataset, it takes longer to estimate the 'Male' regression coefficient rather than the 'Female' one (reference). If reference category is switched, the estimated coefficient changes, but not the optimal log-likelihood value.
+- The 'Centre-Specific Frailty Model with Power Parameter' is not as fast as the AdPaikModel, but it produces coherent and expected results.
 - The 'Stochastic Time-Dependent' Centre-Specific Frailty Model' is really slow and it may not reach convergence.
 
 
