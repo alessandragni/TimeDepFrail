@@ -9,7 +9,7 @@ plot_post_frailty_est(
   data,
   flag_eps = FALSE,
   flag_alpha = FALSE,
-  xlim = c(1, length(time_axis) - 1),
+  xlim = c(0, length(result$TimeDomain) - 1),
   ylim = c(0, 10),
   xlab = "Intervals",
   ylab = "Values",
@@ -91,6 +91,9 @@ result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, ca
 pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
 color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
 
-plot_post_frailty_est(result, data_dropout, ylim=c(0,2),
-                      pch_type = pch_type, color_bg = color_bg)
+plot_post_frailty_est(result, data_dropout,
+                      xlim = c(1, 11), ylim = c(0,3), 
+                      pch_type = pch_type, color_bg = color_bg,
+                      xlab = 'Time [intervals]', ylab = 'Posterior estimates',
+                      pos_legend = 'bottomright')
 }

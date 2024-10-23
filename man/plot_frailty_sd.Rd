@@ -9,7 +9,7 @@ plot_frailty_sd(
   frailty_sd = NULL,
   flag_variance = FALSE,
   flag_sd_external = FALSE,
-  xlim = c(1, length(result$TimeDomain) - 1),
+  xlim = NULL,
   ylim = c(0, 10),
   xlab = "Intervals",
   ylab = "Values",
@@ -86,5 +86,5 @@ formula <- time_to_event ~ Gender + CFUP + cluster(group)
 # Call the main model function
 result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 
-plot_frailty_sd(sd, time_axis, FALSE, ylim = c(0,1))
+plot_frailty_sd(result, ylim=c(0, 0.50), xlab = 'Time [intervals]', ylab = 'Standard deviation')
 }

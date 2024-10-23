@@ -43,7 +43,7 @@ plot_frailty_sd(result, ylim=c(0, 0.50), xlab = 'Time [intervals]', ylab = 'Stan
 pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
 color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
 plot_post_frailty_est(result, data_dropout,
-                      ylim=c(0,3), xlim =c (1, 11),
+                      xlim = c(1, 11), ylim = c(0, 3),
                       pch_type = pch_type, color_bg = color_bg,
                       xlab = 'Time [intervals]', ylab = 'Posterior estimates',
                       pos_legend = 'bottomright')

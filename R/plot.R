@@ -141,11 +141,15 @@ plot_bas_hazard <- function(result,
 #' pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
 #' color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
 #' 
-#' plot_post_frailty_est(result, data_dropout, ylim=c(0,2),
-#'                       pch_type = pch_type, color_bg = color_bg)
+#' plot_post_frailty_est(result, data_dropout,
+#'                       xlim = c(1, 11), ylim = c(0,3), 
+#'                       pch_type = pch_type, color_bg = color_bg,
+#'                       xlab = 'Time [intervals]', ylab = 'Posterior estimates',
+#'                       pos_legend = 'bottomright')
+
 plot_post_frailty_est <- function(result, data,
                                   flag_eps = FALSE, flag_alpha = FALSE,
-                                  xlim = c(1, length(time_axis) - 1), ylim = c(0, 10),
+                                  xlim = c(0,length(result$TimeDomain)-1), ylim = c(0, 10),
                                   xlab = "Intervals", ylab = "Values", main_title = "Posterior frailty estimates",
                                   cex = 0.7,
                                   pch_type = rep(21, length(centre_codes)),
@@ -297,14 +301,16 @@ plot_post_frailty_est <- function(result, data,
 #' # Call the main model function
 #' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
-#' plot_frailty_sd(sd, time_axis, FALSE, ylim = c(0,1))
+#' plot_frailty_sd(result, ylim=c(0, 0.50), xlab = 'Time [intervals]', ylab = 'Standard deviation')
+
 plot_frailty_sd <- function(result, frailty_sd = NULL, flag_variance = FALSE, flag_sd_external = FALSE,
-                            xlim = c(1, length(result$TimeDomain)-1), ylim = c(0, 10),
+                            xlim = NULL, ylim = c(0, 10),
                             xlab = "Intervals", ylab = "Values", main_title = "Frailty standard deviation",
                             pch = 21, color_bg = "blue", cex_points = 0.7){
   # Check result
   check.result(result)
 
+  c(1, length(result$TimeDomain)-1)
   # Extract information from input variables and initialize frailty standard deviation
   L <- n_intervals <- result$NIntervals
   values <- c()
