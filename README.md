@@ -19,7 +19,7 @@ To exemplify the package, the model are applied on a dataset called 'data_dropou
 This dataset is extracted from an administrative database provided by a non-specified university and tracks students enrolled in 2012 over three academic years (or 6 semesters). We are interested in understanding what factors lead to students dropping out.
 Dropout students with a time-instant in the first semester have been removed, for internal reasons (the university cannot take preventive action to reduce or avoid their withdrawal).
 
-The students are followed for at most 3 academic years or, equivalently, 6 semesters (follow-up periods), from the first day of lecture up to the time-instant of withdrawal (i.e. survival event) or the end of the academic year. We need to specify that the 
+The students are followed for at most 3 academic years or, equivalently, 6 semesters (follow-up periods), from the first day of lecture up to the time-instant of withdrawal (i.e. survival event) or the end of the academic year.
 
 The dataset is composed of four variables:
 - Gender: categorical covariate (Male or Female).
