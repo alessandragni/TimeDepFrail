@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{plot_post_frailty_est}
 \alias{plot_post_frailty_est}
-\title{Plot the posterior frailty estimates}
+\title{Plot the Posterior Frailty Estimates}
 \usage{
 plot_post_frailty_est(
   result,
@@ -26,18 +26,13 @@ plot_post_frailty_est(
 
 \item{data}{Dataset (dataframe) in which all variables of the formula object must be found and contained.}
 
-\item{flag_eps}{Does the user want to plot only the time-dependent posterior frailty estimates? If so, the flag must be TRUE.
-Otherwise, for the entire posterior estimates, it must be FALSE (default value).}
+\item{flag_eps}{Logical flag indicating whether to plot only the time-dependent posterior frailty estimates. Default is FALSE.}
 
-\item{flag_alpha}{Does the user want to plot only the time-independent posteior frailty estimates? If so, the flag must be TRUE.
-Otherwise, for the entire posterior estimates, it must be FALSE (default value).
-Note that, it is not possible to have both previous flags TRUE: either one of the two must be TRUE. However, both can be FALSE.}
+\item{flag_alpha}{Logical flag indicating whether to plot only the time-independent posterior frailty estimates. Default is FALSE.}
 
-\item{xlim}{Numeric vector of length 2, giving the x coordinate ranges.
-Default value goes from 1 up to the number of intervals of the time-domain, because a point is plotted for each faculty in each interval.}
+\item{xlim}{Numeric vector of length 2 specifying the x-axis limits. Default is based on the number of intervals.}
 
-\item{ylim}{Numeric vector of length 2, giving the y coordinate ranges.
-Default value is (0,10). Pay attention that no non-negative values only can be accepted.}
+\item{ylim}{Numeric vector of length 2 specifying the y-axis limits. Default is (0, 10).}
 
 \item{xlab, ylab}{String giving the x and y axis name. Default values are 'Intervals' and 'Values'.}
 
@@ -54,24 +49,27 @@ the same faculty.}
 
 \item{cex_legend}{Dimension of the symbol in the legend. Default is 0.7.}
 
-\item{pos_legend}{It could be either a numerical vector of length 2, providing the x and y coordinates of the legend, or a string indicating where
-the legend has to be located in the plot. In the last case, the only possibilities are: 'bottomright', 'bottom', 'bottomleft', 'left',
-'topleft', 'top', 'topright', 'right', 'center'.}
+\item{pos_legend}{Either a numeric vector providing the x and y coordinates for the legend or
+a string specifying the legend's position (e.g., 'bottomright', 'bottom', 'bottomleft', 'left',
+'topleft', 'top', 'topright', 'right', 'center').}
 }
 \value{
 The plot of the posterior frailty estimates.
 }
 \description{
-Function for plotting the posterior frailty estimate of each group in each interval,
-using a single point. For the same group, the sequence of points is then connected using a straight
-line.
+This function plots the posterior frailty estimates for each group in each time interval.
+Each group’s estimates are represented by a sequence of points connected by straight lines.
+The function can plot either the entire posterior frailty estimate or
+its time-independent and time-dependent components based on user-specified flags.
 }
 \details{
 Recalling the frailty structure as \eqn{Z_{jk} = \alpha_{j} + \epsilon_{jk}, \forall j,k} and the posterior
-frailty estimate as \eqn{\hat{Z}_{jk} = \hat{\alpha}_{j}/\hat{\alpha}_{max} + \hat{\epsilon}_{jk}/\hat{\epsilon}_{max}}, it is
-possible to plot the entire posterior frailty estimate \eqn{\hat{Z}_{jk}} or just a part: either the time-dependent estimate
-\eqn{\frac{\hat{\epsilon}_{jk}}{\hat{\epsilon}_{\text{max}}}} or the time-independent one \eqn{\frac{\hat{\alpha}_{j}}{\hat{\alpha}_{\text{max}}}}.
-To do so, the user has to specify the value of two flags.
+frailty estimate as \eqn{\hat{Z}_{jk} = \hat{\alpha}_{j}/\hat{\alpha}_{max} + \hat{\epsilon}_{jk}/\hat{\epsilon}_{max}},
+this function allows plotting either the entire posterior frailty estimate \eqn{\hat{Z}_{jk}}
+or its time-independent \eqn{\frac{\hat{\alpha}_{j}}{\hat{\alpha}_{\text{max}}}} or
+time-dependent \eqn{\frac{\hat{\epsilon}_{jk}}{\hat{\epsilon}_{\text{max}}}} components.
+The user can control which components to display using the flag_eps and flag_alpha parameters.
+Only one of these flags can be set to TRUE at a time.
 }
 \examples{
 # Import data

@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary.R
 \name{summary.AdPaik}
 \alias{summary.AdPaik}
-\title{Summary of the 'Adapted Paik et al.'s Model'}
+\title{SSummary of the Adapted Paik et al.'s Time-Dependent Shared Frailty Model}
 \usage{
 \method{summary}{AdPaik}(result)
 }
@@ -13,12 +13,12 @@
 Model summary printed on output.
 }
 \description{
-Summary function for summarizing the most important information related to the dataset (number of individuals,
-number of regressors, number of intervals, number of clusters), the model call (number of parameters) and the model
-output (optimal log-likelihood value and AIC).
+This function provides a comprehensive summary of the results from the Adapted Paik et al.'s Time-Dependent Shared Frailty Model.
+It includes key information about the dataset (e.g., number of individuals, regressors, intervals, and clusters), model parameters,
+and output (log-likelihood, AIC). The summary also lists the estimated regressors along with their standard errors
 }
 \details{
-Among the estimated parameters, only the regressors are reported together with their standard error and confidence interval.
+The function reports the estimated regressors, their standard errors, and confidence intervals (if available).
 }
 \examples{
 # Define the variables needed for the model execution

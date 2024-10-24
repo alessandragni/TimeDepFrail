@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{plot_frailty_sd}
 \alias{plot_frailty_sd}
-\title{Plot for the frailty standard deviation}
+\title{Plot for the Frailty Standard Deviation or Variance}
 \usage{
 plot_frailty_sd(
   result,
@@ -20,57 +20,48 @@ plot_frailty_sd(
 )
 }
 \arguments{
-\item{result}{S3 object of class 'AdPaik', returned by the main model call 'AdPaikModel(...)'.}
+\item{result}{An S3 object of class 'AdPaik', returned by the main model call 'AdPaikModel(...)'.}
 
-\item{frailty_sd}{Numerical vector of evaluated frailty standard deviation, of length equal to the number of intervals of the time-domain.
-Its element must be non-negative.}
+\item{frailty_sd}{A numerical vector representing the evaluated frailty standard deviation, with length equal to the number of time-domain intervals.
+Its elements must be non-negative.}
 
-\item{flag_variance}{Do you want to plot the frailty standard deviation? If so, the flag must be equal to TRUE; otherwise, to FALSE (if we want to
-plot the variance). Default value is FALSE.}
+\item{flag_variance}{A boolean flag indicating whether to plot the frailty variance (\code{TRUE}) or the frailty standard deviation (\code{FALSE}). Default is \code{FALSE}.}
 
-\item{flag_sd_external}{Logical value. Do you want to provide a frailty standard deviation}
+\item{flag_sd_external}{A logical flag indicating whether the user is providing an external frailty standard deviation vector.}
 
-\item{xlim}{Numerical vector of length 2, giving the x coordinate ranges.
-Default value goes from 1 up to the number of intervals of the time-domain, because for each interval a single point is plotted and not a segment.}
+\item{xlim}{A numeric vector of length 2, defining the range for the x-axis (intervals). Default is from 1 to the number of intervals.}
 
-\item{ylim}{Numerical vector of length 2, giving the y coordinate ranges.
-Default value is (0,10).}
+\item{ylim}{A numeric vector of length 2, defining the range for the y-axis (values). Default is \verb{(0, 10)}.}
 
-\item{xlab, ylab}{String giving the x and y axis name.
-Deafult values are 'Intervals' and 'Values'.}
+\item{xlab}{A string for the x-axis label. Default is \code{'Intervals'}.}
 
-\item{main_title}{Title of the plot. Default title is 'Frailty standard deviation'.}
+\item{ylab}{A string for the y-axis label. Default is \code{'Values'}.}
 
-\item{pch}{Symbol used for plotting the frailty standard deviation value. Default is a dot (21).
-The same symbol is used throughout the plot, with no possibility of change.}
+\item{main_title}{A string for the plot title. Default title is \code{'Frailty Standard Deviation'}.}
 
-\item{color_bg}{Color used for the symbols. Deafult is 'blue'.}
+\item{pch}{A numeric or character symbol used for plotting the frailty standard deviation values. Default is a dot (\code{21}).}
 
-\item{cex_points}{Dimension of the symbols. Deafult is 0.7.}
+\item{color_bg}{A string specifying the color used for the symbols. Default is \code{'blue'}.}
+
+\item{cex_points}{A numeric value indicating the size of the plotting symbols. Default is \code{0.7}.}
 }
 \value{
-Plot of either the frailty standard deviation or the frailty variance.
+A plot displaying either the frailty standard deviation or variance across the specified intervals.
 }
 \description{
-Function for plotting either the frailty standard deviation or the frailty variance, according to the value
-of a precise and user-provided flag.
+This function generates a plot of either the frailty standard deviation or the frailty variance for the intervals in the time-domain.
 }
 \details{
-For each interval of the time-domain, a single point is plotted with value at the computed frailty standard deviation or variance.
-Subsequent points are connected to show the trend of the required function.
+The plot represents the values of the frailty standard deviation or variance for each time interval.
+It connects these points to illustrate the trend of the chosen metric.
 
-The method gives the possibility of plotting either
+This function supports two modes of operation:
 \itemize{
-\item the frailty standard deviation returned by the main model call and, therefore, contained in the S3 object class 'AdPaik'
-or
-\item the frailty standard deviation computed through the method 'frailty.sd'. We recall this method is introduced to permit the user to change the
-way the frailty standard deviation has been computed, without the necessity of optimizing again the log-likelihood function.
-For instance, we require the computation of the frailty standard deviation with both terms (time-dependent and time-independent) in the main model
-'AdPaikModel', but now we want also the frailty standard deviation with the sole time-dependent term. Thanks to the introduced method 'frailty.sd',
-we can compute again the frailty standard deviation without maximizing again the log-likelihood function.
-The result we obtain in the second case is different in values and structure, because we simply get a vector of L elements instead
-of a class, and we want the plot to be able to distinguish the case and plot it anyway.
+\item Plotting the frailty standard deviation or variance retrieved from the main model (contained in the S3 object of class 'AdPaik').
+\item Plotting a user-provided vector of frailty standard deviations, which can be computed using the method \code{frailty.sd}. This allows for flexibility in analysis without re-optimizing the log-likelihood function. For instance, users can compare frailty standard deviations computed with different model specifications (e.g., including only time-dependent terms).
 }
+
+The output will differentiate between these two cases, ensuring the correct values are plotted regardless of the source.
 }
 \examples{
 # Import data

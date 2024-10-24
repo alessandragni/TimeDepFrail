@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{plot_ll_1D.AdPaik}
 \alias{plot_ll_1D.AdPaik}
-\title{Plot the one-dimensional log-likelihood function}
+\title{Plot the One-Dimensional Log-Likelihood Function}
 \usage{
 plot_ll_1D.AdPaik(
   param_1D,
@@ -25,52 +25,44 @@ plot_ll_1D.AdPaik(
 )
 }
 \arguments{
-\item{param_1D}{Optimal parameter value determined maximizing the log-likelihood function with respect to it.}
+\item{param_1D}{A numeric value representing the optimal parameter determined by maximizing the log-likelihood function for the specified parameter.}
 
-\item{index_param_1D}{Index of the optimal parameter inside the parameter vector.}
+\item{index_param_1D}{An integer representing the index of the optimal parameter within the parameter vector.}
 
-\item{ll_1D}{Log-likelihood function evaluated at the optimal parameter @param_1D, with the other parameters assuming a fixed value.}
+\item{ll_1D}{A numeric value of the log-likelihood function evaluated at the optimal parameter \code{param_1D}, with other parameters held constant.}
 
-\item{params}{Numerical vector of length equal to the number of parameters minus one. It contains the fixed value of the other parameters.}
+\item{params}{A numeric vector of length equal to the number of parameters minus one, containing fixed values for the other parameters.}
 
-\item{param_range_min}{Minimum value assumable by the parameter param_1D.}
+\item{param_range_min}{A numeric value indicating the minimum allowable value for the parameter \code{param_1D}.}
 
-\item{param_range_max}{Maximum value assumable by the parameter param_1D.}
+\item{param_range_max}{A numeric value indicating the maximum allowable value for the parameter \code{param_1D}.}
 
-\item{dataset}{Dataset with individual covariates. It can be either a matrix or a dataframe.}
+\item{dataset}{A data frame or matrix containing individual covariates.}
 
-\item{centre}{Numerical vector of individual cluster membership. It must be length as the number of individual in the dataset.}
+\item{centre}{A numeric vector indicating individual cluster membership; its length must match the number of individuals in the dataset.}
 
-\item{time_axis}{Numerical vector, corresponding to the subdivision of the temporal domain.}
+\item{time_axis}{A numeric vector corresponding to the subdivisions of the temporal domain.}
 
-\item{dropout_matrix}{Binary matrix indicating in which interval of the time domain an individual failed. For each individual,
-the sum of the row elements must be equal to 1 (if he/she failed) or 0 (if he/she does not failed).
-It has dimension equal to (n_individuals, n_intervals)}
+\item{dropout_matrix}{A binary matrix indicating which interval of the time domain an individual failed. Each row should sum to 1 (if failed) or 0 (if not failed), with dimensions (n_individuals, n_intervals).}
 
-\item{e_matrix}{Matrix of dimension (n_individual, n_intervals), where each element contains the evaluation of the temporal
-integral, performed through the function @time_int_eval.}
+\item{e_matrix}{A matrix of dimensions (n_individuals, n_intervals) where each element contains the evaluation of the temporal integral performed by the function \code{time_int_eval}.}
 
-\item{n_points}{Number of points in which the log-likelihood function must be evaluated and then plotted.
-To have a nice graphical representation, chose an intermediate value: not to small and not too high. Default value is 150.}
+\item{n_points}{An integer specifying the number of points at which to evaluate the log-likelihood function. A value that is neither too small nor too high is recommended; the default is 150.}
 
-\item{cex}{Dimension of the points used for the graphical representation of the log-likelihood function. Default value is 0.7.}
+\item{cex}{A numeric value specifying the size of the points used for the graphical representation of the log-likelihood function. Default is 0.7.}
 
-\item{cex_max}{Dimension of the optimal point provided as first argument (i.e. the point that maximizes the log-likelihood
-function from the point of view of a single parameter). Default value is 0.8.}
+\item{cex_max}{A numeric value indicating the size of the optimal point (the one maximizing the log-likelihood function). Default is 0.8.}
 
-\item{color_bg}{Color to be used for the points of the log-likelihood trend. Deafult is 'black'.}
+\item{color_bg}{A string specifying the color for the points representing the log-likelihood trend. Default is \code{'black'}.}
 
-\item{color_max_bg}{Color to be used for the optimal point provided as first argument. Default is 'red'.}
+\item{color_max_bg}{A string specifying the color for the optimal point provided as the first argument. Default is \code{'red'}.}
 
-\item{pch}{Shape of the plotted point. Deafult is a circle (21).}
+\item{pch}{A numeric or character symbol representing the shape of the plotted points. Default is a circle (\code{21}).}
 }
 \value{
-Plot of the log-likelihood trend from the point of view of a single parameter.
+A plot displaying the trend of the log-likelihood function with respect to a single parameter, including the maximum point.
 }
 \description{
-Function for plotting the trend of the log-likelihood function with respect to
-a single parameter, whose position in the parameter vector is specified in the argument call.
-For such plot, some samples of the parameter under consideration are generated and
-then evaluated in the log-likelihood function. These are plotted together with the maximum point of the
-one-dimensional log-likelihood function, provided in input.
+This function plots the trend of the log-likelihood function with respect to a single parameter specified by its index in the parameter vector.
+It generates samples of the parameter, evaluates them in the log-likelihood function, and displays the results along with the maximum point of the one-dimensional log-likelihood function.
 }

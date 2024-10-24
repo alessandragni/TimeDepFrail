@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{plot_bas_hazard}
 \alias{plot_bas_hazard}
-\title{Plot the baseline hazard step-function}
+\title{lot the Baseline Hazard Step-Function}
 \usage{
 plot_bas_hazard(
   result,
@@ -20,34 +20,32 @@ plot_bas_hazard(
 \arguments{
 \item{result}{S3 object of class 'AdPaik', returned by the method call 'AdPaikModel(...)'.}
 
-\item{xlim}{Numeric vector of length 2, giving the x coordinate ranges.
-Default value goes from 0 up to the number of intervals of the time-domain.}
+\item{xlim}{A numeric vector of length 2 specifying the x-axis limits. Default is set to 0 and the number of time-domain intervals.}
 
-\item{ylim}{Numeric vector of length 2, giving the y coordinate ranges.
-Deafult value goes from 0 up to the maximum value reached by the baseline hazard.}
+\item{ylim}{A numeric vector of length 2 specifying the y-axis limits. Default is 0 to the maximum value of the baseline hazard.}
 
-\item{xlab, ylab}{String giving the x and y axis name.
-Deafult values are 'x' and 'y'.}
+\item{xlab, ylab}{String giving the x and y axis name. Default values are 'x' and 'y'.}
 
 \item{main_title}{Title of the plot. Default title is 'Baseline hazard step-function'.}
 
-\item{color}{Color used for plotting the horizontal segments of the step-function. Deafult one is 'black'.}
+\item{color}{Color used for plotting the horizontal segments of the step-function. Default one is 'black'.}
 
-\item{pch}{Symbol for marking the bounaries of each segment. Deafult one is a dot (number 21).}
+\item{pch}{Symbol for marking the boundaries of each segment. Default is a dot (value 21).}
 
-\item{bg}{Color used for plotting the boundary symbol. Default one is equal to the plot color ('black').}
+\item{bg}{Color for the boundary symbols. Default matches the plot color ('black').}
 
-\item{cex_points}{Dimension of the boundary symbol. Deafult is 0.7.}
+\item{cex_points}{Size of the boundary symbols. Default is 0.7.}
 }
 \value{
 Plot of the baseline hazard step-function and value of the function in each interval.
 }
 \description{
-Function for plotting the baseline hazard step-function, using the estimated parameters.
+This function plots the baseline hazard step-function based on the estimated parameters from the Adapted Paik et al.'s model.
 }
 \details{
-For each interval of the time-domain a horizontal segment is traced and its boundaries are marked with a full colored dot.
-Subsequent segments are not connected, for a design matter.
+The function plots a horizontal segment for each interval of the time domain, representing the baseline hazard.
+The boundaries of each segment are marked with colored dots, and subsequent segments are intentionally left unconnected
+to reflect the discrete nature of the intervals.
 }
 \examples{
 # Import data

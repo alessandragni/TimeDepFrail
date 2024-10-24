@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary.R
 \name{summary}
 \alias{summary}
-\title{Summarize Model Output}
+\title{Summary for Time-Dependent Frailty Models}
 \usage{
 summary(result)
 }
