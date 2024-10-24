@@ -37,7 +37,7 @@ plot_bas_hazard(result, xlim=c(1,result$TimeDomain[result$NIntervals+1]),
                 xlab = 'Time [semesters]', ylab = 'Baseline hazard')
 
 # Plot frailty standard deviation
-plot_frailty_sd(result, ylim=c(0, 0.50), xlab = 'Time [intervals]', ylab = 'Standard deviation')
+plot_frailty_sd(result,ylim=c(0, 0.50), xlab = 'Time [intervals]', ylab = 'Standard deviation')
 
 # Plot posterior frailty estimates
 pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))

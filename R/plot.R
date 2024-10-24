@@ -289,13 +289,12 @@ plot_post_frailty_est <- function(result, data,
 #' plot_frailty_sd(result, ylim=c(0, 0.50), xlab = 'Time [intervals]', ylab = 'Standard deviation')
 
 plot_frailty_sd <- function(result, frailty_sd = NULL, flag_variance = FALSE, flag_sd_external = FALSE,
-                            xlim = NULL, ylim = c(0, 10),
+                            xlim = c(1, length(result$TimeDomain)-1), ylim = c(0, 10),
                             xlab = "Intervals", ylab = "Values", main_title = "Frailty standard deviation",
                             pch = 21, color_bg = "blue", cex_points = 0.7){
   # Check result
   check.result(result)
 
-  c(1, length(result$TimeDomain)-1)
   # Extract information from input variables and initialize frailty standard deviation
   L <- n_intervals <- result$NIntervals
   values <- c()
