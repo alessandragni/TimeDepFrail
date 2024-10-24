@@ -2,7 +2,7 @@
 
 TimeDepFrail is the ultimate R package for fitting and analyzing Time-Dependent Shared Frailty Cox Models. These models extend the traditional Shared (Gamma) Frailty Cox Models by incorporating a time-dependent frailty component, making it a robust tool for studying how unexplained heterogeneity in data evolves over time.
 
-This package implements the methods discussed in "Centre-Effect on Survival After Bone Marrow Transplantation: Application of Time-Dependent Frailty Models" by C.M. Wintrebert et al. (2013).
+This package implements the methods discussed in "Centre-Effect on Survival After Bone Marrow Transplantation: Application of Time-Dependent Frailty Models" by C.M. Wintrebert et al. (2004).
 
 
 ## Installation
@@ -38,12 +38,14 @@ While `PowParModel()` and `StocTimeDepModel()` are also available, they are seco
 
 For full examples, refer to the `Examples/ModelsApplication.R` script.
 
+Additionally, for guidance on selecting model parameters such as `time_axis`, `categories_range_min` and `categories_range_max`, we recommend basing these choices on insights gained after fitting a Time-Unvarying Shared Frailty model. You can find a relevant example in the `ExamplesTimeUnvarying.R`.
+
 ## Analyzing results
 Several built-in methods are available to analyze the results of the fitted model:
 - Baseline Hazard Step-Function: `plot_bas_hazard()`
 - Frailty Standard Deviation/Variance: `plot_frailty_sd()`
 - Posterior Frailty Estimates: `plot_post_frailty_est()`
-- Model Summary: `summary()`, `summary.AdPaik()`
+- Model Summary: `summary()`
 
 These methods provide insightful visualizations and summaries to help you interpret your model results effectively.
 
@@ -51,7 +53,7 @@ Furthermore, also a support function suitable for the choice of the range of par
 
 
 ## To be aware of
-- The `AdPaikModel` model is optimized for fast computation. However, estimating the `Male` regression coefficient may take longer than the `Female` coefficient. Switching the reference category changes the coefficient estimate but not the log-likelihood.
+- The `AdPaikModel` model is optimized for fast computation although estimating certain coefficients (e.g., `Male` versus `Female`) may vary slightly in computational time. Note that changing the reference category (e.g., using `Male` as the baseline) alters the coefficient estimates but not the overall log-likelihood or model fit. Users should choose reference categories based on interpretability rather than performance.
 - The 'Centre-Specific Frailty Model with Power Parameter' (`PowParModel`) is slower than the `AdPaikModel`, but it produces coherent and expected results.
 - The 'Stochastic Time-Dependent' Centre-Specific Frailty Model' (`StocTimeDepModel`) is computationally heavy and may not converge easily.
 

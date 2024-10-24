@@ -1,13 +1,13 @@
 #' @title
-#' Summary of the 'Adapted Paik et al.'s Model'
+#' SSummary of the Adapted Paik et al.'s Time-Dependent Shared Frailty Model
 #'
 #' @description
-#' Summary function for summarizing the most important information related to the dataset (number of individuals,
-#' number of regressors, number of intervals, number of clusters), the model call (number of parameters) and the model
-#' output (optimal log-likelihood value and AIC).
-#'
+#' This function provides a comprehensive summary of the results from the Adapted Paik et al.'s Time-Dependent Shared Frailty Model. 
+#' It includes key information about the dataset (e.g., number of individuals, regressors, intervals, and clusters), model parameters, 
+#' and output (log-likelihood, AIC). The summary also lists the estimated regressors along with their standard errors
+#' 
 #' @details
-#' Among the estimated parameters, only the regressors are reported together with their standard error and confidence interval.
+#' The function reports the estimated regressors, their standard errors, and confidence intervals (if available). 
 #'
 #' @method summary AdPaik
 #' 
@@ -112,10 +112,10 @@ summary.AdPaik <- function(result){
 
 
 #-------------------------------------------------------------------------------
-#' @title Summarize Model Output
+#' @title Summary for Time-Dependent Frailty Models
 #' 
 #' @description
-#' This function displays a summary of the model output based on the class of the result object.
+#' This function displays a summary of the model output based on the class of the result object. 
 #' It delegates to the appropriate summary method according to the class of the result.
 #'
 #' @param result An object containing the output of the model call. 

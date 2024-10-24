@@ -1,27 +1,25 @@
 
 #-------------------------------------------------------------------------------
 #' @title
-#' Plot the baseline hazard step-function
+#' lot the Baseline Hazard Step-Function
 #'
 #' @description
-#' Function for plotting the baseline hazard step-function, using the estimated parameters.
+#' This function plots the baseline hazard step-function based on the estimated parameters from the Adapted Paik et al.'s model.
 #'
 #' @details
-#' For each interval of the time-domain a horizontal segment is traced and its boundaries are marked with a full colored dot.
-#' Subsequent segments are not connected, for a design matter.
+#' The function plots a horizontal segment for each interval of the time domain, representing the baseline hazard. 
+#' The boundaries of each segment are marked with colored dots, and subsequent segments are intentionally left unconnected 
+#' to reflect the discrete nature of the intervals.
 #'
 #' @param result S3 object of class 'AdPaik', returned by the method call 'AdPaikModel(...)'.
-#' @param xlim Numeric vector of length 2, giving the x coordinate ranges.
-#' Default value goes from 0 up to the number of intervals of the time-domain.
-#' @param ylim Numeric vector of length 2, giving the y coordinate ranges.
-#' Deafult value goes from 0 up to the maximum value reached by the baseline hazard.
-#' @param xlab,ylab String giving the x and y axis name.
-#' Deafult values are 'x' and 'y'.
+#' @param xlim A numeric vector of length 2 specifying the x-axis limits. Default is set to 0 and the number of time-domain intervals.
+#' @param ylim A numeric vector of length 2 specifying the y-axis limits. Default is 0 to the maximum value of the baseline hazard.
+#' @param xlab,ylab String giving the x and y axis name. Default values are 'x' and 'y'.
 #' @param main_title Title of the plot. Default title is 'Baseline hazard step-function'.
-#' @param color Color used for plotting the horizontal segments of the step-function. Deafult one is 'black'.
-#' @param pch Symbol for marking the bounaries of each segment. Deafult one is a dot (number 21).
-#' @param bg Color used for plotting the boundary symbol. Default one is equal to the plot color ('black').
-#' @param cex_points Dimension of the boundary symbol. Deafult is 0.7.
+#' @param color Color used for plotting the horizontal segments of the step-function. Default one is 'black'.
+#' @param pch Symbol for marking the boundaries of each segment. Default is a dot (value 21).
+#' @param bg Color for the boundary symbols. Default matches the plot color ('black').
+#' @param cex_points Size of the boundary symbols. Default is 0.7.
 #'
 #' @return Plot of the baseline hazard step-function and value of the function in each interval.
 #'
@@ -81,31 +79,29 @@ plot_bas_hazard <- function(result,
 }
 #-------------------------------------------------------------------------------
 #' @title
-#' Plot the posterior frailty estimates
+#' Plot the Posterior Frailty Estimates
 #'
 #' @description
-#' Function for plotting the posterior frailty estimate of each group in each interval,
-#' using a single point. For the same group, the sequence of points is then connected using a straight
-#' line.
+#' This function plots the posterior frailty estimates for each group in each time interval. 
+#' Each group’s estimates are represented by a sequence of points connected by straight lines. 
+#' The function can plot either the entire posterior frailty estimate or 
+#' its time-independent and time-dependent components based on user-specified flags.
 #'
 #' @details
 #' Recalling the frailty structure as \eqn{Z_{jk} = \alpha_{j} + \epsilon_{jk}, \forall j,k} and the posterior
-#' frailty estimate as \eqn{\hat{Z}_{jk} = \hat{\alpha}_{j}/\hat{\alpha}_{max} + \hat{\epsilon}_{jk}/\hat{\epsilon}_{max}}, it is
-#' possible to plot the entire posterior frailty estimate \eqn{\hat{Z}_{jk}} or just a part: either the time-dependent estimate
-#' \eqn{\frac{\hat{\epsilon}_{jk}}{\hat{\epsilon}_{\text{max}}}} or the time-independent one \eqn{\frac{\hat{\alpha}_{j}}{\hat{\alpha}_{\text{max}}}}.
-#' To do so, the user has to specify the value of two flags.
-
+#' frailty estimate as \eqn{\hat{Z}_{jk} = \hat{\alpha}_{j}/\hat{\alpha}_{max} + \hat{\epsilon}_{jk}/\hat{\epsilon}_{max}}, 
+#' this function allows plotting either the entire posterior frailty estimate \eqn{\hat{Z}_{jk}}
+#' or its time-independent \eqn{\frac{\hat{\alpha}_{j}}{\hat{\alpha}_{\text{max}}}} or 
+#' time-dependent \eqn{\frac{\hat{\epsilon}_{jk}}{\hat{\epsilon}_{\text{max}}}} components.
+#' The user can control which components to display using the flag_eps and flag_alpha parameters. 
+#' Only one of these flags can be set to TRUE at a time.
+#'
 #' @param result S3 object of class 'AdPaik', returned by the method call 'AdPaikModel(...)'.
 #' @param data Dataset (dataframe) in which all variables of the formula object must be found and contained.
-#' @param flag_eps Does the user want to plot only the time-dependent posterior frailty estimates? If so, the flag must be TRUE.
-#' Otherwise, for the entire posterior estimates, it must be FALSE (default value).
-#' @param flag_alpha Does the user want to plot only the time-independent posteior frailty estimates? If so, the flag must be TRUE.
-#' Otherwise, for the entire posterior estimates, it must be FALSE (default value).
-#' Note that, it is not possible to have both previous flags TRUE: either one of the two must be TRUE. However, both can be FALSE.
-#' @param xlim Numeric vector of length 2, giving the x coordinate ranges.
-#' Default value goes from 1 up to the number of intervals of the time-domain, because a point is plotted for each faculty in each interval.
-#' @param ylim Numeric vector of length 2, giving the y coordinate ranges.
-#' Default value is (0,10). Pay attention that no non-negative values only can be accepted.
+#' @param flag_eps Logical flag indicating whether to plot only the time-dependent posterior frailty estimates. Default is FALSE.
+#' @param flag_alpha Logical flag indicating whether to plot only the time-independent posterior frailty estimates. Default is FALSE.
+#' @param xlim Numeric vector of length 2 specifying the x-axis limits. Default is based on the number of intervals.
+#' @param ylim Numeric vector of length 2 specifying the y-axis limits. Default is (0, 10).
 #' @param xlab,ylab String giving the x and y axis name. Default values are 'Intervals' and 'Values'.
 #' @param main_title Title of the plot. Default title is 'Posterior frailty estimates'.
 #' @param cex Dimension of the points used for plotting the estimates.
@@ -115,9 +111,9 @@ plot_bas_hazard <- function(result,
 #' for the estimates. Default ('black') is the same for all faculties. On the other hand, the same color is used throughout the intervals for
 #' the same faculty.
 #' @param cex_legend Dimension of the symbol in the legend. Default is 0.7.
-#' @param pos_legend It could be either a numerical vector of length 2, providing the x and y coordinates of the legend, or a string indicating where
-#' the legend has to be located in the plot. In the last case, the only possibilities are: 'bottomright', 'bottom', 'bottomleft', 'left',
-#' 'topleft', 'top', 'topright', 'right', 'center'.
+#' @param pos_legend  Either a numeric vector providing the x and y coordinates for the legend or 
+#' a string specifying the legend's position (e.g., 'bottomright', 'bottom', 'bottomleft', 'left',
+#' 'topleft', 'top', 'topright', 'right', 'center').
 #'
 #' @return The plot of the posterior frailty estimates.
 #'
@@ -242,48 +238,37 @@ plot_post_frailty_est <- function(result, data,
 
 #-------------------------------------------------------------------------------
 #' @title
-#' Plot for the frailty standard deviation
+#' Plot for the Frailty Standard Deviation or Variance
 #'
 #' @description
-#' Function for plotting either the frailty standard deviation or the frailty variance, according to the value
-#' of a precise and user-provided flag.
+#' This function generates a plot of either the frailty standard deviation or the frailty variance for the intervals in the time-domain.
 #'
 #' @details
-#' For each interval of the time-domain, a single point is plotted with value at the computed frailty standard deviation or variance.
-#' Subsequent points are connected to show the trend of the required function.
+#' The plot represents the values of the frailty standard deviation or variance for each time interval. 
+#' It connects these points to illustrate the trend of the chosen metric.
 #'
-#' @details
-#' The method gives the possibility of plotting either
-#' - the frailty standard deviation returned by the main model call and, therefore, contained in the S3 object class 'AdPaik'
-#' or
-#' - the frailty standard deviation computed through the method 'frailty.sd'. We recall this method is introduced to permit the user to change the
-#' way the frailty standard deviation has been computed, without the necessity of optimizing again the log-likelihood function.
-#' For instance, we require the computation of the frailty standard deviation with both terms (time-dependent and time-independent) in the main model
-#' 'AdPaikModel', but now we want also the frailty standard deviation with the sole time-dependent term. Thanks to the introduced method 'frailty.sd',
-#' we can compute again the frailty standard deviation without maximizing again the log-likelihood function.
-#' The result we obtain in the second case is different in values and structure, because we simply get a vector of L elements instead
-#' of a class, and we want the plot to be able to distinguish the case and plot it anyway.
+#' This function supports two modes of operation:
+#' - Plotting the frailty standard deviation or variance retrieved from the main model (contained in the S3 object of class 'AdPaik').
+#' - Plotting a user-provided vector of frailty standard deviations, which can be computed using the method `frailty.sd`. This allows for flexibility in analysis without re-optimizing the log-likelihood function. For instance, users can compare frailty standard deviations computed with different model specifications (e.g., including only time-dependent terms).
+#'
+#' The output will differentiate between these two cases, ensuring the correct values are plotted regardless of the source.
 #'
 #'
-#' @param result S3 object of class 'AdPaik', returned by the main model call 'AdPaikModel(...)'.
-#' @param frailty_sd Numerical vector of evaluated frailty standard deviation, of length equal to the number of intervals of the time-domain.
-#' Its element must be non-negative.
-#' @param flag_variance Do you want to plot the frailty standard deviation? If so, the flag must be equal to TRUE; otherwise, to FALSE (if we want to
-#' plot the variance). Default value is FALSE.
-#' @param flag_sd_external Logical value. Do you want to provide a frailty standard deviation
-#' @param xlim Numerical vector of length 2, giving the x coordinate ranges.
-#' Default value goes from 1 up to the number of intervals of the time-domain, because for each interval a single point is plotted and not a segment.
-#' @param ylim Numerical vector of length 2, giving the y coordinate ranges.
-#' Default value is (0,10).
-#' @param xlab,ylab String giving the x and y axis name.
-#' Deafult values are 'Intervals' and 'Values'.
-#' @param main_title Title of the plot. Default title is 'Frailty standard deviation'.
-#' @param pch Symbol used for plotting the frailty standard deviation value. Default is a dot (21).
-#' The same symbol is used throughout the plot, with no possibility of change.
-#' @param color_bg Color used for the symbols. Deafult is 'blue'.
-#' @param cex_points Dimension of the symbols. Deafult is 0.7.
+#' @param result An S3 object of class 'AdPaik', returned by the main model call 'AdPaikModel(...)'.
+#' @param frailty_sd A numerical vector representing the evaluated frailty standard deviation, with length equal to the number of time-domain intervals.
+#' Its elements must be non-negative.
+#' @param flag_variance A boolean flag indicating whether to plot the frailty variance (`TRUE`) or the frailty standard deviation (`FALSE`). Default is `FALSE`.
+#' @param flag_sd_external A logical flag indicating whether the user is providing an external frailty standard deviation vector.
+#' @param xlim A numeric vector of length 2, defining the range for the x-axis (intervals). Default is from 1 to the number of intervals.
+#' @param ylim A numeric vector of length 2, defining the range for the y-axis (values). Default is `(0, 10)`.
+#' @param xlab A string for the x-axis label. Default is `'Intervals'`.
+#' @param ylab A string for the y-axis label. Default is `'Values'`.
+#' @param main_title A string for the plot title. Default title is `'Frailty Standard Deviation'`.
+#' @param pch A numeric or character symbol used for plotting the frailty standard deviation values. Default is a dot (`21`).
+#' @param color_bg A string specifying the color used for the symbols. Default is `'blue'`.
+#' @param cex_points A numeric value indicating the size of the plotting symbols. Default is `0.7`.
 #'
-#' @return Plot of either the frailty standard deviation or the frailty variance.
+#' @return A plot displaying either the frailty standard deviation or variance across the specified intervals.
 #' 
 #' @export
 #' 
@@ -351,39 +336,33 @@ plot_frailty_sd <- function(result, frailty_sd = NULL, flag_variance = FALSE, fl
 
 #-------------------------------------------------------------------------------
 #' @title
-#' Plot the one-dimensional log-likelihood function
+#' Plot the One-Dimensional Log-Likelihood Function
 #'
 #' @description
-#' Function for plotting the trend of the log-likelihood function with respect to
-#' a single parameter, whose position in the parameter vector is specified in the argument call.
-#' For such plot, some samples of the parameter under consideration are generated and
-#' then evaluated in the log-likelihood function. These are plotted together with the maximum point of the
-#' one-dimensional log-likelihood function, provided in input.
+#' This function plots the trend of the log-likelihood function with respect to a single parameter specified by its index in the parameter vector. 
+#' It generates samples of the parameter, evaluates them in the log-likelihood function, and displays the results along with the maximum point of the one-dimensional log-likelihood function.
 #'
-#' @param param_1D Optimal parameter value determined maximizing the log-likelihood function with respect to it.
-#' @param index_param_1D Index of the optimal parameter inside the parameter vector.
-#' @param ll_1D Log-likelihood function evaluated at the optimal parameter @param_1D, with the other parameters assuming a fixed value.
-#' @param params Numerical vector of length equal to the number of parameters minus one. It contains the fixed value of the other parameters.
-#' @param param_range_min Minimum value assumable by the parameter param_1D.
-#' @param param_range_max Maximum value assumable by the parameter param_1D.
-#' @param dataset Dataset with individual covariates. It can be either a matrix or a dataframe.
-#' @param centre Numerical vector of individual cluster membership. It must be length as the number of individual in the dataset.
-#' @param time_axis Numerical vector, corresponding to the subdivision of the temporal domain.
-#' @param dropout_matrix Binary matrix indicating in which interval of the time domain an individual failed. For each individual,
-#' the sum of the row elements must be equal to 1 (if he/she failed) or 0 (if he/she does not failed).
-#' It has dimension equal to (n_individuals, n_intervals)
-#' @param e_matrix Matrix of dimension (n_individual, n_intervals), where each element contains the evaluation of the temporal
-#' integral, performed through the function @time_int_eval.
-#' @param n_points Number of points in which the log-likelihood function must be evaluated and then plotted.
-#' To have a nice graphical representation, chose an intermediate value: not to small and not too high. Default value is 150.
-#' @param cex Dimension of the points used for the graphical representation of the log-likelihood function. Default value is 0.7.
-#' @param cex_max Dimension of the optimal point provided as first argument (i.e. the point that maximizes the log-likelihood
-#' function from the point of view of a single parameter). Default value is 0.8.
-#' @param color_bg Color to be used for the points of the log-likelihood trend. Deafult is 'black'.
-#' @param color_max_bg Color to be used for the optimal point provided as first argument. Default is 'red'.
-#' @param pch Shape of the plotted point. Deafult is a circle (21).
+#' @param param_1D A numeric value representing the optimal parameter determined by maximizing the log-likelihood function for the specified parameter.
+#' @param index_param_1D An integer representing the index of the optimal parameter within the parameter vector.
+#' @param ll_1D A numeric value of the log-likelihood function evaluated at the optimal parameter `param_1D`, with other parameters held constant.
+#' @param params A numeric vector of length equal to the number of parameters minus one, containing fixed values for the other parameters.
+#' @param param_range_min A numeric value indicating the minimum allowable value for the parameter `param_1D`.
+#' @param param_range_max A numeric value indicating the maximum allowable value for the parameter `param_1D`.
+#' @param dataset A data frame or matrix containing individual covariates.
+#' @param centre A numeric vector indicating individual cluster membership; its length must match the number of individuals in the dataset.
+#' @param time_axis A numeric vector corresponding to the subdivisions of the temporal domain.
+#' @param dropout_matrix A binary matrix indicating which interval of the time domain an individual failed. Each row should sum to 1 (if failed) or 0 (if not failed), with dimensions (n_individuals, n_intervals).
+#' @param e_matrix A matrix of dimensions (n_individuals, n_intervals) where each element contains the evaluation of the temporal integral performed by the function `time_int_eval`.
+#' @param n_points An integer specifying the number of points at which to evaluate the log-likelihood function. A value that is neither too small nor too high is recommended; the default is 150.
+#' @param cex A numeric value specifying the size of the points used for the graphical representation of the log-likelihood function. Default is 0.7.
+#' @param cex_max A numeric value indicating the size of the optimal point (the one maximizing the log-likelihood function). Default is 0.8.
+#' @param color_bg A string specifying the color for the points representing the log-likelihood trend. Default is `'black'`.
+#' @param color_max_bg A string specifying the color for the optimal point provided as the first argument. Default is `'red'`.
+#' @param pch A numeric or character symbol representing the shape of the plotted points. Default is a circle (`21`).
 #'
-#' @return Plot of the log-likelihood trend from the point of view of a single parameter.
+#' @return A plot displaying the trend of the log-likelihood function with respect to a single parameter, including the maximum point.
+#'
+#' @export
 plot_ll_1D.AdPaik <- function(param_1D, index_param_1D, ll_1D, params, param_range_min, param_range_max,
                               dataset, centre, time_axis, dropout_matrix, e_matrix,
                               n_points = 150,
@@ -417,39 +396,33 @@ plot_ll_1D.AdPaik <- function(param_1D, index_param_1D, ll_1D, params, param_ran
 
 #-------------------------------------------------------------------------------
 #' @title
-#' Plot the one-dimensional log-likelihood function
+#' Plot the One-Dimensional Log-Likelihood Function
 #'
 #' @description
-#' Function for plotting the trend of the log-likelihood function with respect to
-#' a single parameter, whose position in the parameter vector is specified in the argument call.
-#' For such plot, some samples of the parameter under consideration are generated and
-#' then evaluated in the log-likelihood function. These are plotted together with the maximum point of the
-#' one-dimensional log-likelihood function, provided in input.
+#' This function plots the trend of the log-likelihood function concerning a single parameter specified by its index in the parameter vector. 
+#' It generates samples of the parameter, evaluates them in the log-likelihood function, and displays the results along with the maximum point of the one-dimensional log-likelihood function.
 #'
-#' @param param_1D Optimal parameter value determined maximizing the log-likelihood function with respect to it.
-#' @param index_param_1D Index of the optimal parameter inside the parameter vector.
-#' @param ll_1D Log-likelihood function evaluated at the optimal parameter @param_1D, with the other parameters assuming a fixed value.
-#' @param params Numerical vector of length equal to the number of parameters minus one. It contains the fixed value of the other parameters.
-#' @param param_range_min Minimum value assumable by the parameter param_1D.
-#' @param param_range_max Maximum value assumable by the parameter param_1D.
-#' @param dataset Dataset with individual covariates. It can be either a matrix or a dataframe.
-#' @param centre Numerical vector of individual cluster membership. It must be length as the number of individual in the dataset.
-#' @param time_axis Numerical vector, corresponding to the subdivision of the temporal domain.
-#' @param dropout_matrix Binary matrix indicating in which interval of the time domain an individual failed. For each individual,
-#' the sum of the row elements must be equal to 1 (if he/she failed) or 0 (if he/she does not failed).
-#' It has dimension equal to (n_individuals, n_intervals)
-#' @param e_matrix Matrix of dimension (n_individual, n_intervals), where each element contains the evaluation of the temporal
-#' integral, performed through the function @time_int_eval.
-#' @param n_points Number of points in which the log-likelihood function must be evaluated and then plotted.
-#' To have a nice graphical representation, chose an intermediate value: not to small and not too high. Default value is 150.
-#' @param cex Dimension of the points used for the graphical representation of the log-likelihood function. Default value is 0.7.
-#' @param cex_max Dimension of the optimal point provided as first argument (i.e. the point that maximizes the log-likelihood
-#' function from the point of view of a single parameter). Default value is 0.8.
-#' @param color_bg Color to be used for the points of the log-likelihood trend. Deafult is 'black'.
-#' @param color_max_bg Color to be used for the optimal point provided as first argument. Default is 'red'.
-#' @param pch Shape of the plotted point. Deafult is a circle (21).
+#' @param param_1D A numeric value representing the optimal parameter determined by maximizing the log-likelihood function for the specified parameter.
+#' @param index_param_1D An integer representing the index of the optimal parameter within the parameter vector.
+#' @param ll_1D A numeric value of the log-likelihood function evaluated at the optimal parameter `param_1D`, with the other parameters held constant.
+#' @param params A numeric vector of length equal to the number of parameters minus one, containing the fixed values for the other parameters.
+#' @param param_range_min A numeric value indicating the minimum allowable value for the parameter `param_1D`.
+#' @param param_range_max A numeric value indicating the maximum allowable value for the parameter `param_1D`.
+#' @param dataset A data frame or matrix containing individual covariates.
+#' @param centre A numeric vector indicating individual cluster membership; its length must match the number of individuals in the dataset.
+#' @param time_axis A numeric vector corresponding to the subdivisions of the temporal domain.
+#' @param dropout_matrix A binary matrix indicating which interval of the time domain an individual failed. Each row should sum to 1 (if failed) or 0 (if not failed), with dimensions (n_individuals, n_intervals).
+#' @param e_matrix A matrix of dimensions (n_individuals, n_intervals), where each element contains the evaluation of the temporal integral performed by the function `time_int_eval`.
+#' @param n_points An integer specifying the number of points at which to evaluate the log-likelihood function. A value that is neither too small nor too high is recommended; the default is 150.
+#' @param cex A numeric value specifying the size of the points used for the graphical representation of the log-likelihood function. Default is 0.7.
+#' @param cex_max A numeric value indicating the size of the optimal point (the one maximizing the log-likelihood function). Default is 0.8.
+#' @param color_bg A string specifying the color for the points representing the log-likelihood trend. Default is `'black'`.
+#' @param color_max_bg A string specifying the color for the optimal point provided as the first argument. Default is `'red'`.
+#' @param pch A numeric or character symbol representing the shape of the plotted points. Default is a circle (`21`).
 #'
-#' @return Plot of the log-likelihood trend from the point of view of a single parameter.
+#' @return A plot displaying the trend of the log-likelihood function concerning a single parameter, including the maximum point.
+#'
+#' @export
 plot_ll_1D <- function(param_1D, index_param_1D, ll_1D, params, param_range_min, param_range_max,
                        dataset, centre, time_axis, dropout_matrix, e_matrix,
                        n_points = 150,
