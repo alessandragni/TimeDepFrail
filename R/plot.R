@@ -169,7 +169,7 @@ plot_post_frailty_est <- function(result, data,
 
   # Extract position of cluster
   special <- c("cluster")
-  terms_object <- terms(formula, special, data = data)
+  terms_object <- terms(formula, specials = special, data = data)
   cluster_index <- attr(terms_object, "specials")$cluster
   cluster_name <- formula_variables[cluster_index]
 

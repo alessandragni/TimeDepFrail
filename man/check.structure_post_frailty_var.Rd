@@ -11,7 +11,7 @@ check.structure_post_frailty_var(post_frailty_var, n_intervals, n_centres)
 \itemize{
 \item 'alphaVar': posterior frailty variance for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of centres.
 \item 'epsVar': posterior frailty variance for \eqn{\epsilon_{jk}, \forall j,k}. It is a matrix of dimension (n_centres, n_intervals).
-\item 'ZVar': posterior frailty variance for \eqn{\Z_{jk} = \alpha_j + \epsilon{jk}, \forall j,k}. It is a matrix of dimension (n_centres, n_intervals)
+\item 'ZVar': posterior frailty variance for \eqn{\Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. It is a matrix of dimension (n_centres, n_intervals)
 }}
 
 \item{n_intervals}{Number of intervals of the time-domain}

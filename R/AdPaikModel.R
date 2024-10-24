@@ -103,14 +103,14 @@
 #' it is composed of three elements:
 #' - 'alpha': posterior frailty estimates for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of centres.
 #' - 'eps': posterior frailty estimates for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
-#' - 'Z': posterior frailty estimates for \eqn{\Z_{jk} = \alpha_j + \epsilon{jk}, \forall j,k}. Matrix of dimension (N, L).
+#' - 'Z': posterior frailty estimates for \eqn{\Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 #'
 #' @details
 #' The object of class 'PFV.AdPaik' contains the Posterior Frailty Variances computed as indicated in the reference papaer and it
 #' is  composed of three elements:
 #' - 'alphaVar': posterior frailty variance for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of centres.
 #' - 'epsVar': posterior frailty variance for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
-#' - 'ZVar': posterior frailty variance for \eqn{\Z_{jk} = \alpha_j + \epsilon{jk}, \forall j,k}. Matrix of dimension (N, L).
+#' - 'ZVar': posterior frailty variance for \eqn{\Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 #'
 #' @details
 #' The object of class 'PFCI.AdPaik' contains the Posterior Frailty Confidence Interval and it is composed of two elements:
@@ -163,7 +163,7 @@ AdPaikModel <- function(formula, data, time_axis,
   
   # Extract position of cluster
   special <- c("cluster")
-  terms_object <- terms(formula, special, data = data)
+  terms_object <- terms(formula, specials = special, data = data)
   cluster_index <- attr(terms_object, "specials")$cluster
   cluster_name <- formula_variables[cluster_index]
   
@@ -863,7 +863,7 @@ AdPaik_1D <- function(formula, data, time_axis,
   
   # Extract position of cluster
   special <- c("cluster")
-  terms_object <- terms(formula, special, data = data)
+  terms_object <- terms(formula, specials = special, data = data)
   cluster_index <- attr(terms_object, "specials")$cluster
   cluster_name <- formula_variables[cluster_index]
   

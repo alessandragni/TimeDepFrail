@@ -79,14 +79,14 @@ check.result <- function(result){
 #' it is composed of three elements:
 #' - 'alpha': posterior frailty estimates for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of groups/centres.
 #' - 'eps': posterior frailty estimates for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
-#' - 'Z': posterior frailty estimates for \eqn{\Z_{jk} = \alpha_j + \epsilon{jk}, \forall j,k}. Matrix of dimension (N, L).
+#' - 'Z': posterior frailty estimates for \eqn{\Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 #'
 #' @details
 #' The object of class 'PFV.AdPaik' contains the Posterior Frailty Variances computed as indicated in the reference papaer and it
 #' is  composed of three elements:
 #' - 'alphaVar': posterior frailty variance for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of groups/centres.
 #' - 'epsVar': posterior frailty variance for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
-#' - 'ZVar': posterior frailty variance for \eqn{\Z_{jk} = \alpha_j + \epsilon{jk}, \forall j,k}. Matrix of dimension (N, L).
+#' - 'ZVar': posterior frailty variance for \eqn{\Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 #'
 #' @details
 #' The object of class 'PFCI.AdPaik' contains the Posterior Frailty Confidence Interval and it is composed of two elements:
