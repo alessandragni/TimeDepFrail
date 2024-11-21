@@ -133,12 +133,14 @@ frailty_Sd.AdPaik <- function (optimal_params, time_axis, n_regressors,
 #' categories_range_min <- c(-8, -2, eps, eps, eps)
 #' categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
 #'
+#'\donttest{
 #' # Call the main model
 #' result <- AdPaikModel(formula, data_dropout, time_axis,
 #'                       categories_range_min, categories_range_max, TRUE)
 #'
 #' frailty_sd(result, TRUE)
 #' frailty_sd(result, FALSE)
+#' }
 
 frailty_sd.AdPaik <- function (result, flag_fullsd = TRUE){
 
@@ -238,11 +240,13 @@ frailty_sd.AdPaik <- function (result, flag_fullsd = TRUE){
 #' categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
 #'
 #' # Call the main model
+#' \donttest{
 #' result <- AdPaikModel(formula, data_dropout, time_axis,
 #'                       categories_range_min, categories_range_max, TRUE)
 #'
 #' frailty_sd(result, TRUE)
 #' frailty_sd(result, FALSE)
+#' }
 
 frailty_sd <- function(result, flag_fullsd = TRUE){
   if(inherits(result, "AdPaik"))

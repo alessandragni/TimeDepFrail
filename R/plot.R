@@ -1,7 +1,7 @@
 
 #-------------------------------------------------------------------------------
 #' @title
-#' lot the Baseline Hazard Step-Function
+#' Plot the Baseline Hazard Step-Function
 #'
 #' @description
 #' This function plots the baseline hazard step-function based on the estimated parameters from the Adapted Paik et al.'s model.
@@ -36,10 +36,12 @@
 #' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
 #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #'
+#'\donttest{
 #' # Call the main model function
 #' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
 #' plot_bas_hazard(result)
+#' }
 plot_bas_hazard <- function(result,
                            xlim = c(0,length(result$TimeDomain)-1), ylim = c(0,max(result$BaselineHazard)),
                            xlab = "x", ylab = "y", main_title = "Baseline hazard step-function",
@@ -131,6 +133,8 @@ plot_bas_hazard <- function(result,
 #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #'
 #' # Call the main model function
+#' 
+#' \donttest{
 #' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
 #' # Define variables for plotting the estimates
@@ -142,6 +146,7 @@ plot_bas_hazard <- function(result,
 #'                       pch_type = pch_type, color_bg = color_bg,
 #'                       xlab = 'Time [intervals]', ylab = 'Posterior estimates',
 #'                       pos_legend = 'bottomright')
+#'  }                     
 
 plot_post_frailty_est <- function(result, data,
                                   flag_eps = FALSE, flag_alpha = FALSE,
@@ -284,9 +289,11 @@ plot_post_frailty_est <- function(result, data,
 #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #'
 #' # Call the main model function
+#' \donttest{
 #' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
 #' plot_frailty_sd(result, ylim=c(0, 0.50), xlab = 'Time [intervals]', ylab = 'Standard deviation')
+#' }
 
 plot_frailty_sd <- function(result, frailty_sd = NULL, flag_variance = FALSE, flag_sd_external = FALSE,
                             xlim = c(1, length(result$TimeDomain)-1), ylim = c(0, 10),

@@ -142,7 +142,7 @@ it is composed of three elements:
 \itemize{
 \item 'alpha': posterior frailty estimates for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of centres.
 \item 'eps': posterior frailty estimates for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
-\item 'Z': posterior frailty estimates for \eqn{\Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
+\item 'Z': posterior frailty estimates for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 }
 
 The object of class 'PFV.AdPaik' contains the Posterior Frailty Variances computed as indicated in the reference papaer and it
@@ -150,7 +150,7 @@ is  composed of three elements:
 \itemize{
 \item 'alphaVar': posterior frailty variance for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of centres.
 \item 'epsVar': posterior frailty variance for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
-\item 'ZVar': posterior frailty variance for \eqn{\Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
+\item 'ZVar': posterior frailty variance for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 }
 
 The object of class 'PFCI.AdPaik' contains the Posterior Frailty Confidence Interval and it is composed of two elements:
@@ -170,7 +170,9 @@ eps <- 1e-10
 categories_range_min <- c(-8, -2, eps, eps, eps)
 categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
 
+\donttest{
 # Call the main model
 result <- AdPaikModel(formula, data_dropout, time_axis,
                       categories_range_min, categories_range_max, TRUE)
+}
 }

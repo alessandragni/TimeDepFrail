@@ -3,9 +3,10 @@ StocTimeDepModel <- function(formula, data, time_axis,
                              C_mult,
                              time_domain = 0, flag_time_domain = FALSE,
                              n_extrarun = 40, tol_ll = 1e-6, tol_optimize = 1e-6, h_dd = 1e-3,
-                             print_previous_ll_values = c(TRUE, 3)){
+                             print_previous_ll_values = c(TRUE, 3),
+                             verbose = FALSE){
   
-  writeLines(sprintf("Stochastic Time-Dependent Centre-Specific Frailty Model:"))
+  if (verbose) message("Stochastic Time-Dependent Centre-Specific Frailty Model:")
   
   # Assign nodes and weights
   nodes_ghqm <- nodesG_ghqm
@@ -138,7 +139,7 @@ StocTimeDepModel <- function(formula, data, time_axis,
   global_optimal_loglikelihood <- rep(0, n_run)
   
   # Optimize the log-likelihood function
-  writeLines(sprintf("Start log-likelihood optimization ... "))
+  if (verbose) message("Start log-likelihood optimization ... ")
   r <- 1                                                # Set the actual run
   actual_tol_ll <- 1                                    # Set the actual tolerance on the log-likelihood value
   ll_optimal <- -1e100                                  # Set initial value of the optimized log-likelihood to small value
@@ -146,7 +147,7 @@ StocTimeDepModel <- function(formula, data, time_axis,
   status <- TRUE                                        # Set TRUE to algorithm exit status
   
   while(r <= n_run & actual_tol_ll > tol_ll){
-    writeLines(sprintf(paste("Run ", r)))
+    if (verbose) message(paste("Run ", r))
     
     # Select ordered indexes for current run
     RemainingIndexes <- RunIndexes[r,]
@@ -182,9 +183,9 @@ StocTimeDepModel <- function(formula, data, time_axis,
     if(print_previous_ll_values[1]){
       n_previous <- print_previous_ll_values[2]
       if(r < n_previous)
-        writeLines(sprintf(paste("Global log-likelihood: ", global_optimal_loglikelihood[1:r])))
+        if (verbose) message(paste("Global log-likelihood: ", global_optimal_loglikelihood[1:r]))
       else
-        writeLines(sprintf(paste("Global log-likelihood: ", global_optimal_loglikelihood[(r - n_previous + 1):r])))
+        if (verbose) message(paste("Global log-likelihood: ", global_optimal_loglikelihood[(r - n_previous + 1):r]))
     }
     
     # Update conditions in while loop
@@ -195,7 +196,7 @@ StocTimeDepModel <- function(formula, data, time_axis,
     }
     r <- r + 1
   }
-  writeLines(sprintf(paste("... End optimization")))
+  if (verbose) message(paste("... End optimization"))
   if(r == n_run)
     status = FALSE
   
@@ -204,20 +205,20 @@ StocTimeDepModel <- function(formula, data, time_axis,
   optimal_loglikelihood <- global_optimal_loglikelihood[optimal_run]
   
   # Compute the standard error from the Hessian matrix
-  writeLines(sprintf(paste("Compute parameters standard error")))
+  if (verbose) message(paste("Compute parameters standard error"))
   params_se <- params_se.StocTimeDep(optimal_params, params_range_min, params_range_max,
                                      dataset, centre, time_axis, dropout_matrix, e_matrix, time_to_event, h_dd)
   
   # Compute parameters confidence interval
-  writeLines(sprintf(paste("Compute parameters confidence interval")))
+  if (verbose) message(paste("Compute parameters confidence interval"))
   params_CI <- params_CI(optimal_params, params_se)
   
   # Compute baseline hazard step-function
-  writeLines(sprintf(paste("Compute baseline hazard step function")))
+  if (verbose) message(paste("Compute baseline hazard step function"))
   bas_hazard <- bas_hazard(optimal_params, time_axis)
   
   # Compute frailty standard deviation
-  writeLines(sprintf(paste("Compute frailty standard deviation")))
+  if (verbose) message(paste("Compute frailty standard deviation"))
   check.time_domain(time_domain, flag_time_domain)
   if(flag_time_domain)
     frailty_dispersion <- frailty_sd.StocTimeDep(optimal_params, time_domain, n_regressors,

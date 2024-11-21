@@ -2,8 +2,9 @@ PowParModel <- function(formula, data, time_axis,
                         categories_range_min, categories_range_max,
                         C_mult,
                         n_extrarun = 60, tol_ll = 1e-6, tol_optimize = 1e-6, h_dd = 1e-3,
-                        print_previous_ll_values = c(TRUE, 3)){
-  writeLines(sprintf("Centre-Specific Frailty Model with Power Parameter:"))
+                        print_previous_ll_values = c(TRUE, 3),
+                        verbose = FALSE){
+  if (verbose) message("Centre-Specific Frailty Model with Power Parameter:")
   
   # Assign nodes and weights
   nodes_ghqm <- nodes9_ghqm
@@ -141,7 +142,7 @@ PowParModel <- function(formula, data, time_axis,
   global_optimal_loglikelihood <- rep(0, n_run)
   
   # Optimize the log-likelihood function
-  writeLines(sprintf("Start log-likelihood optimization ... "))
+  if (verbose) message("Start log-likelihood optimization ... ")
   r <- 1                                                # Set the actual run
   actual_tol_ll <- 1                                    # Set the actual tolerance on the log-likelihood value
   ll_optimal <- -1e100                                  # Set initial value of the optimized log-likelihood to small value
@@ -149,7 +150,7 @@ PowParModel <- function(formula, data, time_axis,
   status <- TRUE                                        # Set TRUE to algorithm exit status
   
   while(r <= n_run & actual_tol_ll > tol_ll){
-    writeLines(sprintf(paste("Run ", r)))
+    if (verbose) message(paste("Run ", r))
     
     # Select ordered indexes for current run
     RemainingIndexes <- RunIndexes[r,]
@@ -187,9 +188,9 @@ PowParModel <- function(formula, data, time_axis,
     if(print_previous_ll_values[1]){
       n_previous <- print_previous_ll_values[2]
       if(r < n_previous)
-        writeLines(sprintf(paste("Global log-likelihood: ", global_optimal_loglikelihood[1:r])))
+        if (verbose) message(paste("Global log-likelihood: ", global_optimal_loglikelihood[1:r]))
       else
-        writeLines(sprintf(paste("Global log-likelihood: ", global_optimal_loglikelihood[(r - n_previous + 1):r])))
+        if (verbose) message(paste("Global log-likelihood: ", global_optimal_loglikelihood[(r - n_previous + 1):r]))
     }
     
     # Update conditions in while loop
@@ -200,7 +201,7 @@ PowParModel <- function(formula, data, time_axis,
     }
     r <- r + 1
   }
-  writeLines(sprintf(paste("... End optimization")))
+  if (verbose) message(paste("... End optimization"))
   if(r == n_run)
     status = FALSE
   
@@ -209,25 +210,25 @@ PowParModel <- function(formula, data, time_axis,
   optimal_loglikelihood <- global_optimal_loglikelihood[optimal_run]
   
   # Compute the standard error from the Hessian matrix
-  writeLines(sprintf(paste("Compute parameters standard error")))
+  if (verbose) message(paste("Compute parameters standard error"))
   params_se <- params_se.PowPar(optimal_params, params_range_min, params_range_max,
                                 dataset, centre, time_axis, dropout_matrix, e_matrix, h_dd)
   
   # Compute parameters confidence interval
-  writeLines(sprintf(paste("Compute parameters confidence interval")))
+  if (verbose) message(paste("Compute parameters confidence interval"))
   params_CI <- params_CI(optimal_params, params_se)
   
   # Compute baseline hazard step-function
-  writeLines(sprintf(paste("Compute baseline hazard step function")))
+  if (verbose) message(paste("Compute baseline hazard step function"))
   bas_hazard <- bas_hazard(optimal_params, time_axis)
   
   # Compute frailty standard deviation
-  writeLines(sprintf(paste("Compute frailty standard deviation")))
+  if (verbose) message(paste("Compute frailty standard deviation"))
   frailty_dispersion <- frailty_sd.PowPar(optimal_params, time_axis, n_regressors,
                                           categories_range_min, categories_range_max)
   
   # Compute estimated frailty mean
-  writeLines(sprintf(paste("Compute estimated frailty mean")))
+  if (verbose) message(paste("Compute estimated frailty mean"))
   frailty_mean <- frailty_mean.PowPar(optimal_params, time_axis, n_regressors)
   
   # Akaike Information Criterium

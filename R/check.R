@@ -46,7 +46,7 @@ check.time_axis <- function(time_axis){
 #' @param post_frailty_est Posterior frailty estimates S3 object of class 'PFE.AdPaik', composed of three elements:
 #' - 'alpha': posterior frailty estimates for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of centres.
 #' - 'eps': posterior frailty estimates for \eqn{\epsilon_{jk}, \forall j,k}. It is a matrix of dimension (n_centres, n_intervals).
-#' - 'Z': posterior frailty estimates for \eqn{\Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. It is a matrix of dimension (n_centres, n_intervals)
+#' - 'Z': posterior frailty estimates for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. It is a matrix of dimension (n_centres, n_intervals)
 #' @param n_intervals Number of intervals of the time-domain
 #' @param n_centres Number of centres/clusters.
 #'
@@ -95,7 +95,7 @@ check.structure_post_frailty_est <- function(post_frailty_est, n_intervals, n_ce
 #' @param post_frailty_var Posterior frailty variances S3 object of class 'PFV.AdPaik', composed of three elements:
 #' - 'alphaVar': posterior frailty variance for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of centres.
 #' - 'epsVar': posterior frailty variance for \eqn{\epsilon_{jk}, \forall j,k}. It is a matrix of dimension (n_centres, n_intervals).
-#' - 'ZVar': posterior frailty variance for \eqn{\Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. It is a matrix of dimension (n_centres, n_intervals)
+#' - 'ZVar': posterior frailty variance for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. It is a matrix of dimension (n_centres, n_intervals)
 #' @param n_intervals Number of intervals of the time-domain
 #' @param n_centres Number of centres/clusters.
 #'

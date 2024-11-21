@@ -27,11 +27,13 @@
 #' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
 #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #'
+#'\donttest{
 #' # Call the main model function
 #' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
 #' # Call the summary
 #' summary(result)
+#' }
 
 summary.AdPaik <- function(result){
   check.result(result)

@@ -63,6 +63,7 @@
 #' oscillate.
 #' This argument is composed of two elements: TRUE/FALSE if we want or not to print the previous values and how many values we
 #' want to print on the console. Default is (TRUE, 3), so that only the previous 3 values of the log-likelihood are printed.
+#' @param verbose Logical. If `TRUE`, detailed progress messages will be printed to the console. Defaults to `FALSE`.
 #'
 #' @return S3 object of class 'AdPaik', composed of several elements. See Details.
 #'
@@ -103,14 +104,14 @@
 #' it is composed of three elements:
 #' - 'alpha': posterior frailty estimates for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of centres.
 #' - 'eps': posterior frailty estimates for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
-#' - 'Z': posterior frailty estimates for \eqn{\Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
+#' - 'Z': posterior frailty estimates for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 #'
 #' @details
 #' The object of class 'PFV.AdPaik' contains the Posterior Frailty Variances computed as indicated in the reference papaer and it
 #' is  composed of three elements:
 #' - 'alphaVar': posterior frailty variance for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of centres.
 #' - 'epsVar': posterior frailty variance for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
-#' - 'ZVar': posterior frailty variance for \eqn{\Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
+#' - 'ZVar': posterior frailty variance for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 #'
 #' @details
 #' The object of class 'PFCI.AdPaik' contains the Posterior Frailty Confidence Interval and it is composed of two elements:
@@ -133,17 +134,20 @@
 #' categories_range_min <- c(-8, -2, eps, eps, eps)
 #' categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
 #'
+#'\donttest{
 #' # Call the main model
 #' result <- AdPaikModel(formula, data_dropout, time_axis,
 #'                       categories_range_min, categories_range_max, TRUE)
+#' }
 
 AdPaikModel <- function(formula, data, time_axis,
                         categories_range_min, categories_range_max,
                         flag_fullsd = TRUE,
                         n_extrarun = 60, tol_ll = 1e-6, tol_optimize = 1e-6, h_dd = 1e-3,
-                        print_previous_ll_values = c(TRUE, 3)){
+                        print_previous_ll_values = c(TRUE, 3),
+                        verbose = FALSE){
   
-  writeLines(sprintf("Adapted Paik et al.'s Model:"))
+  if (verbose) message("Adapted Paik et al.'s Model:")
   
   # Check all input variables are provided
   if(missing(categories_range_max))
@@ -273,7 +277,7 @@ AdPaikModel <- function(formula, data, time_axis,
   global_optimal_loglikelihood <- rep(0, n_run)
   
   # Optimize the log-likelihood function
-  writeLines(sprintf("Start log-likelihood optimization ... "))
+  if (verbose) message("Start log-likelihood optimization ... ")
   r <- 1                                                # Set the actual run
   actual_tol_ll <- 1                                    # Set the actual tolerance on the log-likelihood value
   ll_optimal <- -1e100                                  # Set initial value of the optimized log-likelihood to small value
@@ -282,10 +286,10 @@ AdPaikModel <- function(formula, data, time_axis,
   
   # Change the warnings set to ignore warnings in the optimization phase
   old_warnings <- getOption("warn")
-  options(warn = -1)
+  suppressWarnings()
   
   while(r <= n_run & actual_tol_ll > tol_ll){
-    writeLines(sprintf(paste("Run ", r)))
+    if (verbose) message(paste("Run ", r))
     
     # Select ordered indexes for current run
     RemainingIndexes <- RunIndexes[r,]
@@ -322,9 +326,9 @@ AdPaikModel <- function(formula, data, time_axis,
     if(print_previous_ll_values[1]){
       n_previous <- print_previous_ll_values[2]
       if(r < n_previous)
-        writeLines(sprintf(paste("Global log-likelihood: ", global_optimal_loglikelihood[1:r])))
+        if (verbose) message(paste("Global log-likelihood: ", global_optimal_loglikelihood[1:r]))
       else
-        writeLines(sprintf(paste("Global log-likelihood: ", global_optimal_loglikelihood[(r - n_previous + 1):r])))
+        if (verbose) message(paste("Global log-likelihood: ", global_optimal_loglikelihood[(r - n_previous + 1):r]))
     }
     
     # Update conditions in while loop
@@ -335,7 +339,7 @@ AdPaikModel <- function(formula, data, time_axis,
     }
     r <- r + 1
   }
-  writeLines(sprintf(paste("... End optimization")))
+  if (verbose) message(paste("... End optimization"))
   if(r == n_run)
     status = FALSE
   
@@ -347,31 +351,31 @@ AdPaikModel <- function(formula, data, time_axis,
   optimal_loglikelihood <- global_optimal_loglikelihood[optimal_run]
   
   # Compute the standard error from the Hessian matrix
-  writeLines(sprintf(paste("Compute parameters standard error")))
+  if (verbose) message(paste("Compute parameters standard error"))
   params_se <- params_se.AdPaik(optimal_params, params_range_min, params_range_max,
                                 dataset, centre, time_axis, dropout_matrix, e_matrix, h_dd)
   
   # Compute parameters confidence interval
-  writeLines(sprintf(paste("Compute parameters confidence interval")))
+  if (verbose) message(paste("Compute parameters confidence interval"))
   params_CI <- params_CI(optimal_params, params_se)
   
   # Compute baseline hazard step-function
-  writeLines(sprintf(paste("Compute baseline hazard step function")))
+  if (verbose) message(paste("Compute baseline hazard step function"))
   bas_hazard <- bas_hazard(optimal_params, time_axis)
   
   # Compute frailty standard deviation
-  writeLines(sprintf(paste("Compute frailty standard deviation")))
+  if (verbose) message(paste("Compute frailty standard deviation"))
   frailty_dispersion <- frailty_Sd.AdPaik(optimal_params, time_axis, n_regressors,
                                           categories_range_min, categories_range_max, TRUE)
   
   # Compute posterior frailty estimates
-  writeLines(sprintf(paste("Compute posterior frailty estimates")))
+  if (verbose) message(paste("Compute posterior frailty estimates"))
   post_frailty_estimates <- post_frailty.AdPaik(optimal_params, dataset, time_to_event, centre, time_axis)
   post_frailty_est <- post_frailty_estimates$PostFrailtyEst
   post_frailty_var <- post_frailty_estimates$PostFrailtyVar
   
   # Compute posterior frailty estimates confidence interval
-  writeLines(sprintf(paste("Compute posterior frailty estimates confidence interval")))
+  if (verbose) message(paste("Compute posterior frailty estimates confidence interval"))
   post_frailty_CI <- post_frailty_CI.AdPaik(post_frailty_est, post_frailty_var, n_centres, n_intervals)
   
   # Akaike Information Criterium

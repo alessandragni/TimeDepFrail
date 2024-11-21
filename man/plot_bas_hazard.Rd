@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{plot_bas_hazard}
 \alias{plot_bas_hazard}
-\title{lot the Baseline Hazard Step-Function}
+\title{Plot the Baseline Hazard Step-Function}
 \usage{
 plot_bas_hazard(
   result,
@@ -58,8 +58,10 @@ categories_range_max <- c(-eps_paik, 0.4, 1 - eps_paik, 1, 10)
 time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
 formula <- time_to_event ~ Gender + CFUP + cluster(group)
 
+\donttest{
 # Call the main model function
 result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 
 plot_bas_hazard(result)
+}
 }
