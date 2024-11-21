@@ -285,7 +285,7 @@ AdPaikModel <- function(formula, data, time_axis,
   status <- TRUE                                        # Set TRUE to algorithm exit status
   
   # Change the warnings set to ignore warnings in the optimization phase
-  old_warnings <- getOption("warn")
+  # old_warnings <- getOption("warn")
   # suppressWarnings()
   
   while(r <= n_run & actual_tol_ll > tol_ll){
