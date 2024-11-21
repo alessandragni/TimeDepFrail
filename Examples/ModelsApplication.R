@@ -37,7 +37,7 @@ plot_bas_hazard(result, xlim=c(1,result$TimeDomain[result$NIntervals+1]),
                 xlab = 'Time [semesters]', ylab = 'Baseline hazard')
 
 # Plot frailty standard deviation
-plot_frailty_sd(result,ylim=c(0, 0.50), xlab = 'Time [intervals]', ylab = 'Standard deviation')
+plot_frailty_sd(result, ylim=c(0, 1), xlab = 'Time [intervals]', ylab = 'Standard deviation')
 
 # Plot posterior frailty estimates
 pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
@@ -54,7 +54,7 @@ reduced_frailty_sd <- frailty_sd.AdPaik(result, FALSE)
 
 # Plot frailty standard deviation
 plot_frailty_sd(result, frailty_sd = reduced_frailty_sd, flag_variance = TRUE,
-                ylim=c(0, 0.25), main_title = 'Frailty variance')
+                ylim=c(0, 1), main_title = 'Frailty variance')
 
 # Plot posterior frailty estimates
 pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))

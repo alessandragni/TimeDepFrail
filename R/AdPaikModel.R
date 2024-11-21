@@ -305,11 +305,13 @@ AdPaikModel <- function(formula, data, time_axis,
       UsedIndexes <- c(UsedIndexes,index_to_vary)
       
       # Optimize the log-likelihood wrt indicated index index_to_vary
-      result_optimize <- optimize(ll_AdPaik_1D,
-                                  c(params_range_min[index_to_vary], params_range_max[index_to_vary]),
-                                  maximum = TRUE, tol = tol_optimize,
-                                  index_to_vary, params, dataset, centre,
-                                  time_axis, dropout_matrix, e_matrix)
+      result_optimize <- suppressWarnings(
+        optimize(ll_AdPaik_1D,
+                 c(params_range_min[index_to_vary], params_range_max[index_to_vary]),
+                 maximum = TRUE, tol = tol_optimize,
+                 index_to_vary, params, dataset, centre,
+                 time_axis, dropout_matrix, e_matrix)
+        )
       
       params[index_to_vary] <- result_optimize$maximum
     }
@@ -344,7 +346,7 @@ AdPaikModel <- function(formula, data, time_axis,
     status = FALSE
   
   # Set the warnings to the original value
-  options('warn' = old_warnings)
+  # options('warn' = old_warnings)
   
   # Extract best solution with maximum log-likelihood
   optimal_params <- global_optimal_params[optimal_run,]
@@ -970,12 +972,14 @@ AdPaik_1D <- function(formula, data, time_axis,
     }
     
     # Optimize the log-likelihood wrt the indicated parameter
-    result_optimize <- optimize(ll_AdPaik_1D,
-                                c(params_range_min[index_param_to_vary], 
-                                  params_range_max[index_param_to_vary]),
-                                maximum = TRUE, tol = tol_optimize,
-                                index_param_to_vary, params, dataset, centre,
-                                time_axis, dropout_matrix, e_matrix)
+    result_optimize <- suppressWarnings(
+      optimize(ll_AdPaik_1D,
+               c(params_range_min[index_param_to_vary], 
+                 params_range_max[index_param_to_vary]),
+               maximum = TRUE, tol = tol_optimize,
+               index_param_to_vary, params, dataset, centre,
+               time_axis, dropout_matrix, e_matrix)
+    )
     
     param_optimal[iter] <- result_optimize$maximum
     ll_optimized[iter] <- result_optimize$objective
