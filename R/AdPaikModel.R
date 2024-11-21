@@ -286,7 +286,7 @@ AdPaikModel <- function(formula, data, time_axis,
   
   # Change the warnings set to ignore warnings in the optimization phase
   old_warnings <- getOption("warn")
-  suppressWarnings()
+  # suppressWarnings()
   
   while(r <= n_run & actual_tol_ll > tol_ll){
     if (verbose) message(paste("Run ", r))

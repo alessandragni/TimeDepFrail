@@ -18,7 +18,8 @@ AdPaikModel(
   tol_ll = 1e-06,
   tol_optimize = 1e-06,
   h_dd = 0.001,
-  print_previous_ll_values = c(TRUE, 3)
+  print_previous_ll_values = c(TRUE, 3),
+  verbose = FALSE
 )
 }
 \arguments{
@@ -52,6 +53,8 @@ be useful for controlling that the optimization procedure is proceeding in a mon
 oscillate.
 This argument is composed of two elements: TRUE/FALSE if we want or not to print the previous values and how many values we
 want to print on the console. Default is (TRUE, 3), so that only the previous 3 values of the log-likelihood are printed.}
+
+\item{verbose}{Logical. If \code{TRUE}, detailed progress messages will be printed to the console. Defaults to \code{FALSE}.}
 }
 \value{
 S3 object of class 'AdPaik', composed of several elements. See Details.
