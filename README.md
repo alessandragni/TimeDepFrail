@@ -8,8 +8,7 @@ This package implements the methods discussed in "Centre-Effect on Survival Afte
 ## Installation
 You can install the development version of the package from `GitHub`:
 
-```{r, eval=FALSE}
-
+```
 devtools::install_github("alessandragni/TimeDepFrail")
 ```
 
@@ -19,6 +18,7 @@ The `data_dropout` dataset is used to exemplify the package.
 It tracks the academic progress of students enrolled in 2012 over three academic years (six semesters). This dataset aims to explore the factors leading to student dropout.
 
 The dataset is composed of four variables:
+
 - `Gender`: Categorical covariate indicating gender (Male or Female).
 - `CFUP`: Numeric covariate representing the standardized number of credits or CFUs (Credito Formativo Universitario) passed by the student in the first semester.
 - `time_to_event`: The time (in semesters) when a student decides to drop out. A value greater than 6.0 means the student did not drop out during the follow-up period.
@@ -29,6 +29,7 @@ Students are followed for a maximum of 6 semesters (3 academic years), from the 
 
 ## Model execution
 To fit a Time-Dependent Shared Frailty model, the following elements are required:
+
 - dataset as `data.frame`, e.g. `data_dropout`
 - `time_axis` vector: The time intervals for which the model is applied. For example, in the `data_dropout` dataset, no events occur in the first semester, so the `time_axis` starts at the end of the first semester (t = 1) and ends at the end of the third year (t = 6).
 - `categories_range_min` and `categories_range_max` vectors: Provide minimum (`categories_range_min`) and maximum (`categories_range_max`) bounds for each parameter category to constrain the optimization.
@@ -43,6 +44,7 @@ Additionally, for guidance on selecting model parameters such as `time_axis`, `c
 
 ## Analyzing results
 Several built-in methods are available to analyze the results of the fitted model:
+
 - Baseline Hazard Step-Function: `plot_bas_hazard()`
 - Frailty Standard Deviation/Variance: `plot_frailty_sd()`
 - Posterior Frailty Estimates: `plot_post_frailty_est()`
