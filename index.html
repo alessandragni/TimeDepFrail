@@ -53,21 +53,40 @@
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>You can install the development version of the package from <code>GitHub</code>:</p>
-<p>```{r, eval=FALSE}</p>
-<p>devtools::install_github(“alessandragni/TimeDepFrail”) ```</p>
+<pre><code><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"alessandragni/TimeDepFrail"</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="dataset-data_dropout">Dataset <code>data_dropout</code>
 <a class="anchor" aria-label="anchor" href="#dataset-data_dropout"></a>
 </h2>
 <p>The <code>data_dropout</code> dataset is used to exemplify the package. It tracks the academic progress of students enrolled in 2012 over three academic years (six semesters). This dataset aims to explore the factors leading to student dropout.</p>
-<p>The dataset is composed of four variables: - <code>Gender</code>: Categorical covariate indicating gender (Male or Female). - <code>CFUP</code>: Numeric covariate representing the standardized number of credits or CFUs (Credito Formativo Universitario) passed by the student in the first semester. - <code>time_to_event</code>: The time (in semesters) when a student decides to drop out. A value greater than 6.0 means the student did not drop out during the follow-up period. - <code>group</code>: Categorical variable representing the student’s course of study, with 16 levels from CosA to CosP.</p>
+<p>The dataset is composed of four variables:</p>
+<ul>
+<li>
+<code>Gender</code>: Categorical covariate indicating gender (Male or Female).</li>
+<li>
+<code>CFUP</code>: Numeric covariate representing the standardized number of credits or CFUs (Credito Formativo Universitario) passed by the student in the first semester.</li>
+<li>
+<code>time_to_event</code>: The time (in semesters) when a student decides to drop out. A value greater than 6.0 means the student did not drop out during the follow-up period.</li>
+<li>
+<code>group</code>: Categorical variable representing the student’s course of study, with 16 levels from CosA to CosP.</li>
+</ul>
 <p>Students are followed for a maximum of 6 semesters (3 academic years), from the start of lectures until they drop out or the follow-up ends.</p>
 </div>
 <div class="section level2">
 <h2 id="model-execution">Model execution<a class="anchor" aria-label="anchor" href="#model-execution"></a>
 </h2>
-<p>To fit a Time-Dependent Shared Frailty model, the following elements are required: - dataset as <code>data.frame</code>, e.g. <code>data_dropout</code> - <code>time_axis</code> vector: The time intervals for which the model is applied. For example, in the <code>data_dropout</code> dataset, no events occur in the first semester, so the <code>time_axis</code> starts at the end of the first semester (t = 1) and ends at the end of the third year (t = 6). - <code>categories_range_min</code> and <code>categories_range_max</code> vectors: Provide minimum (<code>categories_range_min</code>) and maximum (<code>categories_range_max</code>) bounds for each parameter category to constrain the optimization. - <code>formula</code> object: Specify the relationship between time-to-event, covariates, and group. For the clustering variable (<code>group</code>), it must be provided as <code>cluster(group)</code> in the formula.</p>
+<p>To fit a Time-Dependent Shared Frailty model, the following elements are required:</p>
+<ul>
+<li>dataset as <code>data.frame</code>, e.g. <code>data_dropout</code>
+</li>
+<li>
+<code>time_axis</code> vector: The time intervals for which the model is applied. For example, in the <code>data_dropout</code> dataset, no events occur in the first semester, so the <code>time_axis</code> starts at the end of the first semester (t = 1) and ends at the end of the third year (t = 6).</li>
+<li>
+<code>categories_range_min</code> and <code>categories_range_max</code> vectors: Provide minimum (<code>categories_range_min</code>) and maximum (<code>categories_range_max</code>) bounds for each parameter category to constrain the optimization.</li>
+<li>
+<code>formula</code> object: Specify the relationship between time-to-event, covariates, and group. For the clustering variable (<code>group</code>), it must be provided as <code>cluster(group)</code> in the formula.</li>
+</ul>
 <p>Once these elements are prepared, you can call the desired model using the <code><a href="reference/AdPaikModel.html">AdPaikModel()</a></code> function. While <code>PowParModel()</code> and <code>StocTimeDepModel()</code> are also available, they are secondary models with room for performance improvements.</p>
 <p>For full examples, refer to the <code>Examples/ModelsApplication.R</code> script.</p>
 <p>Additionally, for guidance on selecting model parameters such as <code>time_axis</code>, <code>categories_range_min</code> and <code>categories_range_max</code>, we recommend basing these choices on insights gained after fitting a Time-Unvarying Shared Frailty model. You can find a relevant example in the <code>ExamplesTimeUnvarying.R</code>.</p>
@@ -75,7 +94,17 @@
 <div class="section level2">
 <h2 id="analyzing-results">Analyzing results<a class="anchor" aria-label="anchor" href="#analyzing-results"></a>
 </h2>
-<p>Several built-in methods are available to analyze the results of the fitted model: - Baseline Hazard Step-Function: <code><a href="reference/plot_bas_hazard.html">plot_bas_hazard()</a></code> - Frailty Standard Deviation/Variance: <code><a href="reference/plot_frailty_sd.html">plot_frailty_sd()</a></code> - Posterior Frailty Estimates: <code><a href="reference/plot_post_frailty_est.html">plot_post_frailty_est()</a></code> - Model Summary: <code><a href="reference/summary.html">summary()</a></code></p>
+<p>Several built-in methods are available to analyze the results of the fitted model:</p>
+<ul>
+<li>Baseline Hazard Step-Function: <code><a href="reference/plot_bas_hazard.html">plot_bas_hazard()</a></code>
+</li>
+<li>Frailty Standard Deviation/Variance: <code><a href="reference/plot_frailty_sd.html">plot_frailty_sd()</a></code>
+</li>
+<li>Posterior Frailty Estimates: <code><a href="reference/plot_post_frailty_est.html">plot_post_frailty_est()</a></code>
+</li>
+<li>Model Summary: <code><a href="reference/summary.html">summary()</a></code>
+</li>
+</ul>
 <p>These methods provide insightful visualizations and summaries to help you interpret your model results effectively.</p>
 <p>Furthermore, also a support function suitable for the choice of the range of parameters and analysis of the 1D log-likelihood is available, <code><a href="reference/AdPaik_1D.html">AdPaik_1D()</a></code>.</p>
 </div>
