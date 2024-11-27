@@ -30,7 +30,7 @@ can be computed in two different way:
 \itemize{
 \item Considering only the time-dependent spread of the clusters/groups/centre: \eqn{sd(Z_{jk}) = \mu_2 * \gamma_k}.
 In this case, the flag_fullsd should be FALSE.
-\item Considering both the time-dependent and constant spread of the clusters: \eqn{sd(Z_{jk}) = \mu_1 * \nu \mu_2 * \gamma_k}.
+\item Considering both the time-dependent and constant spread of the clusters: \eqn{sd(Z_{jk}) = \mu_1 * \nu + \mu_2 * \gamma_k}.
 The new added term only moves upward the other case and the flag_fullsd should be TRUE.
 }
 
