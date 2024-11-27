@@ -9,6 +9,7 @@ This package implements the methods discussed in "Centre-Effect on Survival Afte
 You can install the development version of the package from `GitHub`:
 
 ```{r, eval=FALSE}
+
 devtools::install_github("alessandragni/TimeDepFrail")
 ```
 
