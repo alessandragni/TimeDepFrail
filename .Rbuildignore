@@ -1,9 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 Examples*
-^R/PowPar.*
-^R/StocTimeDep.*
-^R/TimeDepFrailty.*
 ^LICENSE\.md$
 ^_pkgdown\.yml$
 ^docs$

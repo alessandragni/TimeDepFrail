@@ -52,8 +52,8 @@
 #' @param time_axis Temporal domain
 #' @param categories_range_min Vector containing the minimum value assumable by each parameter category.
 #' @param categories_range_max Vector containing the maximum value assumable by each parameter category.
-#' @param flag_fullsd If TRUE, the full frailty standard deviation is computed, otherwise the partial one that keeps into
-#' account only the time-dependent component.
+#' @param flag_fullsd Logical. If TRUE, the full frailty standard deviation is computed, otherwise the partial one that keeps into
+#' account only the time-dependent component. Defaults to `TRUE`.
 #' @param n_extrarun Total number of runs (iterations) are obtained summing to the number of parameters and n_extrarun.
 #' @param tol_ll Tolerance on the log-likelihood value.
 #' @param tol_optimize Internal tolerance for the one-dimensional optimization through 'optimize' R function.
@@ -63,6 +63,7 @@
 #' oscillate.
 #' This argument is composed of two elements: TRUE/FALSE if we want or not to print the previous values and how many values we
 #' want to print on the console. Default is (TRUE, 3), so that only the previous 3 values of the log-likelihood are printed.
+#' @param level A numeric value representing the confidence level for the optimal parameters (default is 0.95 for 95% confidence).
 #' @param verbose Logical. If `TRUE`, detailed progress messages will be printed to the console. Defaults to `FALSE`.
 #'
 #' @return S3 object of class 'AdPaik', composed of several elements. See Details.
@@ -91,7 +92,7 @@
 #' - OptimalParameters: numerical vector of length \eqn{n_p}, containing the optimal estimated parameters or, in other words, the parameters
 #' that maximizes the log-likelihood function.
 #' - StandardErrorParameters: numerical vector of length \eqn{n_p}, corresponding to the standard error of each estimated parameters.
-#' - ParametersCI: S3 object of class 'ParametersCI', composed of two numerical vector of length equal to \eqn{n_p}: the left and right confidence
+#' - ParametersCI: S3 object of class 'ParametersCI', composed of two numerical vector of length equal to \eqn{n_p}: the left and right 95\% confidence
 #' interval of each estimated parameter.
 #' - FrailtyStandardDeviation: numerical vector of length equal to L (i.e. number of intervals of the time-domain), reporting the standard deviation
 #' of the frailty.
@@ -145,6 +146,7 @@ AdPaikModel <- function(formula, data, time_axis,
                         flag_fullsd = TRUE,
                         n_extrarun = 60, tol_ll = 1e-6, tol_optimize = 1e-6, h_dd = 1e-3,
                         print_previous_ll_values = c(TRUE, 3),
+                        level = 0.95,
                         verbose = FALSE){
   
   if (verbose) message("Adapted Paik et al.'s Model:")
@@ -359,7 +361,7 @@ AdPaikModel <- function(formula, data, time_axis,
   
   # Compute parameters confidence interval
   if (verbose) message(paste("Compute parameters confidence interval"))
-  params_CI <- params_CI(optimal_params, params_se)
+  params_CI <- params_CI(optimal_params, params_se, level)
   
   # Compute baseline hazard step-function
   if (verbose) message(paste("Compute baseline hazard step function"))

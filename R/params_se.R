@@ -102,25 +102,34 @@ params_se.AdPaik <- function(optimal_params, params_range_min, params_range_max,
 #'
 #' @param optimal_params Numerical vector of optimal estimated parameters. Its length is equal to the number of model parameters.
 #' @param se_params Numerical vector containing the standard error associated to each estimated parameter.
+#' @param level A numeric value representing the confidence level.
 #'
 #' @return A S3  object of class 'ParametersCI', composed of two numerical vector of length equal to the number of model parameters:
 #' - ParamsCI_left: left confidence interval for each parameter
 #' - ParamsCI_right: right confidence interval for each parameter
 
-params_CI <- function(optimal_params, se_params){
+params_CI <- function(optimal_params, se_params, level){
   
   # Check both input variables have the same dimension
   if(length(optimal_params) != length(se_params))
     stop("'optimal_params' and 'se_params' have different length.")
   
+  # Check level
+  if(level>1 || level<0)
+    stop("'level' should be between 0 and 1")
+  
   # Extract information from input variables
   n_params <- length(optimal_params)
+  
+  # Compute critical z-score for the given confidence level
+  alpha <- 1 - level
+  z_critical <- qnorm(1 - alpha / 2)  # Two-tailed
   
   # Confidence interval for the parameters
   params_CI_left <- params_CI_right <- rep(0, n_params)
   for(p in 1:n_params){
-    params_CI_left[p] <- optimal_params[p] - 1.96 * se_params[p]
-    params_CI_right[p] <- optimal_params[p] + 1.96 * se_params[p]
+    params_CI_left[p] <- optimal_params[p] - z_critical * se_params[p]
+    params_CI_right[p] <- optimal_params[p] + z_critical * se_params[p]
   }
   
   params_CI <- list("ParamsCI_left" = params_CI_left,

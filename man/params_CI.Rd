@@ -4,12 +4,14 @@
 \alias{params_CI}
 \title{Confidence interval for the optimal estimated parameters}
 \usage{
-params_CI(optimal_params, se_params)
+params_CI(optimal_params, se_params, level)
 }
 \arguments{
 \item{optimal_params}{Numerical vector of optimal estimated parameters. Its length is equal to the number of model parameters.}
 
 \item{se_params}{Numerical vector containing the standard error associated to each estimated parameter.}
+
+\item{level}{A numeric value representing the confidence level.}
 }
 \value{
 A S3  object of class 'ParametersCI', composed of two numerical vector of length equal to the number of model parameters:

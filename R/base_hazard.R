@@ -30,3 +30,4 @@ bas_hazard <- function(optimal_params, time_axis){
   # Return the baseline hazard step-function
   return(baseline_hazard)
 }
+

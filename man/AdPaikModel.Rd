@@ -19,6 +19,7 @@ AdPaikModel(
   tol_optimize = 1e-06,
   h_dd = 0.001,
   print_previous_ll_values = c(TRUE, 3),
+  level = 0.95,
   verbose = FALSE
 )
 }
@@ -37,8 +38,8 @@ the formula variables. It is not necessary to attach it (in case of a data.frame
 
 \item{categories_range_max}{Vector containing the maximum value assumable by each parameter category.}
 
-\item{flag_fullsd}{If TRUE, the full frailty standard deviation is computed, otherwise the partial one that keeps into
-account only the time-dependent component.}
+\item{flag_fullsd}{Logical. If TRUE, the full frailty standard deviation is computed, otherwise the partial one that keeps into
+account only the time-dependent component. Defaults to \code{TRUE}.}
 
 \item{n_extrarun}{Total number of runs (iterations) are obtained summing to the number of parameters and n_extrarun.}
 
@@ -53,6 +54,8 @@ be useful for controlling that the optimization procedure is proceeding in a mon
 oscillate.
 This argument is composed of two elements: TRUE/FALSE if we want or not to print the previous values and how many values we
 want to print on the console. Default is (TRUE, 3), so that only the previous 3 values of the log-likelihood are printed.}
+
+\item{level}{A numeric value representing the confidence level for the optimal parameters (default is 0.95 for 95\% confidence).}
 
 \item{verbose}{Logical. If \code{TRUE}, detailed progress messages will be printed to the console. Defaults to \code{FALSE}.}
 }
@@ -131,7 +134,7 @@ of imposed runs.
 \item OptimalParameters: numerical vector of length \eqn{n_p}, containing the optimal estimated parameters or, in other words, the parameters
 that maximizes the log-likelihood function.
 \item StandardErrorParameters: numerical vector of length \eqn{n_p}, corresponding to the standard error of each estimated parameters.
-\item ParametersCI: S3 object of class 'ParametersCI', composed of two numerical vector of length equal to \eqn{n_p}: the left and right confidence
+\item ParametersCI: S3 object of class 'ParametersCI', composed of two numerical vector of length equal to \eqn{n_p}: the left and right 95\\% confidence
 interval of each estimated parameter.
 \item FrailtyStandardDeviation: numerical vector of length equal to L (i.e. number of intervals of the time-domain), reporting the standard deviation
 of the frailty.

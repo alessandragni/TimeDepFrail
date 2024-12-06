@@ -42,9 +42,9 @@
 #'
 #' plot_bas_hazard(result)
 #' }
-plot_bas_hazard <- function(result,
+plot_bas_hazard.AdPaik <- function(result,
                            xlim = c(0,length(result$TimeDomain)-1), ylim = c(0,max(result$BaselineHazard)),
-                           xlab = "x", ylab = "y", main_title = "Baseline hazard step-function",
+                           xlab = "Time", ylab = "Values", main_title = "Baseline hazard step-function",
                            color = "black", pch = 21, bg = "black", cex_points = 0.7){
 
   # Check correctness of result structure
@@ -142,16 +142,15 @@ plot_bas_hazard <- function(result,
 #' color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
 #' 
 #' plot_post_frailty_est(result, data_dropout,
-#'                       xlim = c(1, 11), ylim = c(0,3), 
+#'                       xlim = c(0, 11), ylim = c(0,3), 
 #'                       pch_type = pch_type, color_bg = color_bg,
-#'                       xlab = 'Time [intervals]', ylab = 'Posterior estimates',
 #'                       pos_legend = 'bottomright')
 #'  }                     
 
-plot_post_frailty_est <- function(result, data,
+plot_post_frailty_est.AdPaik <- function(result, data,
                                   flag_eps = FALSE, flag_alpha = FALSE,
                                   xlim = c(0,length(result$TimeDomain)-1), ylim = c(0, 10),
-                                  xlab = "Intervals", ylab = "Values", main_title = "Posterior frailty estimates",
+                                  xlab = "Time", ylab = "Values", main_title = "Posterior frailty estimates",
                                   cex = 0.7,
                                   pch_type = rep(21, length(centre_codes)),
                                   color_bg = rep("black", length(centre_codes)),
@@ -292,12 +291,12 @@ plot_post_frailty_est <- function(result, data,
 #' \donttest{
 #' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
-#' plot_frailty_sd(result, ylim=c(0, 0.50), xlab = 'Time [intervals]', ylab = 'Standard deviation')
+#' plot_frailty_sd(result, ylim=c(0, 0.50), xlab = 'Time', ylab = 'Standard deviation')
 #' }
 
-plot_frailty_sd <- function(result, frailty_sd = NULL, flag_variance = FALSE, flag_sd_external = FALSE,
-                            xlim = c(1, length(result$TimeDomain)-1), ylim = c(0, 10),
-                            xlab = "Intervals", ylab = "Values", main_title = "Frailty standard deviation",
+plot_frailty_sd.AdPaik <- function(result, frailty_sd = NULL, flag_variance = FALSE, flag_sd_external = FALSE,
+                            xlim = c(0, length(result$TimeDomain)-1), ylim = c(0, 10),
+                            xlab = "Time", ylab = "Values", main_title = "Frailty standard deviation",
                             pch = 21, color_bg = "blue", cex_points = 0.7){
   # Check result
   check.result(result)
