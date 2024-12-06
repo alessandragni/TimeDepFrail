@@ -94,6 +94,7 @@ For more information about the unknown model parameters, their type and numerosi
 <span>  tol_optimize <span class="op">=</span> <span class="fl">1e-06</span>,</span>
 <span>  h_dd <span class="op">=</span> <span class="fl">0.001</span>,</span>
 <span>  print_previous_ll_values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  level <span class="op">=</span> <span class="fl">0.95</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -131,8 +132,8 @@ the formula variables. It is not necessary to attach it (in case of a data.frame
 
 
 <dt id="arg-flag-fullsd">flag_fullsd<a class="anchor" aria-label="anchor" href="#arg-flag-fullsd"></a></dt>
-<dd><p>If TRUE, the full frailty standard deviation is computed, otherwise the partial one that keeps into
-account only the time-dependent component.</p></dd>
+<dd><p>Logical. If TRUE, the full frailty standard deviation is computed, otherwise the partial one that keeps into
+account only the time-dependent component. Defaults to <code>TRUE</code>.</p></dd>
 
 
 <dt id="arg-n-extrarun">n_extrarun<a class="anchor" aria-label="anchor" href="#arg-n-extrarun"></a></dt>
@@ -157,6 +158,10 @@ be useful for controlling that the optimization procedure is proceeding in a mon
 oscillate.
 This argument is composed of two elements: TRUE/FALSE if we want or not to print the previous values and how many values we
 want to print on the console. Default is (TRUE, 3), so that only the previous 3 values of the log-likelihood are printed.</p></dd>
+
+
+<dt id="arg-level">level<a class="anchor" aria-label="anchor" href="#arg-level"></a></dt>
+<dd><p>A numeric value representing the confidence level for the optimal parameters (default is 0.95 for 95% confidence).</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
@@ -208,7 +213,7 @@ of imposed runs.</p></li>
 <li><p>OptimalParameters: numerical vector of length \(n_p\), containing the optimal estimated parameters or, in other words, the parameters
 that maximizes the log-likelihood function.</p></li>
 <li><p>StandardErrorParameters: numerical vector of length \(n_p\), corresponding to the standard error of each estimated parameters.</p></li>
-<li><p>ParametersCI: S3 object of class 'ParametersCI', composed of two numerical vector of length equal to \(n_p\): the left and right confidence
+<li><p>ParametersCI: S3 object of class 'ParametersCI', composed of two numerical vector of length equal to \(n_p\): the left and right 95\<!-- % confidence -->
 interval of each estimated parameter.</p></li>
 <li><p>FrailtyStandardDeviation: numerical vector of length equal to L (i.e. number of intervals of the time-domain), reporting the standard deviation
 of the frailty.</p></li>
