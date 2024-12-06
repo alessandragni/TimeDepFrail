@@ -75,32 +75,32 @@ survival <- function(result, data) {
 
 
 
-survival = function(result, data){
-  coef(result)$beta
-  covariates = data[i take only the covariates in coef result]
-  
-  exp(coef(result)$beta %*% covariates) 
-  
-  MyVector = exp(coef(result)$phi)
-  MyMatrix = result$PosteriorFrailtyEstimates$Z
-  MyNewMatrix = t(t(MyMatrix) * MyVector)
-  
-  integral = t(apply(apply(MyNewMatrix, 2, cumsum), 1, cumsum)) * diff(result$TimeDomain) 
-  
-  exp(- integral)
-  
-  # Extract the formula from result
-  full_formula <- result$formula
-  
-  # Get the terms from the formula
-  terms_object <- terms(full_formula)
-  
-  # Extract covariate labels, excluding "cluster"
-  covariates <- attr(terms_object, "term.labels")
-  covariates_cleaned <- covariates[!grepl("^cluster\\(", covariates)]
-  
-  # Display the cleaned covariates
-  data_dropout[covariates_cleaned]
-  
-  result$ClusterVariable
-}
+# survival = function(result, data){
+#   coef(result)$beta
+#   covariates = data[i take only the covariates in coef result]
+#   
+#   exp(coef(result)$beta %*% covariates) 
+#   
+#   MyVector = exp(coef(result)$phi)
+#   MyMatrix = result$PosteriorFrailtyEstimates$Z
+#   MyNewMatrix = t(t(MyMatrix) * MyVector)
+#   
+#   integral = t(apply(apply(MyNewMatrix, 2, cumsum), 1, cumsum)) * diff(result$TimeDomain) 
+#   
+#   exp(- integral)
+#   
+#   # Extract the formula from result
+#   full_formula <- result$formula
+#   
+#   # Get the terms from the formula
+#   terms_object <- terms(full_formula)
+#   
+#   # Extract covariate labels, excluding "cluster"
+#   covariates <- attr(terms_object, "term.labels")
+#   covariates_cleaned <- covariates[!grepl("^cluster\\(", covariates)]
+#   
+#   # Display the cleaned covariates
+#   data_dropout[covariates_cleaned]
+#   
+#   result$ClusterVariable
+# }# 
