@@ -76,34 +76,34 @@ survival <- function(result, data) {
   
 }
 
-survival_df = survival(result, data_dropout)
-
-library(ggplot2)
-library(reshape2)
-
-library(tidyr, dplyr)
-library(ggplot2)
-
-plot(result$TimeDomain, survival_df[1,], type='l', ylim = c(0,1))
-
-
-# Predefine colors for groups
-unique_groups <- unique(survival_df$group)
-group_colors <- setNames(rainbow(length(unique_groups)), unique_groups)
-
-# Plot the first row as a base
-plot(result$TimeDomain, c(1, survival_df[1, -1]), type = "l",
-     ylim = c(0, 1), xlab = "Time", ylab = "Survival Probability",
-     col = group_colors[survival_df$group[1]], lwd = 2)
-
-# Loop through remaining rows
-for (i in 2:nrow(survival_df)) {
-  lines(result$TimeDomain, c(1, survival_df[i, -1]),
-        col = group_colors[survival_df$group[i]], lwd = 2)
-}
-
-# Add legend
-legend("bottom", legend = unique_groups, col = group_colors, lty = 1, lwd = 2, title = "Groups")
+# survival_df = survival(result, data_dropout)
+# 
+# library(ggplot2)
+# library(reshape2)
+# 
+# library(tidyr, dplyr)
+# library(ggplot2)
+# 
+# plot(result$TimeDomain, survival_df[1,], type='l', ylim = c(0,1))
+# 
+# 
+# # Predefine colors for groups
+# unique_groups <- unique(survival_df$group)
+# group_colors <- setNames(rainbow(length(unique_groups)), unique_groups)
+# 
+# # Plot the first row as a base
+# plot(result$TimeDomain, c(1, survival_df[1, -1]), type = "l",
+#      ylim = c(0, 1), xlab = "Time", ylab = "Survival Probability",
+#      col = group_colors[survival_df$group[1]], lwd = 2)
+# 
+# # Loop through remaining rows
+# for (i in 2:nrow(survival_df)) {
+#   lines(result$TimeDomain, c(1, survival_df[i, -1]),
+#         col = group_colors[survival_df$group[i]], lwd = 2)
+# }
+# 
+# # Add legend
+# legend("bottom", legend = unique_groups, col = group_colors, lty = 1, lwd = 2, title = "Groups")
 
 
 
