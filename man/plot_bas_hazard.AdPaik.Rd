@@ -6,7 +6,7 @@
 \usage{
 plot_bas_hazard.AdPaik(
   result,
-  xlim = c(0, length(result$TimeDomain) - 1),
+  xlim = c(min(result$TimeDomain), max(result$TimeDomain)),
   ylim = c(0, max(result$BaselineHazard)),
   xlab = "Time",
   ylab = "Values",

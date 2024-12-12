@@ -43,7 +43,7 @@
 #' plot_bas_hazard(result)
 #' }
 plot_bas_hazard.AdPaik <- function(result,
-                           xlim = c(0,length(result$TimeDomain)-1), ylim = c(0,max(result$BaselineHazard)),
+                           xlim = c(min(result$TimeDomain),max(result$TimeDomain)), ylim = c(0,max(result$BaselineHazard)),
                            xlab = "Time", ylab = "Values", main_title = "Baseline hazard step-function",
                            color = "black", pch = 21, bg = "black", cex_points = 0.7){
 

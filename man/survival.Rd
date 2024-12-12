@@ -12,7 +12,7 @@ survival(result, data)
 \item{data}{Data frame containing the dataset with covariates used in the model.}
 }
 \value{
-A matrix where each row corresponds to the survival function values
+A dataset where each row corresponds to the survival function values
 over the time intervals for each individual in the dataset.
 }
 \description{
