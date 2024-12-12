@@ -178,7 +178,7 @@ extract_event_data <- function(dataset, time_to_event, centre, time_axis, phi, b
     counter <- 0
     for(ii in 1:length(indexes_centre)){
       index <- indexes_centre[ii]
-      if(time_to_event[index] < 6.1)
+      if(time_to_event[index] < max(time_to_event))
         counter <- counter + 1
     }
     N_i[i] <- counter
@@ -196,9 +196,9 @@ extract_event_data <- function(dataset, time_to_event, centre, time_axis, phi, b
   Y_risk <- matrix(rep(0, n_individuals * n_intervals), n_individuals, n_intervals)
   for(j in 1:n_individuals){
     for(k in 1:n_intervals){
-      if((time_to_event[j] < 6.1) & (time_to_event[j] > time_axis[k+1]))
+      if((time_to_event[j] < max(time_to_event)) & (time_to_event[j] > time_axis[k+1]))
         Y_risk[j,k] <- 1
-      else if(time_to_event[j] == 6.1)
+      else if(time_to_event[j] == max(time_to_event))
         Y_risk[j,k] <- 1
     }
   }
