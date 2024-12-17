@@ -21,7 +21,7 @@ formula <- time_to_event ~ Gender + CFUP + cluster(group)
 
 result <- AdPaikModel(formula, data_dropout, time_axis,
                       categories_range_min, categories_range_max)
-#summary.AdPaik(result)
+summary.AdPaik(result)
 summary(result)
 
 L <- result$NIntervals

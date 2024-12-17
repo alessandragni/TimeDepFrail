@@ -70,41 +70,83 @@ survival <- function(result, data) {
   
   survival = data.frame('group'=result_df$group,
                         t(apply(result_df$exp_linear_predictor * result_df[,3:ncol(result_df)], 1, function(row) exp(-row))))
-  
+  rownames(survival) = seq_len(nrow(survival))
   # Return survival function
   return(survival)
-  
+    #as.matrix(survival[,2:ncol(survival)]))
 }
 
-# survival_df = survival(result, data_dropout)
-# 
-# library(ggplot2)
-# library(reshape2)
-# 
-# library(tidyr, dplyr)
-# library(ggplot2)
-# 
-# plot(result$TimeDomain, survival_df[1,], type='l', ylim = c(0,1))
-# 
-# 
-# # Predefine colors for groups
-# unique_groups <- unique(survival_df$group)
-# group_colors <- setNames(rainbow(length(unique_groups)), unique_groups)
-# 
-# # Plot the first row as a base
-# plot(result$TimeDomain, c(1, survival_df[1, -1]), type = "l",
-#      ylim = c(0, 1), xlab = "Time", ylab = "Survival Probability",
-#      col = group_colors[survival_df$group[1]], lwd = 2)
-# 
-# # Loop through remaining rows
-# for (i in 2:nrow(survival_df)) {
-#   lines(result$TimeDomain, c(1, survival_df[i, -1]),
-#         col = group_colors[survival_df$group[i]], lwd = 2)
-# }
-# 
-# # Add legend
-# legend("bottom", legend = unique_groups, col = group_colors, lty = 1, lwd = 2, title = "Groups")
 
+# survival_df = survival(result, data_dropout)
+
+#' @title
+#' Compute Survival Function
+#'
+#' @description
+#' Computes the survival function based on the 'Adapted Paik et al.' model's 
+#' estimated coefficients and frailty effects.
+#'
+#' @param result S3 object of class 'AdPaik' containing model results.
+#' @param survival_df The dataframe returned by the survival function
+#'
+#' @return A dataset where each row corresponds to the survival function values 
+#' over the time intervals for each individual in the dataset.
+#'
+#' @export
+plot_survival <- function(result, survival_df, lwd = 1, 
+                          xlab = "Time", ylab = "Survival", main = "Stepwise Survival"){
+  
+  time = result$TimeDomain
+  
+  # Assuming the first column in survival_df contains the group variable
+  group_variable <- survival_df[, 1]  # Extract the group variable
+  group_data <- survival_df[, 2:ncol(survival_df)]  # Exclude the group variable
+  
+  # Order group levels using levels(factor())
+  ordered_levels <- levels(factor(group_variable))  # Get ordered levels of the group variable
+  set.seed(1)
+  group_colors <- setNames(sample(colors(), length(ordered_levels)), ordered_levels)  # Assign colors to ordered levels
+  
+  # Plot initialization
+  plot(
+    time, 
+    c(1, group_data[1, ]), 
+    type = "s",  # 's' creates a step plot
+    col = group_colors[as.character(group_variable[1])],  # Color according to the ordered group
+    lwd = lwd, 
+    ylim = c(0, 1),
+    xlab = xlab,
+    ylab = ylab,
+    main = main
+  )
+  
+  # Add lines for each group
+  for (i in 2:nrow(group_data)) {
+    lines(
+      time, 
+      c(1, group_data[i, ]), 
+      type = "s", 
+      col = group_colors[as.character(group_variable[i])],  # Use the color corresponding to the ordered group
+      lwd = 1
+    )
+  }
+  
+  # Add a horizontal legend outside the plot on the right, split into two rows
+  legend(
+    "bottomleft",  
+    legend = names(group_colors),  # Ordered group labels
+    col = group_colors, 
+    lwd = 2, 
+    #horiz = TRUE,  # Horizontal layout
+    title = "Groups", 
+    cex = 0.6,
+    ncol = 3      # Split the legend into columns
+  )
+}
+
+
+
+# plot_survival(result, survival_df)
 
 
 

@@ -129,10 +129,6 @@ summary.AdPaik <- function(result){
 summary <- function(result){
   if(inherits(result, "AdPaik"))
     summary.AdPaik(result)
-  #else if(inheriths(result, "PowPar"))
-  #  summary.PowPar(result)
-  #else if(inheriths(result, "StocTimeDep"))
-  #  summary.StocTimeDep(result)
 }
 
 #-------------------------------------------------------------------------------
