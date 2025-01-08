@@ -42,7 +42,7 @@
 #'
 #' plot_bas_hazard(result)
 #' }
-plot_bas_hazard.AdPaik <- function(result,
+plot_bas_hazard <- function(result,
                            xlim = c(min(result$TimeDomain),max(result$TimeDomain)), ylim = c(0,max(result$BaselineHazard)),
                            xlab = "Time", ylab = "Values", main_title = "Baseline hazard step-function",
                            color = "black", pch = 21, bg = "black", cex_points = 0.7){
@@ -147,7 +147,7 @@ plot_bas_hazard.AdPaik <- function(result,
 #'                       pos_legend = 'bottomright')
 #'  }                     
 
-plot_post_frailty_est.AdPaik <- function(result, data,
+plot_post_frailty_est <- function(result, data,
                                   flag_eps = FALSE, flag_alpha = FALSE,
                                   xlim = c(0,length(result$TimeDomain)-1), ylim = c(0, 10),
                                   xlab = "Time", ylab = "Values", main_title = "Posterior frailty estimates",
@@ -294,7 +294,7 @@ plot_post_frailty_est.AdPaik <- function(result, data,
 #' plot_frailty_sd(result, ylim=c(0, 0.50), xlab = 'Time', ylab = 'Standard deviation')
 #' }
 
-plot_frailty_sd.AdPaik <- function(result, frailty_sd = NULL, flag_variance = FALSE, flag_sd_external = FALSE,
+plot_frailty_sd <- function(result, frailty_sd = NULL, flag_variance = FALSE, flag_sd_external = FALSE,
                             xlim = c(0, length(result$TimeDomain)-1), ylim = c(0, 10),
                             xlab = "Time", ylab = "Values", main_title = "Frailty standard deviation",
                             pch = 21, color_bg = "blue", cex_points = 0.7){
