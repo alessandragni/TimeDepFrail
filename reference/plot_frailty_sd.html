@@ -42,9 +42,9 @@
 <span>  frailty_sd <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  flag_variance <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  flag_sd_external <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">TimeDomain</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">TimeDomain</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span>,</span>
-<span>  xlab <span class="op">=</span> <span class="st">"Intervals"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Time"</span>,</span>
 <span>  ylab <span class="op">=</span> <span class="st">"Values"</span>,</span>
 <span>  main_title <span class="op">=</span> <span class="st">"Frailty standard deviation"</span>,</span>
 <span>  pch <span class="op">=</span> <span class="fl">21</span>,</span>
@@ -137,7 +137,7 @@ It connects these points to illustrate the trend of the chosen metric.</p>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="AdPaikModel.html">AdPaikModel</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>, <span class="va">time_axis</span>, <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'data_dropout' not found</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">plot_frailty_sd</span><span class="op">(</span><span class="va">result</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.50</span><span class="op">)</span>, xlab <span class="op">=</span> <span class="st">'Time [intervals]'</span>, ylab <span class="op">=</span> <span class="st">'Standard deviation'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_frailty_sd</span><span class="op">(</span><span class="va">result</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.50</span><span class="op">)</span>, xlab <span class="op">=</span> <span class="st">'Time'</span>, ylab <span class="op">=</span> <span class="st">'Standard deviation'</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'result' not found</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
