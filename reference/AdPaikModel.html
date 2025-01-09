@@ -11,7 +11,8 @@ In this context, the one-dimensional optimization is performed through the 'opti
 For more information about the unknown model parameters, their type and numerosity refer to Details.
 Several quantities are estimated at the end of the optimization phase:
 parameters, their standard error and confidence interval;
-frailty standard deviation (and frailty variance);
+baseline hazard;
+frailty dispersion (standard deviation and variance);
 posterior frailty estimates, their variance and confidence interval;
 Akaike Information Criterion (AIC).
 
@@ -27,7 +28,8 @@ In this context, the one-dimensional optimization is performed through the 'opti
 For more information about the unknown model parameters, their type and numerosity refer to Details.
 Several quantities are estimated at the end of the optimization phase:
 parameters, their standard error and confidence interval;
-frailty standard deviation (and frailty variance);
+baseline hazard;
+frailty dispersion (standard deviation and variance);
 posterior frailty estimates, their variance and confidence interval;
 Akaike Information Criterion (AIC).
 
@@ -75,7 +77,8 @@ repeated one-dimensional optimization of the log-likelihood function (with respe
 In this context, the one-dimensional optimization is performed through the 'optimize' R function.
 For more information about the unknown model parameters, their type and numerosity refer to Details.</p>
 <p>Several quantities are estimated at the end of the optimization phase:</p><ul><li><p>parameters, their standard error and confidence interval;</p></li>
-<li><p>frailty standard deviation (and frailty variance);</p></li>
+<li><p>baseline hazard;</p></li>
+<li><p>frailty dispersion (standard deviation and variance);</p></li>
 <li><p>posterior frailty estimates, their variance and confidence interval;</p></li>
 <li><p>Akaike Information Criterion (AIC).</p></li>
 </ul></div>
@@ -198,24 +201,25 @@ Indeed, each categorical covariate with n levels needs to be transformed into (n
 <li><p>NRegressors: number of regressors (R)</p></li>
 <li><p>ClusterVariable: name of the variable with respect to which the individuals can be grouped.</p></li>
 <li><p>NClusters: number of clusters/centres (also indicated with N).</p></li>
-<li><p>NIntervals: number of intervals of the time-domain, also called with L. It corresponds to the length of the time-domain minus 1.</p></li>
+<li><p>NIntervals: number of intervals of the time-domain, also called with L.</p></li>
 <li><p>NParameters: number of parameters of the model. It can be computed as: \(n_p = 2L + R + 2\).</p></li>
 <li><p>ParametersCategories: Numerical vector of length 5, containing the numerosity of each parameter category.</p></li>
-<li><p>ParametersRangeMin: Numerical vector of length \(n_p\), giving the minimum range of each parameter.</p></li>
-<li><p>ParametersRangeMax: Numerical vector of length \(n_p\), giving the maximum range of each parameter.</p></li>
+<li><p>ParametersRange: S3 object of class 'ParametersRange', containing ParametersRangeMin and ParametersRangeMax, two numerical vectors of length \(n_p\), giving the minimum and the maximum range of each parameter, respectively.</p></li>
 <li><p>Loglikelihood: value of the maximized log-likelihood function, at the optimal estimated parameters.</p></li>
 <li><p>AIC: 'Akaike Information Criterion': it can be computed as \(AIC = 2n_p - 2ll_{optimal}\).
-It gives an idea of the loss of information related to the model fitting and output.
-The smaller it is, the less loss of information and the better model accuracy.</p></li>
-<li><p>Status: Logical value. Does the model reach convergence? If so, the variable is TRUE, otherwise FALSE.</p></li>
+It quantifies the loss of information related to the model fitting and output.
+The smaller, the less the loss of information and the better the model accuracy.</p></li>
+<li><p>Status: Logical value. TRUE if the model reaches convergence, FALSE otherwise.</p></li>
 <li><p>NRun: Number of runs necessary to reach convergence. If the model does not reach convergence, such number is equal to the maximum number
 of imposed runs.</p></li>
-<li><p>OptimalParameters: numerical vector of length \(n_p\), containing the optimal estimated parameters or, in other words, the parameters
-that maximizes the log-likelihood function.</p></li>
+<li><p>OptimalParameters: numerical vector of length \(n_p\), containing the optimal estimated parameters (the parameters
+that maximize the log-likelihood function).</p></li>
 <li><p>StandardErrorParameters: numerical vector of length \(n_p\), corresponding to the standard error of each estimated parameters.</p></li>
 <li><p>ParametersCI: S3 object of class 'ParametersCI', composed of two numerical vector of length equal to \(n_p\): the left and right 95\<!-- % confidence -->
-interval of each estimated parameter.</p></li>
-<li><p>FrailtyStandardDeviation: numerical vector of length equal to L (i.e. number of intervals of the time-domain), reporting the standard deviation
+interval of each estimated parameter of given level.</p></li>
+<li><p>BaselineHazard: numerical vector of length equal to L, containing the baseline hazard step-function.</p></li>
+<li><p>FrailtyDispersion:  S3 object of class 'FrailtyDispersion', containing two numerical vectors of length equal to L with the standard deviation and the variance of the frailty.
+numerical vector of length equal to L (i.e. number of intervals of the time-domain), reporting the standard deviation
 of the frailty.</p></li>
 <li><p>PosteriorFrailtyEstimates: S3 object of class 'PFE.AdPaik'. See details.</p></li>
 <li><p>PosteriorFrailtyVariance: S3 object of class 'PFV.AdPaik'. See details.</p></li>
