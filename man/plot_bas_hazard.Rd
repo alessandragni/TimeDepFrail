@@ -9,8 +9,8 @@ plot_bas_hazard(
   xlim = c(min(result$TimeDomain), max(result$TimeDomain)),
   ylim = c(0, max(result$BaselineHazard)),
   xlab = "Time",
-  ylab = "Baseline hazard",
-  main_title = "Baseline hazard step-function",
+  ylab = "Values",
+  main = "Baseline hazard step-function",
   color = "black",
   pch = 21,
   bg = "black",
@@ -20,13 +20,13 @@ plot_bas_hazard(
 \arguments{
 \item{result}{S3 object of class 'AdPaik', returned by the method call 'AdPaikModel(...)'.}
 
-\item{xlim}{A numeric vector of length 2 specifying the x-axis limits. Default is set to 0 and the number of time-domain intervals.}
+\item{xlim}{A numeric vector specifying the x-axis limits. Default is set to the interval min-max of the time-domain.}
 
-\item{ylim}{A numeric vector of length 2 specifying the y-axis limits. Default is 0 to the maximum value of the baseline hazard.}
+\item{ylim}{A numeric vector specifying the y-axis limits. Default is 0 to the maximum value of the baseline hazard.}
 
 \item{xlab, ylab}{String giving the x and y axis name. Default values are 'x' and 'y'.}
 
-\item{main_title}{Title of the plot. Default title is 'Baseline hazard step-function'.}
+\item{main}{Title of the plot. Default title is 'Baseline hazard step-function'.}
 
 \item{color}{Color used for plotting the horizontal segments of the step-function. Default one is 'black'.}
 

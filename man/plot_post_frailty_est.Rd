@@ -9,11 +9,11 @@ plot_post_frailty_est(
   data,
   flag_eps = FALSE,
   flag_alpha = FALSE,
-  xlim = c(0, length(result$TimeDomain) - 1),
-  ylim = c(0, 10),
+  xlim = NULL,
+  ylim = NULL,
   xlab = "Time",
   ylab = "Values",
-  main_title = "Posterior frailty estimates",
+  main = "Posterior frailty estimates",
   cex = 0.7,
   pch_type = rep(21, length(centre_codes)),
   color_bg = rep("black", length(centre_codes)),
@@ -30,13 +30,14 @@ plot_post_frailty_est(
 
 \item{flag_alpha}{Logical flag indicating whether to plot only the time-independent posterior frailty estimates. Default is FALSE.}
 
-\item{xlim}{Numeric vector of length 2 specifying the x-axis limits. Default is based on the number of intervals.}
+\item{xlim}{A numeric vector specifying the range for the x-axis (intervals). If NULL, default is set to the interval min-max of the time-domain, plus space for the legend.
+If flag_alpha = TRUE, the plot is produced around 1 (defaults to 0.8-1.4).}
 
-\item{ylim}{Numeric vector of length 2 specifying the y-axis limits. Default is (0, 10).}
+\item{ylim}{A numeric vector specifying the range for the y-axis (intervals). If NULL, default is min-max value of the posterior frailty estimate.}
 
-\item{xlab, ylab}{String giving the x and y axis name. Default values are 'Intervals' and 'Values'.}
+\item{xlab, ylab}{String giving the x and y axis name. Default values are 'Time' and 'Values'.}
 
-\item{main_title}{Title of the plot. Default title is 'Posterior frailty estimates'.}
+\item{main}{Title of the plot. Default title is 'Posterior frailty estimates'.}
 
 \item{cex}{Dimension of the points used for plotting the estimates.}
 
@@ -57,7 +58,7 @@ a string specifying the legend's position (e.g., 'bottomright', 'bottom', 'botto
 The plot of the posterior frailty estimates.
 }
 \description{
-This function plots the posterior frailty estimates for each group in each time interval.
+This function plots the posterior frailty estimates for each group in each time interval (represented by its mid point).
 Each group’s estimates are represented by a sequence of points connected by straight lines.
 The function can plot either the entire posterior frailty estimate or
 its time-independent and time-dependent components based on user-specified flags.
@@ -92,7 +93,6 @@ pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
 color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
 
 plot_post_frailty_est(result, data_dropout,
-                      xlim = c(0, 11), ylim = c(0,3), 
                       pch_type = pch_type, color_bg = color_bg,
                       pos_legend = 'bottomright')
  }                     

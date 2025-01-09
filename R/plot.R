@@ -12,10 +12,10 @@
 #' to reflect the discrete nature of the intervals.
 #'
 #' @param result S3 object of class 'AdPaik', returned by the method call 'AdPaikModel(...)'.
-#' @param xlim A numeric vector of length 2 specifying the x-axis limits. Default is set to 0 and the number of time-domain intervals.
-#' @param ylim A numeric vector of length 2 specifying the y-axis limits. Default is 0 to the maximum value of the baseline hazard.
+#' @param xlim A numeric vector specifying the x-axis limits. Default is set to the interval min-max of the time-domain.
+#' @param ylim A numeric vector specifying the y-axis limits. Default is 0 to the maximum value of the baseline hazard.
 #' @param xlab,ylab String giving the x and y axis name. Default values are 'x' and 'y'.
-#' @param main_title Title of the plot. Default title is 'Baseline hazard step-function'.
+#' @param main Title of the plot. Default title is 'Baseline hazard step-function'.
 #' @param color Color used for plotting the horizontal segments of the step-function. Default one is 'black'.
 #' @param pch Symbol for marking the boundaries of each segment. Default is a dot (value 21).
 #' @param bg Color for the boundary symbols. Default matches the plot color ('black').
@@ -44,7 +44,7 @@
 #' }
 plot_bas_hazard <- function(result,
                            xlim = c(min(result$TimeDomain),max(result$TimeDomain)), ylim = c(0,max(result$BaselineHazard)),
-                           xlab = "Time", ylab = "Baseline hazard", main_title = "Baseline hazard step-function",
+                           xlab = "Time", ylab = "Values", main = "Baseline hazard step-function",
                            color = "black", pch = 21, bg = "black", cex_points = 0.7){
 
   # Check correctness of result structure
@@ -70,7 +70,7 @@ plot_bas_hazard <- function(result,
   # Plot the baseline hazard using a horizontal segment for each interval
   # dev.new()
   plot(c(time_axis[1], time_axis[2] - eps), c(baseline_hazard[1], baseline_hazard[1]), col = color,
-       main = main_title, xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim,
+       main = main, xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim,
        cex = cex_points, pch = pch, bg = "black")
   lines(c(time_axis[1], time_axis[2]-eps), c(baseline_hazard[1], baseline_hazard[1]), col= color)
   for(i in 2:L){
@@ -84,7 +84,7 @@ plot_bas_hazard <- function(result,
 #' Plot the Posterior Frailty Estimates
 #'
 #' @description
-#' This function plots the posterior frailty estimates for each group in each time interval. 
+#' This function plots the posterior frailty estimates for each group in each time interval (represented by its mid point). 
 #' Each group’s estimates are represented by a sequence of points connected by straight lines. 
 #' The function can plot either the entire posterior frailty estimate or 
 #' its time-independent and time-dependent components based on user-specified flags.
@@ -102,10 +102,11 @@ plot_bas_hazard <- function(result,
 #' @param data Dataset (dataframe) in which all variables of the formula object must be found and contained.
 #' @param flag_eps Logical flag indicating whether to plot only the time-dependent posterior frailty estimates. Default is FALSE.
 #' @param flag_alpha Logical flag indicating whether to plot only the time-independent posterior frailty estimates. Default is FALSE.
-#' @param xlim Numeric vector of length 2 specifying the x-axis limits. Default is based on the number of intervals.
-#' @param ylim Numeric vector of length 2 specifying the y-axis limits. Default is (0, 10).
-#' @param xlab,ylab String giving the x and y axis name. Default values are 'Intervals' and 'Values'.
-#' @param main_title Title of the plot. Default title is 'Posterior frailty estimates'.
+#' @param xlim A numeric vector specifying the range for the x-axis (intervals). If NULL, default is set to the interval min-max of the time-domain, plus space for the legend.
+#' If flag_alpha = TRUE, the plot is produced around 1 (defaults to 0.8-1.4).
+#' @param ylim A numeric vector specifying the range for the y-axis (intervals). If NULL, default is min-max value of the posterior frailty estimate.
+#' @param xlab,ylab String giving the x and y axis name. Default values are 'Time' and 'Values'.
+#' @param main Title of the plot. Default title is 'Posterior frailty estimates'.
 #' @param cex Dimension of the points used for plotting the estimates.
 #' @param pch_type Numerical vector of length equal to the number of clusters in the data, giving the symbol to be used for plotting the estimates.
 #' Default symbol (circle, 21) is the same for all clusters.
@@ -142,15 +143,14 @@ plot_bas_hazard <- function(result,
 #' color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
 #' 
 #' plot_post_frailty_est(result, data_dropout,
-#'                       xlim = c(0, 11), ylim = c(0,3), 
 #'                       pch_type = pch_type, color_bg = color_bg,
 #'                       pos_legend = 'bottomright')
 #'  }                     
 
 plot_post_frailty_est <- function(result, data,
                                   flag_eps = FALSE, flag_alpha = FALSE,
-                                  xlim = c(0,length(result$TimeDomain)-1), ylim = c(0, 10),
-                                  xlab = "Time", ylab = "Values", main_title = "Posterior frailty estimates",
+                                  xlim = NULL, ylim = NULL,
+                                  xlab = "Time", ylab = "Values", main = "Posterior frailty estimates",
                                   cex = 0.7,
                                   pch_type = rep(21, length(centre_codes)),
                                   color_bg = rep("black", length(centre_codes)),
@@ -206,26 +206,36 @@ plot_post_frailty_est <- function(result, data,
   if((flag_eps == FALSE) & (flag_alpha == FALSE))
     post_frailty <- post_frailty_est$Z
 
+  midpoints <- (result$TimeDomain[-1] + result$TimeDomain[-length(result$TimeDomain)]) / 2
   # Plot posterior frailty estimates
   # dev.new()
   if(flag_alpha == FALSE) {
-    plot(seq(1,n_intervals,1), post_frailty[1,],
+    if(is.null(xlim))
+      xlim = c(min(result$TimeDomain),max(result$TimeDomain)+1)
+    if(is.null(ylim))
+      ylim = c(min(post_frailty), max(post_frailty))
+
+    plot(midpoints, post_frailty[1,],
          pch = pch_type[1], bg = color_bg[1], cex = cex,
-         main = main_title, xlab = xlab, ylab = ylab,
+         main = main, xlab = xlab, ylab = ylab,
          xlim = xlim, ylim = ylim)
     for(k in 1:(n_intervals-1))
-      lines(c(k,k+1), c(post_frailty[1,k], post_frailty[1,k+1]))
+      lines(c(midpoints[k],midpoints[k+1]), c(post_frailty[1,k], post_frailty[1,k+1]))
     for(i in 2:n_centres){
       for(k in 1:(n_intervals-1)){
-        points(k, post_frailty[i,k], pch = pch_type[i], bg = color_bg[i], cex = cex)
-        points(k+1, post_frailty[i,k+1], pch = pch_type[i], bg = color_bg[i], cex = cex)
-        lines(c(k,k+1), c(post_frailty[i,k], post_frailty[i,k+1]))
+        points(midpoints[k], post_frailty[i,k], pch = pch_type[i], bg = color_bg[i], cex = cex)
+        points(midpoints[k+1], post_frailty[i,k+1], pch = pch_type[i], bg = color_bg[i], cex = cex)
+        lines(c(midpoints[k],midpoints[k+1]), c(post_frailty[i,k], post_frailty[i,k+1]))
       }
     }
   } else {
+    if(is.null(xlim))
+      xlim = c(0.8, 1.4)
+    if(is.null(ylim))
+      ylim = c(min(post_frailty), max(post_frailty))
     plot(rep(1, length(post_frailty)), post_frailty,
          pch = pch_type[1], bg = color_bg[1], cex = cex,
-         main = main_title, xlab = xlab, ylab = ylab,
+         main = main, xlab = xlab, ylab = ylab,
          xlim = xlim, ylim = ylim)
     for(i in 2:n_centres){
         points(1, post_frailty[i], pch = pch_type[i], bg = color_bg[i], cex = cex)
@@ -248,7 +258,7 @@ plot_post_frailty_est <- function(result, data,
 #' This function generates a plot of either the frailty standard deviation or the frailty variance for the intervals in the time-domain.
 #'
 #' @details
-#' The plot represents the values of the frailty standard deviation or variance for each time interval. 
+#' The plot represents the values of the frailty standard deviation or variance for each time interval (represented by its mid point). 
 #' It connects these points to illustrate the trend of the chosen metric.
 #'
 #' This function supports two modes of operation:
@@ -259,15 +269,15 @@ plot_post_frailty_est <- function(result, data,
 #'
 #'
 #' @param result An S3 object of class 'AdPaik', returned by the main model call 'AdPaikModel(...)'.
-#' @param frailty_sd A numerical vector representing the evaluated frailty standard deviation, with length equal to the number of time-domain intervals.
-#' Its elements must be non-negative.
 #' @param flag_variance A boolean flag indicating whether to plot the frailty variance (`TRUE`) or the frailty standard deviation (`FALSE`). Default is `FALSE`.
 #' @param flag_sd_external A logical flag indicating whether the user is providing an external frailty standard deviation vector.
-#' @param xlim A numeric vector of length 2, defining the range for the x-axis (intervals). Default is from 1 to the number of intervals.
-#' @param ylim A numeric vector of length 2, defining the range for the y-axis (values). Default is `(0, 10)`.
+#' @param frailty_sd A numerical vector representing the evaluated frailty standard deviation, with length equal to the number of time-domain intervals.
+#' Its elements must be non-negative. Default is `NULL`.
+#' @param xlim A numeric vector specifying the range for the x-axis (intervals). If NULL, default is set to the interval min-max of the time-domain.
+#' @param ylim A numeric vector specifying the range for the y-axis (intervals). If NULL, default is 0 to the maximum value of the frailty variance/standard deviation.
 #' @param xlab A string for the x-axis label. Default is `'Intervals'`.
 #' @param ylab A string for the y-axis label. Default is `'Values'`.
-#' @param main_title A string for the plot title. Default title is `'Frailty Standard Deviation'`.
+#' @param main A string for the plot title. Default title is `'Frailty Standard Deviation'` or `'Frailty Variance'` according to the produced plot (flag_variance).
 #' @param pch A numeric or character symbol used for plotting the frailty standard deviation values. Default is a dot (`21`).
 #' @param color_bg A string specifying the color used for the symbols. Default is `'blue'`.
 #' @param cex_points A numeric value indicating the size of the plotting symbols. Default is `0.7`.
@@ -294,15 +304,16 @@ plot_post_frailty_est <- function(result, data,
 #' plot_frailty_sd(result, ylim=c(0, 0.50), xlab = 'Time', ylab = 'Standard deviation')
 #' }
 
-plot_frailty_sd <- function(result, frailty_sd = NULL, flag_variance = FALSE, flag_sd_external = FALSE,
-                            xlim = c(0, length(result$TimeDomain)-1), ylim = c(0, 10),
-                            xlab = "Time", ylab = "Values", main_title = "Frailty standard deviation",
+plot_frailty_sd <- function(result, flag_variance = FALSE,  flag_sd_external = FALSE, frailty_sd = NULL,
+                            xlim = c(min(result$TimeDomain), max(result$TimeDomain)), ylim = NULL,
+                            xlab = "Time", ylab = "Values", main = NULL,
                             pch = 21, color_bg = "blue", cex_points = 0.7){
   # Check result
   check.result(result)
 
   # Extract information from input variables and initialize frailty standard deviation
   L <- n_intervals <- result$NIntervals
+  midpoints <- (result$TimeDomain[-1] + result$TimeDomain[-length(result$TimeDomain)]) / 2
   values <- c()
 
   # Check coherence between input variables
@@ -316,26 +327,44 @@ plot_frailty_sd <- function(result, frailty_sd = NULL, flag_variance = FALSE, fl
 
   # Initialize values vector
   if(! flag_sd_external){
-    if(flag_variance)
+    if(flag_variance){
       values <- result$FrailtyDispersion$FrailtyVariance
-    else
+      if(is.null(ylim))
+        ylim = c(0,max(result$FrailtyDispersion$FrailtyVariance))
+      if(is.null(main))
+        main = 'Frailty Variance'
+    } else {
       values <- result$FrailtyDispersion$FrailtyStandardDeviation
-  }
-  else{
-    if(flag_variance)
+      if(is.null(ylim))
+        ylim = c(0,max(result$FrailtyDispersion$FrailtyStandardDeviation)) 
+      if(is.null(main))
+        main = 'Frailty Standard Deviation'
+    }
+  } else {
+    if(flag_variance){
       values <- frailty_sd
-    else
+      if(is.null(ylim))
+        ylim = c(0,max(values))
+      if(is.null(main))
+        main = 'Frailty Variance'
+    }
+    else {
       values <- (frailty_sd)^2
+      if(is.null(ylim))
+        ylim = c(0,max(values))
+      if(is.null(main))
+        main = 'Frailty Standard Deviation'
+    }
   }
 
   # Plot standard deviation of the frailty
   # dev.new()
-  plot(1, values[1], pch = pch, bg = color_bg,
-       xlab = xlab, ylab = ylab, main = main_title,
+  plot(midpoints[1], values[1], pch = pch, bg = color_bg,
+       xlab = xlab, ylab = ylab, main = main,
        xlim = xlim, ylim = ylim)
-  for (k in 2:L){
-    points(k, values[k], pch = pch, bg = color_bg, cex = cex_points)
-    lines(c(k-1,k), c(values[k-1], values[k]))
+  for (k in 2:(L)){
+    points(midpoints[k], values[k], pch = pch, bg = color_bg, cex = cex_points)
+    lines(c(midpoints[k-1],midpoints[k]), c(values[k-1], values[k]))
   }
 }
 

@@ -2,27 +2,42 @@
 % Please edit documentation in R/survival.R
 \name{plot_survival}
 \alias{plot_survival}
-\title{Compute Survival Function}
+\title{Plot of Conditional Survival Function}
 \usage{
 plot_survival(
   result,
   survival_df,
   lwd = 1,
+  xlim = c(min(result$TimeDomain), max(result$TimeDomain)),
+  ylim = c(0, 1),
   xlab = "Time",
-  ylab = "Survival",
-  main = "Stepwise Survival"
+  ylab = "Values",
+  main = "Survival",
+  cex = 0.2
 )
 }
 \arguments{
 \item{result}{S3 object of class 'AdPaik' containing model results.}
 
-\item{survival_df}{The dataframe returned by the survival function}
+\item{survival_df}{The dataframe returned by 'survival' function,
+where each row corresponds to the survival function values
+over the time intervals for each individual in the dataset.
+The first column represents the cluster to which the individual belongs.}
+
+\item{xlim}{A numeric vector specifying the range for the x-axis (intervals). Default is min-max value of the time domain.}
+
+\item{ylim}{A numeric vector specifying the range for the y-axis (intervals). Default is the range 0-1.}
+
+\item{xlab, ylab}{String giving the x and y axis name. Default values are 'Time' and 'Values'.}
+
+\item{main}{Title of the plot. Default title is 'Survival'.}
+
+\item{cex}{Dimension of the points used for plotting the estimates. Defaults to 0.2.}
 }
 \value{
-A dataset where each row corresponds to the survival function values
-over the time intervals for each individual in the dataset.
+The plot of the conditional survival function.
 }
 \description{
-Computes the survival function based on the 'Adapted Paik et al.' model's
-estimated coefficients and frailty effects.
+Plots the survival function based on the 'Adapted Paik et al.' model's
+estimated coefficients and frailty effects, for each unit in each time interval (represented by its mid point).
 }

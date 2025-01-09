@@ -14,8 +14,9 @@ survival(result, data)
 \value{
 A dataset where each row corresponds to the survival function values
 over the time intervals for each individual in the dataset.
+The first column represents the cluster to which the individual belongs.
 }
 \description{
 Computes the survival function based on the 'Adapted Paik et al.' model's
-estimated coefficients and frailty effects.
+given the estimated coefficients and frailty effects.
 }

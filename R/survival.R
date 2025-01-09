@@ -3,13 +3,14 @@
 #'
 #' @description
 #' Computes the survival function based on the 'Adapted Paik et al.' model's 
-#' estimated coefficients and frailty effects.
+#' given the estimated coefficients and frailty effects.
 #'
 #' @param result S3 object of class 'AdPaik' containing model results.
-#' @param data Data frame containing the dataset with covariates used in the model.
+#' @param data Data frame containing covariates used in the model.
 #'
 #' @return A dataset where each row corresponds to the survival function values 
-#' over the time intervals for each individual in the dataset.
+#' over the time intervals for each individual in the dataset. 
+#' The first column represents the cluster to which the individual belongs.
 #'
 #' @export
 survival <- function(result, data) {
@@ -77,26 +78,37 @@ survival <- function(result, data) {
 }
 
 
-# survival_df = survival(result, data_dropout)
-
+#-------------------------------------------------------------------------------
 #' @title
-#' Compute Survival Function
+#' Plot of Conditional Survival Function
 #'
 #' @description
-#' Computes the survival function based on the 'Adapted Paik et al.' model's 
-#' estimated coefficients and frailty effects.
+#' Plots the survival function based on the 'Adapted Paik et al.' model's 
+#' estimated coefficients and frailty effects, for each unit in each time interval (represented by its mid point). 
 #'
 #' @param result S3 object of class 'AdPaik' containing model results.
-#' @param survival_df The dataframe returned by the survival function
+#' @param survival_df The dataframe returned by 'survival' function, 
+#' where each row corresponds to the survival function values 
+#' over the time intervals for each individual in the dataset. 
+#' The first column represents the cluster to which the individual belongs.
+#' @param xlim A numeric vector specifying the range for the x-axis (intervals). Default is min-max value of the time domain.
+#' @param ylim A numeric vector specifying the range for the y-axis (intervals). Default is the range 0-1.
+#' @param xlab,ylab String giving the x and y axis name. Default values are 'Time' and 'Values'.
+#' @param main Title of the plot. Default title is 'Survival'.
+#' @param cex Dimension of the points used for plotting the estimates. Defaults to 0.2.
+
 #'
-#' @return A dataset where each row corresponds to the survival function values 
-#' over the time intervals for each individual in the dataset.
+#' @return The plot of the conditional survival function.
 #'
 #' @export
 plot_survival <- function(result, survival_df, lwd = 1, 
-                          xlab = "Time", ylab = "Survival", main = "Stepwise Survival"){
+                          xlim = c(min(result$TimeDomain), max(result$TimeDomain)), ylim = c(0,1),
+                          xlab = "Time", ylab = "Values", main = "Survival",
+                          cex = 0.2){
   
   time = result$TimeDomain
+  
+  midpoints <- (result$TimeDomain[-1] + result$TimeDomain[-length(result$TimeDomain)]) / 2
   
   # Assuming the first column in survival_df contains the group variable
   group_variable <- survival_df[, 1]  # Extract the group variable
@@ -107,46 +119,35 @@ plot_survival <- function(result, survival_df, lwd = 1,
   set.seed(1)
   group_colors <- setNames(sample(colors(), length(ordered_levels)), ordered_levels)  # Assign colors to ordered levels
   
-  # Plot initialization
-  plot(
-    time, 
-    c(1, group_data[1, ]), 
-    type = "s",  # 's' creates a step plot
-    col = group_colors[as.character(group_variable[1])],  # Color according to the ordered group
-    lwd = lwd, 
-    ylim = c(0, 1),
-    xlab = xlab,
-    ylab = ylab,
-    main = main
-  )
+  n_intervals <- result$NIntervals
   
-  # Add lines for each group
-  for (i in 2:nrow(group_data)) {
-    lines(
-      time, 
-      c(1, group_data[i, ]), 
-      type = "s", 
-      col = group_colors[as.character(group_variable[i])],  # Use the color corresponding to the ordered group
-      lwd = 1
-    )
-  }
+  plot(midpoints, group_data[1, ], cex = cex,
+       main = main, xlab = xlab, ylab = ylab,
+       xlim = xlim, ylim = ylim, col = group_colors[as.character(group_variable[1])])
+  for(k in 1:(n_intervals-1))
+    lines(c(midpoints[k],midpoints[k+1]), c(group_data[1,k], group_data[1,k+1]), 
+          col = group_colors[as.character(group_variable[1])], lwd = lwd)
+  for(i in 2:nrow(group_data)){
+    for(k in 1:(n_intervals-1)){
+      points(midpoints[k], group_data[i,k], cex = cex, col = group_colors[as.character(group_variable[i])])
+      points(midpoints[k+1], group_data[i,k+1], cex = cex, col = group_colors[as.character(group_variable[i])])
+      lines(c(midpoints[k],midpoints[k+1]), c(group_data[i,k], group_data[i,k+1]), 
+            col = group_colors[as.character(group_variable[i])], lwd = lwd )
+    }
+  }  
   
   # Add a horizontal legend outside the plot on the right, split into two rows
   legend(
     "bottomleft",  
     legend = names(group_colors),  # Ordered group labels
     col = group_colors, 
-    lwd = 2, 
-    #horiz = TRUE,  # Horizontal layout
+    lwd = lwd, 
     title = "Groups", 
-    cex = 0.6,
+    cex = cex,
     ncol = 3      # Split the legend into columns
   )
 }
 
-
-
-# plot_survival(result, survival_df)
 
 
 
