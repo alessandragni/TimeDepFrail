@@ -246,14 +246,15 @@ extract_event_data <- function(dataset, time_to_event, centre, time_axis, phi, b
 #'
 #' @param post_frailty_est Posterior frailty estimates list.
 #' @param post_frailty_est_var Posterior frailty variance list.
-#' @param n_centres Number of clusters/centres
+#' @param n_centres Number of clusters/centres.
 #' @param n_intervals Number of intervals of the time-domain. it is equal to the length of the tima_axis minus one.
+#' @param level A numeric value representing the confidence level.
 #'
 #' @return S3 object of class 'PFCI.AdPaik' composed of two matrices of dimension (number groups, number of intervals):
 #' - PostFrailtyCI_left: left confidence interval for each posterior frailty estimates
 #' - PostFrailtyCI_right: right confidence interval for each each posterior frailty estimates
 
-post_frailty_CI.AdPaik <- function(post_frailty_est, post_frailty_est_var, n_centres, n_intervals){
+post_frailty_CI.AdPaik <- function(post_frailty_est, post_frailty_est_var, n_centres, n_intervals, level){
   # Check structure correctness
   check.structure_post_frailty_est(post_frailty_est, n_intervals, n_centres)
   
@@ -263,11 +264,15 @@ post_frailty_CI.AdPaik <- function(post_frailty_est, post_frailty_est_var, n_cen
   
   post_frailty_CI_left <- matrix(rep(0, n_intervals * n_centres), n_centres, n_intervals)
   post_frailty_CI_right <-  matrix(rep(0, n_intervals * n_centres), n_centres, n_intervals)
+  
+  alpha <- 1 - level
+  z_critical <- qnorm(1 - alpha / 2)  # Two-tailed
+  
   for(i in 1:n_centres){
     for(k in 1:n_intervals){
       sd_est <- sqrt(post_frailty_est_var$ZVar[i,k])
-      post_frailty_CI_left[i,k] <- post_frailty_est$Z[i,k] - 1.96 * sd_est
-      post_frailty_CI_right[i,k] <- post_frailty_est$Z[i,k] + 1.96 * sd_est
+      post_frailty_CI_left[i,k] <- post_frailty_est$Z[i,k] - z_critical * sd_est
+      post_frailty_CI_right[i,k] <- post_frailty_est$Z[i,k] + z_critical * sd_est
     }
   }
   post_frailty_CI <- list("PostFrailtyCI_left" = post_frailty_CI_left,

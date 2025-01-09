@@ -24,7 +24,7 @@
 #' @param flag_fullsd Do we want to compute the full frailty standard deviation (second case)? If so, the flag must be TRUE,
 #' otherwise (first case), FALSE.
 #'
-#' @return S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the numbero of intervals of the time-domain:
+#' @return S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the number of intervals of the time-domain:
 #' - FrailtyVariance
 #' - FrailtyStandardDevation
 
@@ -116,7 +116,7 @@ frailty_Sd.AdPaik <- function (optimal_params, time_axis, n_regressors,
 #' @param flag_fullsd Logical value. Do we want to compute the full frailty standard deviation? If so, the flag must be TRUE,
 #' otherwise, FALSE.
 #'
-#' @return S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the numbero of intervals of the time-domain:
+#' @return S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the number of intervals of the time-domain:
 #' - FrailtyVariance
 #' - FrailtyStandardDevation
 #'
@@ -142,7 +142,7 @@ frailty_Sd.AdPaik <- function (optimal_params, time_axis, n_regressors,
 #' frailty_sd(result, FALSE)
 #' }
 
-frailty_sd.AdPaik <- function (result, flag_fullsd = TRUE){
+frailty_sd.AdPaik <- function (result, flag_fullsd){
 
   # Check result structure
   check.result(result)
@@ -222,7 +222,7 @@ frailty_sd.AdPaik <- function (result, flag_fullsd = TRUE){
 #' @param flag_fullsd Logical value. Do we want to compute the full frailty standard deviation? If so, the flag must be TRUE,
 #' otherwise, FALSE.
 #'
-#' @return S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the numbero of intervals of the time-domain:
+#' @return S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the number of intervals of the time-domain:
 #' - FrailtyVariance
 #' - FrailtyStandardDevation
 #'

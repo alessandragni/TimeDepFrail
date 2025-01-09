@@ -79,7 +79,8 @@ For more information about the unknown model parameters, their type and numerosi
 Several quantities are estimated at the end of the optimization phase:
 \itemize{
 \item parameters, their standard error and confidence interval;
-\item frailty standard deviation (and frailty variance);
+\item baseline hazard;
+\item frailty dispersion (standard deviation and variance);
 \item posterior frailty estimates, their variance and confidence interval;
 \item Akaike Information Criterion (AIC).
 }
@@ -119,24 +120,25 @@ Indeed, each categorical covariate with n levels needs to be transformed into (n
 \item NRegressors: number of regressors (R)
 \item ClusterVariable: name of the variable with respect to which the individuals can be grouped.
 \item NClusters: number of clusters/centres (also indicated with N).
-\item NIntervals: number of intervals of the time-domain, also called with L. It corresponds to the length of the time-domain minus 1.
+\item NIntervals: number of intervals of the time-domain, also called with L.
 \item NParameters: number of parameters of the model. It can be computed as: \eqn{n_p = 2L + R + 2}.
 \item ParametersCategories: Numerical vector of length 5, containing the numerosity of each parameter category.
-\item ParametersRangeMin: Numerical vector of length \eqn{n_p}, giving the minimum range of each parameter.
-\item ParametersRangeMax: Numerical vector of length \eqn{n_p}, giving the maximum range of each parameter.
+\item ParametersRange: S3 object of class 'ParametersRange', containing ParametersRangeMin and ParametersRangeMax, two numerical vectors of length \eqn{n_p}, giving the minimum and the maximum range of each parameter, respectively.
 \item Loglikelihood: value of the maximized log-likelihood function, at the optimal estimated parameters.
 \item AIC: 'Akaike Information Criterion': it can be computed as \eqn{AIC = 2n_p - 2ll_{optimal}}.
-It gives an idea of the loss of information related to the model fitting and output.
-The smaller it is, the less loss of information and the better model accuracy.
-\item Status: Logical value. Does the model reach convergence? If so, the variable is TRUE, otherwise FALSE.
+It quantifies the loss of information related to the model fitting and output.
+The smaller, the less the loss of information and the better the model accuracy.
+\item Status: Logical value. TRUE if the model reaches convergence, FALSE otherwise.
 \item NRun: Number of runs necessary to reach convergence. If the model does not reach convergence, such number is equal to the maximum number
 of imposed runs.
-\item OptimalParameters: numerical vector of length \eqn{n_p}, containing the optimal estimated parameters or, in other words, the parameters
-that maximizes the log-likelihood function.
+\item OptimalParameters: numerical vector of length \eqn{n_p}, containing the optimal estimated parameters (the parameters
+that maximize the log-likelihood function).
 \item StandardErrorParameters: numerical vector of length \eqn{n_p}, corresponding to the standard error of each estimated parameters.
 \item ParametersCI: S3 object of class 'ParametersCI', composed of two numerical vector of length equal to \eqn{n_p}: the left and right 95\\% confidence
-interval of each estimated parameter.
-\item FrailtyStandardDeviation: numerical vector of length equal to L (i.e. number of intervals of the time-domain), reporting the standard deviation
+interval of each estimated parameter of given level.
+\item BaselineHazard: numerical vector of length equal to L, containing the baseline hazard step-function.
+\item FrailtyDispersion:  S3 object of class 'FrailtyDispersion', containing two numerical vectors of length equal to L with the standard deviation and the variance of the frailty.
+numerical vector of length equal to L (i.e. number of intervals of the time-domain), reporting the standard deviation
 of the frailty.
 \item PosteriorFrailtyEstimates: S3 object of class 'PFE.AdPaik'. See details.
 \item PosteriorFrailtyVariance: S3 object of class 'PFV.AdPaik'. See details.

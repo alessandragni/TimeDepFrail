@@ -44,7 +44,7 @@
 #' }
 plot_bas_hazard <- function(result,
                            xlim = c(min(result$TimeDomain),max(result$TimeDomain)), ylim = c(0,max(result$BaselineHazard)),
-                           xlab = "Time", ylab = "Values", main_title = "Baseline hazard step-function",
+                           xlab = "Time", ylab = "Baseline hazard", main_title = "Baseline hazard step-function",
                            color = "black", pch = 21, bg = "black", cex_points = 0.7){
 
   # Check correctness of result structure

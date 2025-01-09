@@ -14,7 +14,7 @@ of the frailty standard deviation.}
 otherwise, FALSE.}
 }
 \value{
-S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the numbero of intervals of the time-domain:
+S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the number of intervals of the time-domain:
 \itemize{
 \item FrailtyVariance
 \item FrailtyStandardDevation

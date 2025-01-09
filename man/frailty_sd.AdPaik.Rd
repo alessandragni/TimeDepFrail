@@ -4,7 +4,7 @@
 \alias{frailty_sd.AdPaik}
 \title{Frailty standard deviation and Variance for the 'Adapted Paik et al.'s Model'}
 \usage{
-frailty_sd.AdPaik(result, flag_fullsd = TRUE)
+frailty_sd.AdPaik(result, flag_fullsd)
 }
 \arguments{
 \item{result}{S3 object of class 'AdPaik' returned by the main model output, that contains all the information for the computation
@@ -14,7 +14,7 @@ of the frailty standard deviation.}
 otherwise, FALSE.}
 }
 \value{
-S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the numbero of intervals of the time-domain:
+S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the number of intervals of the time-domain:
 \itemize{
 \item FrailtyVariance
 \item FrailtyStandardDevation

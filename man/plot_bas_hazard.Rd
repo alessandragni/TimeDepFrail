@@ -9,7 +9,7 @@ plot_bas_hazard(
   xlim = c(min(result$TimeDomain), max(result$TimeDomain)),
   ylim = c(0, max(result$BaselineHazard)),
   xlab = "Time",
-  ylab = "Values",
+  ylab = "Baseline hazard",
   main_title = "Baseline hazard step-function",
   color = "black",
   pch = 21,

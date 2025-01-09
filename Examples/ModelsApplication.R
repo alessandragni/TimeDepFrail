@@ -33,8 +33,7 @@ result$OptimalParameters[L+R+2]
 result$StandardErrorParameters[L+R+2]
 
 # Plot baseline hazard step-function
-plot_bas_hazard(result, xlim=c(1,result$TimeDomain[result$NIntervals+1]),
-                xlab = 'Time [semesters]', ylab = 'Baseline hazard')
+plot_bas_hazard(result, xlab = 'Time [semesters]')
 
 # Plot frailty standard deviation
 plot_frailty_sd(result, ylim=c(0, 1), xlab = 'Time [intervals]', ylab = 'Standard deviation')

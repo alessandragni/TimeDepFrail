@@ -8,7 +8,8 @@ post_frailty_CI.AdPaik(
   post_frailty_est,
   post_frailty_est_var,
   n_centres,
-  n_intervals
+  n_intervals,
+  level
 )
 }
 \arguments{
@@ -16,9 +17,11 @@ post_frailty_CI.AdPaik(
 
 \item{post_frailty_est_var}{Posterior frailty variance list.}
 
-\item{n_centres}{Number of clusters/centres}
+\item{n_centres}{Number of clusters/centres.}
 
 \item{n_intervals}{Number of intervals of the time-domain. it is equal to the length of the tima_axis minus one.}
+
+\item{level}{A numeric value representing the confidence level.}
 }
 \value{
 S3 object of class 'PFCI.AdPaik' composed of two matrices of dimension (number groups, number of intervals):

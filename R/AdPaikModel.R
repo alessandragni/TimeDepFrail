@@ -16,7 +16,8 @@
 #'
 #' Several quantities are estimated at the end of the optimization phase:
 #' - parameters, their standard error and confidence interval;
-#' - frailty standard deviation (and frailty variance);
+#' - baseline hazard;
+#' - frailty dispersion (standard deviation and variance);
 #' - posterior frailty estimates, their variance and confidence interval;
 #' - Akaike Information Criterion (AIC).
 #'
@@ -77,24 +78,25 @@
 #' - NRegressors: number of regressors (R)
 #' - ClusterVariable: name of the variable with respect to which the individuals can be grouped.
 #' - NClusters: number of clusters/centres (also indicated with N).
-#' - NIntervals: number of intervals of the time-domain, also called with L. It corresponds to the length of the time-domain minus 1.
+#' - NIntervals: number of intervals of the time-domain, also called with L. 
 #' - NParameters: number of parameters of the model. It can be computed as: \eqn{n_p = 2L + R + 2}.
 #' - ParametersCategories: Numerical vector of length 5, containing the numerosity of each parameter category.
-#' - ParametersRangeMin: Numerical vector of length \eqn{n_p}, giving the minimum range of each parameter.
-#' - ParametersRangeMax: Numerical vector of length \eqn{n_p}, giving the maximum range of each parameter.
+#' - ParametersRange: S3 object of class 'ParametersRange', containing ParametersRangeMin and ParametersRangeMax, two numerical vectors of length \eqn{n_p}, giving the minimum and the maximum range of each parameter, respectively.
 #' - Loglikelihood: value of the maximized log-likelihood function, at the optimal estimated parameters.
 #' - AIC: 'Akaike Information Criterion': it can be computed as \eqn{AIC = 2n_p - 2ll_{optimal}}.
-#' It gives an idea of the loss of information related to the model fitting and output.
-#' The smaller it is, the less loss of information and the better model accuracy.
-#' - Status: Logical value. Does the model reach convergence? If so, the variable is TRUE, otherwise FALSE.
+#' It quantifies the loss of information related to the model fitting and output.
+#' The smaller, the less the loss of information and the better the model accuracy.
+#' - Status: Logical value. TRUE if the model reaches convergence, FALSE otherwise.
 #' - NRun: Number of runs necessary to reach convergence. If the model does not reach convergence, such number is equal to the maximum number
 #' of imposed runs.
-#' - OptimalParameters: numerical vector of length \eqn{n_p}, containing the optimal estimated parameters or, in other words, the parameters
-#' that maximizes the log-likelihood function.
+#' - OptimalParameters: numerical vector of length \eqn{n_p}, containing the optimal estimated parameters (the parameters
+#' that maximize the log-likelihood function).
 #' - StandardErrorParameters: numerical vector of length \eqn{n_p}, corresponding to the standard error of each estimated parameters.
 #' - ParametersCI: S3 object of class 'ParametersCI', composed of two numerical vector of length equal to \eqn{n_p}: the left and right 95\% confidence
-#' interval of each estimated parameter.
-#' - FrailtyStandardDeviation: numerical vector of length equal to L (i.e. number of intervals of the time-domain), reporting the standard deviation
+#' interval of each estimated parameter of given level.
+#' - BaselineHazard: numerical vector of length equal to L, containing the baseline hazard step-function.
+#' - FrailtyDispersion:  S3 object of class 'FrailtyDispersion', containing two numerical vectors of length equal to L with the standard deviation and the variance of the frailty.
+#' numerical vector of length equal to L (i.e. number of intervals of the time-domain), reporting the standard deviation
 #' of the frailty.
 #' - PosteriorFrailtyEstimates: S3 object of class 'PFE.AdPaik'. See details.
 #' - PosteriorFrailtyVariance: S3 object of class 'PFV.AdPaik'. See details.
@@ -380,7 +382,7 @@ AdPaikModel <- function(formula, data, time_axis,
   
   # Compute posterior frailty estimates confidence interval
   if (verbose) message(paste("Compute posterior frailty estimates confidence interval"))
-  post_frailty_CI <- post_frailty_CI.AdPaik(post_frailty_est, post_frailty_var, n_centres, n_intervals)
+  post_frailty_CI <- post_frailty_CI.AdPaik(post_frailty_est, post_frailty_var, n_centres, n_intervals, level)
   
   # Akaike Information Criterium
   AIC = 2 * n_params - 2 * optimal_loglikelihood
