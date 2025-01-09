@@ -39,14 +39,14 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_frailty_sd</span><span class="op">(</span></span>
 <span>  <span class="va">result</span>,</span>
-<span>  frailty_sd <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  flag_variance <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  flag_sd_external <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">TimeDomain</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>,</span>
-<span>  ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span>,</span>
+<span>  frailty_sd <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">TimeDomain</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">TimeDomain</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  ylim <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="st">"Time"</span>,</span>
 <span>  ylab <span class="op">=</span> <span class="st">"Values"</span>,</span>
-<span>  main_title <span class="op">=</span> <span class="st">"Frailty standard deviation"</span>,</span>
+<span>  main <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pch <span class="op">=</span> <span class="fl">21</span>,</span>
 <span>  color_bg <span class="op">=</span> <span class="st">"blue"</span>,</span>
 <span>  cex_points <span class="op">=</span> <span class="fl">0.7</span></span>
@@ -61,11 +61,6 @@
 <dd><p>An S3 object of class 'AdPaik', returned by the main model call 'AdPaikModel(...)'.</p></dd>
 
 
-<dt id="arg-frailty-sd">frailty_sd<a class="anchor" aria-label="anchor" href="#arg-frailty-sd"></a></dt>
-<dd><p>A numerical vector representing the evaluated frailty standard deviation, with length equal to the number of time-domain intervals.
-Its elements must be non-negative.</p></dd>
-
-
 <dt id="arg-flag-variance">flag_variance<a class="anchor" aria-label="anchor" href="#arg-flag-variance"></a></dt>
 <dd><p>A boolean flag indicating whether to plot the frailty variance (<code>TRUE</code>) or the frailty standard deviation (<code>FALSE</code>). Default is <code>FALSE</code>.</p></dd>
 
@@ -74,12 +69,17 @@ Its elements must be non-negative.</p></dd>
 <dd><p>A logical flag indicating whether the user is providing an external frailty standard deviation vector.</p></dd>
 
 
+<dt id="arg-frailty-sd">frailty_sd<a class="anchor" aria-label="anchor" href="#arg-frailty-sd"></a></dt>
+<dd><p>A numerical vector representing the evaluated frailty standard deviation, with length equal to the number of time-domain intervals.
+Its elements must be non-negative. Default is <code>NULL</code>.</p></dd>
+
+
 <dt id="arg-xlim">xlim<a class="anchor" aria-label="anchor" href="#arg-xlim"></a></dt>
-<dd><p>A numeric vector of length 2, defining the range for the x-axis (intervals). Default is from 1 to the number of intervals.</p></dd>
+<dd><p>A numeric vector specifying the range for the x-axis (intervals). If NULL, default is set to the interval min-max of the time-domain.</p></dd>
 
 
 <dt id="arg-ylim">ylim<a class="anchor" aria-label="anchor" href="#arg-ylim"></a></dt>
-<dd><p>A numeric vector of length 2, defining the range for the y-axis (values). Default is <code>(0, 10)</code>.</p></dd>
+<dd><p>A numeric vector specifying the range for the y-axis (intervals). If NULL, default is 0 to the maximum value of the frailty variance/standard deviation.</p></dd>
 
 
 <dt id="arg-xlab">xlab<a class="anchor" aria-label="anchor" href="#arg-xlab"></a></dt>
@@ -90,8 +90,8 @@ Its elements must be non-negative.</p></dd>
 <dd><p>A string for the y-axis label. Default is <code>'Values'</code>.</p></dd>
 
 
-<dt id="arg-main-title">main_title<a class="anchor" aria-label="anchor" href="#arg-main-title"></a></dt>
-<dd><p>A string for the plot title. Default title is <code>'Frailty Standard Deviation'</code>.</p></dd>
+<dt id="arg-main">main<a class="anchor" aria-label="anchor" href="#arg-main"></a></dt>
+<dd><p>A string for the plot title. Default title is <code>'Frailty Standard Deviation'</code> or <code>'Frailty Variance'</code> according to the produced plot (flag_variance).</p></dd>
 
 
 <dt id="arg-pch">pch<a class="anchor" aria-label="anchor" href="#arg-pch"></a></dt>
@@ -112,7 +112,7 @@ Its elements must be non-negative.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The plot represents the values of the frailty standard deviation or variance for each time interval.
+    <p>The plot represents the values of the frailty standard deviation or variance for each time interval (represented by its mid point).
 It connects these points to illustrate the trend of the chosen metric.</p>
 <p>This function supports two modes of operation:</p><ul><li><p>Plotting the frailty standard deviation or variance retrieved from the main model (contained in the S3 object of class 'AdPaik').</p></li>
 <li><p>Plotting a user-provided vector of frailty standard deviations, which can be computed using the method <code>frailty.sd</code>. This allows for flexibility in analysis without re-optimizing the log-likelihood function. For instance, users can compare frailty standard deviations computed with different model specifications (e.g., including only time-dependent terms).</p></li>
