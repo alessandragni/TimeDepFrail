@@ -12,7 +12,7 @@ plot_survival(
   ylim = c(0, 1),
   xlab = "Time",
   ylab = "Values",
-  main = "Survival",
+  main = "Conditional Survival",
   cex = 0.2,
   cexlegend = 0.8
 )

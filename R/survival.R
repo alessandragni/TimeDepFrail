@@ -138,7 +138,7 @@ survival <- function(result, data) {
 #'  } 
 plot_survival <- function(result, survival_df, lwd = 1, 
                           xlim = c(min(result$TimeDomain), max(result$TimeDomain)), ylim = c(0,1),
-                          xlab = "Time", ylab = "Values", main = "Survival",
+                          xlab = "Time", ylab = "Values", main = "Conditional Survival",
                           cex = 0.2, cexlegend = 0.8){
   
   time = result$TimeDomain
