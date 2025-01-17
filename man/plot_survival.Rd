@@ -13,7 +13,8 @@ plot_survival(
   xlab = "Time",
   ylab = "Values",
   main = "Survival",
-  cex = 0.2
+  cex = 0.2,
+  cexlegend = 0.8
 )
 }
 \arguments{
@@ -33,6 +34,8 @@ The first column represents the cluster to which the individual belongs.}
 \item{main}{Title of the plot. Default title is 'Survival'.}
 
 \item{cex}{Dimension of the points used for plotting the estimates. Defaults to 0.2.}
+
+\item{cexlegend}{Dimension of the text used for the legend. Defaults to 0.9.}
 }
 \value{
 The plot of the conditional survival function.

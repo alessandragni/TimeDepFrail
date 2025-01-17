@@ -8,9 +8,9 @@
 #' @param result S3 object of class 'AdPaik' containing model results.
 #' @param data Data frame containing covariates used in the model.
 #'
-#' @return A dataset where each row corresponds to the survival function values 
-#' over the time intervals for each individual in the dataset. 
-#' The first column represents the cluster to which the individual belongs.
+#' @return Aa dataset where each row corresponds to an individual unit in the dataset, 
+#' and the columns represent the survival function values over time intervals. 
+#' The first column indicates the cluster to which the individual belongs. 
 #'
 #' @export
 survival <- function(result, data) {
@@ -96,7 +96,7 @@ survival <- function(result, data) {
 #' @param xlab,ylab String giving the x and y axis name. Default values are 'Time' and 'Values'.
 #' @param main Title of the plot. Default title is 'Survival'.
 #' @param cex Dimension of the points used for plotting the estimates. Defaults to 0.2.
-
+#' @param cexlegend Dimension of the text used for the legend. Defaults to 0.9.
 #'
 #' @return The plot of the conditional survival function.
 #'
@@ -104,7 +104,7 @@ survival <- function(result, data) {
 plot_survival <- function(result, survival_df, lwd = 1, 
                           xlim = c(min(result$TimeDomain), max(result$TimeDomain)), ylim = c(0,1),
                           xlab = "Time", ylab = "Values", main = "Survival",
-                          cex = 0.2){
+                          cex = 0.2, cexlegend = 0.8){
   
   time = result$TimeDomain
   
@@ -143,7 +143,7 @@ plot_survival <- function(result, survival_df, lwd = 1,
     col = group_colors, 
     lwd = lwd, 
     title = "Groups", 
-    cex = cex,
+    cex = cexlegend,
     ncol = 3      # Split the legend into columns
   )
 }

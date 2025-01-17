@@ -9,12 +9,12 @@ survival(result, data)
 \arguments{
 \item{result}{S3 object of class 'AdPaik' containing model results.}
 
-\item{data}{Data frame containing the dataset with covariates used in the model.}
+\item{data}{Data frame containing covariates used in the model.}
 }
 \value{
-A dataset where each row corresponds to the survival function values
-over the time intervals for each individual in the dataset.
-The first column represents the cluster to which the individual belongs.
+Aa dataset where each row corresponds to an individual unit in the dataset,
+and the columns represent the survival function values over time intervals.
+The first column indicates the cluster to which the individual belongs.
 }
 \description{
 Computes the survival function based on the 'Adapted Paik et al.' model's

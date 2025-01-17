@@ -230,7 +230,7 @@ plot_post_frailty_est <- function(result, data,
     }
   } else {
     if(is.null(xlim))
-      xlim = c(0.8, 1.4)
+      xlim = c(0.95, 1.05)
     if(is.null(ylim))
       ylim = c(min(post_frailty), max(post_frailty))
     plot(rep(1, length(post_frailty)), post_frailty,
