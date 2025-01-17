@@ -4,11 +4,13 @@
 \alias{coef.AdPaik}
 \title{Extracts the optimal parameters of each cateogry for the 'Adapted Paik et al.' Model}
 \usage{
-\method{coef}{AdPaik}(result)
+\method{coef}{AdPaik}(object, ...)
 }
 \arguments{
-\item{result}{An S3 object of class \code{AdPaik}, returned by the main model function
+\item{object}{An S3 object of class \code{AdPaik}, returned by the main model function
 (\code{AdPaikModel}). This object contains all the optimal parameter estimates.}
+
+\item{...}{Additional arguments to be passed to other methods.}
 }
 \value{
 A named list containing the categories of optimal parameters.
@@ -20,9 +22,9 @@ time-dependent frailty model proposed in the 'Adapted Paik et al.' framework.
 }
 \details{
 The \code{coef.AdPaik} function extracts the coefficients from the
-\code{OptimalParameters} field in the \code{result} object.
+\code{OptimalParameters} field in \code{object}.
 
-The function validates the structure of the \code{result} object and ensures compatibility
+The function validates the structure of \code{object} and ensures compatibility
 with the expected model output. It throws an error if the object is malformed or
 inconsistent.
 }

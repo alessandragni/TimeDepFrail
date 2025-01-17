@@ -32,7 +32,7 @@
 #'  }  
 survival <- function(result, data) {
   # Check for valid input
-  if (class(result) != "AdPaik") stop("'result' must be of class 'AdPaik'.")
+  if (!inherits(result, "AdPaik")) stop("'result' must be of class 'AdPaik'.")
   if (!is.data.frame(data)) stop("'data' must be a data frame.")
   
   # Extract beta coefficients and formula
@@ -47,7 +47,7 @@ survival <- function(result, data) {
   
   # Construct a design matrix for covariates, accounting for factors/dummies
   covariate_data <- data[, covariates_nocluster, drop = FALSE]
-  design_matrix <- model.matrix(~ . - 1, data = covariate_data)  # No intercept
+  design_matrix <- stats::model.matrix(~ . - 1, data = covariate_data)  # No intercept
   
   # Match design matrix columns with beta names
   if (is.null(names(beta))) {
@@ -108,6 +108,7 @@ survival <- function(result, data) {
 #' where each row corresponds to the survival function values 
 #' over the time intervals for each individual in the dataset. 
 #' The first column represents the cluster to which the individual belongs.
+#' @param lwd The line width of the plot. Default is 1.
 #' @param xlim A numeric vector specifying the range for the x-axis (intervals). Default is min-max value of the time domain.
 #' @param ylim A numeric vector specifying the range for the y-axis (intervals). Default is the range 0-1.
 #' @param xlab,ylab String giving the x and y axis name. Default values are 'Time' and 'Values'.
@@ -152,7 +153,7 @@ plot_survival <- function(result, survival_df, lwd = 1,
   # Order group levels using levels(factor())
   ordered_levels <- levels(factor(group_variable))  # Get ordered levels of the group variable
   set.seed(1)
-  group_colors <- setNames(sample(colors(), length(ordered_levels)), ordered_levels)  # Assign colors to ordered levels
+  group_colors <- stats::setNames(sample(grDevices::colors(), length(ordered_levels)), ordered_levels)  # Assign colors to ordered levels
   
   n_intervals <- result$NIntervals
   

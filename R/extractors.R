@@ -6,14 +6,15 @@
 #' \eqn{\nu}, \eqn{\boldsymbol{\gamma}} obtained with the 
 #' time-dependent frailty model proposed in the 'Adapted Paik et al.' framework.
 #'
-#' @param result An S3 object of class `AdPaik`, returned by the main model function 
+#' @param object An S3 object of class `AdPaik`, returned by the main model function 
 #' (`AdPaikModel`). This object contains all the optimal parameter estimates.
+#' @param ... Additional arguments to be passed to other methods.
 #'
 #' @details
 #' The `coef.AdPaik` function extracts the coefficients from the 
-#' `OptimalParameters` field in the `result` object. 
+#' `OptimalParameters` field in `object`.
 #'
-#' The function validates the structure of the `result` object and ensures compatibility 
+#' The function validates the structure of `object` and ensures compatibility 
 #' with the expected model output. It throws an error if the object is malformed or 
 #' inconsistent.
 #'
@@ -41,15 +42,15 @@
 #' coef(result)
 #' }
 
-coef.AdPaik <- function (result){
+coef.AdPaik <- function (object, ...){
   
-  # Check result structure
-  check.result(result)
+  # Check object structure
+  check.result(object)
   
   # Extract information from input variables
-  L <- n_intervals <- result$NIntervals
-  R <- n_regressors <- result$NRegressors
-  optimal_params <- result$OptimalParameters
+  L <- n_intervals <- object$NIntervals
+  R <- n_regressors <- object$NRegressors
+  optimal_params <- object$OptimalParameters
   
   phi = optimal_params[1:(L)]
   beta = optimal_params[(L+1):(L+R)]
@@ -59,8 +60,8 @@ coef.AdPaik <- function (result){
   
   
   # Assign names to beta if regressors are provided
-  if (!is.null(result$Regressors) && length(result$Regressors) == R) {
-    names(beta) <- result$Regressors
+  if (!is.null(object$Regressors) && length(object$Regressors) == R) {
+    names(beta) <- object$Regressors
   }
   
   return_list = list('phi'=phi,
@@ -80,14 +81,14 @@ coef.AdPaik <- function (result){
 #' \eqn{\nu}, \eqn{\boldsymbol{\gamma}} obtained with the 
 #' time-dependent frailty model proposed in the 'Adapted Paik et al.' framework.
 #'
-#' @param result An S3 object of class `AdPaik`, returned by the main model function 
+#' @param object An S3 object of class `AdPaik`, returned by the main model function 
 #' (`AdPaikModel`). This object contains all the optimal parameter estimates.
 #'
 #' @details
 #' The `coefse` function extracts the standard errors for the estimated parameters from the 
-#' `StandardErrorParameters` field in the `result` object. 
+#' `StandardErrorParameters` field in `object`. 
 #'
-#' The function validates the structure of the `result` object and ensures compatibility 
+#' The function validates the structure of `object` and ensures compatibility 
 #' with the expected model output. It throws an error if the object is malformed or 
 #' inconsistent.
 #'
@@ -115,15 +116,15 @@ coef.AdPaik <- function (result){
 #' coefse(result)
 #' }
 
-coefse <- function(result){
+coefse <- function(object){
   
-  # Check result structure
-  check.result(result)
+  # Check object structure
+  check.result(object)
   
   # Extract information from input variables
-  L <- n_intervals <- result$NIntervals
-  R <- n_regressors <- result$NRegressors
-  optimal_params <- result$StandardErrorParameters
+  L <- n_intervals <- object$NIntervals
+  R <- n_regressors <- object$NRegressors
+  optimal_params <- object$StandardErrorParameters
   
   phi = optimal_params[1:(L)]
   beta = optimal_params[(L+1):(L+R)]
@@ -133,8 +134,8 @@ coefse <- function(result){
   
   
   # Assign names to beta if regressors are provided
-  if (!is.null(result$Regressors) && length(result$Regressors) == R) {
-    names(beta) <- result$Regressors
+  if (!is.null(object$Regressors) && length(object$Regressors) == R) {
+    names(beta) <- object$Regressors
   }
   
   return_list = list('se.phi'=phi,
@@ -155,14 +156,18 @@ coefse <- function(result){
 #' \eqn{\nu}, \eqn{\boldsymbol{\gamma}} obtained with the 
 #' time-dependent frailty model proposed in the 'Adapted Paik et al.' framework.
 #'
-#' @param result An S3 object of class `AdPaik`, returned by the main model function 
+#' @param object An S3 object of class `AdPaik`, returned by the main model function 
 #' (`AdPaikModel`). This object contains all the optimal parameter estimates.
+#' @param parm A specification of which parameters are to be given confidence intervals, either a vector of numbers or a vector of names. 
+#' Defaults to NULL, and all parameters are considered. Changing it is not supported for this model. It will be ignored.
+#' @param level The confidence level required. Defaults to 0.95.
+#' @param ... Additional arguments to be passed to other methods.
 #'
 #' @details
 #' The `confint.AdPaik` function extracts the standard errors for the estimated parameters from the 
-#' `ParametersCI` field in the `result` object. 
+#' `ParametersCI` field in `object`. 
 #'
-#' The function validates the structure of the `result` object and ensures compatibility 
+#' The function validates the structure of `object` and ensures compatibility 
 #' with the expected model output. It throws an error if the object is malformed or 
 #' inconsistent.
 #'
@@ -190,15 +195,22 @@ coefse <- function(result){
 #' confint(result)
 #' }
 
-confint.AdPaik <- function(result){
+confint.AdPaik <- function(object, parm = NULL, level = 0.95, ...){
+  if(!is.null(parm))
+      warning("Changing `parm` argument is not supported for this model. It will be ignored.")
   
-  # Check result structure
-  check.result(result)
+  # Check object structure
+  check.result(object)
   
   # Extract information from input variables
-  L <- n_intervals <- result$NIntervals
-  R <- n_regressors <- result$NRegressors
-  optimal_params_left <- result$ParametersCI$ParamsCI_left
+  L <- n_intervals <- object$NIntervals
+  R <- n_regressors <- object$NRegressors
+  
+  optimal_params <- object$OptimalParameters
+  se_optimal_params <- object$StandardErrorParameters
+  confints = params_CI(optimal_params, se_optimal_params, level)
+  
+  optimal_params_left <- confints$ParamsCI_right
   
   phi_left = optimal_params_left[1:(L)]
   beta_left = optimal_params_left[(L+1):(L+R)]
@@ -206,7 +218,7 @@ confint.AdPaik <- function(result){
   nu_left = optimal_params_left[(L+R+2)]
   gamma_left = optimal_params_left[(L+R+3):(2*L+R)]
   
-  optimal_params_right <- result$ParametersCI$ParamsCI_right
+  optimal_params_right <- confints$ParamsCI_right
   
   phi_right = optimal_params_right[1:(L)]
   beta_right = optimal_params_right[(L+1):(L+R)]
@@ -216,9 +228,9 @@ confint.AdPaik <- function(result){
   
   
   # Assign names to beta if regressors are provided
-  if (!is.null(result$Regressors) && length(result$Regressors) == R) {
-    names(beta_left) <- result$Regressors
-    names(beta_right) <- result$Regressors
+  if (!is.null(object$Regressors) && length(object$Regressors) == R) {
+    names(beta_left) <- object$Regressors
+    names(beta_right) <- object$Regressors
   }
   
   phi = list("left" = phi_left, "right" = phi_right)

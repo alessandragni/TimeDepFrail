@@ -266,7 +266,7 @@ post_frailty_CI.AdPaik <- function(post_frailty_est, post_frailty_est_var, n_cen
   post_frailty_CI_right <-  matrix(rep(0, n_intervals * n_centres), n_centres, n_intervals)
   
   alpha <- 1 - level
-  z_critical <- qnorm(1 - alpha / 2)  # Two-tailed
+  z_critical <- stats::qnorm(1 - alpha / 2)  # Two-tailed
   
   for(i in 1:n_centres){
     for(k in 1:n_intervals){

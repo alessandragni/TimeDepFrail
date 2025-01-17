@@ -123,7 +123,7 @@ params_CI <- function(optimal_params, se_params, level){
   
   # Compute critical z-score for the given confidence level
   alpha <- 1 - level
-  z_critical <- qnorm(1 - alpha / 2)  # Two-tailed
+  z_critical <- stats::qnorm(1 - alpha / 2)  # Two-tailed
   
   # Confidence interval for the parameters
   params_CI_left <- params_CI_right <- rep(0, n_params)

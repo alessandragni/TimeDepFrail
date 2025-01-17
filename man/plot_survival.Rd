@@ -25,6 +25,8 @@ where each row corresponds to the survival function values
 over the time intervals for each individual in the dataset.
 The first column represents the cluster to which the individual belongs.}
 
+\item{lwd}{The line width of the plot. Default is 1.}
+
 \item{xlim}{A numeric vector specifying the range for the x-axis (intervals). Default is min-max value of the time domain.}
 
 \item{ylim}{A numeric vector specifying the range for the y-axis (intervals). Default is the range 0-1.}

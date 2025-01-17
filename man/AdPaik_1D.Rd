@@ -108,27 +108,30 @@ time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
 eps <- 1e-10
 
 # Identify a parameter existence range
-
-# Choose the parameter with respect to which you want to study the 
-# log-likelihood function and provide its position in the parameter vector 
-# for identifying a parameter existence range
-
-# Call the main model without providing optimal parameter
 categories_range_min <- c(-8, -2, eps, eps, eps)
-categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
+categories_range_max <- c(-eps, 0.5, 1 - eps, 1, 10)
 index_param_to_vary <- 1
-result <- AdPaik_1D(formula, data_dropout, time_axis,
-                    index_param_to_vary, flag_optimal_params = FALSE, 
-                    optimal_params = NULL,
-                    categories_range_min, categories_range_max, n_iter = 5)
+analysis_1D_opt <- AdPaik_1D(formula, data_dropout,
+                             time_axis, index_param_to_vary, 
+                             flag_optimal_params = FALSE, 
+                             optimal_params = NULL,
+                             flag_plot = TRUE,
+                             categories_range_min, categories_range_max, 
+                             n_iter = 5)
+
 
 # or Study the log-likelihood behaviour
 
+\donttest{
 categories_range_min <- c(-8, -2, eps, eps, eps)
 categories_range_max <- c(-eps, 0.4, 1 - eps, 1, 10)
 index_param_to_vary <- 14
+# Call the main model
+result <- AdPaikModel(formula, data_dropout, time_axis,
+                      categories_range_min, categories_range_max, TRUE)
 analysis_1D_opt <- AdPaik_1D(formula, data_dropout, time_axis,
-                            index_param_to_vary, flag_optimal_params = TRUE, 
-                            optimal_params = result$OptimalParameters,
-                            categories_range_min, categories_range_max, n_iter = 1)
+                             index_param_to_vary, flag_optimal_params = TRUE, 
+                             flag_plot = TRUE, optimal_params = result$OptimalParameters,
+                             categories_range_min, categories_range_max, n_iter = 1)
+}
 }

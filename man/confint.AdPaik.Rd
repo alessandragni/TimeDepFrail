@@ -4,11 +4,17 @@
 \alias{confint.AdPaik}
 \title{Extracts the confidence intervals computed for each cateogry for the 'Adapted Paik et al.' Model}
 \usage{
-\method{confint}{AdPaik}(result)
+\method{confint}{AdPaik}(object, parm = NULL, level = 0.95, ...)
 }
 \arguments{
-\item{result}{An S3 object of class \code{AdPaik}, returned by the main model function
+\item{object}{An S3 object of class \code{AdPaik}, returned by the main model function
 (\code{AdPaikModel}). This object contains all the optimal parameter estimates.}
+
+\item{parm}{Defaults to NULL.  Changing it is not supported for this model. It will be ignored.}
+
+\item{level}{The confidence level required. Defaults to 0.95.}
+
+\item{...}{Additional arguments to be passed to other methods.}
 }
 \value{
 A named list containing the categories of the standard errors for the optimal parameters.
@@ -20,9 +26,9 @@ time-dependent frailty model proposed in the 'Adapted Paik et al.' framework.
 }
 \details{
 The \code{confint.AdPaik} function extracts the standard errors for the estimated parameters from the
-\code{ParametersCI} field in the \code{result} object.
+\code{ParametersCI} field in \code{object}.
 
-The function validates the structure of the \code{result} object and ensures compatibility
+The function validates the structure of \code{object} and ensures compatibility
 with the expected model output. It throws an error if the object is malformed or
 inconsistent.
 }

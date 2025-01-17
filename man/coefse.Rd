@@ -4,10 +4,10 @@
 \alias{coefse}
 \title{Extracts the standard errors computed for each cateogry for the 'Adapted Paik et al.' Model}
 \usage{
-coefse(result)
+coefse(object)
 }
 \arguments{
-\item{result}{An S3 object of class \code{AdPaik}, returned by the main model function
+\item{object}{An S3 object of class \code{AdPaik}, returned by the main model function
 (\code{AdPaikModel}). This object contains all the optimal parameter estimates.}
 }
 \value{
@@ -20,9 +20,9 @@ time-dependent frailty model proposed in the 'Adapted Paik et al.' framework.
 }
 \details{
 The \code{coefse} function extracts the standard errors for the estimated parameters from the
-\code{StandardErrorParameters} field in the \code{result} object.
+\code{StandardErrorParameters} field in \code{object}.
 
-The function validates the structure of the \code{result} object and ensures compatibility
+The function validates the structure of \code{object} and ensures compatibility
 with the expected model output. It throws an error if the object is malformed or
 inconsistent.
 }
