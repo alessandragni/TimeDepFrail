@@ -826,6 +826,8 @@ ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
 #' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
 #' eps <- 1e-10
 #'
+#' # Identify a parameter existence range
+#'
 #' # Choose the parameter with respect to which you want to study the 
 #' # log-likelihood function and provide its position in the parameter vector 
 #' # for identifying a parameter existence range
@@ -838,7 +840,7 @@ ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
 #'                     index_param_to_vary, FALSE, NULL,
 #'                     categories_range_min, categories_range_max, n_iter = 5)
 #'
-#' # or for studying the log-likelihood behaviour
+#' # or Study the log-likelihood behaviour
 #' 
 #' categories_range_min <- c(-8, -2, eps, eps, eps)
 #' categories_range_max <- c(-eps, 0.4, 1 - eps, 1, 10)
