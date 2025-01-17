@@ -71,14 +71,14 @@
 <li>
 <code>group</code>: Categorical variable representing the student’s course of study, with 16 levels from CosA to CosP.</li>
 </ul>
-<p>Students are followed for a maximum of 6 semesters (3 academic years), from the start of lectures until they drop out or the follow-up ends.</p>
+<p>Students are followed for a maximum of 6 semesters (3 academic years), from the end of first semester until they drop out or the follow-up ends.</p>
 </div>
 <div class="section level2">
 <h2 id="model-execution">Model execution<a class="anchor" aria-label="anchor" href="#model-execution"></a>
 </h2>
 <p>To fit a Time-Dependent Shared Frailty model, the following elements are required:</p>
 <ul>
-<li>dataset as <code>data.frame</code>, e.g. <code>data_dropout</code>
+<li>data as <code>data.frame</code>, e.g. <code>data_dropout</code>
 </li>
 <li>
 <code>time_axis</code> vector: The time intervals for which the model is applied. For example, in the <code>data_dropout</code> dataset, no events occur in the first semester, so the <code>time_axis</code> starts at the end of the first semester (t = 1) and ends at the end of the third year (t = 6).</li>
@@ -87,22 +87,24 @@
 <li>
 <code>formula</code> object: Specify the relationship between time-to-event, covariates, and group. For the clustering variable (<code>group</code>), it must be provided as <code>cluster(group)</code> in the formula.</li>
 </ul>
-<p>Once these elements are prepared, you can call the desired model using the <code><a href="reference/AdPaikModel.html">AdPaikModel()</a></code> function. While <code>PowParModel()</code> and <code>StocTimeDepModel()</code> are also available, they are secondary models with room for performance improvements.</p>
-<p>For full examples, refer to the <code>Examples/ModelsApplication.R</code> script.</p>
-<p>Additionally, for guidance on selecting model parameters such as <code>time_axis</code>, <code>categories_range_min</code> and <code>categories_range_max</code>, we recommend basing these choices on insights gained after fitting a Time-Unvarying Shared Frailty model. You can find a relevant example in the <code>ExamplesTimeUnvarying.R</code>.</p>
+<p>Once these elements are prepared, you can call the desired model using the <code><a href="reference/AdPaikModel.html">AdPaikModel()</a></code> function.</p>
+<p>For full examples, refer to the <code>Examples/ReplicationCode.R</code> script.</p>
+<p>Additionally, for guidance on selecting model parameters such as <code>time_axis</code>, <code>categories_range_min</code> and <code>categories_range_max</code>, we recommend base these choices on insights gained after fitting a Time-Unvarying Shared Frailty model. You can find a relevant example in the <code>Examples/ReplicationCode.R</code>, in the Appendix D Section.</p>
 </div>
 <div class="section level2">
 <h2 id="analyzing-results">Analyzing results<a class="anchor" aria-label="anchor" href="#analyzing-results"></a>
 </h2>
 <p>Several built-in methods are available to analyze the results of the fitted model:</p>
 <ul>
+<li>Model Summaries: <code><a href="reference/summary.html">summary()</a></code>, <code><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef()</a></code>, <code><a href="reference/coefse.html">coefse()</a></code>, <code><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint()</a></code>
+</li>
 <li>Baseline Hazard Step-Function: <code><a href="reference/plot_bas_hazard.html">plot_bas_hazard()</a></code>
 </li>
-<li>Frailty Standard Deviation/Variance: <code><a href="reference/plot_frailty_sd.html">plot_frailty_sd()</a></code>
+<li>Frailty Standard Deviation/Variance: <code><a href="reference/frailty_sd.html">frailty_sd()</a></code> and <code><a href="reference/plot_frailty_sd.html">plot_frailty_sd()</a></code>
 </li>
 <li>Posterior Frailty Estimates: <code><a href="reference/plot_post_frailty_est.html">plot_post_frailty_est()</a></code>
 </li>
-<li>Model Summary: <code><a href="reference/summary.html">summary()</a></code>
+<li>Conditional Survival Function: <code><a href="reference/survival.html">survival()</a></code> and <code><a href="reference/plot_survival.html">plot_survival()</a></code>
 </li>
 </ul>
 <p>These methods provide insightful visualizations and summaries to help you interpret your model results effectively.</p>
@@ -113,8 +115,6 @@
 </h2>
 <ul>
 <li>The <code>AdPaikModel</code> model is optimized for fast computation although estimating certain coefficients (e.g., <code>Male</code> versus <code>Female</code>) may vary slightly in computational time. Note that changing the reference category (e.g., using <code>Male</code> as the baseline) alters the coefficient estimates but not the overall log-likelihood or model fit. Users should choose reference categories based on interpretability rather than performance.</li>
-<li>The ‘Centre-Specific Frailty Model with Power Parameter’ (<code>PowParModel</code>) is slower than the <code>AdPaikModel</code>, but it produces coherent and expected results.</li>
-<li>The ‘Stochastic Time-Dependent’ Centre-Specific Frailty Model’ (<code>StocTimeDepModel</code>) is computationally heavy and may not converge easily.</li>
 </ul>
 </div>
 <div class="section level2">
