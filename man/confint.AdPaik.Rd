@@ -10,7 +10,8 @@
 \item{object}{An S3 object of class \code{AdPaik}, returned by the main model function
 (\code{AdPaikModel}). This object contains all the optimal parameter estimates.}
 
-\item{parm}{Defaults to NULL.  Changing it is not supported for this model. It will be ignored.}
+\item{parm}{A specification of which parameters are to be given confidence intervals, either a vector of numbers or a vector of names.
+Defaults to NULL, and all parameters are considered. Changing it is not supported for this model. It will be ignored.}
 
 \item{level}{The confidence level required. Defaults to 0.95.}
 
