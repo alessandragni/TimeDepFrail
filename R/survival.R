@@ -25,7 +25,6 @@
 #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #'
 #' # Call the main model function
-#' 
 #' \donttest{
 #' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
@@ -131,7 +130,6 @@ survival <- function(result, data) {
 #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #'
 #' # Call the main model function
-#' 
 #' \donttest{
 #' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'

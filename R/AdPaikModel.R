@@ -784,7 +784,7 @@ ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
 #' @param index_param_to_vary Index of the parameter, in the parameter vector, with respect to which the log-likelihood function
 #' is maximized in a one-dimensional way. The index s provided to identify the parameter under consideration inside the vector, avoiding
 #' providing its name or value.
-#' @param flag_optimal_params Are the other parameters extracted from the optimal vector of parameters? If so, the flag should be equal to TRUE
+#' @param flag_optimal_params Are the other parameters extracted from the optimal vector of parameters? If so, the flag should be equal to TRUE.
 #' Otherwise, the flag is equal to FALSE.
 #' @param optimal_params Vector of optimal parameters, determined through an entire multi-dimensional maximization
 #' of the log-likelihood function. The default value (NULL) indicates that no vector is provided
@@ -825,22 +825,27 @@ ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
 #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
 #' eps <- 1e-10
-#' categories_range_min <- c(-8, -2, eps, eps, eps)
-#' categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
 #'
-#' # Choose the parameter with respect to which you want to study the \
-#' # log-likelihood function and provide its position in the parameter vector \
+#' # Choose the parameter with respect to which you want to study the 
+#' # log-likelihood function and provide its position in the parameter vector 
 #' # for identifying a parameter existence range
-#' 
-#' index_param_to_vary <- 1
 #'
 #' # Call the main model without providing optimal parameter
+#' categories_range_min <- c(-8, -2, eps, eps, eps)
+#' categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
+#' index_param_to_vary <- 1
 #' result <- AdPaik_1D(formula, data_dropout, time_axis,
 #'                     index_param_to_vary, FALSE, NULL,
 #'                     categories_range_min, categories_range_max, n_iter = 5)
 #'
-#' # or for studying the log-likelihood behaviour.
-
+#' # or for studying the log-likelihood behaviour
+#' 
+#' categories_range_min <- c(-8, -2, eps, eps, eps)
+#' categories_range_max <- c(-eps, 0.4, 1 - eps, 1, 10)
+#' index_param_to_vary <- 14
+#' analysis_1D_opt <- AdPaik_1D(formula, data_dropout, time_axis,
+#'                             index_param_to_vary, flag_optimal_params = TRUE, optimal_params = result$OptimalParameters,
+#'                             categories_range_min, categories_range_max, n_iter = 1)
 
 AdPaik_1D <- function(formula, data, time_axis,
                       index_param_to_vary, flag_optimal_params = FALSE, 
