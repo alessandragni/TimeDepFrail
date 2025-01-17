@@ -41,6 +41,26 @@ The first column represents the cluster to which the individual belongs.}
 The plot of the conditional survival function.
 }
 \description{
-Plots the survival function based on the 'Adapted Paik et al.' model's
+Plots the conditional survival function based on the 'Adapted Paik et al.' model's
 estimated coefficients and frailty effects, for each unit in each time interval (represented by its mid point).
+}
+\examples{
+# Import data
+data(data_dropout)
+
+# Define the variables needed for the model execution
+eps_paik <- 1e-10
+categories_range_min <- c(-8, -2, eps_paik, eps_paik, eps_paik)
+categories_range_max <- c(-eps_paik, 0.4, 1 - eps_paik, 1, 10)
+time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
+formula <- time_to_event ~ Gender + CFUP + cluster(group)
+
+# Call the main model function
+
+\donttest{
+result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
+
+survival_df = survival(result, data_dropout)
+plot_survival(result, survival_df)
+ } 
 }

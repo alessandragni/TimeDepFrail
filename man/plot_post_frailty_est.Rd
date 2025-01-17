@@ -93,7 +93,6 @@ pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
 color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
 
 plot_post_frailty_est(result, data_dropout,
-                      pch_type = pch_type, color_bg = color_bg,
-                      pos_legend = 'bottomright')
+                      pch_type = pch_type, color_bg = color_bg)
  }                     
 }

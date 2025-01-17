@@ -1,18 +1,36 @@
 #' @title
-#' Compute Survival Function
+#' Compute the Conditional Survival Function
 #'
 #' @description
-#' Computes the survival function based on the 'Adapted Paik et al.' model's 
+#' Computes the conditional survival function based on the 'Adapted Paik et al.' model's 
 #' given the estimated coefficients and frailty effects.
 #'
 #' @param result S3 object of class 'AdPaik' containing model results.
 #' @param data Data frame containing covariates used in the model.
 #'
-#' @return Aa dataset where each row corresponds to an individual unit in the dataset, 
-#' and the columns represent the survival function values over time intervals. 
-#' The first column indicates the cluster to which the individual belongs. 
+#' @return A dataset where each row corresponds to an individual unit in the dataset, 
+#' and the columns represent the survival function values over time interval, 
+#' with the first column indicating the cluster to which the individual belongs. 
 #'
 #' @export
+#' @examples
+#' # Import data
+#' data(data_dropout)
+#' 
+#' # Define the variables needed for the model execution
+#' eps_paik <- 1e-10
+#' categories_range_min <- c(-8, -2, eps_paik, eps_paik, eps_paik)
+#' categories_range_max <- c(-eps_paik, 0.4, 1 - eps_paik, 1, 10)
+#' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
+#' formula <- time_to_event ~ Gender + CFUP + cluster(group)
+#'
+#' # Call the main model function
+#' 
+#' \donttest{
+#' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
+#'
+#' survival_df = survival(result, data_dropout)
+#'  }  
 survival <- function(result, data) {
   # Check for valid input
   if (class(result) != "AdPaik") stop("'result' must be of class 'AdPaik'.")
@@ -83,7 +101,7 @@ survival <- function(result, data) {
 #' Plot of Conditional Survival Function
 #'
 #' @description
-#' Plots the survival function based on the 'Adapted Paik et al.' model's 
+#' Plots the conditional survival function based on the 'Adapted Paik et al.' model's 
 #' estimated coefficients and frailty effects, for each unit in each time interval (represented by its mid point). 
 #'
 #' @param result S3 object of class 'AdPaik' containing model results.
@@ -101,6 +119,25 @@ survival <- function(result, data) {
 #' @return The plot of the conditional survival function.
 #'
 #' @export
+#' @examples
+#' # Import data
+#' data(data_dropout)
+#' 
+#' # Define the variables needed for the model execution
+#' eps_paik <- 1e-10
+#' categories_range_min <- c(-8, -2, eps_paik, eps_paik, eps_paik)
+#' categories_range_max <- c(-eps_paik, 0.4, 1 - eps_paik, 1, 10)
+#' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
+#' formula <- time_to_event ~ Gender + CFUP + cluster(group)
+#'
+#' # Call the main model function
+#' 
+#' \donttest{
+#' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
+#'
+#' survival_df = survival(result, data_dropout)
+#' plot_survival(result, survival_df)
+#'  } 
 plot_survival <- function(result, survival_df, lwd = 1, 
                           xlim = c(min(result$TimeDomain), max(result$TimeDomain)), ylim = c(0,1),
                           xlab = "Time", ylab = "Values", main = "Survival",

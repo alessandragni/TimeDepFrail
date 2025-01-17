@@ -143,8 +143,7 @@ plot_bas_hazard <- function(result,
 #' color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
 #' 
 #' plot_post_frailty_est(result, data_dropout,
-#'                       pch_type = pch_type, color_bg = color_bg,
-#'                       pos_legend = 'bottomright')
+#'                       pch_type = pch_type, color_bg = color_bg)
 #'  }                     
 
 plot_post_frailty_est <- function(result, data,
@@ -301,7 +300,7 @@ plot_post_frailty_est <- function(result, data,
 #' \donttest{
 #' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
-#' plot_frailty_sd(result, ylim=c(0, 0.50), xlab = 'Time', ylab = 'Standard deviation')
+#' plot_frailty_sd(result)
 #' }
 
 plot_frailty_sd <- function(result, flag_variance = FALSE,  flag_sd_external = FALSE, frailty_sd = NULL,

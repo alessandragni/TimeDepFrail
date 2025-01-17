@@ -78,6 +78,6 @@ formula <- time_to_event ~ Gender + CFUP + cluster(group)
 \donttest{
 result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 
-plot_frailty_sd(result, ylim=c(0, 0.50), xlab = 'Time', ylab = 'Standard deviation')
+plot_frailty_sd(result)
 }
 }
