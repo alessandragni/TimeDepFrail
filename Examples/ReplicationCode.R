@@ -1,4 +1,4 @@
-# devtools::install_github("alessandragni/TimeDepFrail")
+devtools::install_github("alessandragni/TimeDepFrail")
 
 library(TimeDepFrail)
 
