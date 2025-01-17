@@ -825,7 +825,7 @@ ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
 #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
 #' eps <- 1e-10
-#'
+#' \donttest{
 #' # Identify a parameter existence range
 #' categories_range_min <- c(-8, -2, eps, eps, eps)
 #' categories_range_max <- c(-eps, 0.5, 1 - eps, 1, 10)
@@ -840,8 +840,6 @@ ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
 #' 
 #'
 #' # or Study the log-likelihood behaviour
-#' 
-#' \donttest{
 #' categories_range_min <- c(-8, -2, eps, eps, eps)
 #' categories_range_max <- c(-eps, 0.4, 1 - eps, 1, 10)
 #' index_param_to_vary <- 14
