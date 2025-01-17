@@ -112,7 +112,6 @@ The first column represents the cluster to which the individual belongs.</p></dd
 <span class="r-in"><span><span class="va">formula</span> <span class="op">&lt;-</span> <span class="va">time_to_event</span> <span class="op">~</span> <span class="va">Gender</span> <span class="op">+</span> <span class="va">CFUP</span> <span class="op">+</span> <span class="fu">cluster</span><span class="op">(</span><span class="va">group</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Call the main model function</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="AdPaikModel.html">AdPaikModel</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>, <span class="va">time_axis</span>, <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'data_dropout' not found</span>
