@@ -182,6 +182,8 @@ so that it is possible to identify a precise existence region for such parameter
 <span class="r-in"><span><span class="va">time_axis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.0</span>, <span class="fl">1.4</span>, <span class="fl">1.8</span>, <span class="fl">2.3</span>, <span class="fl">3.1</span>, <span class="fl">3.8</span>, <span class="fl">4.3</span>, <span class="fl">5.0</span>, <span class="fl">5.5</span>, <span class="fl">5.8</span>, <span class="fl">6.0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">eps</span> <span class="op">&lt;-</span> <span class="fl">1e-10</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Identify a parameter existence range</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Choose the parameter with respect to which you want to study the </span></span></span>
 <span class="r-in"><span><span class="co"># log-likelihood function and provide its position in the parameter vector </span></span></span>
 <span class="r-in"><span><span class="co"># for identifying a parameter existence range</span></span></span>
@@ -195,7 +197,7 @@ so that it is possible to identify a precise existence region for such parameter
 <span class="r-in"><span>                    <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span>, n_iter <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'data_dropout' not found</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># or for studying the log-likelihood behaviour</span></span></span>
+<span class="r-in"><span><span class="co"># or Study the log-likelihood behaviour</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">categories_range_min</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">8</span>, <span class="op">-</span><span class="fl">2</span>, <span class="va">eps</span>, <span class="va">eps</span>, <span class="va">eps</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">categories_range_max</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="va">eps</span>, <span class="fl">0.4</span>, <span class="fl">1</span> <span class="op">-</span> <span class="va">eps</span>, <span class="fl">1</span>, <span class="fl">10</span><span class="op">)</span></span></span>
