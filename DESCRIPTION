@@ -17,4 +17,4 @@ Depends:
     R (>= 3.5.0)
 Imports:
 LazyData: true
-URL: https://alessandragni.github.io/TimeDepFrail/
+URL: https://CRAN.R-project.org/package=TimeDepFrail, https://alessandragni.github.io/TimeDepFrail/
