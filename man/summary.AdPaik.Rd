@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary.R
 \name{summary.AdPaik}
 \alias{summary.AdPaik}
-\title{SSummary of the Adapted Paik et al.'s Time-Dependent Shared Frailty Model}
+\title{Summary of the Adapted Paik et al.'s Time-Dependent Shared Frailty Model}
 \usage{
 \method{summary}{AdPaik}(result)
 }

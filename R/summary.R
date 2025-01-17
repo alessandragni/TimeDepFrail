@@ -1,5 +1,5 @@
 #' @title
-#' SSummary of the Adapted Paik et al.'s Time-Dependent Shared Frailty Model
+#' Summary of the Adapted Paik et al.'s Time-Dependent Shared Frailty Model
 #'
 #' @description
 #' This function provides a comprehensive summary of the results from the Adapted Paik et al.'s Time-Dependent Shared Frailty Model. 
