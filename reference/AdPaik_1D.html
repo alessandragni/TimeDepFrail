@@ -183,31 +183,35 @@ so that it is possible to identify a precise existence region for such parameter
 <span class="r-in"><span><span class="va">eps</span> <span class="op">&lt;-</span> <span class="fl">1e-10</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Identify a parameter existence range</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Choose the parameter with respect to which you want to study the </span></span></span>
-<span class="r-in"><span><span class="co"># log-likelihood function and provide its position in the parameter vector </span></span></span>
-<span class="r-in"><span><span class="co"># for identifying a parameter existence range</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Call the main model without providing optimal parameter</span></span></span>
 <span class="r-in"><span><span class="va">categories_range_min</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">8</span>, <span class="op">-</span><span class="fl">2</span>, <span class="va">eps</span>, <span class="va">eps</span>, <span class="va">eps</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">categories_range_max</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="va">eps</span>, <span class="fl">0</span>, <span class="fl">1</span> <span class="op">-</span> <span class="va">eps</span>, <span class="fl">1</span>, <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">categories_range_max</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="va">eps</span>, <span class="fl">0.5</span>, <span class="fl">1</span> <span class="op">-</span> <span class="va">eps</span>, <span class="fl">1</span>, <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">index_param_to_vary</span> <span class="op">&lt;-</span> <span class="fl">1</span></span></span>
-<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">AdPaik_1D</span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>, <span class="va">time_axis</span>,</span></span>
-<span class="r-in"><span>                    <span class="va">index_param_to_vary</span>, flag_optimal_params <span class="op">=</span> <span class="cn">FALSE</span>, </span></span>
-<span class="r-in"><span>                    optimal_params <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
-<span class="r-in"><span>                    <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span>, n_iter <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">analysis_1D_opt</span> <span class="op">&lt;-</span> <span class="fu">AdPaik_1D</span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>,</span></span>
+<span class="r-in"><span>                             <span class="va">time_axis</span>, <span class="va">index_param_to_vary</span>, </span></span>
+<span class="r-in"><span>                             flag_optimal_params <span class="op">=</span> <span class="cn">FALSE</span>, </span></span>
+<span class="r-in"><span>                             optimal_params <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>                             flag_plot <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                             <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span>, </span></span>
+<span class="r-in"><span>                             n_iter <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'data_dropout' not found</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># or Study the log-likelihood behaviour</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">categories_range_min</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">8</span>, <span class="op">-</span><span class="fl">2</span>, <span class="va">eps</span>, <span class="va">eps</span>, <span class="va">eps</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">categories_range_max</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="va">eps</span>, <span class="fl">0.4</span>, <span class="fl">1</span> <span class="op">-</span> <span class="va">eps</span>, <span class="fl">1</span>, <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">index_param_to_vary</span> <span class="op">&lt;-</span> <span class="fl">14</span></span></span>
-<span class="r-in"><span><span class="va">analysis_1D_opt</span> <span class="op">&lt;-</span> <span class="fu">AdPaik_1D</span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>, <span class="va">time_axis</span>,</span></span>
-<span class="r-in"><span>                            <span class="va">index_param_to_vary</span>, flag_optimal_params <span class="op">=</span> <span class="cn">TRUE</span>, </span></span>
-<span class="r-in"><span>                            optimal_params <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">OptimalParameters</span>,</span></span>
-<span class="r-in"><span>                            <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span>, n_iter <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Call the main model</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="AdPaikModel.html">AdPaikModel</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>, <span class="va">time_axis</span>,</span></span>
+<span class="r-in"><span>                      <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'data_dropout' not found</span>
+<span class="r-in"><span><span class="va">analysis_1D_opt</span> <span class="op">&lt;-</span> <span class="fu">AdPaik_1D</span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>, <span class="va">time_axis</span>,</span></span>
+<span class="r-in"><span>                             <span class="va">index_param_to_vary</span>, flag_optimal_params <span class="op">=</span> <span class="cn">TRUE</span>, </span></span>
+<span class="r-in"><span>                             flag_plot <span class="op">=</span> <span class="cn">TRUE</span>, optimal_params <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">OptimalParameters</span>,</span></span>
+<span class="r-in"><span>                             <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span>, n_iter <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'data_dropout' not found</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
