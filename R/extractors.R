@@ -115,7 +115,7 @@ coef.AdPaik <- function (result){
 #' coefse(result)
 #' }
 
-coefse.AdPaik <- function(result){
+coefse <- function(result){
   
   # Check result structure
   check.result(result)
