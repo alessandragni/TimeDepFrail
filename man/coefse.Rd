@@ -19,7 +19,7 @@ Extracts the standard errors for \eqn{\boldsymbol{\phi}}, \eqn{\boldsymbol{\beta
 time-dependent frailty model proposed in the 'Adapted Paik et al.' framework.
 }
 \details{
-The \code{coefse.AdPaik} function extracts the standard errors for the estimated parameters from the
+The \code{coefse} function extracts the standard errors for the estimated parameters from the
 \code{StandardErrorParameters} field in the \code{result} object.
 
 The function validates the structure of the \code{result} object and ensures compatibility

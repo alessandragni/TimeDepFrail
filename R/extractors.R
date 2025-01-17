@@ -84,7 +84,7 @@ coef.AdPaik <- function (result){
 #' (`AdPaikModel`). This object contains all the optimal parameter estimates.
 #'
 #' @details
-#' The `coefse.AdPaik` function extracts the standard errors for the estimated parameters from the 
+#' The `coefse` function extracts the standard errors for the estimated parameters from the 
 #' `StandardErrorParameters` field in the `result` object. 
 #'
 #' The function validates the structure of the `result` object and ensures compatibility 

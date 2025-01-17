@@ -36,7 +36,7 @@ survival <- function(result, data) {
   if (!is.data.frame(data)) stop("'data' must be a data frame.")
   
   # Extract beta coefficients and formula
-  beta <- coef(result)$beta  # Extract coefficients
+  beta <- coef.AdPaik(result)$beta  # Extract coefficients
   # names(coef(result)$beta) # Extract names
   full_formula <- result$formula  # Extract the full formula
   
@@ -66,7 +66,7 @@ survival <- function(result, data) {
   exp_linear_predictor <- exp(c(linear_predictor))
   
   # Compute the the inner terms of the integral
-  exp_phi <- exp(c(coef(result)$phi))  # Baseline hazard parameters
+  exp_phi <- exp(c(coef.AdPaik(result)$phi))  # Baseline hazard parameters
   time_diffs <- diff(result$TimeDomain)  # Differences in the time domain
   posterior_frailty <- result$PosteriorFrailtyEstimates$Z  # Posterior frailty estimates
   inner_part <- t(t(posterior_frailty) * (exp_phi * time_diffs))  # Scale by hazard params

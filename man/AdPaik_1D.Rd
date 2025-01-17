@@ -118,7 +118,8 @@ categories_range_min <- c(-8, -2, eps, eps, eps)
 categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
 index_param_to_vary <- 1
 result <- AdPaik_1D(formula, data_dropout, time_axis,
-                    index_param_to_vary, FALSE, NULL,
+                    index_param_to_vary, flag_optimal_params = FALSE, 
+                    optimal_params = NULL,
                     categories_range_min, categories_range_max, n_iter = 5)
 
 # or Study the log-likelihood behaviour
@@ -127,6 +128,7 @@ categories_range_min <- c(-8, -2, eps, eps, eps)
 categories_range_max <- c(-eps, 0.4, 1 - eps, 1, 10)
 index_param_to_vary <- 14
 analysis_1D_opt <- AdPaik_1D(formula, data_dropout, time_axis,
-                            index_param_to_vary, flag_optimal_params = TRUE, optimal_params = result$OptimalParameters,
+                            index_param_to_vary, flag_optimal_params = TRUE, 
+                            optimal_params = result$OptimalParameters,
                             categories_range_min, categories_range_max, n_iter = 1)
 }
