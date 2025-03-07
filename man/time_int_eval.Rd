@@ -11,7 +11,7 @@ time_int_eval(time_t, k, time_axis)
 
 \item{k}{k-th interval of the time-axis}
 
-\item{time_axis}{Temporal domain (it may coincide with the follow-up)}
+\item{time_axis}{Temporal domain}
 }
 \value{
 Evaluation of the temporal integral
@@ -21,3 +21,4 @@ Function for the resolution of an integral with respect to time,
 in the evaluation of the log-likelihood function.
 It is implemented as defined in the paper of Wintrebert et al.'s (2004)
 }
+\keyword{internal}

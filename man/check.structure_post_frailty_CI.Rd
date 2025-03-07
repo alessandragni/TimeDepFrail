@@ -23,3 +23,4 @@ An error if any condition is not satisfied.
 \description{
 The function controls that the structure of the 'Posterior Frailty Confidence Interval' coincides with the theoretical one.
 }
+\keyword{internal}

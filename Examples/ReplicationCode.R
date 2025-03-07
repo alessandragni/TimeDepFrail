@@ -2,31 +2,31 @@ devtools::install_github("alessandragni/TimeDepFrail")
 
 library(TimeDepFrail)
 
+# help(package = "TimeDepFrail")
+
 #### Section 4: Syntax and Implementation details #####
 
-help(package = "TimeDepFrail")
-
 ##### Section 4.1 #####
-?AdPaikModel
-?summary.AdPaik
-?coef.AdPaik
-?coefse
-?confint.AdPaik
-?plot_bas_hazard
+# ?AdPaikModel
+# ?summary.AdPaik
+# ?coef.AdPaik
+# ?coefse
+# ?confint.AdPaik
+# ?plot_bas_hazard
 
 ##### Section 4.2 #####
-?frailty_sd
-?plot_frailty_sd
+# ?frailty_sd
+# ?plot_frailty_sd
 
 ##### Section 4.3 #####
-?plot_post_frailty_est
+# ?plot_post_frailty_est
 
 ##### Section 4.4 #####
-?survival
-?plot_survival
+# ?survival
+# ?plot_survival
 
 ##### Section 4.5 #####
-?AdPaik_1D
+# ?AdPaik_1D
 
 
 #### Section 5: Worked example #####
@@ -45,6 +45,7 @@ categories_range_max <- c(-eps, 0.5, 1 - eps, 1, 10)
 
 ###### Section 5.2 ######
 # Main model and summary
+set.seed(1)
 result <- AdPaikModel(formula, data_dropout, time_axis,
                       categories_range_min, categories_range_max)
 
@@ -116,6 +117,7 @@ dev.off()
 ##### Section 5.5 ##### 
 
 # Identify a parameter existence range
+set.seed(123)
 index_param_to_vary <- 1
 analysis_1D_opt <- AdPaik_1D(formula, data_dropout,
                              time_axis, index_param_to_vary, 
@@ -132,6 +134,7 @@ analysis_1D_opt
 categories_range_min <- c(-8, -1, eps, eps, eps)
 categories_range_max <- c(-eps, 0.5, 1 - eps, 1, 10)
 
+set.seed(123)
 index_param_to_vary <- 12
 analysis_1D_opt <- AdPaik_1D(formula, data_dropout, 
                              time_axis, index_param_to_vary, 
@@ -147,6 +150,7 @@ analysis_1D_opt
 # Study the log-likelihood behaviour
 categories_range_min <- c(-8, -2, eps, eps, eps)
 categories_range_max <- c(-eps, 0.4, 1 - eps, 1, 10)
+set.seed(1)
 index_param_to_vary <- 14
 analysis_1D_opt <- AdPaik_1D(formula, data_dropout, time_axis,
                              index_param_to_vary, flag_optimal_params = TRUE, 

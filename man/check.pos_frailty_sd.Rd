@@ -17,3 +17,4 @@ An error if any condition is not satisfied.
 \description{
 The method controls that the frailty standard deviation vector has non-negative elements
 }
+\keyword{internal}

@@ -1,4 +1,4 @@
-#' @title 
+#' @title
 #' Adapted Paik et Al.'s Model: Time-Dependent Shared Frailty Cox Model
 #'
 #' @description

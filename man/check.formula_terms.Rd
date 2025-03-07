@@ -25,3 +25,4 @@ They must include:
 
 Moreover, it controls that the covariates are contained in the dataset provided.
 }
+\keyword{internal}

@@ -15,3 +15,4 @@ An error if any condition is not satisfied.
 \description{
 The method controls that the dataset does not contain 'NULL', 'null', 'NaN' or 'nan' value.
 }
+\keyword{internal}

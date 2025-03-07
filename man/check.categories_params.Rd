@@ -27,3 +27,4 @@ parameters. For the current model, the number of categories is 5 because there a
 
 Moreover, it also controls that the minimum value of a parameter category is actually less than or eqaul to the maximum value for the same category.
 }
+\keyword{internal}

@@ -19,3 +19,4 @@ An error if any condition is not satisfied.
 The method controls that the provided input index exists: it cannot be greater than the maximum number
 of parameters of the current model.
 }
+\keyword{internal}

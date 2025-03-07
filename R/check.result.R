@@ -95,6 +95,8 @@ check.result <- function(result){
 #'
 #'
 #' @return An error if any condition is not satisfied.
+#' 
+#' @keywords internal
 
 check.result.AdPaik <- function(result){
   # Save the names of the list elements

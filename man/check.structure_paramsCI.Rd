@@ -19,3 +19,4 @@ An error if any condition is not satisfied.
 \description{
 The function controls that the structure of the Parameters Confidence Intervals coincides with the theoretical one.
 }
+\keyword{internal}

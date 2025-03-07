@@ -22,3 +22,4 @@ The function controls that one of the following condition is satisfied:
 \item if the flag is not activated, then the optimal parameters should not be provided and the parameter vector should be NU
 }
 }
+\keyword{internal}

@@ -7,9 +7,11 @@
 #'
 #' @param time_t Event time instant
 #' @param k k-th interval of the time-axis
-#' @param time_axis Temporal domain (it may coincide with the follow-up)
+#' @param time_axis Temporal domain
 #'
 #' @return Evaluation of the temporal integral
+#' 
+#' @keywords internal
 
 time_int_eval <- function(time_t, k, time_axis){
   if (time_t < time_axis[k])

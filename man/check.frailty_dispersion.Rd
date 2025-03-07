@@ -18,3 +18,4 @@ An error if any condition is not satisfied.
 The function controls that the frailty standard deviation vector has a length equal to the number of inyervals of the time domain and
 that its elements are non-negative.
 }
+\keyword{internal}

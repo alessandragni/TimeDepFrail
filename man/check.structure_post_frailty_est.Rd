@@ -24,3 +24,4 @@ An error if any condition is not satisfied.
 \description{
 The function controls that the structure of the 'Posterior Frailty Estimates' coincides with the theoretical one.
 }
+\keyword{internal}

@@ -21,3 +21,4 @@ An error if any condition is not satisfied.
 The function controls that all posterior frailty estimates are non-negative.
 Indeed, by construction the realizations of a gamma distribution are non negative.
 }
+\keyword{internal}

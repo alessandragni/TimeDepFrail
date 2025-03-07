@@ -73,3 +73,4 @@ The object of class 'PFCI.AdPaik' contains the Posterior Frailty Confidence Inte
 \item right confidence interval for the estimated \eqn{\hat{Z}_{jk}, \forall j,k}. Matrix of dimension (N, L).
 }
 }
+\keyword{internal}

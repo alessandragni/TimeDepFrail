@@ -18,3 +18,4 @@ An error if any condition is not satisfied.
 \description{
 The function controls that a time-dependent posterior frailty estimate is computed for each centre
 }
+\keyword{internal}
