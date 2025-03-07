@@ -2,33 +2,20 @@
 % Please edit documentation in R/summary.R
 \name{summary.AdPaik}
 \alias{summary.AdPaik}
-\alias{print.summary.AdPaik}
-\title{Summary of the Adapted Paik et al.'s Time-Dependent Shared Frailty Model}
+\title{Summary Method for AdPaik Objects}
 \usage{
-## S3 method for class 'AdPaik'
-summary(object, ...)
-
-## S3 method for class 'summary.AdPaik'
-print(x, ...)
+\method{summary}{AdPaik}(object, ...)
 }
 \arguments{
 \item{object}{An object of class \code{"AdPaik"}, returned by the main model function.}
 
-\item{x}{An object of class \code{"summary.AdPaik"}, created by \code{summary.AdPaik()}.}
-
 \item{...}{Additional arguments (currently unused).}
 }
 \value{
-\itemize{
-\item \code{summary.AdPaik()} returns an object of class \code{"summary.AdPaik"}, containing structured model summary information.
-\item \code{print.summary.AdPaik()} prints the formatted summary to the console.
-}
+\code{summary.AdPaik()} returns an object of class \code{"summary.AdPaik"}, containing structured model summary information.
 }
 \description{
-Provides a structured summary of the results from the Adapted Paik et al.'s Time-Dependent Shared Frailty Model.
-The summary includes key dataset information (e.g., number of individuals, regressors, intervals, and clusters),
-model parameters, and main output metrics such as log-likelihood and AIC. Estimated regressors and their standard errors
-are also reported.
+\code{summary} method for objects of class \code{"AdPaik"}. Provides a structured summary of the results from the Adapted Paik et al.'s Time-Dependent Shared Frailty Model.
 }
 \details{
 This function extracts relevant model outputs, such as estimated parameters, standard errors,
@@ -51,4 +38,7 @@ result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, ca
 summary_result <- summary(result)
 print(summary_result)  # or simply `summary(result)`
 }
+}
+\seealso{
+\code{\link{summary}}, \code{\link{print}}
 }

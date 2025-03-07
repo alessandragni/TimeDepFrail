@@ -1,33 +1,23 @@
-#' @title Summary of the Adapted Paik et al.'s Time-Dependent Shared Frailty Model
+#' @title Summary Method for AdPaik Objects
 #'
 #' @description
-#' Provides a structured summary of the results from the Adapted Paik et al.'s Time-Dependent Shared Frailty Model.
-#' The summary includes key dataset information (e.g., number of individuals, regressors, intervals, and clusters), 
-#' model parameters, and main output metrics such as log-likelihood and AIC. Estimated regressors and their standard errors 
-#' are also reported.
-#' 
+#' `summary` method for objects of class `"AdPaik"`. Provides a structured summary of the results from the Adapted Paik et al.'s Time-Dependent Shared Frailty Model.
+#'
 #' @details
-#' This function extracts relevant model outputs, such as estimated parameters, standard errors, 
-#' and the convergence status of the algorithm. The summary is returned as an object of class `"summary.AdPaik"`, 
+#' This function extracts relevant model outputs, such as estimated parameters, standard errors,
+#' and the convergence status of the algorithm. The summary is returned as an object of class `"summary.AdPaik"`,
 #' which can be printed using `print()`.
 #'
-#' @usage
-#' ## S3 method for class 'AdPaik'
-#' summary(object, ...)
-#' 
-#' ## S3 method for class 'summary.AdPaik'
-#' print(x, ...)
-#'
 #' @param object An object of class `"AdPaik"`, returned by the main model function.
-#' @param x An object of class `"summary.AdPaik"`, created by `summary.AdPaik()`.
 #' @param ... Additional arguments (currently unused).
 #'
 #' @return
-#' - `summary.AdPaik()` returns an object of class `"summary.AdPaik"`, containing structured model summary information.
-#' - `print.summary.AdPaik()` prints the formatted summary to the console.
+#' `summary.AdPaik()` returns an object of class `"summary.AdPaik"`, containing structured model summary information.
 #'
-#' @aliases summary.AdPaik print.summary.AdPaik
-#' 
+#' @seealso \code{\link{summary}}, \code{\link{print}}
+#' @export
+#' @method summary AdPaik
+#'
 #' @examples
 #' \dontrun{
 #' data(data_dropout)
@@ -44,52 +34,64 @@
 #' summary_result <- summary(result)
 #' print(summary_result)  # or simply `summary(result)`
 #' }
-
-#' @export
-summary.AdPaik <- function(result) {
-  check.result(result)  # Validate input
+summary.AdPaik <- function(object, ...) {
+  check.result(object) # Validate input
   
   # Extract model information
-  params_categories <- result$ParametersCategories
-  L <- params_categories[1]  # Number of intervals
-  R <- params_categories[2]  # Number of regressors
+  params_categories <- object$ParametersCategories
+  L <- params_categories[1] # Number of intervals
+  R <- params_categories[2] # Number of regressors
   
   # Format optimal parameters with standard errors
-  n_params <- result$NParameters
+  n_params <- object$NParameters
   optimal_parameters <- sapply(1:n_params, function(p) {
-    sprintf("%.4f (%.4f)", result$OptimalParameters[p], result$StandardErrorParameters[p])
+    sprintf("%.4f (%.4f)", object$OptimalParameters[p], object$StandardErrorParameters[p])
   })
   
   # Extract estimated regressors
   betar <- optimal_parameters[(L + 1):(L + R)]
   
   # Convergence status
-  convergence <- if (result$Status) {
-    sprintf("TRUE (Converged in %d runs)", result$NRun)
+  convergence <- if (object$Status) {
+    sprintf("TRUE (Converged in %d runs)", object$NRun)
   } else {
     "FALSE (No Convergence)"
   }
   
   # Construct structured summary output
   summary_list <- list(
-    call = as.character(result$formula),
-    cluster_variable = result$ClusterVariable,
-    n_clusters = result$NClusters,
-    log_likelihood = round(result$Loglikelihood, 4),
-    AIC = round(result$AIC, 4),
+    call = as.character(object$formula),
+    cluster_variable = object$ClusterVariable,
+    n_clusters = object$NClusters,
+    log_likelihood = round(object$Loglikelihood, 4),
+    AIC = round(object$AIC, 4),
     convergence = convergence,
-    n_parameters = result$NParameters,
+    n_parameters = object$NParameters,
     parameter_breakdown = params_categories,
     n_intervals = L,
     n_regressors = R,
-    regressors = setNames(betar, result$Regressors)
+    regressors = stats::setNames(betar, object$Regressors)
   )
   
   class(summary_list) <- "summary.AdPaik"
   return(summary_list)
 }
 
+
+#' @title Print Method for summary.AdPaik Objects
+#'
+#' @description
+#' `print` method for objects of class `"summary.AdPaik"`. Prints the formatted summary to the console.
+#'
+#' @param x An object of class `"summary.AdPaik"`, created by `summary(object)`.
+#' @param ... Additional arguments (currently unused).
+#'
+#' @return
+#' `print.summary.AdPaik()` prints the formatted summary to the console.
+#'
+#' @seealso \code{\link{summary}}, \code{\link{print}}
 #' @export
+#' @method print summary.AdPaik
 print.summary.AdPaik <- function(x, ...) {
   cat("Output of the 'Adapted Paik et al.' Model\n")
   cat("---------------------------------------------------\n")
