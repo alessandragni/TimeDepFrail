@@ -2,27 +2,40 @@
 % Please edit documentation in R/summary.R
 \name{summary.AdPaik}
 \alias{summary.AdPaik}
-\title{Summary of the Adapted Paik et Al.'s Time-Dependent Shared Frailty Model}
+\title{Summary of the Adapted Paik et al.'s Time-Dependent Shared Frailty Model}
 \usage{
-\method{summary}{AdPaik}(result)
+## S3 method for class 'AdPaik'
+summary(object, ...)
+
+## S3 method for class 'summary.AdPaik'
+print(x, ...)
 }
 \arguments{
-\item{result}{'S3' class object returned by the main model call, i.e. output of the 'Adapted Paik et al.'s Model'.}
+\item{object}{An object of class \code{"AdPaik"}, returned by the main model function.}
+
+\item{x}{An object of class \code{"summary.AdPaik"}, created by \code{summary.AdPaik()}.}
+
+\item{...}{Additional arguments (currently unused).}
 }
 \value{
-Model summary printed on output.
+\itemize{
+\item \code{summary.AdPaik()} returns an object of class \code{"summary.AdPaik"}, containing structured model summary information.
+\item \code{print.summary.AdPaik()} prints the formatted summary to the console.
+}
 }
 \description{
-This function provides a comprehensive summary of the results from the Adapted Paik et al.'s Time-Dependent Shared Frailty Model.
-It includes key information about the dataset (e.g., number of individuals, regressors, intervals, and clusters), model parameters,
-and output (log-likelihood, AIC). The summary also lists the estimated regressors along with their standard errors
+Provides a structured summary of the results from the Adapted Paik et al.'s Time-Dependent Shared Frailty Model.
+The summary includes key dataset information (e.g., number of individuals, regressors, intervals, and clusters),
+model parameters, and main output metrics such as log-likelihood and AIC. Estimated regressors and their standard errors
+are also reported.
 }
 \details{
-The function reports the estimated regressors, their standard errors, and confidence intervals (if available).
+This function extracts relevant model outputs, such as estimated parameters, standard errors,
+and the convergence status of the algorithm. The summary is returned as an object of class \code{"summary.AdPaik"},
+which can be printed using \code{print()}.
 }
 \examples{
-# Define the variables needed for the model execution
-
+\dontrun{
 data(data_dropout)
 eps_paik <- 1e-10
 categories_range_min <- c(-8, -2, eps_paik, eps_paik, eps_paik)
@@ -30,11 +43,11 @@ categories_range_max <- c(-eps_paik, 0.4, 1 - eps_paik, 1, 10)
 time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
 formula <- time_to_event ~ Gender + CFUP + cluster(group)
 
-\donttest{
-# Call the main model function
+# Fit the model
 result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 
-# Call the summary
-summary(result)
+# Generate and print summary
+summary_result <- summary(result)
+print(summary_result)  # or simply `summary(result)`
 }
 }
