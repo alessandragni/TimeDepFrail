@@ -101,7 +101,7 @@ print.summary.AdPaik <- function(x, ...) {
   cat(sprintf("Overall number of parameters: %d\n", x$n_parameters))
   cat("Parameter breakdown: ", paste(x$parameter_breakdown, collapse = ", "), "\n")
   cat(sprintf("Number of intervals: %d\n", x$n_intervals))
-  cat(sprintf("Number of regressors: %d\n", x$n_regressors), "\n")
+  cat(sprintf("Number of regressors: %d\n", x$n_regressors))
   cat("---------------------------------------------------\n")
   cat("Estimated regressors (with standard errors):\n")
   for (r in seq_along(x$regressors)) {
