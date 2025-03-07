@@ -25,8 +25,6 @@
 #' @return
 #' - `summary.AdPaik()` returns an object of class `"summary.AdPaik"`, containing structured model summary information.
 #' - `print.summary.AdPaik()` prints the formatted summary to the console.
-#' 
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -45,6 +43,7 @@
 #' print(summary_result)  # or simply `summary(result)`
 #' }
 
+#' @export
 summary.AdPaik <- function(result) {
   check.result(result)  # Validate input
   
@@ -88,7 +87,7 @@ summary.AdPaik <- function(result) {
   return(summary_list)
 }
 
-
+#' @export
 print.summary.AdPaik <- function(x, ...) {
   cat("Output of the 'Adapted Paik et al.' Model\n")
   cat("---------------------------------------------------\n")
