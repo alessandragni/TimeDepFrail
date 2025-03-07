@@ -2,7 +2,7 @@
 % Please edit documentation in R/posterior_frailty.R
 \name{extract_event_data}
 \alias{extract_event_data}
-\title{Extracting variables for Posterior Frailty Estimates computation}
+\title{Extracting Variables for Posterior Frailty Estimates Computation}
 \usage{
 extract_event_data(dataset, time_to_event, centre, time_axis, phi, betar)
 }

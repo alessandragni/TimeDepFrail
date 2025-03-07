@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{check.structure_paramsCI}
 \alias{check.structure_paramsCI}
-\title{Check structure for the Parameters Confidence Interval}
+\title{Check Structure for the Parameters Confidence Interval}
 \usage{
 check.structure_paramsCI(parametersCI)
 }

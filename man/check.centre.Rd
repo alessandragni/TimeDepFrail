@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{check.centre}
 \alias{check.centre}
-\title{Check correctness for the cluster variable}
+\title{Check Correctness for the Cluster Variable}
 \usage{
 check.centre(centre)
 }

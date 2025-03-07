@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{check.poslegend}
 \alias{check.poslegend}
-\title{Check correctness of legend position}
+\title{Check Correctness of Legend Position}
 \usage{
 check.poslegend(pos_legend)
 }

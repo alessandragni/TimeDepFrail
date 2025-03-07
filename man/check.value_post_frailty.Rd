@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{check.value_post_frailty}
 \alias{check.value_post_frailty}
-\title{Check non-negativeness of the posterior frailty estimates}
+\title{Check Non-Negativeness of the Posterior Frailty Estimates}
 \usage{
 check.value_post_frailty(post_frailty_est, n_centres, n_intervals)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/AdPaikModel.R
 \name{AdPaik_1D}
 \alias{AdPaik_1D}
-\title{One-dimensional analysis of log-likelihood function}
+\title{One-Dimensional Analysis of log-Likelihood Function}
 \usage{
 AdPaik_1D(
   formula,

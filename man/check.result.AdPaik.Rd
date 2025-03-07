@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.result.R
 \name{check.result.AdPaik}
 \alias{check.result.AdPaik}
-\title{Check structure of the 'AdPaikModel' output}
+\title{Check Structure of the 'AdPaikModel' Output}
 \usage{
 check.result.AdPaik(result)
 }

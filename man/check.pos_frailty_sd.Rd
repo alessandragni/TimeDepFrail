@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{check.pos_frailty_sd}
 \alias{check.pos_frailty_sd}
-\title{Check positiviness of the frailty standard deviation}
+\title{Check Positivity of the Frailty Standard Deviation}
 \usage{
 check.pos_frailty_sd(sd, n_intervals)
 }

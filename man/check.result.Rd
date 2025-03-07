@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.result.R
 \name{check.result}
 \alias{check.result}
-\title{Internal function to check the structure of the model output}
+\title{Internal Function to Check the Structure of the Model Output}
 \usage{
 check.result(result)
 }

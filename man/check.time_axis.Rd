@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{check.time_axis}
 \alias{check.time_axis}
-\title{Check correctness of time domain subdivision}
+\title{Check Correctness of Time Domain Subdivision}
 \usage{
 check.time_axis(time_axis)
 }

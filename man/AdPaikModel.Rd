@@ -2,7 +2,7 @@
 % Please edit documentation in R/AdPaikModel.R
 \name{AdPaikModel}
 \alias{AdPaikModel}
-\title{Adapted Paik et al.'s Model: Time-Dependent Shared Frailty Cox Model}
+\title{Adapted Paik et Al.'s Model: Time-Dependent Shared Frailty Cox Model}
 \source{
 ...
 }

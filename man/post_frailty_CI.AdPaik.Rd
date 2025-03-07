@@ -2,7 +2,7 @@
 % Please edit documentation in R/posterior_frailty.R
 \name{post_frailty_CI.AdPaik}
 \alias{post_frailty_CI.AdPaik}
-\title{Confidence interval for posterior frailty estimates}
+\title{Confidence Interval for Posterior Frailty Estimates}
 \usage{
 post_frailty_CI.AdPaik(
   post_frailty_est,

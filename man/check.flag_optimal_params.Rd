@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{check.flag_optimal_params}
 \alias{check.flag_optimal_params}
-\title{Check coherence between flag for optimal parameters and optimal parameters}
+\title{Check Coherence Between Flag for Optimal Parameters and Optimal Parameters}
 \usage{
 check.flag_optimal_params(optimal_params, flag_optimal_params)
 }

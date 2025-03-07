@@ -2,7 +2,7 @@
 % Please edit documentation in R/AdPaikModel.R
 \name{ll_AdPaik_centre_1D}
 \alias{ll_AdPaik_centre_1D}
-\title{One-dimensional group log-likelihood function.}
+\title{One-Dimensional Group log-Likelihood Function}
 \usage{
 ll_AdPaik_centre_1D(
   param_onedim,

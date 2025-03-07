@@ -2,7 +2,7 @@
 % Please edit documentation in R/params_se.R
 \name{params_CI}
 \alias{params_CI}
-\title{Confidence interval for the optimal estimated parameters}
+\title{Confidence Interval for the Optimal Estimated Parameters}
 \usage{
 params_CI(optimal_params, se_params, level)
 }

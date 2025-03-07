@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{check.C_mult}
 \alias{check.C_mult}
-\title{Check positiveness of the multiplicative constant C}
+\title{Check Positiveness of the Multiplicative Constant C}
 \usage{
 check.C_mult(C_mult)
 }

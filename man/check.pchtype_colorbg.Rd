@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{check.pchtype_colorbg}
 \alias{check.pchtype_colorbg}
-\title{Check correctness of plot variables pch and color}
+\title{Check Correctness of Plot Variables Pch and Color}
 \usage{
 check.pchtype_colorbg(centre_codes, pch_type, color_bg)
 }

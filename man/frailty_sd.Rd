@@ -2,7 +2,7 @@
 % Please edit documentation in R/frailty_sd.R
 \name{frailty_sd}
 \alias{frailty_sd}
-\title{Frailty standard deviation and Variance for the 'Adapted Paik et al.'s Model'}
+\title{Frailty Standard Deviation and Variance for the 'Adapted Paik et Al.'s Model'}
 \usage{
 frailty_sd(result, flag_fullsd = TRUE)
 }

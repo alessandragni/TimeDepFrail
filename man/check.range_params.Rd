@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{check.range_params}
 \alias{check.range_params}
-\title{Check correctness of input parameters}
+\title{Check Correctness of Input Parameters}
 \usage{
 check.range_params(optimal_params, params_range_min, params_range_max)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/AdPaikModel.R
 \name{ll_AdPaik_1D}
 \alias{ll_AdPaik_1D}
-\title{One-dimensional log-likelihood function to be optimized.}
+\title{One-Dimensional Log-Likelihood Function to be Optimized}
 \usage{
 ll_AdPaik_1D(
   x,

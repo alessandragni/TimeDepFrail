@@ -2,7 +2,7 @@
 % Please edit documentation in R/extractors.R
 \name{coefse}
 \alias{coefse}
-\title{Extracts the standard errors computed for each cateogry for the 'Adapted Paik et al.' Model}
+\title{Extracts the Standard Errors Computed for Each Cateogry for the 'Adapted Paik et Al.' Model}
 \usage{
 coefse(object)
 }

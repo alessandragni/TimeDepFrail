@@ -2,7 +2,7 @@
 % Please edit documentation in R/time_int_eval.R
 \name{time_int_eval}
 \alias{time_int_eval}
-\title{Resolution of integral with respect to time}
+\title{Resolution of Integral with Respect to Time}
 \usage{
 time_int_eval(time_t, k, time_axis)
 }

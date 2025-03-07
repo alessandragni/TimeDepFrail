@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{check.structure_post_frailty_var}
 \alias{check.structure_post_frailty_var}
-\title{Check structure of Posterior Frailty Variances}
+\title{Check Structure of Posterior Frailty Variances}
 \usage{
 check.structure_post_frailty_var(post_frailty_var, n_intervals, n_centres)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{check.formula_terms}
 \alias{check.formula_terms}
-\title{Check correctness of formula terms}
+\title{Check Correctness of Formula Terms}
 \usage{
 check.formula_terms(formula, data)
 }

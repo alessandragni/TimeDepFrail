@@ -2,7 +2,7 @@
 % Please edit documentation in R/extract_dummy_variables.R
 \name{extract_dummy_variables}
 \alias{extract_dummy_variables}
-\title{Transform categorical covariate into dummy variables}
+\title{Transform Categorical Covariate into Dummy Variables}
 \usage{
 extract_dummy_variables(covariate, covariate_name)
 }

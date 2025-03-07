@@ -2,7 +2,7 @@
 % Please edit documentation in R/params_se.R
 \name{params_se.AdPaik}
 \alias{params_se.AdPaik}
-\title{Standard error of the parameters}
+\title{Standard Error of the Parameters}
 \usage{
 params_se.AdPaik(
   optimal_params,

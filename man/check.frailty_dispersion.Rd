@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{check.frailty_dispersion}
 \alias{check.frailty_dispersion}
-\title{Check correctness of frailty standard deviation}
+\title{Check Correctness of Frailty Standard Deviation}
 \usage{
 check.frailty_dispersion(frailty_dispersion, n_intervals)
 }

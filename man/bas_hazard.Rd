@@ -2,7 +2,7 @@
 % Please edit documentation in R/base_hazard.R
 \name{bas_hazard}
 \alias{bas_hazard}
-\title{Baseline hazard step-function}
+\title{Baseline Hazard Step-Function}
 \usage{
 bas_hazard(optimal_params, time_axis)
 }

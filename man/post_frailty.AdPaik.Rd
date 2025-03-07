@@ -2,7 +2,7 @@
 % Please edit documentation in R/posterior_frailty.R
 \name{post_frailty.AdPaik}
 \alias{post_frailty.AdPaik}
-\title{Posterior frailty estimates and variances for the 'Adapted Paik et al.'s Model'}
+\title{Posterior Frailty Estimates and Variances for the 'Adapted Paik et Al.'s Model'}
 \usage{
 post_frailty.AdPaik(optimal_params, dataset, time_to_event, centre, time_axis)
 }

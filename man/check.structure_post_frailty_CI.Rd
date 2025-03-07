@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{check.structure_post_frailty_CI}
 \alias{check.structure_post_frailty_CI}
-\title{Check structure of Posterior Frailty Confidence Interval}
+\title{Check Structure of Posterior Frailty Confidence Interval}
 \usage{
 check.structure_post_frailty_CI(post_frailty_CI, n_intervals, n_centres)
 }
