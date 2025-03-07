@@ -1,25 +1,35 @@
-#' @title
-#' Summary of the Adapted Paik et Al.'s Time-Dependent Shared Frailty Model
+#' @title Summary of the Adapted Paik et al.'s Time-Dependent Shared Frailty Model
 #'
 #' @description
-#' This function provides a comprehensive summary of the results from the Adapted Paik et al.'s Time-Dependent Shared Frailty Model. 
-#' It includes key information about the dataset (e.g., number of individuals, regressors, intervals, and clusters), model parameters, 
-#' and output (log-likelihood, AIC). The summary also lists the estimated regressors along with their standard errors
+#' Provides a structured summary of the results from the Adapted Paik et al.'s Time-Dependent Shared Frailty Model.
+#' The summary includes key dataset information (e.g., number of individuals, regressors, intervals, and clusters), 
+#' model parameters, and main output metrics such as log-likelihood and AIC. Estimated regressors and their standard errors 
+#' are also reported.
 #' 
 #' @details
-#' The function reports the estimated regressors, their standard errors, and confidence intervals (if available). 
+#' This function extracts relevant model outputs, such as estimated parameters, standard errors, 
+#' and the convergence status of the algorithm. The summary is returned as an object of class `"summary.AdPaik"`, 
+#' which can be printed using `print()`.
 #'
-#' @method summary AdPaik
+#' @usage
+#' ## S3 method for class 'AdPaik'
+#' summary(object, ...)
 #' 
-#' @param result 'S3' class object returned by the main model call, i.e. output of the 'Adapted Paik et al.'s Model'.
-#' 
-#' @return Model summary printed on output.
+#' ## S3 method for class 'summary.AdPaik'
+#' print(x, ...)
 #'
+#' @param object An object of class `"AdPaik"`, returned by the main model function.
+#' @param x An object of class `"summary.AdPaik"`, created by `summary.AdPaik()`.
+#' @param ... Additional arguments (currently unused).
+#'
+#' @return
+#' - `summary.AdPaik()` returns an object of class `"summary.AdPaik"`, containing structured model summary information.
+#' - `print.summary.AdPaik()` prints the formatted summary to the console.
+#' 
 #' @export
 #'
 #' @examples
-#' # Define the variables needed for the model execution
-#' 
+#' \dontrun{
 #' data(data_dropout)
 #' eps_paik <- 1e-10
 #' categories_range_min <- c(-8, -2, eps_paik, eps_paik, eps_paik)
@@ -27,86 +37,76 @@
 #' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
 #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
 #'
-#'\donttest{
-#' # Call the main model function
+#' # Fit the model
 #' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
-#' # Call the summary
-#' summary(result)
+#' # Generate and print summary
+#' summary_result <- summary(result)
+#' print(summary_result)  # or simply `summary(result)`
 #' }
 
-summary.AdPaik <- function(result){
-  check.result(result)
+summary.AdPaik <- function(result) {
+  check.result(result)  # Validate input
   
-  # Extract information from the model output
+  # Extract model information
   params_categories <- result$ParametersCategories
-  n_categories <- length(params_categories)
-  L <- n_intervals <- params_categories[1]
-  R <- n_regressors <- params_categories[2]
+  L <- params_categories[1]  # Number of intervals
+  R <- params_categories[2]  # Number of regressors
   
-  # Create new vector where each optimal parameter is followed by its standard error
+  # Format optimal parameters with standard errors
   n_params <- result$NParameters
-  optimal_parameters <- rep(0, n_params)
-  for(p in 1:n_params){
-    optimal_parameters[p] <- paste(round(result$OptimalParameters[p],4), round(result$StandardErrorParameters[p],4), sep = " (")
-    optimal_parameters[p] <- paste(optimal_parameters[p], "", sep=")")
+  optimal_parameters <- sapply(1:n_params, function(p) {
+    sprintf("%.4f (%.4f)", result$OptimalParameters[p], result$StandardErrorParameters[p])
+  })
+  
+  # Extract estimated regressors
+  betar <- optimal_parameters[(L + 1):(L + R)]
+  
+  # Convergence status
+  convergence <- if (result$Status) {
+    sprintf("TRUE (Converged in %d runs)", result$NRun)
+  } else {
+    "FALSE (No Convergence)"
   }
   
-  # Initialize vector for estimated regressors
-  betar <- optimal_parameters[(L+1):(L+R)]
+  # Construct structured summary output
+  summary_list <- list(
+    call = as.character(result$formula),
+    cluster_variable = result$ClusterVariable,
+    n_clusters = result$NClusters,
+    log_likelihood = round(result$Loglikelihood, 4),
+    AIC = round(result$AIC, 4),
+    convergence = convergence,
+    n_parameters = result$NParameters,
+    parameter_breakdown = params_categories,
+    n_intervals = L,
+    n_regressors = R,
+    regressors = setNames(betar, result$Regressors)
+  )
   
-  # Create other variables for the ouput
-  convergence <- ""
-  if(result$Status == TRUE){
-    convergence <- paste("TRUE (Convergence in ", result$NRun)
-    convergence <- paste(convergence, " runs).")
-  }else
-    convergence <- "FALSE (No Convergence)"
-  
-  string_parameters <- paste("Overall number of parameters ", result$NParameters)
-  string_parameters <- paste(string_parameters, "divided as (phi, betar, mu1, nu, gammak) = (", sep=",\n")
-  for(p in 1:n_categories){
-    if(p == n_categories)
-      string_parameters <- paste(string_parameters, params_categories[p],")")
-    else
-      string_parameters <- paste(string_parameters, params_categories[p],",")
+  class(summary_list) <- "summary.AdPaik"
+  return(summary_list)
+}
+
+
+print.summary.AdPaik <- function(x, ...) {
+  cat("Output of the 'Adapted Paik et al.' Model\n")
+  cat("---------------------------------------------------\n")
+  cat("Call: ", paste(x$call, collapse = " "), "\n")
+  cat(sprintf("Cluster variable: '%s' (%d clusters)\n", x$cluster_variable, x$n_clusters))
+  cat("---------------------------------------------------\n")
+  cat(sprintf("Log-likelihood: %.4f\n", x$log_likelihood))
+  cat(sprintf("AIC: %.4f\n", x$AIC))
+  cat(sprintf("Status of the algorithm: %s\n", x$convergence))
+  cat("---------------------------------------------------\n")
+  cat(sprintf("Overall number of parameters: %d\n", x$n_parameters))
+  cat("Parameter breakdown: ", paste(x$parameter_breakdown, collapse = ", "), "\n")
+  cat(sprintf("Number of intervals: %d\n", x$n_intervals))
+  cat(sprintf("Number of regressors: %d\n", x$n_regressors), "\n")
+  cat("---------------------------------------------------\n")
+  cat("Estimated regressors (with standard errors):\n")
+  for (r in seq_along(x$regressors)) {
+    cat(sprintf("  %s: %s\n", names(x$regressors)[r], x$regressors[r]))
   }
-  
-  # Extract entire formula call
-  formula_string <- paste(result$formula[2], result$formula[1], result$formula[3])
-  
-  # Print output
-  paste0 <- paste("Call: ", formula_string)
-  paste9 <- paste("with cluster variable '",result$ClusterVariable,"' (", result$NClusters,"clusters).")
-  paste1 <- paste("Log-likelihood:           ", round(result$Loglikelihood,4))
-  paste2 <- paste("AIC:                       ", round(result$AIC,4))
-  paste3 <- paste("Status of the algorithm:   ", convergence)
-  paste4 <- "-------------------------------------------------------------------------------"
-  paste5 <- string_parameters
-  paste6 <- paste("with: number of intervals =", n_intervals)
-  paste7 <- paste("      number of regressors =", n_regressors, ".")
-  paste8 <- paste("Estimated regressors (standard error):")
-  
-  output <- paste("Output of the 'Adapted Paik et al.'s Model'", paste4, sep="\n")
-  output <- paste(output, paste0, sep="\n")
-  output <- paste(output, paste9, sep="\n")
-  output <- paste(output, paste4, sep="\n")
-  #--------------
-  output <- paste(output, paste1, sep="\n")
-  output <- paste(output, paste2, sep="\n")
-  output <- paste(output, paste3, sep="\n")
-  output <- paste(output, paste4, sep="\n")
-  #--------------
-  output <- paste(output, paste5, sep="\n")
-  output <- paste(output, paste6, sep=",\n")
-  output <- paste(output, paste7, sep="\n")
-  output <- paste(output, paste4, sep="\n")
-  #-------------
-  output <- paste(output, paste8, sep="\n")
-  for(r in 1:R){
-    string_regressor <- paste(result$Regressors[r],":",betar[r])
-    output <- paste(output, string_regressor, sep="\n")
-  }
-  output <- paste(output, paste4, sep="\n")
-  cat(output)
+  cat("---------------------------------------------------\n")
 }
