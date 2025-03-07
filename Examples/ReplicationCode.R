@@ -4,6 +4,8 @@ library(TimeDepFrail)
 
 #### Section 4: Syntax and Implementation details #####
 
+help(package = "TimeDepFrail")
+
 ##### Section 4.1 #####
 ?AdPaikModel
 ?summary.AdPaik
