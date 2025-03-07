@@ -110,25 +110,3 @@ summary.AdPaik <- function(result){
   output <- paste(output, paste4, sep="\n")
   cat(output)
 }
-
-
-
-#-------------------------------------------------------------------------------
-#' @title Summary for Time-Dependent Frailty Models
-#' 
-#' @description
-#' This function displays a summary of the model output based on the class of the result object. 
-#' It delegates to the appropriate summary method according to the class of the result.
-#'
-#' @param result An object containing the output of the model call. 
-#' The class of this object determines which summary method is invoked.
-#' 
-#' @return A summary of the model output printed to the console.
-#' 
-#' @export
-summary <- function(result){
-  if(inherits(result, "AdPaik"))
-    summary.AdPaik(result)
-}
-
-#-------------------------------------------------------------------------------
