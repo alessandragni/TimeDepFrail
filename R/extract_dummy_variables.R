@@ -9,7 +9,6 @@
 #'
 #' Each dummy variable has a name, corresponding to the name of the covariate + name of the level.
 #'
-#'
 #' @param covariate Categorical dataset covariate, with at least 2 levels.
 #' @param covariate_name Name of the covariate, for assigning each dummy variable a proper name.
 #'
@@ -22,6 +21,8 @@
 #' covariate.
 #' - DummyVariablesName: categorical vector of length (n-1), reporting the names of the dummy variables and, therefore, the new name of each regressor.
 #' - DummyVariablesNumber: number of dummy variables (n-1).
+#' 
+#' @keywords internal
 
 extract_dummy_variables <- function(covariate, covariate_name){
   # Extract number of individuals

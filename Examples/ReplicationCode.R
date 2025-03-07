@@ -2,7 +2,7 @@ devtools::install_github("alessandragni/TimeDepFrail")
 
 library(TimeDepFrail)
 
-# help(package = "TimeDepFrail")
+help(package = "TimeDepFrail")
 
 #### Section 4: Syntax and Implementation details #####
 

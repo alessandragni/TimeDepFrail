@@ -32,3 +32,4 @@ covariate.
 \item DummyVariablesNumber: number of dummy variables (n-1).
 }
 }
+\keyword{internal}
