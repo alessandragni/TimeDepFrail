@@ -2,7 +2,7 @@
 % Please edit documentation in R/extractors.R
 \name{confint.AdPaik}
 \alias{confint.AdPaik}
-\title{Extracts the Confidence Intervals Computed for Each Cateogry for the 'Adapted Paik et Al.' Model}
+\title{Extracts the Confidence Intervals Computed for Each Category for the 'Adapted Paik et Al.' Model}
 \usage{
 \method{confint}{AdPaik}(object, parm = NULL, level = 0.95, ...)
 }

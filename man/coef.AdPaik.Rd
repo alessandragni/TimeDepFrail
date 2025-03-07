@@ -2,7 +2,7 @@
 % Please edit documentation in R/extractors.R
 \name{coef.AdPaik}
 \alias{coef.AdPaik}
-\title{Extracts the Optimal Parameters of Each Cateogry for the 'Adapted Paik et Al.' Model}
+\title{Extracts the Optimal Parameters of Each Category for the 'Adapted Paik et Al.' Model}
 \usage{
 \method{coef}{AdPaik}(object, ...)
 }

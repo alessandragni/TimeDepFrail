@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 #' @title 
-#' Extracts the Optimal Parameters of Each Cateogry for the 'Adapted Paik et Al.' Model
+#' Extracts the Optimal Parameters of Each Category for the 'Adapted Paik et Al.' Model
 #'
 #' @description
 #' Extracts the optimal parameters \eqn{\boldsymbol{\phi}}, \eqn{\boldsymbol{\beta}}, \eqn{\mu_1}, 
@@ -76,7 +76,7 @@ coef.AdPaik <- function (object, ...){
 
 #-------------------------------------------------------------------------------
 #' @title 
-#' Extracts the Standard Errors Computed for Each Cateogry for the 'Adapted Paik et Al.' Model
+#' Extracts the Standard Errors Computed for Each Category for the 'Adapted Paik et Al.' Model
 #'
 #' @description
 #' Extracts the standard errors for \eqn{\boldsymbol{\phi}}, \eqn{\boldsymbol{\beta}}, \eqn{\mu_1}, 
@@ -152,7 +152,7 @@ coefse <- function(object){
 
 #-------------------------------------------------------------------------------
 #' @title 
-#' Extracts the Confidence Intervals Computed for Each Cateogry for the 'Adapted Paik et Al.' Model
+#' Extracts the Confidence Intervals Computed for Each Category for the 'Adapted Paik et Al.' Model
 #'
 #' @description
 #' Extracts the confidence intervals for \eqn{\boldsymbol{\phi}}, \eqn{\boldsymbol{\beta}}, \eqn{\mu_1}, 
