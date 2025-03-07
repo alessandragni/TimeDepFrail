@@ -2,6 +2,7 @@
 % Please edit documentation in R/summary.R
 \name{summary.AdPaik}
 \alias{summary.AdPaik}
+\alias{print.summary.AdPaik}
 \title{Summary of the Adapted Paik et al.'s Time-Dependent Shared Frailty Model}
 \usage{
 ## S3 method for class 'AdPaik'

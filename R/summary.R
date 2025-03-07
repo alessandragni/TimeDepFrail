@@ -26,6 +26,8 @@
 #' - `summary.AdPaik()` returns an object of class `"summary.AdPaik"`, containing structured model summary information.
 #' - `print.summary.AdPaik()` prints the formatted summary to the console.
 #'
+#' @aliases summary.AdPaik print.summary.AdPaik
+#' 
 #' @examples
 #' \dontrun{
 #' data(data_dropout)
