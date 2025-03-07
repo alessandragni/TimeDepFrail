@@ -1,5 +1,5 @@
 #' @title
-#' Internal function for frailty standard deviation for the 'Adapted Paik et al.'s Model'
+#' Internal Function for Frailty Standard Deviation for the 'Adapted Paik et Al.'s Model'
 #'
 #' @description
 #' The function computes both the standard deviation and the variance of the time-dependent
@@ -94,7 +94,7 @@ frailty_Sd.AdPaik <- function (optimal_params, time_axis, n_regressors,
 
 #-------------------------------------------------------------------------------
 #' @title
-#' Frailty standard deviation and Variance for the 'Adapted Paik et al.'s Model'
+#' Frailty Standard Deviation and Variance for the 'Adapted Paik et Al.'s Model'
 #'
 #' @description
 #' The function computes both the standard deviation and the variance of the time-dependent
@@ -200,7 +200,7 @@ frailty_sd.AdPaik <- function (result, flag_fullsd){
 
 #-------------------------------------------------------------------------------
 #' @title
-#' Frailty standard deviation and Variance for the 'Adapted Paik et al.'s Model'
+#' Frailty Standard Deviation and Variance for the 'Adapted Paik et Al.'s Model'
 #'
 #' @description
 #' The function computes both the standard deviation and the variance of the time-dependent

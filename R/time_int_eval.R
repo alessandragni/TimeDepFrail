@@ -1,4 +1,4 @@
-#' @title Resolution of integral with respect to time
+#' @title Resolution of Integral with Respect to Time
 #'
 #' @description
 #' Function for the resolution of an integral with respect to time,

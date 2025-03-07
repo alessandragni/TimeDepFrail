@@ -1,5 +1,5 @@
 #' @title
-#' Baseline hazard step-function
+#' Baseline Hazard Step-Function
 #'
 #' @description
 #' The method computes the baseline hazard step-function in each interval of the time-domain, using the estimated parameters

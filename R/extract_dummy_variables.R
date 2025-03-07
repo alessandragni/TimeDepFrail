@@ -1,5 +1,5 @@
 #' @title
-#' Transform categorical covariate into dummy variables
+#' Transform Categorical Covariate into Dummy Variables
 #'
 #' @description
 #' This function produces for a categorical variable of the dataset (covariate) the associated dummy variables: for n levels of the covariate,

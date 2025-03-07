@@ -1,5 +1,5 @@
 #' @title
-#' Posterior frailty estimates and variances for the 'Adapted Paik et al.'s Model'
+#' Posterior Frailty Estimates and Variances for the 'Adapted Paik et Al.'s Model'
 #'
 #' @description
 #' Function for computing the posterior frailty estimates and variances of the time-dependent shared frailty Cox model.
@@ -109,7 +109,7 @@ post_frailty.AdPaik <- function(optimal_params, dataset, time_to_event, centre, 
 
 #-------------------------------------------------------------------------------
 #' @title
-#' Extracting variables for Posterior Frailty Estimates computation
+#' Extracting Variables for Posterior Frailty Estimates Computation
 #'
 #' @description
 #' Function for extracting from the dataset quantities necessary to the evaluation of the posterior
@@ -239,7 +239,7 @@ extract_event_data <- function(dataset, time_to_event, centre, time_axis, phi, b
 }
 #-------------------------------------------------------------------------------
 #' @title
-#' Confidence interval for posterior frailty estimates
+#' Confidence Interval for Posterior Frailty Estimates
 #'
 #' @description
 #' Function for computing the confidence interval for each posterior frailty estimates \eqn{\hat{Z}_{jk}}.

@@ -1,4 +1,5 @@
-#' @title Adapted Paik et al.'s Model: Time-Dependent Shared Frailty Cox Model
+#' @title 
+#' Adapted Paik et Al.'s Model: Time-Dependent Shared Frailty Cox Model
 #'
 #' @description
 #' Function for applying the 'Adapted Paik et al.'s Model', an innovative Cox Model with time-dependent frailty,
@@ -419,7 +420,7 @@ AdPaikModel <- function(formula, data, time_axis,
 
 #-------------------------------------------------------------------------------
 #' @title
-#' One-dimensional log-likelihood function to be optimized.
+#' One-Dimensional Log-Likelihood Function to be Optimized
 #'
 #' @description
 #' Model log-likelihood function to be optimized only with respect to a parameter. To correctly identify this parameter inside the model
@@ -491,7 +492,7 @@ ll_AdPaik_1D <- function(x, index, params, dataset, centre,
   return (ll_overall)
 }#-------------------------------------------------------------------------------
 #' @title
-#' One-dimensional group log-likelihood function.
+#' One-Dimensional Group log-Likelihood Function
 #'
 #' @description
 #' This function simply implements the group log-likelihood function, following the definition.
@@ -602,7 +603,7 @@ ll_AdPaik_centre_1D <- function(param_onedim, index_param_onedim, params, datase
 
 #-------------------------------------------------------------------------------
 #' @title
-#' Evaluation of model log-likelihood
+#' Evaluation of Model log-Likelihood
 #'
 #' @description
 #' Evaluation of the log-likelihood function at the provided parameter vector and data.
@@ -655,7 +656,7 @@ ll_AdPaik_eval <- function(params, dataset, centre, time_axis, dropout_matrix, e
 }
 #-------------------------------------------------------------------------------
 #' @title
-#' Evaluation of model group log-likelihood
+#' Evaluation of Model Group log-Likelihood
 #'
 #' @description
 #' Evaluation of model group log-likelihood at the provided parameter vector and data.
@@ -758,7 +759,7 @@ ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
 }
 #-------------------------------------------------------------------------------
 #' @title
-#' One-dimensional analysis of log-likelihood function
+#' One-Dimensional Analysis of log-Likelihood Function
 #'
 #' @description
 #' Function for studying the log-likelihood function from the point of view of a single parameter and, therefore,

@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 #' @title
-#' Internal function to check the structure of the model output
+#' Internal Function to Check the Structure of the Model Output
 #'
 #' @description
 #' This internal function checks if the input `result` object belongs to one of the 
@@ -34,7 +34,7 @@ check.result <- function(result){
 
 #-------------------------------------------------------------------------------
 #' @title
-#' Check structure of the 'AdPaikModel' output
+#' Check Structure of the 'AdPaikModel' Output
 #'
 #' @description
 #' The function controls that the structure of the input variable is coherent with the one returned by the

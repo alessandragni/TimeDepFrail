@@ -2,9 +2,9 @@
 #'
 #' This dataset is extracted from an administrative database provided by a 
 #' non-specified university and tracks students enrolled in 2012 over three academic years (or 6 semesters).
-#'  We are interested in understanding what factors lead to students dropping out. 
-#'  Dropout students with a time-instant in the first semester have been removed, 
-#'  for internal reasons (the university cannot take preventive action to reduce or avoid their withdrawal).
+#' We are interested in understanding what factors lead to students dropping out. 
+#' Dropout students with a time-instant in the first semester have been removed, 
+#' for internal reasons (the university cannot take preventive action to reduce or avoid their withdrawal).
 
 #' The students are followed for at most 3 academic years or, equivalently, 
 #' 6 semesters (follow-up periods), from the first day of lecture up to the time-instant 

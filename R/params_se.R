@@ -1,5 +1,5 @@
 #' @title
-#' Standard error of the parameters
+#' Standard Error of the Parameters
 #'
 #' @description
 #' Function for computing the standard error of each optimal parameter, estimated through the
@@ -93,7 +93,7 @@ params_se.AdPaik <- function(optimal_params, params_range_min, params_range_max,
 
 #-------------------------------------------------------------------------------
 #' @title
-#' Confidence interval for the optimal estimated parameters
+#' Confidence Interval for the Optimal Estimated Parameters
 #'
 #' @description
 #' The function provides the confidence interval for each estimated parameter, using the standard error
