@@ -57,3 +57,4 @@ other variables, and then compute the group log-likelihood function through the 
 The produced group log-likelihood value is summed together the
 other values into a unique result, that corresponds to the overall (and final) log-likelihood value.
 }
+\keyword{internal}

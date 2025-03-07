@@ -43,3 +43,4 @@ belonging to group i.
 It can be computed from the previous element, summing with respect to the interval k.
 }
 }
+\keyword{internal}

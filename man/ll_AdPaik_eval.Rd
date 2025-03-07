@@ -35,3 +35,4 @@ The function divides the individuals according to their group/cluster membership
 through another implemented function, but using all and only the individuals belonging to that group.
 Then the results are summed together to return the overall log-likelihood value.
 }
+\keyword{internal}

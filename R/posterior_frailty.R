@@ -138,6 +138,8 @@ post_frailty.AdPaik <- function(optimal_params, dataset, time_to_event, centre, 
 #' - sum_cum_hazard_group: numerical vector of length N, giving the sum of the computed cumulative hazard for all intervals k and for all individuals
 #' belonging to group i.
 #' It can be computed from the previous element, summing with respect to the interval k.
+#' 
+#' @keywords internal
 
 extract_event_data <- function(dataset, time_to_event, centre, time_axis, phi, betar){
   

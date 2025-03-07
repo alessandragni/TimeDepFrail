@@ -26,3 +26,4 @@ Evaluation of model group log-likelihood at the provided parameter vector and da
 This function is internally called by 'll_AdPaik_eval' to evaluate the log-likelihood function, considering
 all and only the individuals belonging to a group.
 }
+\keyword{internal}

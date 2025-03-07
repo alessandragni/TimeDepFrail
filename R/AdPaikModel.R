@@ -454,6 +454,8 @@ AdPaikModel <- function(formula, data, time_axis,
 #' integral, performed through the function @param time_int_eval.
 #'
 #' @return Overall log-likelihood function
+#' 
+#' @keywords internal
 
 ll_AdPaik_1D <- function(x, index, params, dataset, centre,
                          time_axis, dropout_matrix, e_matrix){
@@ -511,6 +513,8 @@ ll_AdPaik_1D <- function(x, index, params, dataset, centre,
 #' integral, performed through the function @param time_int_eval.
 #'
 #' @return Centre log-likelihood function.
+#' 
+#' @keywords internal
 
 
 ll_AdPaik_centre_1D <- function(param_onedim, index_param_onedim, params, dataset,
@@ -626,6 +630,8 @@ ll_AdPaik_centre_1D <- function(param_onedim, index_param_onedim, params, datase
 #' integral, performed through the function @time_int_eval.
 #'
 #' @return Overall log-likelihood function value at the provided parameters and data
+#'
+#' @keywords internal
 
 ll_AdPaik_eval <- function(params, dataset, centre, time_axis, dropout_matrix, e_matrix){
   
@@ -672,6 +678,8 @@ ll_AdPaik_eval <- function(params, dataset, centre, time_axis, dropout_matrix, e
 #' integral, performed through the function @time_int_eval.
 #'
 #' @return Group log-likelihood evaluation
+#'
+#' @keywords internal
 
 ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
   
