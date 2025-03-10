@@ -27,6 +27,8 @@
 #' @return S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the number of intervals of the time-domain:
 #' - FrailtyVariance
 #' - FrailtyStandardDevation
+#' 
+#' @keywords internal
 
 frailty_Sd.AdPaik <- function (optimal_params, time_axis, n_regressors,
                         categories_range_min, categories_range_max,
@@ -121,6 +123,7 @@ frailty_Sd.AdPaik <- function (optimal_params, time_axis, n_regressors,
 #' - FrailtyStandardDevation
 #'
 #' @export
+#' @method frailty_sd AdPaik
 #'
 #' @examples
 #' # Consider the 'Academic Dropout dataset'

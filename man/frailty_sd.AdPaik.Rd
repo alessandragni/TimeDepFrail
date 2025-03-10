@@ -4,7 +4,7 @@
 \alias{frailty_sd.AdPaik}
 \title{Frailty Standard Deviation and Variance for the 'Adapted Paik et Al.'s Model'}
 \usage{
-frailty_sd.AdPaik(result, flag_fullsd)
+\method{frailty_sd}{AdPaik}(result, flag_fullsd)
 }
 \arguments{
 \item{result}{S3 object of class 'AdPaik' returned by the main model output, that contains all the information for the computation
