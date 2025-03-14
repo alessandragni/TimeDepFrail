@@ -13,7 +13,7 @@ of the frailty standard deviation.}
 \item{flag_fullsd}{Logical value. Do we want to compute the full frailty standard deviation? If so, the flag must be TRUE,
 otherwise, FALSE.}
 
-\item{...}{Additional arguments (currently unused).}
+\item{...}{Additional arguments to be passed to methods.}
 }
 \value{
 S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the number of intervals of the time-domain:

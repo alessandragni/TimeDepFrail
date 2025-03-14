@@ -45,7 +45,6 @@ categories_range_max <- c(-eps, 0.5, 1 - eps, 1, 10)
 
 ###### Section 5.2 ######
 # Main model and summary
-set.seed(1)
 result <- AdPaikModel(formula, data_dropout, time_axis,
                       categories_range_min, categories_range_max)
 summary(result)
@@ -117,7 +116,7 @@ dev.off()
 ##### Section 5.5 ##### 
 
 # Identify a parameter existence range
-set.seed(123)
+set.seed(1)
 index_param_to_vary <- 1
 analysis_1D_opt <- AdPaik_1D(formula, data_dropout,
                              time_axis, index_param_to_vary, 
@@ -134,7 +133,7 @@ analysis_1D_opt
 categories_range_min <- c(-8, -1, eps, eps, eps)
 categories_range_max <- c(-eps, 0.5, 1 - eps, 1, 10)
 
-set.seed(123)
+set.seed(1)
 index_param_to_vary <- 12
 analysis_1D_opt <- AdPaik_1D(formula, data_dropout, 
                              time_axis, index_param_to_vary, 
