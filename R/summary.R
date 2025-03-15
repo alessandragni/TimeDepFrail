@@ -73,7 +73,7 @@ summary.AdPaik <- function(object, ...) {
     regressors = stats::setNames(betar, object$Regressors)
   )
   
-  class(summary_list) <- "summary.AdPaik"
+  class(summary_list) <- c("summary.AdPaik", class(summary_list))
   return(summary_list)
 }
 

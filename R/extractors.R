@@ -1,3 +1,5 @@
+
+
 #-------------------------------------------------------------------------------
 #' @title 
 #' Extracts the Optimal Parameters of Each Category for the 'Adapted Paik et Al.' Model
@@ -57,7 +59,7 @@ coef.AdPaik <- function (object, ...){
   beta = optimal_params[(L+1):(L+R)]
   mu1 = optimal_params[(L+R+1)]
   nu = optimal_params[(L+R+2)]
-  gamma = optimal_params[(L+R+3):(2*L+R)]
+  gamma = optimal_params[(L+R+3):(2*L+R+2)]
   
   
   # Assign names to beta if regressors are provided
@@ -70,7 +72,43 @@ coef.AdPaik <- function (object, ...){
                      'mu1'=mu1,
                      'nu'=nu,
                      'gamma'=gamma)
+  class(return_list) <- c("coef.AdPaik", class(return_list))
   return (return_list)
+}
+
+
+#' @title 
+#' Print Method for `coef.AdPaik` Objects
+#'
+#' @description
+#' Displays the optimal parameter estimates extracted from an `AdPaik` model object in a structured format.
+#'
+#' @param x An object of class `coef.AdPaik`, typically returned by the `coef.AdPaik` function.
+#' @param ... Additional arguments (currently ignored).
+#'
+#' @details
+#' This function prints the estimated optimal parameters for the 'Adapted Paik et al.' model.
+#' It organizes the output into five categories: 
+#' \eqn{\boldsymbol{\phi}}, \eqn{\boldsymbol{\beta}}, \eqn{\mu_1}, \eqn{\nu}, and \eqn{\boldsymbol{\gamma}}.
+#'
+#' Each category is printed separately for clarity. If regressors are present, 
+#' their corresponding \eqn{\beta} coefficients are displayed with names.
+#'
+#' @return Prints the coefficients to the console. No value is returned.
+#' 
+#' @export
+print.coef.AdPaik <- function(x, ...){
+  cat("Optimal Parameters:\n")
+  cat("phi:\n")
+  print(x$phi)
+  cat("beta:\n")
+  print(x$beta)
+  cat("mu1:\n")
+  print(x$mu1)
+  cat("nu:\n")
+  print(x$nu)
+  cat("gamma:\n")
+  print(x$gamma)
 }
 
 
@@ -132,7 +170,7 @@ coefse <- function(object){
   beta = optimal_params[(L+1):(L+R)]
   mu1 = optimal_params[(L+R+1)]
   nu = optimal_params[(L+R+2)]
-  gamma = optimal_params[(L+R+3):(2*L+R)]
+  gamma = optimal_params[(L+R+3):(2*L+R+2)]
   
   
   # Assign names to beta if regressors are provided
@@ -145,8 +183,51 @@ coefse <- function(object){
                      'se.mu1'=mu1,
                      'se.nu'=nu,
                      'se.gamma'=gamma)
+  class(return_list) <- c("coefse.AdPaik", class(return_list))
   return (return_list)
 }
+
+
+#-------------------------------------------------------------------------------
+#' @title 
+#' Print Method for `coefse.AdPaik` Objects
+#'
+#' @description
+#' Displays the standard errors of the optimal parameter estimates extracted from an `AdPaik` model object.
+#'
+#' @param x An object of class `coefse.AdPaik`, typically returned by the `coefse` function.
+#' @param ... Additional arguments (currently ignored).
+#'
+#' @details
+#' This function prints the standard errors for the estimated optimal parameters in the 'Adapted Paik et al.' model.
+#' It organizes the output into five categories:
+#' \eqn{\boldsymbol{\phi}}, \eqn{\boldsymbol{\beta}}, \eqn{\mu_1}, \eqn{\nu}, and \eqn{\boldsymbol{\gamma}}.
+#'
+#' Each category is printed separately for clarity. If regressors are present, 
+#' their corresponding \eqn{\beta} standard errors are displayed with names.
+#'
+#' @return Prints the standard errors to the console. No value is returned.
+#' 
+#' @export
+print.coefse.AdPaik <- function(x, ...){
+  cat("Optimal Parameters' standard errors:\n")
+  cat("phi:\n")
+  print(x$se.phi)
+  cat("\n")
+  cat("beta:\n")
+  print(x$se.beta)
+  cat("\n")
+  cat("mu1:\n")
+  print(x$se.mu1)
+  cat("\n")
+  cat("nu:\n")
+  print(x$se.nu)
+  cat("\n")
+  cat("gamma:\n")
+  print(x$se.gamma)
+  cat("\n")
+}
+
 
 
 
@@ -197,7 +278,6 @@ coefse <- function(object){
 #' # Extract the coefficients
 #' confint(result)
 #' }
-
 confint.AdPaik <- function(object, parm = NULL, level = 0.95, ...){
   if(!is.null(parm))
       warning("Changing `parm` argument is not supported for this model. It will be ignored.")
@@ -219,7 +299,7 @@ confint.AdPaik <- function(object, parm = NULL, level = 0.95, ...){
   beta_left = optimal_params_left[(L+1):(L+R)]
   mu1_left = optimal_params_left[(L+R+1)]
   nu_left = optimal_params_left[(L+R+2)]
-  gamma_left = optimal_params_left[(L+R+3):(2*L+R)]
+  gamma_left = optimal_params_left[(L+R+3):(2*L+R+2)]
   
   optimal_params_right <- confints$ParamsCI_right
   
@@ -227,7 +307,7 @@ confint.AdPaik <- function(object, parm = NULL, level = 0.95, ...){
   beta_right = optimal_params_right[(L+1):(L+R)]
   mu1_right = optimal_params_right[(L+R+1)]
   nu_right = optimal_params_right[(L+R+2)]
-  gamma_right = optimal_params_right[(L+R+3):(2*L+R)]
+  gamma_right = optimal_params_right[(L+R+3):(2*L+R+2)]
   
   
   # Assign names to beta if regressors are provided
@@ -242,19 +322,57 @@ confint.AdPaik <- function(object, parm = NULL, level = 0.95, ...){
   nu = list("left" = nu_left, "right" = nu_right)
   gamma = list("left" = gamma_left, "right" = gamma_right)
   
-  class(phi) <- "phi"
-  class(beta) <- "beta"
-  class(mu1) <- "mu1"
-  class(nu) <- "nu"
-  class(gamma) <- "gamma"
-  
   return_list = list('confint.phi'=phi,
                      'confint.beta'=beta,
                      'confint.mu1'=mu1,
                      'confint.nu'=nu,
                      'confint.gamma'=gamma)
+  
+  class(return_list) <- c("confint.AdPaik", class(return_list))
   return (return_list)
 }
+  
+#-------------------------------------------------------------------------------
+#' @title 
+#' Print Method for `confint.AdPaik` Objects
+#'
+#' @description
+#' Displays the confidence intervals for the optimal parameter estimates extracted from an `AdPaik` model object.
+#'
+#' @param x An object of class `confint.AdPaik`, typically returned by the `confint.AdPaik` function.
+#' @param ... Additional arguments (currently ignored).
+#'
+#' @details
+#' This function prints the confidence intervals for the estimated optimal parameters in the 
+#' 'Adapted Paik et al.' model. The output is organized into five categories:
+#' \eqn{\boldsymbol{\phi}}, \eqn{\boldsymbol{\beta}}, \eqn{\mu_1}, \eqn{\nu}, and \eqn{\boldsymbol{\gamma}}.
+#'
+#' Confidence intervals are displayed as two-column matrices (left and right bounds) where applicable.
+#' Scalar values (\eqn{\mu_1} and \eqn{\nu}) are printed as individual numeric values.
+#'
+#' @return Prints the confidence intervals to the console. No value is returned.
+#' 
+#' @export
+print.confint.AdPaik <- function(x, ...) {
+  cat("Confidence Intervals for Optimal Parameters:\n")
+  cat("phi:\n")
+  print(do.call(cbind, x$confint.phi))
+  cat("\n")
+  cat("beta:\n")
+  print(do.call(cbind, x$confint.beta))
+  cat("\n")
+  cat("mu1:\n")
+  print(unlist(x$confint.mu1))
+  cat("\n")
+  cat("nu:\n")
+  print(unlist(x$confint.nu))
+  cat("\n")
+  cat("gamma:\n")
+  print(do.call(cbind, x$confint.gamma))
+  cat("\n")
+}
+
+
 
 
 

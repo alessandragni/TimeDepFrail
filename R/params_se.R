@@ -8,7 +8,7 @@
 #' of the log-likelihood function, by the 'centered finite difference scheme' with an accuracy of the second order.
 #'
 #' @details
-#' The standrd error of each parameter is computed as the inverse of the square root of the 'Information matrix', that in turn
+#' The standard error of each parameter is computed as the inverse of the square root of the 'Information matrix', that in turn
 #' is computed as the opposite of the 'Hessian matrix'. Only its diagonal is built and its elements are separatey
 #' evaluated through a numerical approximation of the second derivative of the log-likelihood function.
 #'
@@ -33,8 +33,8 @@
 #'
 #' @return Vector of parameter standard error, of length equal to the number of model parameters.
 
-params_se.AdPaik <- function(optimal_params, params_range_min, params_range_max,
-                     dataset, centre, time_axis, dropout_matrix, e_matrix, h_dd){
+params_se <- function(optimal_params, params_range_min, params_range_max,
+                      dataset, centre, time_axis, dropout_matrix, e_matrix, h_dd){
   
   # Extract information from input variables
   n_params <- length(optimal_params)

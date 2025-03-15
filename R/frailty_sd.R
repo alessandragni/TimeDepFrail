@@ -1,21 +1,4 @@
-#' @title Frailty Standard Deviation and Variance
-#'
-#' @description
-#' Computes both the standard deviation and the variance of the time-dependent
-#' frailty for various models.
-#'
-#' @param object An object for which frailty standard deviation and variance should be computed.
-#' @param ... Additional arguments to be passed to methods.
-#'
-#' @return An S3 class object 'FrailtyDispersion' containing:
-#'   \item{FrailtyVariance}{A numerical vector of frailty variances.}
-#'   \item{FrailtyStandardDeviation}{A numerical vector of frailty standard deviations.}
-#'
-#' @export
-#' @seealso \code{\link{frailty_sd.AdPaik}}
-frailty_sd <- function(object, ...) {
-  UseMethod("frailty_sd")
-}
+
 
 #-------------------------------------------------------------------------------
 
@@ -138,14 +121,12 @@ frailty_Sd.AdPaik <- function (optimal_params, time_axis, n_regressors,
 #' of the frailty standard deviation.
 #' @param flag_fullsd Logical value. Do we want to compute the full frailty standard deviation? If so, the flag must be TRUE,
 #' otherwise, FALSE.
-#' @param ... Additional arguments to be passed to methods.
 #'
 #' @return S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the number of intervals of the time-domain:
 #' - FrailtyVariance
 #' - FrailtyStandardDevation
 #'
 #' @export
-#' @method frailty_sd AdPaik
 #'
 #' @examples
 #' # Consider the 'Academic Dropout dataset'
@@ -167,7 +148,7 @@ frailty_Sd.AdPaik <- function (optimal_params, time_axis, n_regressors,
 #' frailty_sd(result, FALSE)
 #' }
 
-frailty_sd.AdPaik <- function (object, flag_fullsd, ...){
+frailty_sd <- function (object, flag_fullsd){
 
   # Check object structure
   check.result(object)
