@@ -4,11 +4,12 @@
 #' @param ... Additional arguments (ignored).
 #' @return A log-likelihood object with degrees of freedom (`df`).
 #' @export
+#' @importFrom stats logLik
 #' @method logLik AdPaik
 logLik.AdPaik <- function(object, ...) {
   out <- object$Loglikelihood
-  if (!is.null(result$NParameters)) attr(out, "df") <- result$NParameters
-  else attr(out, "df") <- length(result$OptimalParameters)
+  if (!is.null(object$NParameters)) attr(out, "df") <- object$NParameters
+  else attr(out, "df") <- length(object$OptimalParameters)
   class(out) <- 'logLik'
   out
 }
@@ -52,6 +53,7 @@ extractAIC.AdPaik <- function(fit, scale, k = 2, ...) {
 #' @param ... Additional arguments (ignored).
 #' @return Integer: Number of observations.
 #' @export
+#' @importFrom stats nobs
 #' @method nobs AdPaik
 nobs.AdPaik <- function(object, ...) {
   object$NObservations

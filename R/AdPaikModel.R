@@ -79,6 +79,7 @@
 #' - NRegressors: number of regressors (R)
 #' - ClusterVariable: name of the variable with respect to which the individuals can be grouped.
 #' - NClusters: number of clusters/centres (also indicated with N).
+#' - ClusterCodes: vector of length N, containing the codes of the clusters.
 #' - NIntervals: number of intervals of the time-domain, also called with L. 
 #' - NParameters: number of parameters of the model. It can be computed as: \eqn{n_p = 2L + R + 2}.
 #' - ParametersCategories: Numerical vector of length 5, containing the numerosity of each parameter category.
@@ -393,8 +394,8 @@ AdPaikModel <- function(formula, data, time_axis,
                       "Regressors" = new_covariates,
                       "NRegressors" = n_regressors,
                       "ClusterVariable" = cluster_name,
-                      "ClusterCodes" = centre_codes,
                       "NClusters" = n_centres,
+                      "ClusterCodes" = centre_codes,
                       "TimeDomain" = time_axis,
                       "NIntervals" = n_intervals,
                       "NObservations" = n_individuals,

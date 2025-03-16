@@ -120,6 +120,7 @@ Indeed, each categorical covariate with n levels needs to be transformed into (n
 \item NRegressors: number of regressors (R)
 \item ClusterVariable: name of the variable with respect to which the individuals can be grouped.
 \item NClusters: number of clusters/centres (also indicated with N).
+\item ClusterCodes: vector of length N, containing the codes of the clusters.
 \item NIntervals: number of intervals of the time-domain, also called with L.
 \item NParameters: number of parameters of the model. It can be computed as: \eqn{n_p = 2L + R + 2}.
 \item ParametersCategories: Numerical vector of length 5, containing the numerosity of each parameter category.

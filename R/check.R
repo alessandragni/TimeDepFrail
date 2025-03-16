@@ -69,7 +69,7 @@
 check.result <- function(result){
   # Save the names of the list elements
   names_list.AdPaik <- c("formula", "Regressors", "NRegressors", "ClusterVariable", 
-                         "ClusterCodes", "NClusters",
+                         "NClusters", "ClusterCodes",
                          "TimeDomain", "NIntervals", "NObservations",
                          "NParameters", "ParametersCategories",
                          "ParametersRange",
