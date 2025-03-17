@@ -34,7 +34,7 @@
 #' 
 #' @keywords internal
 
-frailty_Sd.AdPaik <- function (optimal_params, time_axis, n_regressors,
+frailty_Sd <- function (optimal_params, time_axis, n_regressors,
                         categories_range_min, categories_range_max,
                         flag_fullsd = TRUE){
 

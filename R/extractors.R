@@ -209,7 +209,7 @@ coefse <- function(object){
 #' @return Prints the standard errors to the console. No value is returned.
 #' 
 #' @export
-print.coefse.AdPaik <- function(x, ...){
+print.coefse <- function(x, ...){
   cat("Optimal Parameters' standard errors:\n")
   cat("phi:\n")
   print(x$se.phi)

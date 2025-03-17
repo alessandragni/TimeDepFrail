@@ -23,7 +23,7 @@
 #' - PosteriorFrailtyVar: S3 object of class 'PFV.AdPaik'.
 #'
 
-post_frailty.AdPaik <- function(optimal_params, dataset, time_to_event, centre, time_axis){
+post_frailty <- function(optimal_params, dataset, time_to_event, centre, time_axis){
   
   # Extract information from input variables
   n_individuals <- dim(dataset)[1]
@@ -256,7 +256,7 @@ extract_event_data <- function(dataset, time_to_event, centre, time_axis, phi, b
 #' - PostFrailtyCI_left: left confidence interval for each posterior frailty estimates
 #' - PostFrailtyCI_right: right confidence interval for each each posterior frailty estimates
 
-post_frailty_CI.AdPaik <- function(post_frailty_est, post_frailty_est_var, n_centres, n_intervals, level){
+post_frailty_CI <- function(post_frailty_est, post_frailty_est_var, n_centres, n_intervals, level){
   # Check structure correctness
   check.structure_post_frailty_est(post_frailty_est, n_intervals, n_centres)
   

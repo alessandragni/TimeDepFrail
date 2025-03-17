@@ -373,25 +373,25 @@ AdPaikModel <- function(formula, data, time_axis,
   
   # Compute frailty standard deviation
   if (verbose) message(paste("Compute frailty standard deviation"))
-  frailty_dispersion <- frailty_Sd.AdPaik(optimal_params, time_axis, n_regressors,
-                                          categories_range_min, categories_range_max, TRUE)
+  frailty_dispersion <- frailty_Sd(optimal_params, time_axis, n_regressors,
+                                   categories_range_min, categories_range_max, TRUE)
   
   # Compute posterior frailty estimates
   if (verbose) message(paste("Compute posterior frailty estimates"))
-  post_frailty_estimates <- post_frailty.AdPaik(optimal_params, dataset, time_to_event, centre, time_axis)
+  post_frailty_estimates <- post_frailty(optimal_params, dataset, time_to_event, centre, time_axis)
   post_frailty_est <- post_frailty_estimates$PostFrailtyEst
   post_frailty_var <- post_frailty_estimates$PostFrailtyVar
   
   # Compute posterior frailty estimates confidence interval
   if (verbose) message(paste("Compute posterior frailty estimates confidence interval"))
-  post_frailty_CI <- post_frailty_CI.AdPaik(post_frailty_est, post_frailty_var, n_centres, n_intervals, level)
+  post_frailty_CI <- post_frailty_CI(post_frailty_est, post_frailty_var, n_centres, n_intervals, level)
   
   # Akaike Information Criterium
   AIC = 2 * n_params - 2 * optimal_loglikelihood
   
   # Object to return
   return_list <- list("formula" = formula,
-                      "dataset" = data[, formula_vars, drop = FALSE],
+                      "dataset" = data[, formula_variables, drop = FALSE],
                       "Regressors" = new_covariates,
                       "NRegressors" = n_regressors,
                       "ClusterVariable" = cluster_name,

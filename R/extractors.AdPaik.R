@@ -5,7 +5,6 @@
 #' @return A log-likelihood object with degrees of freedom (`df`).
 #' @export
 #' @importFrom stats logLik
-#' @method logLik AdPaik
 logLik.AdPaik <- function(object, ...) {
   out <- object$Loglikelihood
   if (!is.null(object$NParameters)) attr(out, "df") <- object$NParameters
@@ -22,7 +21,6 @@ logLik.AdPaik <- function(object, ...) {
 #' @param ... Additional arguments (ignored).
 #' @return The formula object.
 #' @export
-#' @method formula AdPaik
 formula.AdPaik <- function(x, ...) {
   out <- x$formula
   out
@@ -38,7 +36,6 @@ formula.AdPaik <- function(x, ...) {
 #' @param ... Additional arguments (ignored).
 #' @return A numeric vector with the number of parameters and AIC value.
 #' @export
-#' @method extractAIC AdPaik
 extractAIC.AdPaik <- function(fit, scale, k = 2, ...) {
   res <- logLik(fit)
   edf <- attr(res, "df")
@@ -54,7 +51,6 @@ extractAIC.AdPaik <- function(fit, scale, k = 2, ...) {
 #' @return Integer: Number of observations.
 #' @export
 #' @importFrom stats nobs
-#' @method nobs AdPaik
 nobs.AdPaik <- function(object, ...) {
   object$NObservations
 }
@@ -87,7 +83,5 @@ getData.AdPaik <- function(object) {
   
   return(data)
 }
-
-
 
 #-------------------------------------------------------------------------------

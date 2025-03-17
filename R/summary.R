@@ -16,8 +16,6 @@
 #'
 #' @seealso \code{\link{summary}}, \code{\link{print}}
 #' @export
-#' @method summary AdPaik
-#'
 #' @examples
 #' \dontrun{
 #' data(data_dropout)
@@ -91,7 +89,6 @@ summary.AdPaik <- function(object, ...) {
 #'
 #' @seealso \code{\link{summary}}, \code{\link{print}}
 #' @export
-#' @method print summary.AdPaik
 print.summary.AdPaik <- function(x, ...) {
   cat("Output of the 'Adapted Paik et al.' Model\n")
   cat("---------------------------------------------------\n")
