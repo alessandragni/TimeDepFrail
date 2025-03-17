@@ -57,31 +57,5 @@ nobs.AdPaik <- function(object, ...) {
 
 #-------------------------------------------------------------------------------
 
-#' @title 
-#' Extract Processed Dataset from an AdPaik Object
-#' @description 
-#' Retrieves the dataset used in the 'Adapted Paik et al.' model, applying any 
-#' missing value handling specified in the model object.
-#' @param object An `AdPaik` model object.
-#' @return The processed dataset used in the model, or `NULL` if no dataset is found.
-#' @export
-#' @importFrom nlme getData
-getData.AdPaik <- function(object) {
-  data <- object$dataset
-  if (is.null(data)) return(NULL)
-  
-  # Handle missing values if `na.action` is present
-  naAct <- object[["na.action"]]
-  if (!is.null(naAct)) {
-    if (inherits(naAct, "omit")) 
-      data <- data[-naAct, ]
-    else if (inherits(naAct, "exclude")) 
-      data <- data
-    else 
-      data <- eval(naAct)(data)
-  }
-  
-  return(data)
-}
 
 #-------------------------------------------------------------------------------
