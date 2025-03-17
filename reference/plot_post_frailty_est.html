@@ -48,7 +48,6 @@ its time-independent and time-dependent components based on user-specified flags
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_post_frailty_est</span><span class="op">(</span></span>
 <span>  <span class="va">result</span>,</span>
-<span>  <span class="va">data</span>,</span>
 <span>  flag_eps <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  flag_alpha <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  xlim <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -57,8 +56,8 @@ its time-independent and time-dependent components based on user-specified flags
 <span>  ylab <span class="op">=</span> <span class="st">"Values"</span>,</span>
 <span>  main <span class="op">=</span> <span class="st">"Posterior frailty estimates"</span>,</span>
 <span>  cex <span class="op">=</span> <span class="fl">0.7</span>,</span>
-<span>  pch_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">21</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">centre_codes</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  color_bg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">centre_codes</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  pch_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">ClusterCodes</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  color_bg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">ClusterCodes</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  cex_legend <span class="op">=</span> <span class="fl">0.7</span>,</span>
 <span>  pos_legend <span class="op">=</span> <span class="st">"topright"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -70,10 +69,6 @@ its time-independent and time-dependent components based on user-specified flags
 
 <dl><dt id="arg-result">result<a class="anchor" aria-label="anchor" href="#arg-result"></a></dt>
 <dd><p>S3 object of class 'AdPaik', returned by the method call 'AdPaikModel(...)'.</p></dd>
-
-
-<dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>Dataset (dataframe) in which all variables of the formula object must be found and contained.</p></dd>
 
 
 <dt id="arg-flag-eps">flag_eps<a class="anchor" aria-label="anchor" href="#arg-flag-eps"></a></dt>
@@ -164,8 +159,7 @@ Only one of these flags can be set to TRUE at a time.</p>
 <span class="r-in"><span><span class="va">pch_type</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">21</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">21</span>,<span class="fl">25</span>,<span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">21</span>,<span class="fl">25</span>,<span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">21</span>,<span class="fl">25</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">color_bg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"darkblue"</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="fl">5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"purple"</span>, <span class="fl">5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"green"</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">plot_post_frailty_est</span><span class="op">(</span><span class="va">result</span>, <span class="va">data_dropout</span>,</span></span>
-<span class="r-in"><span>                      pch_type <span class="op">=</span> <span class="va">pch_type</span>, color_bg <span class="op">=</span> <span class="va">color_bg</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_post_frailty_est</span><span class="op">(</span><span class="va">result</span>, <span class="va">data_dropout</span>, pch_type <span class="op">=</span> <span class="va">pch_type</span>, color_bg <span class="op">=</span> <span class="va">color_bg</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'result' not found</span>
 <span class="r-in"><span> <span class="co"># }                     </span></span></span>
 </code></pre></div>
