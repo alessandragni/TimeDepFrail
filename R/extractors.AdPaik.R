@@ -69,7 +69,7 @@ nobs.AdPaik <- function(object, ...) {
 #' @param object An `AdPaik` model object.
 #' @return The processed dataset used in the model, or `NULL` if no dataset is found.
 #' @export
-#' @importFrom lme getData
+#' @importFrom nlme getData
 getData.AdPaik <- function(object) {
   data <- object$dataset
   if (is.null(data)) return(NULL)
