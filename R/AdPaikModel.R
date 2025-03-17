@@ -361,8 +361,7 @@ AdPaikModel <- function(formula, data, time_axis,
   # Compute the standard error from the Hessian matrix
   if (verbose) message(paste("Compute parameters standard error"))
   params_se <- params_se(optimal_params, params_range_min, params_range_max,
-                                dataset, centre, time_axis, dropout_matrix, e_matrix, h_dd)
-  print(params_se)
+                         dataset, centre, time_axis, dropout_matrix, e_matrix, h_dd)
   
   # Compute parameters confidence interval
   if (verbose) message(paste("Compute parameters confidence interval"))
