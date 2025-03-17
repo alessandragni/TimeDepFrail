@@ -68,7 +68,7 @@
 
 check.result <- function(result){
   # Save the names of the list elements
-  names_list.AdPaik <- c("formula", "Regressors", "NRegressors", "ClusterVariable", 
+  names_list.AdPaik <- c("formula", "dataset", "Regressors", "NRegressors", "ClusterVariable", 
                          "NClusters", "ClusterCodes",
                          "TimeDomain", "NIntervals", "NObservations",
                          "NParameters", "ParametersCategories",
@@ -856,18 +856,8 @@ check.index <- function(index, n_params){
     stop('Provided index out of range.')
   }
 }
+
 #-------------------------------------------------------------------------------
-#' @title
-#' Check Positivity of the Multiplicative Constant C
-#' 
-#' @description
-#' The method controls the multiplicative constant C is non-negative (i.e. positive).
-#' 
-#' @param C_mult Multiplicative constant
-#'
-#' @return An error if the condition is not satisfied.
-#' 
-#' @keywords internal
 
 check.C_mult <- function(C_mult){
   # Controls the constant is positive

@@ -391,6 +391,7 @@ AdPaikModel <- function(formula, data, time_axis,
   
   # Object to return
   return_list <- list("formula" = formula,
+                      "dataset" = data[, formula_vars, drop = FALSE],
                       "Regressors" = new_covariates,
                       "NRegressors" = n_regressors,
                       "ClusterVariable" = cluster_name,
