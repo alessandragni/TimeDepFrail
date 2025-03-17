@@ -33,7 +33,6 @@
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/extract_dummy_variables.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/extract_event_data.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/formula.AdPaik.html</loc></url>
-<url><loc>https://alessandragni.github.io/TimeDepFrail/reference/frailty_sd.AdPaik.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/frailty_sd.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/getData.AdPaik.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/index.html</loc></url>
@@ -50,8 +49,8 @@
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/plot_ll_1D.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/plot_post_frailty_est.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/plot_survival.html</loc></url>
-<url><loc>https://alessandragni.github.io/TimeDepFrail/reference/post_frailty.AdPaik.html</loc></url>
-<url><loc>https://alessandragni.github.io/TimeDepFrail/reference/post_frailty_CI.AdPaik.html</loc></url>
+<url><loc>https://alessandragni.github.io/TimeDepFrail/reference/post_frailty.html</loc></url>
+<url><loc>https://alessandragni.github.io/TimeDepFrail/reference/post_frailty_CI.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/print.coef.AdPaik.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/print.coefse.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/print.confint.AdPaik.html</loc></url>
