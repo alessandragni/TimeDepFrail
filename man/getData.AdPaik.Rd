@@ -4,7 +4,7 @@
 \alias{getData.AdPaik}
 \title{Extract Processed Dataset from an AdPaik Object}
 \usage{
-getData.AdPaik(object)
+\method{getData}{AdPaik}(object)
 }
 \arguments{
 \item{object}{An \code{AdPaik} model object.}
