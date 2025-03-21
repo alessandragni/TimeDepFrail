@@ -1,115 +1,115 @@
 
 
-#-------------------------------------------------------------------------------
-#' @title 
-#' Extracts the Optimal Parameters of Each Category for the 'Adapted Paik et Al.' Model
-#'
-#' @description
-#' Extracts the optimal parameters \eqn{\boldsymbol{\phi}}, \eqn{\boldsymbol{\beta}}, \eqn{\mu_1}, 
-#' \eqn{\nu}, \eqn{\boldsymbol{\gamma}} obtained with the 
-#' time-dependent frailty model proposed in the 'Adapted Paik et al.' framework.
-#'
-#' @param object An S3 object of class `AdPaik`, returned by the main model function 
-#' (`AdPaikModel`). This object contains all the optimal parameter estimates.
-#' @param ... Additional arguments to be passed to other methods.
-#'
-#' @details
-#' The `coef.AdPaik` function extracts the coefficients from the 
-#' `OptimalParameters` field in `object`.
-#'
-#' The function validates the structure of `object` and ensures compatibility 
-#' with the expected model output. It throws an error if the object is malformed or 
-#' inconsistent.
-#'
-#' @return A named list containing the categories of optimal parameters.
-#' 
-#' @export
-#'
-#' @examples
-#' # Example using the 'Academic Dropout' dataset
-#' data(data_dropout)
-#' 
-#' # Define the formula and time axis for the model
-#' formula <- time_to_event ~ Gender + CFUP + cluster(group)
-#' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
-#' eps <- 1e-10
-#' categories_range_min <- c(-8, -2, eps, eps, eps)
-#' categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
-#'
-#'\donttest{
-#' # Run the main model
-#' result <- AdPaikModel(formula, data_dropout, time_axis,
-#'                       categories_range_min, categories_range_max, TRUE)
-#'
-#' # Extract the coefficients
-#' coef(result)
-#' }
-
-coef.AdPaik <- function (object, ...){
-  
-  # Check object structure
-  check.result(object)
-  
-  # Extract information from input variables
-  L <- n_intervals <- object$NIntervals
-  R <- n_regressors <- object$NRegressors
-  optimal_params <- object$OptimalParameters
-  
-  phi = optimal_params[1:(L)]
-  beta = optimal_params[(L+1):(L+R)]
-  mu1 = optimal_params[(L+R+1)]
-  nu = optimal_params[(L+R+2)]
-  gamma = optimal_params[(L+R+3):(2*L+R+2)]
-  
-  
-  # Assign names to beta if regressors are provided
-  if (!is.null(object$Regressors) && length(object$Regressors) == R) {
-    names(beta) <- object$Regressors
-  }
-  
-  return_list = list('phi'=phi,
-                     'beta'=beta,
-                     'mu1'=mu1,
-                     'nu'=nu,
-                     'gamma'=gamma)
-  class(return_list) <- c("coef.AdPaik", class(return_list))
-  return (return_list)
-}
-
-
-#' @title 
-#' Print Method for `coef.AdPaik` Objects
-#'
-#' @description
-#' Displays the optimal parameter estimates extracted from an `AdPaik` model object in a structured format.
-#'
-#' @param x An object of class `coef.AdPaik`, typically returned by the `coef.AdPaik` function.
-#' @param ... Additional arguments (currently ignored).
-#'
-#' @details
-#' This function prints the estimated optimal parameters for the 'Adapted Paik et al.' model.
-#' It organizes the output into five categories: 
-#' \eqn{\boldsymbol{\phi}}, \eqn{\boldsymbol{\beta}}, \eqn{\mu_1}, \eqn{\nu}, and \eqn{\boldsymbol{\gamma}}.
-#'
-#' Each category is printed separately for clarity. If regressors are present, 
-#' their corresponding \eqn{\beta} coefficients are displayed with names.
-#'
-#' @return Prints the coefficients to the console. No value is returned.
-#' 
-#' @export
-print.coef.AdPaik <- function(x, ...){
-  cat("Optimal Parameters:\n")
-  cat("phi:\n")
-  print(x$phi)
-  cat("beta:\n")
-  print(x$beta)
-  cat("mu1:\n")
-  print(x$mu1)
-  cat("nu:\n")
-  print(x$nu)
-  cat("gamma:\n")
-  print(x$gamma)
-}
+# #-------------------------------------------------------------------------------
+# #' @title 
+# #' Extracts the Optimal Parameters of Each Category for the 'Adapted Paik et Al.' Model
+# #'
+# #' @description
+# #' Extracts the optimal parameters \eqn{\boldsymbol{\phi}}, \eqn{\boldsymbol{\beta}}, \eqn{\mu_1}, 
+# #' \eqn{\nu}, \eqn{\boldsymbol{\gamma}} obtained with the 
+# #' time-dependent frailty model proposed in the 'Adapted Paik et al.' framework.
+# #'
+# #' @param object An S3 object of class `AdPaik`, returned by the main model function 
+# #' (`AdPaikModel`). This object contains all the optimal parameter estimates.
+# #' @param ... Additional arguments to be passed to other methods.
+# #'
+# #' @details
+# #' The `coef.AdPaik` function extracts the coefficients from the 
+# #' `OptimalParameters` field in `object`.
+# #'
+# #' The function validates the structure of `object` and ensures compatibility 
+# #' with the expected model output. It throws an error if the object is malformed or 
+# #' inconsistent.
+# #'
+# #' @return A named list containing the categories of optimal parameters.
+# #' 
+# #' @export
+# #'
+# #' @examples
+# #' # Example using the 'Academic Dropout' dataset
+# #' data(data_dropout)
+# #' 
+# #' # Define the formula and time axis for the model
+# #' formula <- time_to_event ~ Gender + CFUP + cluster(group)
+# #' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
+# #' eps <- 1e-10
+# #' categories_range_min <- c(-8, -2, eps, eps, eps)
+# #' categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
+# #'
+# #'\donttest{
+# #' # Run the main model
+# #' result <- AdPaikModel(formula, data_dropout, time_axis,
+# #'                       categories_range_min, categories_range_max, TRUE)
+# #'
+# #' # Extract the coefficients
+# #' coef(result)
+# #' }
+# 
+# coef.AdPaik <- function (object, ...){
+#   
+#   # Check object structure
+#   check.result(object)
+#   
+#   # Extract information from input variables
+#   L <- n_intervals <- object$NIntervals
+#   R <- n_regressors <- object$NRegressors
+#   optimal_params <- object$OptimalParameters
+#   
+#   phi = optimal_params[1:(L)]
+#   beta = optimal_params[(L+1):(L+R)]
+#   mu1 = optimal_params[(L+R+1)]
+#   nu = optimal_params[(L+R+2)]
+#   gamma = optimal_params[(L+R+3):(2*L+R+2)]
+#   
+#   
+#   # Assign names to beta if regressors are provided
+#   if (!is.null(object$Regressors) && length(object$Regressors) == R) {
+#     names(beta) <- object$Regressors
+#   }
+#   
+#   return_list = list('phi'=phi,
+#                      'beta'=beta,
+#                      'mu1'=mu1,
+#                      'nu'=nu,
+#                      'gamma'=gamma)
+#   class(return_list) <- c("coef.AdPaik", class(return_list))
+#   return (return_list)
+# }
+# 
+# 
+# #' @title 
+# #' Print Method for `coef.AdPaik` Objects
+# #'
+# #' @description
+# #' Displays the optimal parameter estimates extracted from an `AdPaik` model object in a structured format.
+# #'
+# #' @param x An object of class `coef.AdPaik`, typically returned by the `coef.AdPaik` function.
+# #' @param ... Additional arguments (currently ignored).
+# #'
+# #' @details
+# #' This function prints the estimated optimal parameters for the 'Adapted Paik et al.' model.
+# #' It organizes the output into five categories: 
+# #' \eqn{\boldsymbol{\phi}}, \eqn{\boldsymbol{\beta}}, \eqn{\mu_1}, \eqn{\nu}, and \eqn{\boldsymbol{\gamma}}.
+# #'
+# #' Each category is printed separately for clarity. If regressors are present, 
+# #' their corresponding \eqn{\beta} coefficients are displayed with names.
+# #'
+# #' @return Prints the coefficients to the console. No value is returned.
+# #' 
+# #' @export
+# print.coef.AdPaik <- function(x, ...){
+#   cat("Optimal Parameters:\n")
+#   cat("phi:\n")
+#   print(x$phi)
+#   cat("beta:\n")
+#   print(x$beta)
+#   cat("mu1:\n")
+#   print(x$mu1)
+#   cat("nu:\n")
+#   print(x$nu)
+#   cat("gamma:\n")
+#   print(x$gamma)
+# }
 
 
 #-------------------------------------------------------------------------------
