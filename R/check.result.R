@@ -38,7 +38,7 @@ check.result <- function(result){
 #'
 #' @param result S3 object of class 'AdPaik', composed of several elements. See details.
 #'
-#' @details The output of the model call 'AdPaikModel(...)' is a S3 object of class 'AdPaik', composed of 18 quantities:
+#' @details The output of the model call 'AdPaikModel(...)' is a S3 object of class 'AdPaik', composed of:
 #' - formula: formula object provided in input by the user and specifying the relationship between the time-to-event, the covariates of
 #' the dataset (regressors) and the cluster variable.
 #' - Regressors: categorical vector of length R, with the name of the regressors.
@@ -47,6 +47,8 @@ check.result <- function(result){
 #' - NRegressors: number of regressors (R)
 #' - ClusterVariable: name of the variable with respect to which the individuals can be grouped.
 #' - NClusters: number of clusters/groups/centres
+#' - ClusterCodes
+#' - TimeDomain
 #' - NIntervals: number of intervals of the time-domain, also called with L. It corresponds to the length of the time-domain minus 1.
 #' - NParameters: number of parameters of the model. It can be computed as: \eqn{n_p = 2L + R + 2}.
 #' - ParametersCategories: Numerical vector of length 5, containing the numerosity of each parameter category.
@@ -96,8 +98,8 @@ check.result <- function(result){
 
 check.result.AdPaik <- function(result){
   # Save the names of the list elements
-  names_list.AdPaik <- c("formula", "Regressors", "NRegressors", "ClusterVariable", "NClusters",
-                         "TimeDomain", "NIntervals",
+  names_list.AdPaik <- c("formula", "dataset", "Regressors", "NRegressors", "ClusterVariable", "NClusters",
+                         "ClusterCodes", "TimeDomain", "NIntervals", "NObservations",
                          "NParameters", "ParametersCategories",
                          "ParametersRange",
                          "Loglikelihood", "AIC", "Status", "NRun",

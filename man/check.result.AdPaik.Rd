@@ -17,7 +17,7 @@ The function controls that the structure of the input variable is coherent with 
 'AdPaikModel' execution.
 }
 \details{
-The output of the model call 'AdPaikModel(...)' is a S3 object of class 'AdPaik', composed of 18 quantities:
+The output of the model call 'AdPaikModel(...)' is a S3 object of class 'AdPaik', composed of:
 \itemize{
 \item formula: formula object provided in input by the user and specifying the relationship between the time-to-event, the covariates of
 the dataset (regressors) and the cluster variable.
@@ -27,6 +27,8 @@ Indeed, each categorical covariate with n levels needs to be transformed into (n
 \item NRegressors: number of regressors (R)
 \item ClusterVariable: name of the variable with respect to which the individuals can be grouped.
 \item NClusters: number of clusters/groups/centres
+\item ClusterCodes
+\item TimeDomain
 \item NIntervals: number of intervals of the time-domain, also called with L. It corresponds to the length of the time-domain minus 1.
 \item NParameters: number of parameters of the model. It can be computed as: \eqn{n_p = 2L + R + 2}.
 \item ParametersCategories: Numerical vector of length 5, containing the numerosity of each parameter category.
