@@ -106,7 +106,6 @@ The first column represents the cluster to which the individual belongs.</p></dd
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Import data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">data_dropout</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>data set ‘data_dropout’ not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Define the variables needed for the model execution</span></span></span>
 <span class="r-in"><span><span class="va">eps_paik</span> <span class="op">&lt;-</span> <span class="fl">1e-10</span></span></span>
@@ -118,12 +117,11 @@ The first column represents the cluster to which the individual belongs.</p></dd
 <span class="r-in"><span><span class="co"># Call the main model function</span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="AdPaikModel.html">AdPaikModel</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>, <span class="va">time_axis</span>, <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'data_dropout' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">survival_df</span> <span class="op">=</span> <span class="fu"><a href="survival.html">survival</a></span><span class="op">(</span><span class="va">result</span>, <span class="va">data_dropout</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'result' not found</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in check.result.AdPaik(result):</span> NIntervals does not appear in the input 'result' argument. </span>
 <span class="r-in"><span><span class="fu">plot_survival</span><span class="op">(</span><span class="va">result</span>, <span class="va">survival_df</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'result' not found</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'survival_df' not found</span>
 <span class="r-in"><span> <span class="co"># } </span></span></span>
 </code></pre></div>
     </div>

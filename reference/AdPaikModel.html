@@ -91,7 +91,6 @@ For more information about the unknown model parameters, their type and numerosi
 <span>  <span class="va">time_axis</span>,</span>
 <span>  <span class="va">categories_range_min</span>,</span>
 <span>  <span class="va">categories_range_max</span>,</span>
-<span>  flag_fullsd <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  n_extrarun <span class="op">=</span> <span class="fl">60</span>,</span>
 <span>  tol_ll <span class="op">=</span> <span class="fl">1e-06</span>,</span>
 <span>  tol_optimize <span class="op">=</span> <span class="fl">1e-06</span>,</span>
@@ -132,11 +131,6 @@ the formula variables. It is not necessary to attach it (in case of a data.frame
 
 <dt id="arg-categories-range-max">categories_range_max<a class="anchor" aria-label="anchor" href="#arg-categories-range-max"></a></dt>
 <dd><p>Vector containing the maximum value assumable by each parameter category.</p></dd>
-
-
-<dt id="arg-flag-fullsd">flag_fullsd<a class="anchor" aria-label="anchor" href="#arg-flag-fullsd"></a></dt>
-<dd><p>Logical. If TRUE, the full frailty standard deviation is computed, otherwise the partial one that keeps into
-account only the time-dependent component. Defaults to <code>TRUE</code>.</p></dd>
 
 
 <dt id="arg-n-extrarun">n_extrarun<a class="anchor" aria-label="anchor" href="#arg-n-extrarun"></a></dt>
@@ -201,7 +195,6 @@ Indeed, each categorical covariate with n levels needs to be transformed into (n
 <li><p>NRegressors: number of regressors (R)</p></li>
 <li><p>ClusterVariable: name of the variable with respect to which the individuals can be grouped.</p></li>
 <li><p>NClusters: number of clusters/centres (also indicated with N).</p></li>
-<li><p>ClusterCodes: vector of length N, containing the codes of the clusters.</p></li>
 <li><p>NIntervals: number of intervals of the time-domain, also called with L.</p></li>
 <li><p>NParameters: number of parameters of the model. It can be computed as: \(n_p = 2L + R + 2\).</p></li>
 <li><p>ParametersCategories: Numerical vector of length 5, containing the numerosity of each parameter category.</p></li>
@@ -241,7 +234,6 @@ is  composed of three elements:</p><ul><li><p>'alphaVar': posterior frailty vari
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Consider the 'Academic Dropout dataset'</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">data_dropout</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>data set ‘data_dropout’ not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Define the variables needed for the model execution</span></span></span>
 <span class="r-in"><span><span class="va">formula</span> <span class="op">&lt;-</span> <span class="va">time_to_event</span> <span class="op">~</span> <span class="va">Gender</span> <span class="op">+</span> <span class="va">CFUP</span> <span class="op">+</span> <span class="fu">cluster</span><span class="op">(</span><span class="va">group</span><span class="op">)</span></span></span>
@@ -254,7 +246,6 @@ is  composed of three elements:</p><ul><li><p>'alphaVar': posterior frailty vari
 <span class="r-in"><span><span class="co"># Call the main model</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">AdPaikModel</span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>, <span class="va">time_axis</span>,</span></span>
 <span class="r-in"><span>                      <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'data_dropout' not found</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

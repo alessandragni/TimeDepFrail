@@ -72,7 +72,6 @@ inconsistent.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example using the 'Academic Dropout' dataset</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">data_dropout</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>data set ‘data_dropout’ not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Define the formula and time axis for the model</span></span></span>
 <span class="r-in"><span><span class="va">formula</span> <span class="op">&lt;-</span> <span class="va">time_to_event</span> <span class="op">~</span> <span class="va">Gender</span> <span class="op">+</span> <span class="va">CFUP</span> <span class="op">+</span> <span class="fu">cluster</span><span class="op">(</span><span class="va">group</span><span class="op">)</span></span></span>
@@ -85,11 +84,10 @@ inconsistent.</p>
 <span class="r-in"><span><span class="co"># Run the main model</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="AdPaikModel.html">AdPaikModel</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>, <span class="va">time_axis</span>,</span></span>
 <span class="r-in"><span>                      <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'data_dropout' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Extract the coefficients</span></span></span>
 <span class="r-in"><span><span class="fu">coefse</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'result' not found</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in check.result.AdPaik(result):</span> NIntervals does not appear in the input 'result' argument. </span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

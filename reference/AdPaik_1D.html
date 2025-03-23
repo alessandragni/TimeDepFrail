@@ -176,7 +176,6 @@ so that it is possible to identify a precise existence region for such parameter
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Consider the 'Academic Dropout dataset'</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">data_dropout</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>data set ‘data_dropout’ not found</span>
 <span class="r-in"><span><span class="co"># Define the variables needed for the model execution</span></span></span>
 <span class="r-in"><span><span class="va">formula</span> <span class="op">&lt;-</span> <span class="va">time_to_event</span> <span class="op">~</span> <span class="va">Gender</span> <span class="op">+</span> <span class="va">CFUP</span> <span class="op">+</span> <span class="fu">cluster</span><span class="op">(</span><span class="va">group</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">time_axis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.0</span>, <span class="fl">1.4</span>, <span class="fl">1.8</span>, <span class="fl">2.3</span>, <span class="fl">3.1</span>, <span class="fl">3.8</span>, <span class="fl">4.3</span>, <span class="fl">5.0</span>, <span class="fl">5.5</span>, <span class="fl">5.8</span>, <span class="fl">6.0</span><span class="op">)</span></span></span>
@@ -193,7 +192,11 @@ so that it is possible to identify a precise existence region for such parameter
 <span class="r-in"><span>                             flag_plot <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>                             <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span>, </span></span>
 <span class="r-in"><span>                             n_iter <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'data_dropout' not found</span>
+<span class="r-plt img"><img src="AdPaik_1D-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="AdPaik_1D-2.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="AdPaik_1D-3.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="AdPaik_1D-4.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="AdPaik_1D-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># or Study the log-likelihood behaviour</span></span></span>
@@ -203,12 +206,11 @@ so that it is possible to identify a precise existence region for such parameter
 <span class="r-in"><span><span class="co"># Call the main model</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="AdPaikModel.html">AdPaikModel</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>, <span class="va">time_axis</span>,</span></span>
 <span class="r-in"><span>                      <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'data_dropout' not found</span>
 <span class="r-in"><span><span class="va">analysis_1D_opt</span> <span class="op">&lt;-</span> <span class="fu">AdPaik_1D</span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>, <span class="va">time_axis</span>,</span></span>
 <span class="r-in"><span>                             <span class="va">index_param_to_vary</span>, flag_optimal_params <span class="op">=</span> <span class="cn">TRUE</span>, </span></span>
 <span class="r-in"><span>                             flag_plot <span class="op">=</span> <span class="cn">TRUE</span>, optimal_params <span class="op">=</span> <span class="va">result</span><span class="op">$</span><span class="va">OptimalParameters</span>,</span></span>
 <span class="r-in"><span>                             <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span>, n_iter <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'data_dropout' not found</span>
+<span class="r-plt img"><img src="AdPaik_1D-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

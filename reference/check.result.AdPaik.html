@@ -57,7 +57,7 @@
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The output of the model call 'AdPaikModel(...)' is a S3 object of class 'AdPaik', composed of 18 quantities:</p><ul><li><p>formula: formula object provided in input by the user and specifying the relationship between the time-to-event, the covariates of
+    <p>The output of the model call 'AdPaikModel(...)' is a S3 object of class 'AdPaik', composed of:</p><ul><li><p>formula: formula object provided in input by the user and specifying the relationship between the time-to-event, the covariates of
 the dataset (regressors) and the cluster variable.</p></li>
 <li><p>Regressors: categorical vector of length R, with the name of the regressors.
 They could be different from the original covariates of the dataset in case of categorical covariates.
@@ -65,6 +65,8 @@ Indeed, each categorical covariate with n levels needs to be transformed into (n
 <li><p>NRegressors: number of regressors (R)</p></li>
 <li><p>ClusterVariable: name of the variable with respect to which the individuals can be grouped.</p></li>
 <li><p>NClusters: number of clusters/groups/centres</p></li>
+<li><p>ClusterCodes</p></li>
+<li><p>TimeDomain</p></li>
 <li><p>NIntervals: number of intervals of the time-domain, also called with L. It corresponds to the length of the time-domain minus 1.</p></li>
 <li><p>NParameters: number of parameters of the model. It can be computed as: \(n_p = 2L + R + 2\).</p></li>
 <li><p>ParametersCategories: Numerical vector of length 5, containing the numerosity of each parameter category.</p></li>
