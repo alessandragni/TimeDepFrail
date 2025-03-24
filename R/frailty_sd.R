@@ -20,12 +20,11 @@
 #'
 #' @param object S3 object of class 'AdPaik' returned by the main model output, that contains all the information for the computation
 #' of the frailty standard deviation.
-#' @param flag_full A boolean flag indicating whether to get the full standard deviation (`TRUE`) or only the time-dependent one (`FALSE`). Default is `TRUE`.
+#' @param flag_full A boolean flag indicating whether to get the full standard deviation (`TRUE`) or only the time-dependent component (`FALSE`). Default is `TRUE`.
 #' @param flag_variance A boolean flag indicating whether to get the frailty variance (`TRUE`) or the frailty standard deviation (`FALSE`). Default is `FALSE`.
 #'
-#' @return S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the number of intervals of the time-domain:
-#' - FrailtyVariance
-#' - FrailtyStandardDevation
+#' @return Numerical vector of length equal to the number of intervals of the time-domain, 
+#' with the value of the frailty standard deviation or variance (either full or only the time-dependent component).
 #'
 #' @export
 #'

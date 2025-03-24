@@ -10,16 +10,13 @@ frailty_sd(object, flag_full = TRUE, flag_variance = FALSE)
 \item{object}{S3 object of class 'AdPaik' returned by the main model output, that contains all the information for the computation
 of the frailty standard deviation.}
 
-\item{flag_full}{A boolean flag indicating whether to get the full standard deviation (\code{TRUE}) or only the time-dependent one (\code{FALSE}). Default is \code{TRUE}.}
+\item{flag_full}{A boolean flag indicating whether to get the full standard deviation (\code{TRUE}) or only the time-dependent component (\code{FALSE}). Default is \code{TRUE}.}
 
 \item{flag_variance}{A boolean flag indicating whether to get the frailty variance (\code{TRUE}) or the frailty standard deviation (\code{FALSE}). Default is \code{FALSE}.}
 }
 \value{
-S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the number of intervals of the time-domain:
-\itemize{
-\item FrailtyVariance
-\item FrailtyStandardDevation
-}
+Numerical vector of length equal to the number of intervals of the time-domain,
+with the value of the frailty standard deviation or variance (either full or only the time-dependent component).
 }
 \description{
 The function computes both the standard deviation and the variance of the time-dependent
