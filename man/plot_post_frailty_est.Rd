@@ -6,7 +6,6 @@
 \usage{
 plot_post_frailty_est(
   result,
-  data,
   flag_eps = FALSE,
   flag_alpha = FALSE,
   xlim = NULL,
@@ -23,8 +22,6 @@ plot_post_frailty_est(
 }
 \arguments{
 \item{result}{S3 object of class 'AdPaik', returned by the method call 'AdPaikModel(...)'.}
-
-\item{data}{Dataset (dataframe) in which all variables of the formula object must be found and contained.}
 
 \item{flag_eps}{Logical flag indicating whether to plot only the time-dependent posterior frailty estimates. Default is FALSE.}
 
@@ -92,7 +89,6 @@ result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, ca
 pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
 color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
 
-plot_post_frailty_est(result, data_dropout,
-                      pch_type = pch_type, color_bg = color_bg)
+plot_post_frailty_est(result, pch_type = pch_type, color_bg = color_bg)
  }                     
 }

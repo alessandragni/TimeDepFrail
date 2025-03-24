@@ -99,7 +99,6 @@ plot_bas_hazard <- function(result,
 #' Only one of these flags can be set to TRUE at a time.
 #'
 #' @param result S3 object of class 'AdPaik', returned by the method call 'AdPaikModel(...)'.
-#' @param data Dataset (dataframe) in which all variables of the formula object must be found and contained.
 #' @param flag_eps Logical flag indicating whether to plot only the time-dependent posterior frailty estimates. Default is FALSE.
 #' @param flag_alpha Logical flag indicating whether to plot only the time-independent posterior frailty estimates. Default is FALSE.
 #' @param xlim A numeric vector specifying the range for the x-axis (intervals). If NULL, default is set to the interval min-max of the time-domain, plus space for the legend.
@@ -142,11 +141,10 @@ plot_bas_hazard <- function(result,
 #' pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
 #' color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
 #' 
-#' plot_post_frailty_est(result, data_dropout,
-#'                       pch_type = pch_type, color_bg = color_bg)
+#' plot_post_frailty_est(result, pch_type = pch_type, color_bg = color_bg)
 #'  }                     
 
-plot_post_frailty_est <- function(result, data,
+plot_post_frailty_est <- function(result,
                                   flag_eps = FALSE, flag_alpha = FALSE,
                                   xlim = NULL, ylim = NULL,
                                   xlab = "Time", ylab = "Values", main = "Posterior frailty estimates",
@@ -164,21 +162,7 @@ plot_post_frailty_est <- function(result, data,
   formula <- result$formula
   post_frailty_est <- result$PosteriorFrailtyEstimates
 
-  # Check variables of formula are contained in dataset
-  check.formula_terms(formula, data)
-
-  # Extract elements of the formula object
-  formula_variables <- all.vars(formula)
-
-  # Extract position of cluster
-  special <- c("cluster")
-  terms_object <- terms(formula, specials = special, data = data)
-  cluster_index <- attr(terms_object, "specials")$cluster
-  cluster_name <- formula_variables[cluster_index]
-
-  # Extract centre_codes
-  centre <- data[,cluster_name]
-  centre_codes <- levels(factor(centre))
+  centre_codes <- result$ClusterCodes
   n_centres <- length(centre_codes)
 
   # Check correctness of post_frailty_list and centre

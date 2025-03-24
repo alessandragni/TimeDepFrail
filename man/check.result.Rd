@@ -2,25 +2,77 @@
 % Please edit documentation in R/check.result.R
 \name{check.result}
 \alias{check.result}
-\title{Internal Function to Check the Structure of the Model Output}
+\title{Check Structure of the 'AdPaikModel' Output}
 \usage{
 check.result(result)
 }
 \arguments{
-\item{result}{S3 object. Expected to be of class 'AdPaik', 'PowPar', or 'StocTimeDep'.}
+\item{result}{S3 object of class 'AdPaik', composed of several elements. See details.}
 }
 \value{
-Throws an error if the \code{result} object does not belong to one of the expected classes,
-or if the object’s structure is incorrect.
+An error if any condition is not satisfied.
 }
 \description{
-This internal function checks if the input \code{result} object belongs to one of the
-expected S3 classes ('AdPaik', 'PowPar', or 'StocTimeDep') and calls the
-appropriate checking function based on the class.
+The function controls that the structure of the input variable is coherent with the one returned by the
+'AdPaikModel' execution.
 }
 \details{
-This function is internal and dispatches the appropriate structure-checking function
-based on the class of the input. Currently, it supports 'AdPaik' class. The structure-checking
-functions for 'PowPar' and 'StocTimeDep' are placeholders and should be implemented if needed.
+The output of the model call 'AdPaikModel(...)' is a S3 object of class 'AdPaik', composed of:
+\itemize{
+\item formula: formula object provided in input by the user and specifying the relationship between the time-to-event, the covariates of
+the dataset (regressors) and the cluster variable.
+\item Regressors: categorical vector of length R, with the name of the regressors.
+They could be different from the original covariates of the dataset in case of categorical covariates.
+Indeed, each categorical covariate with n levels needs to be transformed into (n-1) dummy variables and, therefore, (n-1) regressors.
+\item NRegressors: number of regressors (R)
+\item ClusterVariable: name of the variable with respect to which the individuals can be grouped.
+\item NClusters: number of clusters/groups/centres
+\item ClusterCodes
+\item TimeDomain
+\item NIntervals: number of intervals of the time-domain, also called with L. It corresponds to the length of the time-domain minus 1.
+\item NParameters: number of parameters of the model. It can be computed as: \eqn{n_p = 2L + R + 2}.
+\item ParametersCategories: Numerical vector of length 5, containing the numerosity of each parameter category.
+\item ParametersRangeMin: Numerical vector of length \eqn{n_p}, giving the minimum range of each parameter.
+\item ParametersRangeMax: Numerical vector of length \eqn{n_p}, giving the maximum range of each parameter.
+\item Loglikelihood: value of the maximized log-likelihood function, at the optimal estimated parameters.
+\item AIC: 'Akaike Information Criterion': it can be computed as \eqn{AIC = 2n_p - 2ll_{optimal}}.
+It gives an idea of the loss of information related to the model fitting and output.
+The smaller it is, the less loss of information and the better model accuracy.
+\item Status: Logical value. Does the model reach convergence? If so, the variable is TRUE, otherwise FALSE.
+\item NRun: Number of runs necessary to reach convergence. If the model does not reach convergence, such number is equal to the maximum number
+of imposed runs.
+\item OptimalParameters: numerical vector of length \eqn{n_p}, containing the optimal estimated parameters or, in other words, the parameters
+that maximizes the log-likelihood function.
+\item StandardErrorParameters: numerical vector of length \eqn{n_p}, corresponding to the standard error of each estimated parameters.
+\item ParametersCI: S3 object of class 'ParametersCI', composed of two numerical vector of length equal to \eqn{n_p}: the left and right confidence
+interval of each estimated parameter.
+\item FrailtyStandardDeviation: numerical vector of length equal to L (i.e. number of intervals of the time-domain), reporting the standard deviation
+of the frailty.
+\item PosteriorFrailtyEstimates: S3 object of class 'PFE.AdPaik'. See details.
+\item PosteriorFrailtyVariance: S3 object of class 'PFV.AdPaik'. See details.
+\item PosteriorFrailtyCI: S3 object of class 'PFCI.AdPaik'. See details.
+}
+
+The object of class 'PFE.AdPaik' contains the Posterior Frailty Estimates computed with the procedure indicated in the reference paper and
+it is composed of three elements:
+\itemize{
+\item 'alpha': posterior frailty estimates for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of groups/centres.
+\item 'eps': posterior frailty estimates for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
+\item 'Z': posterior frailty estimates for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
+}
+
+The object of class 'PFV.AdPaik' contains the Posterior Frailty Variances computed as indicated in the reference papaer and it
+is  composed of three elements:
+\itemize{
+\item 'alphaVar': posterior frailty variance for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of groups/centres.
+\item 'epsVar': posterior frailty variance for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
+\item 'ZVar': posterior frailty variance for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
+}
+
+The object of class 'PFCI.AdPaik' contains the Posterior Frailty Confidence Interval and it is composed of two elements:
+\itemize{
+\item left confidence interval for the estimated \eqn{\hat{Z}_{jk}, \forall j,k}. Matrix of dimension (N, L).
+\item right confidence interval for the estimated \eqn{\hat{Z}_{jk}, \forall j,k}. Matrix of dimension (N, L).
+}
 }
 \keyword{internal}

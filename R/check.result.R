@@ -1,32 +1,3 @@
-#-------------------------------------------------------------------------------
-#' @title
-#' Internal Function to Check the Structure of the Model Output
-#'
-#' @description
-#' This internal function checks if the input `result` object belongs to one of the 
-#' expected S3 classes ('AdPaik', 'PowPar', or 'StocTimeDep') and calls the 
-#' appropriate checking function based on the class.
-#'
-#' @param result S3 object. Expected to be of class 'AdPaik', 'PowPar', or 'StocTimeDep'.
-#'
-#' @details
-#' This function is internal and dispatches the appropriate structure-checking function 
-#' based on the class of the input. Currently, it supports 'AdPaik' class. The structure-checking 
-#' functions for 'PowPar' and 'StocTimeDep' are placeholders and should be implemented if needed.
-#'
-#' @return Throws an error if the `result` object does not belong to one of the expected classes, 
-#' or if the object’s structure is incorrect.
-#'
-#' @keywords internal
-
-check.result <- function(result){
-  # Check the class of result
-  if(!inherits(result, 'AdPaik')) # & (!inherits(result, 'PowPar')) & (!inherits(result, 'StocTimeDep')))
-    stop("Wrong S3 class object for input 'result' argument.")
-  
-  if(inherits(result, 'AdPaik'))
-    check.result.AdPaik(result)
-}
 
 #-------------------------------------------------------------------------------
 #' @title
@@ -96,7 +67,7 @@ check.result <- function(result){
 #' 
 #' @keywords internal
 
-check.result.AdPaik <- function(result){
+check.result <- function(result){
   # Save the names of the list elements
   names_list.AdPaik <- c("formula", "dataset", "Regressors", "NRegressors", "ClusterVariable", "NClusters",
                          "ClusterCodes", "TimeDomain", "NIntervals", "NObservations",

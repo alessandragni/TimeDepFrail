@@ -86,21 +86,18 @@ pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
 color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
 
 pdf("Examples/Plots/PostFrailtyEst.pdf", width=8, height=5)
-plot_post_frailty_est(result, data_dropout,
-                      pch_type = pch_type, color_bg = color_bg)
+plot_post_frailty_est(result, pch_type = pch_type, color_bg = color_bg)
 dev.off()
 
 mean(result$PosteriorFrailtyEstimates$Z)
 
 pdf("Examples/Plots/post_estimates_eps.pdf", width=5, height=5)
-plot_post_frailty_est(result, data_dropout,
-                      flag_eps = TRUE, flag_alpha = FALSE,
+plot_post_frailty_est(result, flag_eps = TRUE, flag_alpha = FALSE,
                       pch_type = pch_type, color_bg = color_bg)
 dev.off()
 
 pdf("Examples/Plots/post_estimates_alpha.pdf", width=5, height=5)
-plot_post_frailty_est(result, data_dropout,
-                      flag_eps = FALSE, flag_alpha = TRUE,
+plot_post_frailty_est(result, flag_eps = FALSE, flag_alpha = TRUE,
                       pch_type = pch_type, color_bg = color_bg)
 dev.off()
 
