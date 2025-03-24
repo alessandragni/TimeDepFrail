@@ -149,8 +149,8 @@ plot_post_frailty_est <- function(result,
                                   xlim = NULL, ylim = NULL,
                                   xlab = "Time", ylab = "Values", main = "Posterior frailty estimates",
                                   cex = 0.7,
-                                  pch_type = rep(21, length(centre_codes)),
-                                  color_bg = rep("black", length(centre_codes)),
+                                  pch_type = seq(1, length(result$ClusterCodes)),
+                                  color_bg = rep("black", length(result$ClusterCodes)),
                                   cex_legend = 0.7, pos_legend = "topright"){
 
   # Check correctness of result structure
