@@ -9,8 +9,7 @@ In this case, the flag_full should be FALSE and flag_variance should be TRUE.
 Considering both the time-dependent and constant spread of the clusters: \(var(Z_{jk}) = \mu_1 * \nu + \mu_2 * \gamma_k\).
 The new added term only moves upward the other case and the flag_full should be TRUE and flag_variance should be TRUE.
 
-
-The final case only depends on what we want to observe."><meta property="og:description" content="The function computes both the standard deviation and the variance of the time-dependent
+"><meta property="og:description" content="The function computes both the standard deviation and the variance of the time-dependent
 frailty of the 'Adapted Paik et al.'s Model'.
 Recalling the frailty structure \(Z_{jk} = \alpha_j + \epsilon_{jk}\) as being composed by a constant group-dependent term
 (\(\alpha_j\)) and a time and group dependent term (\(\epsilon_{jk}\)), the frailty variance (and standard deviation)
@@ -20,8 +19,7 @@ In this case, the flag_full should be FALSE and flag_variance should be TRUE.
 Considering both the time-dependent and constant spread of the clusters: \(var(Z_{jk}) = \mu_1 * \nu + \mu_2 * \gamma_k\).
 The new added term only moves upward the other case and the flag_full should be TRUE and flag_variance should be TRUE.
 
-
-The final case only depends on what we want to observe."></head><body>
+"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -62,8 +60,7 @@ can be computed in two different way:</p><ul><li><p>Considering only the time-de
 In this case, the flag_full should be FALSE and flag_variance should be TRUE.</p></li>
 <li><p>Considering both the time-dependent and constant spread of the clusters: \(var(Z_{jk}) = \mu_1 * \nu + \mu_2 * \gamma_k\).
 The new added term only moves upward the other case and the flag_full should be TRUE and flag_variance should be TRUE.</p></li>
-</ul><p>The final case only depends on what we want to observe.</p>
-    </div>
+</ul></div>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
@@ -80,11 +77,11 @@ of the frailty standard deviation.</p></dd>
 
 
 <dt id="arg-flag-full">flag_full<a class="anchor" aria-label="anchor" href="#arg-flag-full"></a></dt>
-<dd><p>A boolean flag indicating whether to get the full standard deviation (<code>TRUE</code>) or only the time-dependent component (<code>FALSE</code>). Default is <code>TRUE</code>.</p></dd>
+<dd><p>A boolean flag indicating whether to get the full standard deviation (<code>TRUE</code>) or only the time-dependent component (<code>FALSE</code>). Default to <code>TRUE</code>.</p></dd>
 
 
 <dt id="arg-flag-variance">flag_variance<a class="anchor" aria-label="anchor" href="#arg-flag-variance"></a></dt>
-<dd><p>A boolean flag indicating whether to get the frailty variance (<code>TRUE</code>) or the frailty standard deviation (<code>FALSE</code>). Default is <code>FALSE</code>.</p></dd>
+<dd><p>A boolean flag indicating whether to get the frailty variance (<code>TRUE</code>) or the frailty standard deviation (<code>FALSE</code>). Default to <code>FALSE</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -110,12 +107,9 @@ with the value of the frailty standard deviation or variance (either full or onl
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="AdPaikModel.html">AdPaikModel</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>, <span class="va">time_axis</span>,</span></span>
 <span class="r-in"><span>                      <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">frailty_sd</span><span class="op">(</span><span class="va">result</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.07866498 0.24102467 0.27737727 0.07701667 0.12559198 0.28757195</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 0.42202128 0.42086255 0.07678833 0.10054100</span>
-<span class="r-in"><span><span class="fu">frailty_sd</span><span class="op">(</span><span class="va">result</span>, <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.07866113 0.24102341 0.27737618 0.07701273 0.12558957 0.28757090</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 0.42202056 0.42086182 0.07678437 0.10053798</span>
+<span class="r-in"><span><span class="fu">frailty_sd</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.07866498 0.24103481 0.27738427 0.07701667 0.12556987 0.28758369</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 0.42205698 0.42085978 0.07678833 0.10058585</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
