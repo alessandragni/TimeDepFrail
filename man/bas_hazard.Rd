@@ -2,7 +2,7 @@
 % Please edit documentation in R/bas_hazard.R
 \name{bas_hazard}
 \alias{bas_hazard}
-\title{Internal Function for the Baseline Hazard Step-Function}
+\title{Function for the Baseline Hazard Step-Function}
 \usage{
 bas_hazard(object)
 }
@@ -16,4 +16,23 @@ Numerical vector of length equal to the number of intervals of the time-domain, 
 \description{
 The method computes the baseline hazard step-function in each interval of the time-domain, using the estimated parameters
 \eqn{\phi_k, \forall k}
+}
+\examples{
+# Consider the 'Academic Dropout dataset'
+data(data_dropout)
+
+# Define the variables needed for the model execution
+formula <- time_to_event ~ Gender + CFUP + cluster(group)
+time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
+eps <- 1e-10
+categories_range_min <- c(-8, -2, eps, eps, eps)
+categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
+
+\donttest{
+# Call the main model
+result <- AdPaikModel(formula, data_dropout, time_axis,
+                      categories_range_min, categories_range_max)
+
+bas_hazard(result)
+}
 }

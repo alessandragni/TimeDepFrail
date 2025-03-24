@@ -3,9 +3,6 @@
 \name{AdPaikModel}
 \alias{AdPaikModel}
 \title{Adapted Paik et Al.'s Model: Time-Dependent Shared Frailty Cox Model}
-\source{
-...
-}
 \usage{
 AdPaikModel(
   formula,
@@ -23,7 +20,7 @@ AdPaikModel(
 )
 }
 \arguments{
-\item{formula}{Formula object having on the left hand side the @time_to_event variable, that is the time-instant in which
+\item{formula}{Formula object having on the left hand side the time-to-event variable, that is the time-instant in which
 the individual failed. On the right hand side, it has the regressors and the cluster variable.}
 
 \item{data}{Dataset in which all variables of the formula object must be found and contained.
@@ -59,27 +56,22 @@ want to print on the console. Default is (TRUE, 3), so that only the previous 3 
 S3 object of class 'AdPaik', composed of several elements. See Details.
 }
 \description{
-Function for applying the 'Adapted Paik et al.'s Model', an innovative Cox Model with time-dependent frailty,
+Function for applying the 'Adapted Paik et al.'s Model', a Cox Model with time-dependent frailty,
 shared by individuals belonging to the same group/cluster.
 
-To generate time-dependence, the temporal domain must be divided into a certain number
-of intervals. For more information about the time-domain, its relationship with the follow-up and its internal
-subdivision refer to Details.
-
-The model log-likelihood function depends on a certain number of parameters and it is maximized with respect to all of them,
-using a reinterpretation of the 'Powell's method in multidimension', that is a multi-dimensional optimization method based on
+To generate time-dependence, the temporal domain is divided into a certain number
+of intervals. The model log-likelihood function depends on a certain number of parameters and
+is maximized with respect to all of them,
+using a reinterpretation of the 'Powell's method in multidimension',
+that is a multi-dimensional optimization method based on
 repeated one-dimensional optimization of the log-likelihood function (with respect to one parameter at the time).
 In this context, the one-dimensional optimization is performed through the 'optimize' R function.
 For more information about the unknown model parameters, their type and numerosity refer to Details.
 
-Several quantities are estimated at the end of the optimization phase:
-\itemize{
-\item parameters, their standard error and confidence interval;
-\item baseline hazard;
-\item frailty dispersion (standard deviation and variance);
-\item posterior frailty estimates, their variance and confidence interval;
-\item Akaike Information Criterion (AIC).
-}
+Several quantities are estimated at the end of the optimization phase, such as
+optimal parameters, baseline hazard, frailty dispersion (standard deviation and variance),
+posterior frailty estimates, with their variance and confidence interval,
+conditional survival function, Akaike Information Criterion (AIC), ...
 }
 \details{
 Two observation needs to made about the time-domain:
@@ -89,7 +81,7 @@ Indeed, the left boundary can be greater than the beginning of the follow-up and
 with the time-instants in which the events begin to happen; conversely, the right boundary of the two must be the same.
 \item The partition of the time domain into intervals can be made according to two selected criteria:
 (1) using an already existent partition of the follow-up
-(2) using the shape of the baseline hazard function as reference: divide the time-domain according to regions in
+(2) using the shape of the baseline hazard function for a time independent model as reference: divide the time-domain according to regions in
 which it has a peak or a plateau.
 }
 
@@ -102,7 +94,7 @@ The parameters with respect to which the log-likelihood function must be optimiz
 Another model parameter is \eqn{\mu_2} and it is get imposing the constraint that \eqn{\mu_1 + \mu_2 = 1}.
 As it can be notice, some parameters can be grouped into the same category (regressors, baseline log-hazard and so on)
 and we can easily constraint them assigning each category both a minimum and maximum range.
-The category vector is structured as follows: (baseline log-hazard, regressors, \eqn{\mu_1}, \eqn{\nu}, \eqn{\gamma_k}) with dimension
+The vector is structured as follows: (baseline log-hazard, regressors, \eqn{\mu_1}, \eqn{\nu}, \eqn{\gamma_k}) with dimension
 (n_intervals, n_regressors, 1, 1, n_intervals).
 }
 
@@ -110,13 +102,17 @@ The output of the model call 'AdPaikModel(...)' is a S3 object of class 'AdPaik'
 \itemize{
 \item formula: formula object provided in input by the user and specifying the relationship between the time-to-event, the covariates of
 the dataset (regressors) and the cluster variable.
+\item dataset: matrix of the dataset containing the regressors and the dummy variables of the categorical covariates.
 \item Regressors: categorical vector of length R, with the name of the regressors.
 They could be different from the original covariates of the dataset in case of categorical covariates.
 Indeed, each categorical covariate with n levels needs to be transformed into (n-1) dummy variables and, therefore, (n-1) new regressors.
 \item NRegressors: number of regressors (R)
 \item ClusterVariable: name of the variable with respect to which the individuals can be grouped.
 \item NClusters: number of clusters/centres (also indicated with N).
+\item ClusterCodes: vector of length equal to the number of clusters, containing the codes of the clusters.
+\item TimeDomain: vector of the time-domain partition.
 \item NIntervals: number of intervals of the time-domain, also called with L.
+\item NObservations: number of observations of the dataset.
 \item NParameters: number of parameters of the model. It can be computed as: \eqn{n_p = 2L + R + 2}.
 \item ParametersCategories: Numerical vector of length 5, containing the numerosity of each parameter category.
 \item ParametersRange: S3 object of class 'ParametersRange', containing ParametersRangeMin and ParametersRangeMax, two numerical vectors of length \eqn{n_p}, giving the minimum and the maximum range of each parameter, respectively.
@@ -136,31 +132,23 @@ interval of each estimated parameter of given level.
 \item FrailtyDispersion:  S3 object of class 'FrailtyDispersion', containing two numerical vectors of length equal to L with the standard deviation and the variance of the frailty.
 numerical vector of length equal to L (i.e. number of intervals of the time-domain), reporting the standard deviation
 of the frailty.
-\item PosteriorFrailtyEstimates: S3 object of class 'PFE.AdPaik'. See details.
-\item PosteriorFrailtyVariance: S3 object of class 'PFV.AdPaik'. See details.
-\item PosteriorFrailtyCI: S3 object of class 'PFCI.AdPaik'. See details.
-}
-
-The object of class 'PFE.AdPaik' contains the Posterior Frailty Estimates computed with the procedure indicated in the reference paper and
-it is composed of three elements:
+\item PosteriorFrailtyEstimates: S3 object of class 'PFE.AdPaik'. The object of class 'PFE.AdPaik' contains the Posterior Frailty Estimates computed with the procedure indicated in the reference paper and it is composed of three elements:
 \itemize{
 \item 'alpha': posterior frailty estimates for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of centres.
 \item 'eps': posterior frailty estimates for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 \item 'Z': posterior frailty estimates for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 }
-
-The object of class 'PFV.AdPaik' contains the Posterior Frailty Variances computed as indicated in the reference papaer and it
-is  composed of three elements:
+\item PosteriorFrailtyVariance: S3 object of class 'PFV.AdPaik'. The object of class 'PFV.AdPaik' contains the Posterior Frailty Variances computed as indicated in the reference papaer and it is  composed of three elements:
 \itemize{
 \item 'alphaVar': posterior frailty variance for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of centres.
 \item 'epsVar': posterior frailty variance for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 \item 'ZVar': posterior frailty variance for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 }
-
-The object of class 'PFCI.AdPaik' contains the Posterior Frailty Confidence Interval and it is composed of two elements:
+\item PosteriorFrailtyCI: S3 object of class 'PFCI.AdPaik'. The object of class 'PFCI.AdPaik' contains the Posterior Frailty Confidence Interval and it is composed of two elements:
 \itemize{
 \item left confidence interval for the estimated \eqn{\hat{Z}_{jk}, \forall j,k}. Matrix of dimension (N, L).
 \item right confidence interval for the estimated \eqn{\hat{Z}_{jk}, \forall j,k}. Matrix of dimension (N, L).
+}
 }
 }
 \examples{

@@ -82,7 +82,6 @@ plot_frailty_sd(result, flag_full = FALSE)
 frailty_sd(result, flag_full = FALSE)
 plot_frailty_sd(result, flag_variance = FALSE, flag_full = FALSE)
 
-
 # Posterior Frailty Estimates
 pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
 color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))

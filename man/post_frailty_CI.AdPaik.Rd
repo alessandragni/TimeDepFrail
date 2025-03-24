@@ -33,3 +33,4 @@ S3 object of class 'PFCI.AdPaik' composed of two matrices of dimension (number g
 \description{
 Function for computing the confidence interval for each posterior frailty estimates \eqn{\hat{Z}_{jk}}.
 }
+\keyword{internal}

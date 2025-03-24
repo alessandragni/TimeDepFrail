@@ -10,9 +10,9 @@ frailty_sd(object, flag_full = TRUE, flag_variance = FALSE)
 \item{object}{S3 object of class 'AdPaik' returned by the main model output, that contains all the information for the computation
 of the frailty standard deviation.}
 
-\item{flag_full}{A boolean flag indicating whether to get the full standard deviation (\code{TRUE}) or only the time-dependent component (\code{FALSE}). Default is \code{TRUE}.}
+\item{flag_full}{A boolean flag indicating whether to get the full standard deviation (\code{TRUE}) or only the time-dependent component (\code{FALSE}). Default to \code{TRUE}.}
 
-\item{flag_variance}{A boolean flag indicating whether to get the frailty variance (\code{TRUE}) or the frailty standard deviation (\code{FALSE}). Default is \code{FALSE}.}
+\item{flag_variance}{A boolean flag indicating whether to get the frailty variance (\code{TRUE}) or the frailty standard deviation (\code{FALSE}). Default to \code{FALSE}.}
 }
 \value{
 Numerical vector of length equal to the number of intervals of the time-domain,
@@ -31,8 +31,6 @@ In this case, the flag_full should be FALSE and flag_variance should be TRUE.
 \item Considering both the time-dependent and constant spread of the clusters: \eqn{var(Z_{jk}) = \mu_1 * \nu + \mu_2 * \gamma_k}.
 The new added term only moves upward the other case and the flag_full should be TRUE and flag_variance should be TRUE.
 }
-
-The final case only depends on what we want to observe.
 }
 \examples{
 # Consider the 'Academic Dropout dataset'
@@ -50,7 +48,6 @@ categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
 result <- AdPaikModel(formula, data_dropout, time_axis,
                       categories_range_min, categories_range_max)
 
-frailty_sd(result, TRUE)
-frailty_sd(result, FALSE)
+frailty_sd(result)
 }
 }

@@ -255,6 +255,8 @@ extract_event_data <- function(dataset, time_to_event, centre, time_axis, phi, b
 #' @return S3 object of class 'PFCI.AdPaik' composed of two matrices of dimension (number groups, number of intervals):
 #' - PostFrailtyCI_left: left confidence interval for each posterior frailty estimates
 #' - PostFrailtyCI_right: right confidence interval for each each posterior frailty estimates
+#' 
+#' @keywords internal
 
 post_frailty_CI.AdPaik <- function(post_frailty_est, post_frailty_est_var, n_centres, n_intervals, level){
   # Check structure correctness
