@@ -4,7 +4,7 @@
 \alias{frailty_sd}
 \title{Frailty Standard Deviation and Variance for the 'Adapted Paik et Al.'s Model'}
 \usage{
-\method{frailty_sd}{AdPaik}(object, flag_full = TRUE, flag_variance = FALSE, ...)
+frailty_sd(object, flag_full = TRUE, flag_variance = FALSE, ...)
 }
 \arguments{
 \item{object}{S3 object of class 'AdPaik' returned by the main model output, that contains all the information for the computation
@@ -26,13 +26,13 @@ The function computes both the standard deviation and the variance of the time-d
 frailty of the 'Adapted Paik et al.'s Model'.
 
 Recalling the frailty structure \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}} as being composed by a constant group-dependent term
-(\eqn{\alpha_j}) and a time and group dependent term (\eqn{\epsilon_{jk}}), the frailty standard deviation (and variance)
+(\eqn{\alpha_j}) and a time and group dependent term (\eqn{\epsilon_{jk}}), the frailty variance (and standard deviation)
 can be computed in two different way:
 \itemize{
-\item Considering only the time-dependent spread of the clusters/groups/centre: \eqn{sd(Z_{jk}) = \mu_2 * \gamma_k}.
-In this case, the flag_full should be FALSE.
-\item Considering both the time-dependent and constant spread of the clusters: \eqn{sd(Z_{jk}) = \mu_1 * \nu + \mu_2 * \gamma_k}.
-The new added term only moves upward the other case and the flag_full should be TRUE.
+\item Considering only the time-dependent spread of the clusters/groups/centre: \eqn{var(Z_{jk}) = \mu_2 * \gamma_k}.
+In this case, the flag_full should be FALSE and flag_variance should be TRUE.
+\item Considering both the time-dependent and constant spread of the clusters: \eqn{var(Z_{jk}) = \mu_1 * \nu + \mu_2 * \gamma_k}.
+The new added term only moves upward the other case and the flag_full should be TRUE and flag_variance should be TRUE.
 }
 
 The final case only depends on what we want to observe.

@@ -1,5 +1,25 @@
 #' @title
-#' Baseline Hazard Step-Function
+#' Internal Function for the Baseline Hazard Step-Function
+#'
+#' @description
+#' The method computes the baseline hazard step-function in each interval of the time-domain, using the estimated parameters
+#' \eqn{\phi_k, \forall k}
+#'
+#' @param object S3 object of class 'AdPaik' returned by the main model output, that contains all the information for the computation
+#' of the frailty standard deviation.
+#'
+#' @return Numerical vector of length equal to the number of intervals of the time-domain, with the value of the baseline hazard step-function.
+#' 
+bas_hazard <- function(object){
+  
+  # Return the baseline hazard step-function
+  return(object$BaselineHazard)
+}
+
+#_______________________________________________________________________________________________________________________
+
+#' @title
+#' Internal Function for the Baseline Hazard Step-Function
 #'
 #' @description
 #' The method computes the baseline hazard step-function in each interval of the time-domain, using the estimated parameters
@@ -10,8 +30,10 @@
 #' @param time_axis Numerical vector of temporal domain.
 #'
 #' @return Numerical vector of length equal to the number of intervals of the time-domain, with the value of the baseline hazard step-function.
-
-bas_hazard <- function(optimal_params, time_axis){
+#'
+#' @keywords internal
+#' 
+bas_hazard_internal <- function(optimal_params, time_axis){
   # Extract information from input variables
   L <- n_intervals <- length(time_axis) - 1
   eps <- 1e-2

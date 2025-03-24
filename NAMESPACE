@@ -2,12 +2,12 @@
 
 S3method(coef,AdPaik)
 S3method(confint,AdPaik)
-S3method(frailty_sd,AdPaik)
 S3method(print,summary.AdPaik)
 S3method(summary,AdPaik)
 export(AdPaikModel)
 export(AdPaik_1D)
 export(coefse)
+export(frailty_sd)
 export(plot_bas_hazard)
 export(plot_frailty_sd)
 export(plot_ll_1D)

@@ -52,7 +52,7 @@ summary(result)
 print(summary(result))
 
 # Baseline Hazard function
-result$BaselineHazard
+bas_hazard(result)
 
 pdf("Examples/Plots/BaselineHazard.pdf", width=8, height=5)
 plot_bas_hazard(result)
@@ -67,15 +67,17 @@ confint(result)
 ##### Section 5.3 #####
 
 # Frailty standard deviation
-result$FrailtyDispersion$FrailtyVariance
-result$FrailtyDispersion$FrailtyStandardDeviation
+frailty_sd(result)
+frailty_sd(result, flag_full = TRUE) # same
+frailty_sd(result, flag_full = FALSE) # to get only the time-dependent one
+frailty_sd(result, flag_variance = TRUE) # to get the variance
 
 pdf("Examples/Plots/FrailtySD.pdf", width=8, height=5)
 plot_frailty_sd(result)
 dev.off()
 
 plot_frailty_sd(result, flag_variance = TRUE)
-
+plot_frailty_sd(result, flag_full = FALSE)
 
 frailty_sd(result, flag_full = FALSE)
 plot_frailty_sd(result, flag_variance = FALSE, flag_full = FALSE)

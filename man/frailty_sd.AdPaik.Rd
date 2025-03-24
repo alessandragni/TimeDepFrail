@@ -38,15 +38,5 @@ S3 class object 'FrailtyDispersion' containing both two numerical vectors of len
 \description{
 The function computes both the standard deviation and the variance of the time-dependent
 frailty of the 'Adapted Paik et al.'s Model'.
-
-Recalling the frailty structure \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}} as being composed by a constant group-dependent term
-(\eqn{\alpha_j}) and a time and group dependent term (\eqn{\epsilon_{jk}}), the frailty standard deviation (and variance)
-can be computed in two different way:
-\itemize{
-\item Considering only the time-dependent spread of the clusters/groups/centre: \eqn{sd(Z_{jk}) = \mu_2 * \gamma_k}.
-In this case, the flag_full should be FALSE.
-\item Considering both the time-dependent and constant spread of the clusters: \eqn{sd(Z_{jk}) = \mu_1 * \nu + \mu_2 * \gamma_k}.
-The new added term only moves upward the other case and the flag_full should be TRUE.
-}
 }
 \keyword{internal}

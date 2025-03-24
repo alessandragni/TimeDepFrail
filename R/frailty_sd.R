@@ -8,13 +8,13 @@
 #' frailty of the 'Adapted Paik et al.'s Model'.
 #'
 #' Recalling the frailty structure \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}} as being composed by a constant group-dependent term
-#' (\eqn{\alpha_j}) and a time and group dependent term (\eqn{\epsilon_{jk}}), the frailty standard deviation (and variance)
+#' (\eqn{\alpha_j}) and a time and group dependent term (\eqn{\epsilon_{jk}}), the frailty variance (and standard deviation)
 #' can be computed in two different way:
-#' - Considering only the time-dependent spread of the clusters/groups/centre: \eqn{sd(Z_{jk}) = \mu_2 * \gamma_k}.
-#' In this case, the flag_full should be FALSE.
+#' - Considering only the time-dependent spread of the clusters/groups/centre: \eqn{var(Z_{jk}) = \mu_2 * \gamma_k}.
+#' In this case, the flag_full should be FALSE and flag_variance should be TRUE.
 #'
-#' - Considering both the time-dependent and constant spread of the clusters: \eqn{sd(Z_{jk}) = \mu_1 * \nu + \mu_2 * \gamma_k}.
-#' The new added term only moves upward the other case and the flag_full should be TRUE.
+#' - Considering both the time-dependent and constant spread of the clusters: \eqn{var(Z_{jk}) = \mu_1 * \nu + \mu_2 * \gamma_k}.
+#' The new added term only moves upward the other case and the flag_full should be TRUE and flag_variance should be TRUE.
 #'
 #' The final case only depends on what we want to observe.
 #'
@@ -28,7 +28,6 @@
 #' - FrailtyStandardDevation
 #'
 #' @export
-#' @method frailty_sd AdPaik
 #'
 #' @examples
 #' # Consider the 'Academic Dropout dataset'
@@ -76,16 +75,6 @@ frailty_sd <- function(object, flag_full = TRUE, flag_variance = FALSE,...) {
 #' @description
 #' The function computes both the standard deviation and the variance of the time-dependent
 #' frailty of the 'Adapted Paik et al.'s Model'.
-#'
-#' Recalling the frailty structure \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}} as being composed by a constant group-dependent term
-#' (\eqn{\alpha_j}) and a time and group dependent term (\eqn{\epsilon_{jk}}), the frailty standard deviation (and variance)
-#' can be computed in two different way:
-#' - Considering only the time-dependent spread of the clusters/groups/centre: \eqn{sd(Z_{jk}) = \mu_2 * \gamma_k}.
-#' In this case, the flag_full should be FALSE.
-#'
-#' - Considering both the time-dependent and constant spread of the clusters: \eqn{sd(Z_{jk}) = \mu_1 * \nu + \mu_2 * \gamma_k}.
-#' The new added term only moves upward the other case and the flag_full should be TRUE.
-#'
 #'
 #' @param optimal_params Optimal parameter vector, estimated through multi-dimensional optimization of the log-likelihood function.
 #' @param time_axis Partition of the temporal domain.

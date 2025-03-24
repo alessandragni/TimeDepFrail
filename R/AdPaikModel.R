@@ -365,7 +365,7 @@ AdPaikModel <- function(formula, data, time_axis,
   
   # Compute baseline hazard step-function
   if (verbose) message(paste("Compute baseline hazard step function"))
-  bas_hazard <- bas_hazard(optimal_params, time_axis)
+  bas_hazard <- bas_hazard_internal(optimal_params, time_axis)
   
   # Compute frailty standard deviation
   if (verbose) message(paste("Compute frailty standard deviation"))
