@@ -258,7 +258,7 @@ extract_event_data <- function(dataset, time_to_event, centre, time_axis, phi, b
 #' 
 #' @keywords internal
 
-post_frailty_CI.AdPaik <- function(post_frailty_est, post_frailty_est_var, n_centres, n_intervals, level){
+post_frailty_CI_internal <- function(post_frailty_est, post_frailty_est_var, n_centres, n_intervals, level){
   # Check structure correctness
   check.structure_post_frailty_est(post_frailty_est, n_intervals, n_centres)
   

@@ -368,7 +368,7 @@ AdPaikModel <- function(formula, data, time_axis,
   
   # Compute posterior frailty estimates confidence interval
   if (verbose) message(paste("Compute posterior frailty estimates confidence interval"))
-  post_frailty_CI <- post_frailty_CI.AdPaik(post_frailty_est, post_frailty_var, n_centres, n_intervals, level)
+  post_frailty_CI <- post_frailty_CI_internal(post_frailty_est, post_frailty_var, n_centres, n_intervals, level)
   
   # Akaike Information Criterium
   AIC = 2 * n_params - 2 * optimal_loglikelihood

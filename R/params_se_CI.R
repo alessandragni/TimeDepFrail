@@ -32,6 +32,8 @@
 #' @param h_dd Discretization step for the numerical approximation of the second derivative fo the loglikelihood function.
 #'
 #' @return Vector of parameter standard error, of length equal to the number of model parameters.
+#' 
+#' @keywords internal
 
 params_se <- function(optimal_params, params_range_min, params_range_max,
                       dataset, centre, time_axis, dropout_matrix, e_matrix, h_dd){
@@ -107,6 +109,8 @@ params_se <- function(optimal_params, params_range_min, params_range_max,
 #' @return A S3  object of class 'ParametersCI', composed of two numerical vector of length equal to the number of model parameters:
 #' - ParamsCI_left: left confidence interval for each parameter
 #' - ParamsCI_right: right confidence interval for each parameter
+#' 
+#' @keywords internal
 
 params_CI <- function(optimal_params, se_params, level){
   
