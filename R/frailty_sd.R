@@ -48,7 +48,7 @@
 #' frailty_sd(result, TRUE)
 #' frailty_sd(result, FALSE)
 #' }
-frailty_sd <- function(object, flag_full = TRUE, flag_variance = FALSE,...) {
+frailty_sd <- function(object, flag_full = TRUE, flag_variance = FALSE) {
   
   # Extract information from the object
   optimal_params <- object$OptimalParameters
