@@ -53,8 +53,8 @@ frailty_sd <- function(object, flag_full = TRUE, flag_variance = FALSE) {
   categories_range_min <- object$ParametersRange$ParametersRangeMin
   categories_range_max <- object$ParametersRange$ParametersRangeMax
   
-  frailty_Sd_internal = frailty_Sd.AdPaik(optimal_params, time_axis, n_regressors, 
-                                          categories_range_min, categories_range_max, flag_full)
+  frailty_Sd_internal = frailty_Sd_internal(optimal_params, time_axis, n_regressors, 
+                                            categories_range_min, categories_range_max, flag_full)
   
   if (flag_variance)
     return(frailty_Sd_internal$FrailtyVariance)
@@ -86,9 +86,9 @@ frailty_sd <- function(object, flag_full = TRUE, flag_variance = FALSE) {
 #' - FrailtyStandardDeviation
 #'
 #' @keywords internal
-frailty_Sd.AdPaik <- function(optimal_params, time_axis, n_regressors,
-                              categories_range_min, categories_range_max,
-                              flag_full) {
+frailty_Sd_internal <- function(optimal_params, time_axis, n_regressors,
+                                categories_range_min, categories_range_max,
+                                flag_full) {
   
   # Extract information from input variables
   L <- n_intervals <- length(time_axis) - 1

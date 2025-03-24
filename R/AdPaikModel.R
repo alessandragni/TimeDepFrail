@@ -344,8 +344,8 @@ AdPaikModel <- function(formula, data, time_axis,
   
   # Compute the standard error from the Hessian matrix
   if (verbose) message(paste("Compute parameters standard error"))
-  params_se <- params_se.AdPaik(optimal_params, params_range_min, params_range_max,
-                                dataset, centre, time_axis, dropout_matrix, e_matrix, h_dd)
+  params_se <- params_se(optimal_params, params_range_min, params_range_max,
+                         dataset, centre, time_axis, dropout_matrix, e_matrix, h_dd)
   
   # Compute parameters confidence interval
   if (verbose) message(paste("Compute parameters confidence interval"))
@@ -357,8 +357,8 @@ AdPaikModel <- function(formula, data, time_axis,
   
   # Compute frailty standard deviation
   if (verbose) message(paste("Compute frailty standard deviation"))
-  frailty_dispersion <- frailty_Sd.AdPaik(optimal_params, time_axis, n_regressors,
-                                          categories_range_min, categories_range_max, TRUE)
+  frailty_dispersion <- frailty_Sd_internal(optimal_params, time_axis, n_regressors,
+                                            categories_range_min, categories_range_max, TRUE)
   
   # Compute posterior frailty estimates
   if (verbose) message(paste("Compute posterior frailty estimates"))

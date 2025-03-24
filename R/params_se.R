@@ -33,8 +33,8 @@
 #'
 #' @return Vector of parameter standard error, of length equal to the number of model parameters.
 
-params_se.AdPaik <- function(optimal_params, params_range_min, params_range_max,
-                     dataset, centre, time_axis, dropout_matrix, e_matrix, h_dd){
+params_se <- function(optimal_params, params_range_min, params_range_max,
+                      dataset, centre, time_axis, dropout_matrix, e_matrix, h_dd){
   
   # Extract information from input variables
   n_params <- length(optimal_params)
