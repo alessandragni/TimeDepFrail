@@ -6,8 +6,8 @@
 \usage{
 plot_frailty_sd(
   result,
-  flag_variance = FALSE,
   flag_full = TRUE,
+  flag_variance = FALSE,
   xlim = c(min(result$TimeDomain), max(result$TimeDomain)),
   ylim = NULL,
   xlab = "Time",
@@ -21,9 +21,9 @@ plot_frailty_sd(
 \arguments{
 \item{result}{An S3 object of class 'AdPaik', returned by the main model call 'AdPaikModel(...)'.}
 
-\item{flag_variance}{A boolean flag indicating whether to plot the frailty variance (\code{TRUE}) or the frailty standard deviation (\code{FALSE}). Default is \code{FALSE}.}
+\item{flag_full}{A boolean flag indicating whether to plot the full standard deviation (\code{TRUE}) or only the time-dependent one (\code{FALSE}). Default is \code{TRUE}.}
 
-\item{flag_full}{A boolean flag indicating whether to plot the full standard deviation/variance (\code{TRUE}) or only the time-dependent one (\code{FALSE}). Default is \code{TRUE}.}
+\item{flag_variance}{A boolean flag indicating whether to plot the frailty variance (\code{TRUE}) or the frailty standard deviation (\code{FALSE}). Default is \code{FALSE}.}
 
 \item{xlim}{A numeric vector specifying the range for the x-axis (intervals). If NULL, default is set to the interval min-max of the time-domain.}
 

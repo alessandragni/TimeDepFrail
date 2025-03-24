@@ -85,7 +85,7 @@ plot_bas_hazard <- function(result,
 #'
 #' @description
 #' This function plots the posterior frailty estimates for each group in each time interval (represented by its mid point). 
-#' Each group’s estimates are represented by a sequence of points connected by straight lines. 
+#' Each group's estimates are represented by a sequence of points connected by straight lines. 
 #' The function can plot either the entire posterior frailty estimate or 
 #' its time-independent and time-dependent components based on user-specified flags.
 #'
@@ -247,8 +247,8 @@ plot_post_frailty_est <- function(result,
 #' This function supports plotting the full or only time dependent frailty standard deviation or variance retrieved from the main model (contained in the S3 object of class 'AdPaik').
 #'
 #' @param result An S3 object of class 'AdPaik', returned by the main model call 'AdPaikModel(...)'.
+#' @param flag_full A boolean flag indicating whether to plot the full standard deviation (`TRUE`) or only the time-dependent one (`FALSE`). Default is `TRUE`.
 #' @param flag_variance A boolean flag indicating whether to plot the frailty variance (`TRUE`) or the frailty standard deviation (`FALSE`). Default is `FALSE`.
-#' @param flag_full A boolean flag indicating whether to plot the full standard deviation/variance (`TRUE`) or only the time-dependent one (`FALSE`). Default is `TRUE`.
 #' @param xlim A numeric vector specifying the range for the x-axis (intervals). If NULL, default is set to the interval min-max of the time-domain.
 #' @param ylim A numeric vector specifying the range for the y-axis (intervals). If NULL, default is 0 to the maximum value of the frailty variance/standard deviation.
 #' @param xlab A string for the x-axis label. Default is `'Intervals'`.
@@ -280,7 +280,7 @@ plot_post_frailty_est <- function(result,
 #' plot_frailty_sd(result)
 #' }
 
-plot_frailty_sd <- function(result, flag_variance = FALSE,  flag_full = TRUE,
+plot_frailty_sd <- function(result, flag_full = TRUE, flag_variance = FALSE,  
                             xlim = c(min(result$TimeDomain), max(result$TimeDomain)), ylim = NULL,
                             xlab = "Time", ylab = "Values", main = NULL,
                             pch = 21, color_bg = "blue", cex_points = 0.7){

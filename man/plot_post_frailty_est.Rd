@@ -56,7 +56,7 @@ The plot of the posterior frailty estimates.
 }
 \description{
 This function plots the posterior frailty estimates for each group in each time interval (represented by its mid point).
-Each group’s estimates are represented by a sequence of points connected by straight lines.
+Each group's estimates are represented by a sequence of points connected by straight lines.
 The function can plot either the entire posterior frailty estimate or
 its time-independent and time-dependent components based on user-specified flags.
 }

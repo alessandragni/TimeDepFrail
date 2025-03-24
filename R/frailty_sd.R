@@ -1,20 +1,71 @@
-#' @title Frailty Standard Deviation and Variance
+#-------------------------------------------------------------------------------
+
+#' @title
+#' Frailty Standard Deviation and Variance for the 'Adapted Paik et Al.'s Model'
 #'
 #' @description
-#' Computes both the standard deviation and the variance of the time-dependent
-#' frailty for various models.
+#' The function computes both the standard deviation and the variance of the time-dependent
+#' frailty of the 'Adapted Paik et al.'s Model'.
 #'
-#' @param object An object for which frailty standard deviation and variance should be computed.
-#' @param ... Additional arguments to be passed to methods.
+#' Recalling the frailty structure \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}} as being composed by a constant group-dependent term
+#' (\eqn{\alpha_j}) and a time and group dependent term (\eqn{\epsilon_{jk}}), the frailty standard deviation (and variance)
+#' can be computed in two different way:
+#' - Considering only the time-dependent spread of the clusters/groups/centre: \eqn{sd(Z_{jk}) = \mu_2 * \gamma_k}.
+#' In this case, the flag_full should be FALSE.
 #'
-#' @return An S3 class object 'FrailtyDispersion' containing:
-#'   \item{FrailtyVariance}{A numerical vector of frailty variances.}
-#'   \item{FrailtyStandardDeviation}{A numerical vector of frailty standard deviations.}
+#' - Considering both the time-dependent and constant spread of the clusters: \eqn{sd(Z_{jk}) = \mu_1 * \nu + \mu_2 * \gamma_k}.
+#' The new added term only moves upward the other case and the flag_full should be TRUE.
+#'
+#' The final case only depends on what we want to observe.
+#'
+#' @param object S3 object of class 'AdPaik' returned by the main model output, that contains all the information for the computation
+#' of the frailty standard deviation.
+#' @param flag_full A boolean flag indicating whether to get the full standard deviation (`TRUE`) or only the time-dependent one (`FALSE`). Default is `TRUE`.
+#' @param flag_variance A boolean flag indicating whether to get the frailty variance (`TRUE`) or the frailty standard deviation (`FALSE`). Default is `FALSE`.
+#'
+#' @return S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the number of intervals of the time-domain:
+#' - FrailtyVariance
+#' - FrailtyStandardDevation
 #'
 #' @export
-#' @seealso \code{\link{frailty_sd.AdPaik}}
-frailty_sd <- function(object, ...) {
-  UseMethod("frailty_sd")
+#' @method frailty_sd AdPaik
+#'
+#' @examples
+#' # Consider the 'Academic Dropout dataset'
+#' data(data_dropout)
+#'
+#' # Define the variables needed for the model execution
+#' formula <- time_to_event ~ Gender + CFUP + cluster(group)
+#' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
+#' eps <- 1e-10
+#' categories_range_min <- c(-8, -2, eps, eps, eps)
+#' categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
+#'
+#' \donttest{
+#' # Call the main model
+#' result <- AdPaikModel(formula, data_dropout, time_axis,
+#'                       categories_range_min, categories_range_max)
+#'
+#' frailty_sd(result, TRUE)
+#' frailty_sd(result, FALSE)
+#' }
+frailty_sd <- function(object, flag_full = TRUE, flag_variance = FALSE,...) {
+  
+  # Extract information from the object
+  optimal_params <- object$OptimalParameters
+  time_axis <- object$TimeDomain
+  n_regressors <- object$NRegressors
+  categories_range_min <- object$ParametersRange$ParametersRangeMin
+  categories_range_max <- object$ParametersRange$ParametersRangeMax
+  
+  frailty_Sd_internal = frailty_Sd.AdPaik(optimal_params, time_axis, n_regressors, 
+                                          categories_range_min, categories_range_max, flag_full)
+  
+  if (flag_variance)
+    return(frailty_Sd_internal$FrailtyVariance)
+  else
+    return(frailty_Sd_internal$FrailtyStandardDeviation)
+  
 }
 
 #-------------------------------------------------------------------------------
@@ -52,7 +103,7 @@ frailty_sd <- function(object, ...) {
 #' @keywords internal
 frailty_Sd.AdPaik <- function(optimal_params, time_axis, n_regressors,
                               categories_range_min, categories_range_max,
-                              flag_full = TRUE) {
+                              flag_full) {
   
   # Extract information from input variables
   L <- n_intervals <- length(time_axis) - 1
@@ -91,67 +142,4 @@ frailty_Sd.AdPaik <- function(optimal_params, time_axis, n_regressors,
   return(return_list)
 }
 
-#-------------------------------------------------------------------------------
 
-#' @title
-#' Frailty Standard Deviation and Variance for the 'Adapted Paik et Al.'s Model'
-#'
-#' @description
-#' The function computes both the standard deviation and the variance of the time-dependent
-#' frailty of the 'Adapted Paik et al.'s Model'.
-#'
-#' Recalling the frailty structure \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}} as being composed by a constant group-dependent term
-#' (\eqn{\alpha_j}) and a time and group dependent term (\eqn{\epsilon_{jk}}), the frailty standard deviation (and variance)
-#' can be computed in two different way:
-#' - Considering only the time-dependent spread of the clusters/groups/centre: \eqn{sd(Z_{jk}) = \mu_2 * \gamma_k}.
-#' In this case, the flag_full should be FALSE.
-#'
-#' - Considering both the time-dependent and constant spread of the clusters: \eqn{sd(Z_{jk}) = \mu_1 * \nu + \mu_2 * \gamma_k}.
-#' The new added term only moves upward the other case and the flag_full should be TRUE.
-#'
-#' The final case only depends on what we want to observe.
-#'
-#' @param object S3 object of class 'AdPaik' returned by the main model output, that contains all the information for the computation
-#' of the frailty standard deviation.
-#' @param flag_full Logical value. Do we want to compute the full frailty standard deviation? If so, the flag must be TRUE,
-#' otherwise, FALSE.
-#' @param ... Additional arguments (currently unused).
-#'
-#' @return S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the number of intervals of the time-domain:
-#' - FrailtyVariance
-#' - FrailtyStandardDevation
-#'
-#' @export
-#' @method frailty_sd AdPaik
-#'
-#' @examples
-#' # Consider the 'Academic Dropout dataset'
-#' data(data_dropout)
-#'
-#' # Define the variables needed for the model execution
-#' formula <- time_to_event ~ Gender + CFUP + cluster(group)
-#' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
-#' eps <- 1e-10
-#' categories_range_min <- c(-8, -2, eps, eps, eps)
-#' categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
-#'
-#' \donttest{
-#' # Call the main model
-#' result <- AdPaikModel(formula, data_dropout, time_axis,
-#'                       categories_range_min, categories_range_max)
-#'
-#' frailty_sd(result, TRUE)
-#' frailty_sd(result, FALSE)
-#' }
-frailty_sd.AdPaik <- function(object, flag_full, ...) {
-  
-  # Extract information from the object
-  optimal_params <- object$OptimalParameters
-  time_axis <- object$TimeDomain
-  n_regressors <- object$NRegressors
-  categories_range_min <- object$ParametersRange$ParametersRangeMin
-  categories_range_max <- object$ParametersRange$ParametersRangeMax
-  
-  #call the internal function
-  return(frailty_Sd.AdPaik(optimal_params, time_axis, n_regressors, categories_range_min, categories_range_max, flag_full))
-}
