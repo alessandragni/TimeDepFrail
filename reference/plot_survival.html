@@ -119,9 +119,8 @@ The first column represents the cluster to which the individual belongs.</p></dd
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="AdPaikModel.html">AdPaikModel</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>, <span class="va">time_axis</span>, <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">survival_df</span> <span class="op">=</span> <span class="fu"><a href="survival.html">survival</a></span><span class="op">(</span><span class="va">result</span>, <span class="va">data_dropout</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in check.result.AdPaik(result):</span> NIntervals does not appear in the input 'result' argument. </span>
 <span class="r-in"><span><span class="fu">plot_survival</span><span class="op">(</span><span class="va">result</span>, <span class="va">survival_df</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'survival_df' not found</span>
+<span class="r-plt img"><img src="plot_survival-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span> <span class="co"># } </span></span></span>
 </code></pre></div>
     </div>
