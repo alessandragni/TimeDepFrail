@@ -1,4 +1,64 @@
 #' @title
+#' Posterior Frailty Estimates
+#'
+#' @description
+#' Function for computing the posterior frailty estimates and variances of the time-dependent shared frailty Cox model.
+#' Recalling the structure of the frailty \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k} as being composed by the sum
+#' of two independent gamma distributions:
+#' - \eqn{\alpha_j \sim gamma(\mu_1/\nu, 1/\nu), \forall j}
+#' - \eqn{\epsilon_{jk} \sin gamma(\mu_2/\gamma_k, 1/\gamma_k), \forall j,k}
+#' the posterior distribution of both terms is still a gamma with different mean and variance and the
+#' posterior frailty estimate corresponds to the 'empirical Bayes estimate', that is the previous mentioned posterior mean.
+#'
+#' @param object S3 object of class 'AdPaik' returned by the main model output, that contains all the information for the computation
+#' of the frailty standard deviation.
+#' @param flag_eps Logical flag indicating whether to plot only the time-dependent posterior frailty estimates. Default is FALSE.
+#' @param flag_alpha Logical flag indicating whether to plot only the time-independent posterior frailty estimates. Default is FALSE.
+#'
+#' @return Vector or matrix of posterior frailty estimates, depending on the flag_eps and flag_alpha values. 
+#' Specifically:
+#'  - 'alpha': posterior frailty estimates for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of centres.
+#'  - 'eps': posterior frailty estimates for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
+#'  - 'Z': posterior frailty estimates for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
+#' 
+#' @examples
+#' # Consider the 'Academic Dropout dataset'
+#' data(data_dropout)
+#'
+#' # Define the variables needed for the model execution
+#' formula <- time_to_event ~ Gender + CFUP + cluster(group)
+#' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
+#' eps <- 1e-10
+#' categories_range_min <- c(-8, -2, eps, eps, eps)
+#' categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
+#'
+#' \donttest{
+#' # Call the main model
+#' result <- AdPaikModel(formula, data_dropout, time_axis,
+#'                       categories_range_min, categories_range_max)
+#'
+#' post_frailty_est(result)
+#' }
+post_frailty_est <- function(object, flag_eps = FALSE, flag_alpha = FALSE){
+  
+  if(flag_eps & flag_alpha)
+    stop("Both flags cannot be TRUE at the same time.")
+  else if(flag_eps & !flag_alpha){
+    value = object$PosteriorFrailtyEstimates$eps
+  } 
+  else if(!flag_eps & flag_alpha){
+    value = object$PosteriorFrailtyEstimates$alpha
+  }
+  else{
+    value = object$PosteriorFrailtyEstimates$Z
+  }
+  return(value)
+}
+
+#_______________________________________________________________________________________________________________________
+
+
+#' @title
 #' Posterior Frailty Estimates and Variances for the 'Adapted Paik et Al.'s Model'
 #'
 #' @description
@@ -22,8 +82,9 @@
 #' - PosteriorFrailtyEst: S3 object of class 'PFE.AdPaik'.
 #' - PosteriorFrailtyVar: S3 object of class 'PFV.AdPaik'.
 #'
+#' @keywords internal
 
-post_frailty.AdPaik <- function(optimal_params, dataset, time_to_event, centre, time_axis){
+post_frailty_internal <- function(optimal_params, dataset, time_to_event, centre, time_axis){
   
   # Extract information from input variables
   n_individuals <- dim(dataset)[1]

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bas_hazard.R
 \name{bas_hazard}
 \alias{bas_hazard}
-\title{Function for the Baseline Hazard Step-Function}
+\title{Baseline Hazard Step-Function}
 \usage{
 bas_hazard(object)
 }

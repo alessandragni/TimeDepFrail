@@ -362,7 +362,7 @@ AdPaikModel <- function(formula, data, time_axis,
   
   # Compute posterior frailty estimates
   if (verbose) message(paste("Compute posterior frailty estimates"))
-  post_frailty_estimates <- post_frailty.AdPaik(optimal_params, dataset, time_to_event, centre, time_axis)
+  post_frailty_estimates <- post_frailty_internal(optimal_params, dataset, time_to_event, centre, time_axis)
   post_frailty_est <- post_frailty_estimates$PostFrailtyEst
   post_frailty_var <- post_frailty_estimates$PostFrailtyVar
   
