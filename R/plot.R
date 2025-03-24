@@ -244,18 +244,11 @@ plot_post_frailty_est <- function(result,
 #' The plot represents the values of the frailty standard deviation or variance for each time interval (represented by its mid point). 
 #' It connects these points to illustrate the trend of the chosen metric.
 #'
-#' This function supports two modes of operation:
-#' - Plotting the frailty standard deviation or variance retrieved from the main model (contained in the S3 object of class 'AdPaik').
-#' - Plotting a user-provided vector of frailty standard deviations, which can be computed using the method `frailty.sd`. This allows for flexibility in analysis without re-optimizing the log-likelihood function. For instance, users can compare frailty standard deviations computed with different model specifications (e.g., including only time-dependent terms).
-#'
-#' The output will differentiate between these two cases, ensuring the correct values are plotted regardless of the source.
-#'
+#' This function supports plotting the full or only time dependent frailty standard deviation or variance retrieved from the main model (contained in the S3 object of class 'AdPaik').
 #'
 #' @param result An S3 object of class 'AdPaik', returned by the main model call 'AdPaikModel(...)'.
 #' @param flag_variance A boolean flag indicating whether to plot the frailty variance (`TRUE`) or the frailty standard deviation (`FALSE`). Default is `FALSE`.
-#' @param flag_sd_external A logical flag indicating whether the user is providing an external frailty standard deviation vector.
-#' @param frailty_sd A numerical vector representing the evaluated frailty standard deviation, with length equal to the number of time-domain intervals.
-#' Its elements must be non-negative. Default is `NULL`.
+#' @param flag_full A boolean flag indicating whether to plot the full standard deviation/variance (`TRUE`) or only the time-dependent one (`FALSE`). Default is `TRUE`.
 #' @param xlim A numeric vector specifying the range for the x-axis (intervals). If NULL, default is set to the interval min-max of the time-domain.
 #' @param ylim A numeric vector specifying the range for the y-axis (intervals). If NULL, default is 0 to the maximum value of the frailty variance/standard deviation.
 #' @param xlab A string for the x-axis label. Default is `'Intervals'`.
@@ -287,7 +280,7 @@ plot_post_frailty_est <- function(result,
 #' plot_frailty_sd(result)
 #' }
 
-plot_frailty_sd <- function(result, flag_variance = FALSE,  flag_sd_external = FALSE, frailty_sd = NULL,
+plot_frailty_sd <- function(result, flag_variance = FALSE,  flag_full = TRUE,
                             xlim = c(min(result$TimeDomain), max(result$TimeDomain)), ylim = NULL,
                             xlab = "Time", ylab = "Values", main = NULL,
                             pch = 21, color_bg = "blue", cex_points = 0.7){
@@ -299,40 +292,44 @@ plot_frailty_sd <- function(result, flag_variance = FALSE,  flag_sd_external = F
   midpoints <- (result$TimeDomain[-1] + result$TimeDomain[-length(result$TimeDomain)]) / 2
   values <- c()
 
-  # Check coherence between input variables
-  if(flag_sd_external){
-    if(is.null(frailty_sd))
-      stop("Expected standard deviation vector provided by the user.")
-    else{
-      check.pos_frailty_sd(frailty_sd, n_intervals)
-    }
-  }
-
   # Initialize values vector
-  if(! flag_sd_external){
-    if(flag_variance){
+  if(flag_full){ # case in which we want the full variance 
+    if(flag_variance){ # variance 
       values <- result$FrailtyDispersion$FrailtyVariance
       if(is.null(ylim))
         ylim = c(0,max(result$FrailtyDispersion$FrailtyVariance))
       if(is.null(main))
         main = 'Frailty Variance'
-    } else {
+    } else { # or standard deviation
       values <- result$FrailtyDispersion$FrailtyStandardDeviation
       if(is.null(ylim))
         ylim = c(0,max(result$FrailtyDispersion$FrailtyStandardDeviation)) 
       if(is.null(main))
         main = 'Frailty Standard Deviation'
     }
-  } else {
+  } else { # case in which we want only the time-dependent one
+    optimal_params <- result$OptimalParameters
+    R = result$NRegressors
+    mu2 <- 1 - optimal_params[L + R + 1]
+    gammak <- optimal_params[(L + 3 + R):(2 * L + R + 2)]
+    
+    variance <- sd <- rep(0, L)
+    variance_k <- 0
+    for (k in 1:L) {
+      variance_k <- mu2 * gammak[k]
+      variance[k] <- variance_k
+      sd[k] <- sqrt(variance[k])
+    }
+    
     if(flag_variance){
-      values <- frailty_sd
+      values <- variance
       if(is.null(ylim))
         ylim = c(0,max(values))
       if(is.null(main))
         main = 'Frailty Variance'
     }
     else {
-      values <- (frailty_sd)^2
+      values <- sd
       if(is.null(ylim))
         ylim = c(0,max(values))
       if(is.null(main))

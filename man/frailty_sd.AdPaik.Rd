@@ -4,13 +4,13 @@
 \alias{frailty_sd.AdPaik}
 \title{Frailty Standard Deviation and Variance for the 'Adapted Paik et Al.'s Model'}
 \usage{
-\method{frailty_sd}{AdPaik}(object, flag_fullsd, ...)
+\method{frailty_sd}{AdPaik}(object, flag_full, ...)
 }
 \arguments{
 \item{object}{S3 object of class 'AdPaik' returned by the main model output, that contains all the information for the computation
 of the frailty standard deviation.}
 
-\item{flag_fullsd}{Logical value. Do we want to compute the full frailty standard deviation? If so, the flag must be TRUE,
+\item{flag_full}{Logical value. Do we want to compute the full frailty standard deviation? If so, the flag must be TRUE,
 otherwise, FALSE.}
 
 \item{...}{Additional arguments (currently unused).}
@@ -31,9 +31,9 @@ Recalling the frailty structure \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}} as being
 can be computed in two different way:
 \itemize{
 \item Considering only the time-dependent spread of the clusters/groups/centre: \eqn{sd(Z_{jk}) = \mu_2 * \gamma_k}.
-In this case, the flag_fullsd should be FALSE.
+In this case, the flag_full should be FALSE.
 \item Considering both the time-dependent and constant spread of the clusters: \eqn{sd(Z_{jk}) = \mu_1 * \nu + \mu_2 * \gamma_k}.
-The new added term only moves upward the other case and the flag_fullsd should be TRUE.
+The new added term only moves upward the other case and the flag_full should be TRUE.
 }
 
 The final case only depends on what we want to observe.

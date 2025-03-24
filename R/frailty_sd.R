@@ -30,10 +30,10 @@ frailty_sd <- function(object, ...) {
 #' (\eqn{\alpha_j}) and a time and group dependent term (\eqn{\epsilon_{jk}}), the frailty standard deviation (and variance)
 #' can be computed in two different way:
 #' - Considering only the time-dependent spread of the clusters/groups/centre: \eqn{sd(Z_{jk}) = \mu_2 * \gamma_k}.
-#' In this case, the flag_fullsd should be FALSE.
+#' In this case, the flag_full should be FALSE.
 #'
 #' - Considering both the time-dependent and constant spread of the clusters: \eqn{sd(Z_{jk}) = \mu_1 * \nu + \mu_2 * \gamma_k}.
-#' The new added term only moves upward the other case and the flag_fullsd should be TRUE.
+#' The new added term only moves upward the other case and the flag_full should be TRUE.
 #'
 #'
 #' @param optimal_params Optimal parameter vector, estimated through multi-dimensional optimization of the log-likelihood function.
@@ -42,7 +42,7 @@ frailty_sd <- function(object, ...) {
 #' compute the number of parameters of the model and, therefore, to check the dimension of the parameter vector.
 #' @param categories_range_min Vector of minimum value (range) assumed by the parameters category.
 #' @param categories_range_max Vector of maximum value (range) assumed by the parameters category.
-#' @param flag_fullsd Do we want to compute the full frailty standard deviation (second case)? If so, the flag must be TRUE,
+#' @param flag_full Do we want to compute the full frailty standard deviation (second case)? If so, the flag must be TRUE,
 #' otherwise (first case), FALSE.
 #'
 #' @return S3 class object 'FrailtyDispersion' containing both two numerical vectors of length equal to the number of intervals of the time-domain:
@@ -52,34 +52,11 @@ frailty_sd <- function(object, ...) {
 #' @keywords internal
 frailty_Sd.AdPaik <- function(optimal_params, time_axis, n_regressors,
                               categories_range_min, categories_range_max,
-                              flag_fullsd = TRUE) {
+                              flag_full = TRUE) {
   
   # Extract information from input variables
   L <- n_intervals <- length(time_axis) - 1
   R <- n_regressors
-  n_params <- length(optimal_params)
-  
-  # Define vector of categories for Adapted Paik et al.'s Model
-  params_categories <- c(n_intervals, n_regressors, 1, 1, n_intervals)
-  n_categories <- length(params_categories)
-  
-  # Check correctness of input categories
-  check.categories_params(n_categories, categories_range_min, categories_range_max)
-  
-  # Check correctness of input optimal parameter vector
-  if (n_params != (2 * n_intervals + n_regressors + 2))
-    stop("Provided 'optimal_params' vector of length different from theoretical one for current model.")
-  
-  # Generate extended vector of parameters ranges
-  params_range_min <- params_range_max <- c()
-  for (c in 1:n_categories) {
-    n_params_in_c <- params_categories[c]
-    params_range_min <- c(params_range_min, rep(categories_range_min[c], n_params_in_c))
-    params_range_max <- c(params_range_max, rep(categories_range_max[c], n_params_in_c))
-  }
-  
-  # Controll optimal_parameters are contained in the min and max range
-  check.range_params(optimal_params, params_range_min, params_range_max)
   
   # Extract parameters from optimal vector
   mu1 <- optimal_params[L + R + 1]
@@ -93,7 +70,7 @@ frailty_Sd.AdPaik <- function(optimal_params, time_axis, n_regressors,
   variance <- sd <- rep(0, L)
   variance_k <- 0
   for (k in 1:L) {
-    if (flag_fullsd)
+    if (flag_full)
       variance_k <- mu1 * nu + mu2 * gammak[k]
     else
       variance_k <- mu2 * gammak[k]
@@ -127,16 +104,16 @@ frailty_Sd.AdPaik <- function(optimal_params, time_axis, n_regressors,
 #' (\eqn{\alpha_j}) and a time and group dependent term (\eqn{\epsilon_{jk}}), the frailty standard deviation (and variance)
 #' can be computed in two different way:
 #' - Considering only the time-dependent spread of the clusters/groups/centre: \eqn{sd(Z_{jk}) = \mu_2 * \gamma_k}.
-#' In this case, the flag_fullsd should be FALSE.
+#' In this case, the flag_full should be FALSE.
 #'
 #' - Considering both the time-dependent and constant spread of the clusters: \eqn{sd(Z_{jk}) = \mu_1 * \nu + \mu_2 * \gamma_k}.
-#' The new added term only moves upward the other case and the flag_fullsd should be TRUE.
+#' The new added term only moves upward the other case and the flag_full should be TRUE.
 #'
 #' The final case only depends on what we want to observe.
 #'
 #' @param object S3 object of class 'AdPaik' returned by the main model output, that contains all the information for the computation
 #' of the frailty standard deviation.
-#' @param flag_fullsd Logical value. Do we want to compute the full frailty standard deviation? If so, the flag must be TRUE,
+#' @param flag_full Logical value. Do we want to compute the full frailty standard deviation? If so, the flag must be TRUE,
 #' otherwise, FALSE.
 #' @param ... Additional arguments (currently unused).
 #'
@@ -166,15 +143,15 @@ frailty_Sd.AdPaik <- function(optimal_params, time_axis, n_regressors,
 #' frailty_sd(result, TRUE)
 #' frailty_sd(result, FALSE)
 #' }
-frailty_sd.AdPaik <- function(object, flag_fullsd, ...) {
+frailty_sd.AdPaik <- function(object, flag_full, ...) {
   
   # Extract information from the object
   optimal_params <- object$OptimalParameters
-  time_axis <- object$TimeAxis
+  time_axis <- object$TimeDomain
   n_regressors <- object$NRegressors
   categories_range_min <- object$ParametersRange$ParametersRangeMin
   categories_range_max <- object$ParametersRange$ParametersRangeMax
   
   #call the internal function
-  return(frailty_Sd.AdPaik(optimal_params, time_axis, n_regressors, categories_range_min, categories_range_max, flag_fullsd))
+  return(frailty_Sd.AdPaik(optimal_params, time_axis, n_regressors, categories_range_min, categories_range_max, flag_full))
 }

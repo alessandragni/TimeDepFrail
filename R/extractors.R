@@ -57,7 +57,7 @@ coef.AdPaik <- function (object, ...){
   beta = optimal_params[(L+1):(L+R)]
   mu1 = optimal_params[(L+R+1)]
   nu = optimal_params[(L+R+2)]
-  gamma = optimal_params[(L+R+3):(2*L+R)]
+  gamma = optimal_params[(L+R+3):(2*L+R+2)]
   
   
   # Assign names to beta if regressors are provided
@@ -132,7 +132,7 @@ coefse <- function(object){
   beta = optimal_params[(L+1):(L+R)]
   mu1 = optimal_params[(L+R+1)]
   nu = optimal_params[(L+R+2)]
-  gamma = optimal_params[(L+R+3):(2*L+R)]
+  gamma = optimal_params[(L+R+3):(2*L+R+2)]
   
   
   # Assign names to beta if regressors are provided
@@ -219,7 +219,7 @@ confint.AdPaik <- function(object, parm = NULL, level = 0.95, ...){
   beta_left = optimal_params_left[(L+1):(L+R)]
   mu1_left = optimal_params_left[(L+R+1)]
   nu_left = optimal_params_left[(L+R+2)]
-  gamma_left = optimal_params_left[(L+R+3):(2*L+R)]
+  gamma_left = optimal_params_left[(L+R+3):(2*L+R+2)]
   
   optimal_params_right <- confints$ParamsCI_right
   
@@ -227,7 +227,7 @@ confint.AdPaik <- function(object, parm = NULL, level = 0.95, ...){
   beta_right = optimal_params_right[(L+1):(L+R)]
   mu1_right = optimal_params_right[(L+R+1)]
   nu_right = optimal_params_right[(L+R+2)]
-  gamma_right = optimal_params_right[(L+R+3):(2*L+R)]
+  gamma_right = optimal_params_right[(L+R+3):(2*L+R+2)]
   
   
   # Assign names to beta if regressors are provided

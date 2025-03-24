@@ -7,8 +7,7 @@
 plot_frailty_sd(
   result,
   flag_variance = FALSE,
-  flag_sd_external = FALSE,
-  frailty_sd = NULL,
+  flag_full = TRUE,
   xlim = c(min(result$TimeDomain), max(result$TimeDomain)),
   ylim = NULL,
   xlab = "Time",
@@ -24,10 +23,7 @@ plot_frailty_sd(
 
 \item{flag_variance}{A boolean flag indicating whether to plot the frailty variance (\code{TRUE}) or the frailty standard deviation (\code{FALSE}). Default is \code{FALSE}.}
 
-\item{flag_sd_external}{A logical flag indicating whether the user is providing an external frailty standard deviation vector.}
-
-\item{frailty_sd}{A numerical vector representing the evaluated frailty standard deviation, with length equal to the number of time-domain intervals.
-Its elements must be non-negative. Default is \code{NULL}.}
+\item{flag_full}{A boolean flag indicating whether to plot the full standard deviation/variance (\code{TRUE}) or only the time-dependent one (\code{FALSE}). Default is \code{TRUE}.}
 
 \item{xlim}{A numeric vector specifying the range for the x-axis (intervals). If NULL, default is set to the interval min-max of the time-domain.}
 
@@ -55,13 +51,7 @@ This function generates a plot of either the frailty standard deviation or the f
 The plot represents the values of the frailty standard deviation or variance for each time interval (represented by its mid point).
 It connects these points to illustrate the trend of the chosen metric.
 
-This function supports two modes of operation:
-\itemize{
-\item Plotting the frailty standard deviation or variance retrieved from the main model (contained in the S3 object of class 'AdPaik').
-\item Plotting a user-provided vector of frailty standard deviations, which can be computed using the method \code{frailty.sd}. This allows for flexibility in analysis without re-optimizing the log-likelihood function. For instance, users can compare frailty standard deviations computed with different model specifications (e.g., including only time-dependent terms).
-}
-
-The output will differentiate between these two cases, ensuring the correct values are plotted regardless of the source.
+This function supports plotting the full or only time dependent frailty standard deviation or variance retrieved from the main model (contained in the S3 object of class 'AdPaik').
 }
 \examples{
 # Import data

@@ -77,8 +77,8 @@ dev.off()
 plot_frailty_sd(result, flag_variance = TRUE)
 
 
-red_frailty_sd <- frailty_sd(result, flag_fullsd = FALSE)
-plot_frailty_sd(result, frailty_sd = red_frailty_sd, flag_variance = FALSE)
+frailty_sd(result, flag_full = FALSE)
+plot_frailty_sd(result, flag_variance = FALSE, flag_full = FALSE)
 
 
 # Posterior Frailty Estimates
