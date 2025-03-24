@@ -40,8 +40,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_frailty_sd</span><span class="op">(</span></span>
 <span>  <span class="va">result</span>,</span>
 <span>  flag_variance <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  flag_sd_external <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  frailty_sd <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  flag_full <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">TimeDomain</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">TimeDomain</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  ylim <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="st">"Time"</span>,</span>
@@ -65,13 +64,8 @@
 <dd><p>A boolean flag indicating whether to plot the frailty variance (<code>TRUE</code>) or the frailty standard deviation (<code>FALSE</code>). Default is <code>FALSE</code>.</p></dd>
 
 
-<dt id="arg-flag-sd-external">flag_sd_external<a class="anchor" aria-label="anchor" href="#arg-flag-sd-external"></a></dt>
-<dd><p>A logical flag indicating whether the user is providing an external frailty standard deviation vector.</p></dd>
-
-
-<dt id="arg-frailty-sd">frailty_sd<a class="anchor" aria-label="anchor" href="#arg-frailty-sd"></a></dt>
-<dd><p>A numerical vector representing the evaluated frailty standard deviation, with length equal to the number of time-domain intervals.
-Its elements must be non-negative. Default is <code>NULL</code>.</p></dd>
+<dt id="arg-flag-full">flag_full<a class="anchor" aria-label="anchor" href="#arg-flag-full"></a></dt>
+<dd><p>A boolean flag indicating whether to plot the full standard deviation/variance (<code>TRUE</code>) or only the time-dependent one (<code>FALSE</code>). Default is <code>TRUE</code>.</p></dd>
 
 
 <dt id="arg-xlim">xlim<a class="anchor" aria-label="anchor" href="#arg-xlim"></a></dt>
@@ -114,9 +108,7 @@ Its elements must be non-negative. Default is <code>NULL</code>.</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The plot represents the values of the frailty standard deviation or variance for each time interval (represented by its mid point).
 It connects these points to illustrate the trend of the chosen metric.</p>
-<p>This function supports two modes of operation:</p><ul><li><p>Plotting the frailty standard deviation or variance retrieved from the main model (contained in the S3 object of class 'AdPaik').</p></li>
-<li><p>Plotting a user-provided vector of frailty standard deviations, which can be computed using the method <code>frailty.sd</code>. This allows for flexibility in analysis without re-optimizing the log-likelihood function. For instance, users can compare frailty standard deviations computed with different model specifications (e.g., including only time-dependent terms).</p></li>
-</ul><p>The output will differentiate between these two cases, ensuring the correct values are plotted regardless of the source.</p>
+<p>This function supports plotting the full or only time dependent frailty standard deviation or variance retrieved from the main model (contained in the S3 object of class 'AdPaik').</p>
     </div>
 
     <div class="section level2">
