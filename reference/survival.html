@@ -40,7 +40,7 @@ given the estimated coefficients and frailty effects.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">survival</span><span class="op">(</span><span class="va">result</span>, <span class="va">data</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">survival</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -49,10 +49,6 @@ given the estimated coefficients and frailty effects.</p>
 
 <dl><dt id="arg-result">result<a class="anchor" aria-label="anchor" href="#arg-result"></a></dt>
 <dd><p>S3 object of class 'AdPaik' containing model results.</p></dd>
-
-
-<dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>Data frame containing covariates used in the model.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -78,7 +74,7 @@ with the first column indicating the cluster to which the individual belongs.</p
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="AdPaikModel.html">AdPaikModel</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>, <span class="va">time_axis</span>, <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">survival_df</span> <span class="op">=</span> <span class="fu">survival</span><span class="op">(</span><span class="va">result</span>, <span class="va">data_dropout</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">survival_df</span> <span class="op">=</span> <span class="fu">survival</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="co"># }  </span></span></span>
 </code></pre></div>
     </div>
