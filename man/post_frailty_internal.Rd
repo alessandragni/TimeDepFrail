@@ -33,14 +33,6 @@ S3 object of class 'PF.AdPaik' composed of two elements of different class:
 }
 }
 \description{
-Function for computing the posterior frailty estimates and variances of the time-dependent shared frailty Cox model.
-Recalling the structure of the frailty \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k} as being composed by the sum
-of two independent gamma distributions:
-\itemize{
-\item \eqn{\alpha_j \sim gamma(\mu_1/\nu, 1/\nu), \forall j}
-\item \eqn{\epsilon_{jk} \sin gamma(\mu_2/\gamma_k, 1/\gamma_k), \forall j,k}
-the posterior distribution of both terms is still a gamma with different mean and variance and the
-posterior frailty estimate corresponds to the 'empirical Bayes estimate', that is the previous mentioned posterior mean.
-}
+Posterior Frailty Estimates and Variances for the 'Adapted Paik et Al.'s Model'
 }
 \keyword{internal}

@@ -90,7 +90,7 @@ pdf("Examples/Plots/PostFrailtyEst.pdf", width=8, height=5)
 plot_post_frailty_est(result, pch_type = pch_type, color_bg = color_bg)
 dev.off()
 
-mean(result$PosteriorFrailtyEstimates$Z)
+mean(post_frailty_est(result))
 
 pdf("Examples/Plots/post_estimates_eps.pdf", width=5, height=5)
 plot_post_frailty_est(result, flag_eps = TRUE, flag_alpha = FALSE,

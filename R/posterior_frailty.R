@@ -2,24 +2,34 @@
 #' Posterior Frailty Estimates
 #'
 #' @description
-#' Function for computing the posterior frailty estimates and variances of the time-dependent shared frailty Cox model.
-#' Recalling the structure of the frailty \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k} as being composed by the sum
+#' Function for computing the posterior frailty estimates of the time-dependent shared frailty Cox model.
+#' 
+#' Recalling the structure of the frailty \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k} 
+#' with \eqn{k=1,\dots,L} and \eqn{j=1,\dots,N} as being composed by the sum
 #' of two independent gamma distributions:
 #' - \eqn{\alpha_j \sim gamma(\mu_1/\nu, 1/\nu), \forall j}
-#' - \eqn{\epsilon_{jk} \sin gamma(\mu_2/\gamma_k, 1/\gamma_k), \forall j,k}
-#' the posterior distribution of both terms is still a gamma with different mean and variance and the
-#' posterior frailty estimate corresponds to the 'empirical Bayes estimate', that is the previous mentioned posterior mean.
+#' - \eqn{\epsilon_{jk} \sim gamma(\mu_2/\gamma_k, 1/\gamma_k), \forall j,k}
+#' 
+#' The posterior frailty estimate is \eqn{\hat{Z}_{jk} = \hat{\alpha}_{j}/\hat{\alpha}_{max} + \hat{\epsilon}_{jk}/\hat{\epsilon}_{max}}. 
+#' This function allows to get either the entire posterior frailty estimate \eqn{\hat{Z}_{jk}}
+#' or its time-independent \eqn{\frac{\hat{\alpha}_{j}}{\hat{\alpha}_{\text{max}}}} or 
+#' time-dependent \eqn{\frac{\hat{\epsilon}_{jk}}{\hat{\epsilon}_{\text{max}}}} components.
+#' The user can control which components to display using the flag_eps and flag_alpha parameters. 
+#' Only one of these flags can be set to TRUE at a time.
 #'
 #' @param object S3 object of class 'AdPaik' returned by the main model output, that contains all the information for the computation
 #' of the frailty standard deviation.
-#' @param flag_eps Logical flag indicating whether to plot only the time-dependent posterior frailty estimates. Default is FALSE.
-#' @param flag_alpha Logical flag indicating whether to plot only the time-independent posterior frailty estimates. Default is FALSE.
+#' @param flag_eps Logical flag indicating whether to extract only the time-dependent posterior frailty estimates. Default is FALSE.
+#' @param flag_alpha Logical flag indicating whether to extract only the time-independent posterior frailty estimates. Default is FALSE.
 #'
 #' @return Vector or matrix of posterior frailty estimates, depending on the flag_eps and flag_alpha values. 
 #' Specifically:
-#'  - 'alpha': posterior frailty estimates for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of centres.
-#'  - 'eps': posterior frailty estimates for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
-#'  - 'Z': posterior frailty estimates for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
+#'  - It is a vector of length equal to the N containing posterior frailty estimates for \eqn{\alpha_j, \forall j}.
+#'    In this case the flag_eps must be FALSE and the flag_alpha must be TRUE.
+#'  - Matrix of dimension (N, L) containing posterior frailty estimates for \eqn{\epsilon_{jk}, \forall j,k}.
+#'    In this case the flag_eps must be TRUE and the flag_alpha must be FALSE.
+#'  - Matrix of dimension (N, L) containing posterior frailty estimates for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. 
+#'    In this case the flag_eps must be FALSE and the flag_alpha must be FALSE.
 #' 
 #' @examples
 #' # Consider the 'Academic Dropout dataset'
@@ -55,20 +65,84 @@ post_frailty_est <- function(object, flag_eps = FALSE, flag_alpha = FALSE){
   return(value)
 }
 
+
+
+#_______________________________________________________________________________________________________________________
+
+
+#' @title
+#' Posterior Frailty Variances
+#'
+#' @description
+#' Function for computing the posterior frailty variances of the time-dependent shared frailty Cox model.
+#' 
+#' Recalling the structure of the frailty \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k} 
+#' with \eqn{k=1,\dots,L} and \eqn{j=1,\dots,N} as being composed by the sum
+#' of two independent gamma distributions:
+#' - \eqn{\alpha_j \sim gamma(\mu_1/\nu, 1/\nu), \forall j}
+#' - \eqn{\epsilon_{jk} \sim gamma(\mu_2/\gamma_k, 1/\gamma_k), \forall j,k}
+#' 
+#' The posterior frailty variance is \eqn{var(\hat{Z}_{jk}) = var(\hat{\alpha}_{j}/\hat{\alpha}_{max}) + var(\hat{\epsilon}_{jk}/\hat{\epsilon}_{max}}). 
+#' This function allows to get either the entire posterior frailty variance \eqn{var(\hat{Z}_{jk})}
+#' or its time-independent \eqn{var(\frac{\hat{\alpha}_{j}}{\hat{\alpha}_{\text{max}}})} or 
+#' time-dependent \eqn{var(\frac{\hat{\epsilon}_{jk}}{\hat{\epsilon}_{\text{max}}})} components.
+#' The user can control which components to display using the flag_eps and flag_alpha parameters. 
+#' Only one of these flags can be set to TRUE at a time.
+#'
+#' @param object S3 object of class 'AdPaik' returned by the main model output, that contains all the information for the computation
+#' of the frailty standard deviation.
+#' @param flag_eps Logical flag indicating whether to extract only the time-dependent posterior frailty estimates. Default is FALSE.
+#' @param flag_alpha Logical flag indicating whether to extract only the time-independent posterior frailty estimates. Default is FALSE.
+#'
+#' @return Vector or matrix of posterior frailty variances, depending on the flag_eps and flag_alpha values. 
+#' Specifically:
+#'  - It is a vector of length equal to the N containing posterior frailty variances for \eqn{\alpha_j, \forall j}.
+#'    In this case the flag_eps must be FALSE and the flag_alpha must be TRUE.
+#'  - Matrix of dimension (N, L) containing posterior frailty variances for \eqn{\epsilon_{jk}, \forall j,k}.
+#'    In this case the flag_eps must be TRUE and the flag_alpha must be FALSE.
+#'  - Matrix of dimension (N, L) containing posterior frailty variances for \eqn{Z_{jk} \forall j,k}. 
+#'    In this case the flag_eps must be FALSE and the flag_alpha must be FALSE.
+#' 
+#' @examples
+#' # Consider the 'Academic Dropout dataset'
+#' data(data_dropout)
+#'
+#' # Define the variables needed for the model execution
+#' formula <- time_to_event ~ Gender + CFUP + cluster(group)
+#' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
+#' eps <- 1e-10
+#' categories_range_min <- c(-8, -2, eps, eps, eps)
+#' categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
+#'
+#' \donttest{
+#' # Call the main model
+#' result <- AdPaikModel(formula, data_dropout, time_axis,
+#'                       categories_range_min, categories_range_max)
+#'
+#' post_frailty_var(result)
+#' }
+post_frailty_var <- function(object, flag_eps = FALSE, flag_alpha = FALSE){
+  
+  if(flag_eps & flag_alpha)
+    stop("Both flags cannot be TRUE at the same time.")
+  else if(flag_eps & !flag_alpha){
+    value = object$PosteriorFrailtyVariance$epsVar
+  } 
+  else if(!flag_eps & flag_alpha){
+    value = object$PosteriorFrailtyVariance$alphaVar
+  }
+  else{
+    value = object$PosteriorFrailtyVariances$ZVar
+  }
+  return(value)
+}
+
+
 #_______________________________________________________________________________________________________________________
 
 
 #' @title
 #' Posterior Frailty Estimates and Variances for the 'Adapted Paik et Al.'s Model'
-#'
-#' @description
-#' Function for computing the posterior frailty estimates and variances of the time-dependent shared frailty Cox model.
-#' Recalling the structure of the frailty \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k} as being composed by the sum
-#' of two independent gamma distributions:
-#' - \eqn{\alpha_j \sim gamma(\mu_1/\nu, 1/\nu), \forall j}
-#' - \eqn{\epsilon_{jk} \sin gamma(\mu_2/\gamma_k, 1/\gamma_k), \forall j,k}
-#' the posterior distribution of both terms is still a gamma with different mean and variance and the
-#' posterior frailty estimate corresponds to the 'empirical Bayes estimate', that is the previous mentioned posterior mean.
 #'
 #' @param optimal_params Optimal parameters estimated by maximizing the log-likelihood function, through the constraint
 #' multi-dimensional optmization method.

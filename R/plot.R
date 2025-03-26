@@ -233,6 +233,160 @@ plot_post_frailty_est <- function(result,
            pch = pch_type, pt.bg = color_bg, cex = cex_legend)
 }
 
+
+#-------------------------------------------------------------------------------
+#' @title
+#' Plot the Posterior Frailty Variances
+#'
+#' @description
+#' This function plots the posterior frailty variances for each group in each time interval (represented by its mid point). 
+#' Each group's estimates are represented by a sequence of points connected by straight lines. 
+#' The function can plot either the entire posterior frailty variance or 
+#' its time-independent and time-dependent components based on user-specified flags.
+#'
+#' @details
+#' Recalling the frailty structure as \eqn{Z_{jk} = \alpha_{j} + \epsilon_{jk}, \forall j,k} and the posterior
+#' frailty variance as \eqn{var(\hat{Z}_{jk}) = var(\hat{\alpha}_{j}/\hat{\alpha}_{max}) + var(\hat{\epsilon}_{jk}/\hat{\epsilon}_{max}}), 
+#' this function allows plotting either the entire posterior frailty variance \eqn{var(\hat{Z}_{jk})}
+#' or its time-independent \eqn{var(\frac{\hat{\alpha}_{j}}{\hat{\alpha}_{\text{max}}})} or 
+#' time-dependent \eqn{var(\frac{\hat{\epsilon}_{jk}}{\hat{\epsilon}_{\text{max}}})} components.
+#' The user can control which components to display using the flag_eps and flag_alpha parameters. 
+#' Only one of these flags can be set to TRUE at a time.
+#'
+#' @param result S3 object of class 'AdPaik', returned by the method call 'AdPaikModel(...)'.
+#' @param flag_eps Logical flag indicating whether to plot only the time-dependent posterior frailty estimates. Default is FALSE.
+#' @param flag_alpha Logical flag indicating whether to plot only the time-independent posterior frailty estimates. Default is FALSE.
+#' @param xlim A numeric vector specifying the range for the x-axis (intervals). If NULL, default is set to the interval min-max of the time-domain, plus space for the legend.
+#' If flag_alpha = TRUE, the plot is produced around 1 (defaults to 0.8-1.4).
+#' @param ylim A numeric vector specifying the range for the y-axis (intervals). If NULL, default is min-max value of the posterior frailty estimate.
+#' @param xlab,ylab String giving the x and y axis name. Default values are 'Time' and 'Values'.
+#' @param main Title of the plot. Default title is 'Posterior frailty estimates'.
+#' @param cex Dimension of the points used for plotting the estimates.
+#' @param pch_type Numerical vector of length equal to the number of clusters in the data, giving the symbol to be used for plotting the estimates.
+#' Default symbol (circle, 21) is the same for all clusters.
+#' @param color_bg Numerical vector of length equal to the number of clusters in the data, giving the color to be used for plotting the symbols
+#' for the estimates. Default ('black') is the same for all faculties. On the other hand, the same color is used throughout the intervals for
+#' the same faculty.
+#' @param cex_legend Dimension of the symbol in the legend. Default is 0.7.
+#' @param pos_legend  Either a numeric vector providing the x and y coordinates for the legend or 
+#' a string specifying the legend's position (e.g., 'bottomright', 'bottom', 'bottomleft', 'left',
+#' 'topleft', 'top', 'topright', 'right', 'center').
+#'
+#' @return The plot of the posterior frailty variances.
+#'
+#' @export
+#' 
+#' @examples
+#' # Import data
+#' data(data_dropout)
+#' 
+#' # Define the variables needed for the model execution
+#' eps_paik <- 1e-10
+#' categories_range_min <- c(-8, -2, eps_paik, eps_paik, eps_paik)
+#' categories_range_max <- c(-eps_paik, 0.4, 1 - eps_paik, 1, 10)
+#' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
+#' formula <- time_to_event ~ Gender + CFUP + cluster(group)
+#'
+#' # Call the main model function
+#' 
+#' \donttest{
+#' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
+#'
+#' # Define variables for plotting the variances
+#' pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
+#' color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
+#' 
+#' plot_post_frailty_var(result, pch_type = pch_type, color_bg = color_bg)
+#'  }                     
+
+plot_post_frailty_var <- function(result,
+                                  flag_eps = FALSE, flag_alpha = FALSE,
+                                  xlim = NULL, ylim = NULL,
+                                  xlab = "Time", ylab = "Values", main = "Posterior frailty variances",
+                                  cex = 0.7,
+                                  pch_type = seq(1, length(result$ClusterCodes)),
+                                  color_bg = rep("black", length(result$ClusterCodes)),
+                                  cex_legend = 0.7, pos_legend = "topright"){
+  
+  # Check correctness of result structure
+  check.result(result)
+  
+  # Extract information from input variables
+  time_axis <- result$TimeDomain
+  L <- n_intervals <- result$NIntervals
+  formula <- result$formula
+  post_frailty_est <- result$PosteriorFrailtyVariance
+  
+  centre_codes <- result$ClusterCodes
+  n_centres <- length(centre_codes)
+  
+  # Check correctness of centre
+  check.centre(centre_codes)
+  
+  # Control that at most one between flag_eps and flag_alpha is TRUE
+  if((flag_eps == TRUE) & (flag_alpha == TRUE))
+    stop("At most one flag must be TRUE, either 'flag_eps' or 'flag_alpha'")
+  
+  # Check correctness of pch_type and color_bg variables
+  check.pchtype_colorbg(centre_codes, pch_type, color_bg)
+  
+  # Check correctness of pos_legend
+  check.poslegend(pos_legend)
+  
+  # Define what to plot, according to the flag
+  post_fralty <- 0
+  if(flag_eps == TRUE)
+    post_frailty <- post_frailty_est$epsVar
+  if(flag_alpha == TRUE)
+    post_frailty <- post_frailty_est$alphaVar
+  if((flag_eps == FALSE) & (flag_alpha == FALSE))
+    post_frailty <- post_frailty_est$ZVar
+  
+  midpoints <- (result$TimeDomain[-1] + result$TimeDomain[-length(result$TimeDomain)]) / 2
+  # Plot posterior frailty variances
+  # dev.new()
+  if(flag_alpha == FALSE) {
+    if(is.null(xlim))
+      xlim = c(min(result$TimeDomain),max(result$TimeDomain)+1)
+    if(is.null(ylim))
+      ylim = c(min(post_frailty), max(post_frailty))
+    
+    plot(midpoints, post_frailty[1,],
+         pch = pch_type[1], bg = color_bg[1], cex = cex,
+         main = main, xlab = xlab, ylab = ylab,
+         xlim = xlim, ylim = ylim)
+    for(k in 1:(n_intervals-1))
+      lines(c(midpoints[k],midpoints[k+1]), c(post_frailty[1,k], post_frailty[1,k+1]))
+    for(i in 2:n_centres){
+      for(k in 1:(n_intervals-1)){
+        points(midpoints[k], post_frailty[i,k], pch = pch_type[i], bg = color_bg[i], cex = cex)
+        points(midpoints[k+1], post_frailty[i,k+1], pch = pch_type[i], bg = color_bg[i], cex = cex)
+        lines(c(midpoints[k],midpoints[k+1]), c(post_frailty[i,k], post_frailty[i,k+1]))
+      }
+    }
+  } else {
+    if(is.null(xlim))
+      xlim = c(0.95, 1.05)
+    if(is.null(ylim))
+      ylim = c(min(post_frailty), max(post_frailty))
+    plot(rep(1, length(post_frailty)), post_frailty,
+         pch = pch_type[1], bg = color_bg[1], cex = cex,
+         main = main, xlab = xlab, ylab = ylab,
+         xlim = xlim, ylim = ylim)
+    for(i in 2:n_centres){
+      points(1, post_frailty[i], pch = pch_type[i], bg = color_bg[i], cex = cex)
+    }
+  }
+  
+  if(is.vector(pos_legend))
+    legend(pos_legend[1], pos_legend[2], legend = centre_codes, col = color_bg,
+           pch = pch_type, pt.bg = color_bg, cex = cex_legend)
+  if(is.character(pos_legend))
+    legend(pos_legend, legend = centre_codes, col = color_bg,
+           pch = pch_type, pt.bg = color_bg, cex = cex_legend)
+}
+
+
 #-------------------------------------------------------------------------------
 #' @title
 #' Plot for the Frailty Standard Deviation or Variance
