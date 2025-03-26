@@ -531,6 +531,8 @@ plot_frailty_sd <- function(result, flag_full = TRUE, flag_variance = FALSE,
 #' @return A plot displaying the trend of the log-likelihood function concerning a single parameter, including the maximum point.
 #'
 #' @export
+#' 
+#' @keywords internal
 plot_ll_1D <- function(param_1D, index_param_1D, ll_1D, params, param_range_min, param_range_max,
                        dataset, centre, time_axis, dropout_matrix, e_matrix,
                        n_points = 150,

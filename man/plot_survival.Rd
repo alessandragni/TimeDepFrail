@@ -6,7 +6,6 @@
 \usage{
 plot_survival(
   result,
-  survival_df,
   lwd = 1,
   xlim = c(min(result$TimeDomain), max(result$TimeDomain)),
   ylim = c(0, 1),
@@ -19,11 +18,6 @@ plot_survival(
 }
 \arguments{
 \item{result}{S3 object of class 'AdPaik' containing model results.}
-
-\item{survival_df}{The dataframe returned by 'survival' function,
-where each row corresponds to the survival function values
-over the time intervals for each individual in the dataset.
-The first column represents the cluster to which the individual belongs.}
 
 \item{lwd}{The line width of the plot. Default is 1.}
 
@@ -38,6 +32,11 @@ The first column represents the cluster to which the individual belongs.}
 \item{cex}{Dimension of the points used for plotting the estimates. Defaults to 0.2.}
 
 \item{cexlegend}{Dimension of the text used for the legend. Defaults to 0.9.}
+
+\item{survival_df}{The dataframe returned by 'survival' function,
+where each row corresponds to the survival function values
+over the time intervals for each individual in the dataset.
+The first column represents the cluster to which the individual belongs.}
 }
 \value{
 The plot of the conditional survival function.
@@ -61,7 +60,7 @@ formula <- time_to_event ~ Gender + CFUP + cluster(group)
 \donttest{
 result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 
-survival_df = survival(result, data_dropout)
-plot_survival(result, survival_df)
+survival_df = survival(result)
+plot_survival(result)
  } 
 }

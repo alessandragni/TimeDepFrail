@@ -105,10 +105,10 @@ dev.off()
 
 ##### Section 5.4 ##### 
 
-survival_df = survival(result, data_dropout)
+survival_df = survival(result)
 
 pdf("Examples/Plots/Survival.pdf", width=8, height=5)
-plot_survival(result, survival_df)
+plot_survival(result)
 dev.off()
 
 

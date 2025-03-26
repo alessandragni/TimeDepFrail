@@ -66,3 +66,4 @@ A plot displaying the trend of the log-likelihood function concerning a single p
 This function plots the trend of the log-likelihood function concerning a single parameter specified by its index in the parameter vector.
 It generates samples of the parameter, evaluates them in the log-likelihood function, and displays the results along with the maximum point of the one-dimensional log-likelihood function.
 }
+\keyword{internal}

@@ -1,3 +1,67 @@
+
+#-------------------------------------------------------------------------------
+
+#' @title Extract Number of Observations for `AdPaik`
+#' @description Returns the number of observations used in the model.
+#' @param object An `AdPaik` model object.
+#' @param ... Additional arguments (ignored).
+#' @return Integer: Number of observations.
+#' @importFrom stats nobs
+#' @export
+nobs.AdPaik <- function(object, ...) {
+  object$NObservations
+}
+
+#-------------------------------------------------------------------------------
+
+#' @title Extract Log-Likelihood for `AdPaik` Objects
+#' @description Returns the log-likelihood of the fitted `AdPaik` model.
+#' @param object An `AdPaik` model object.
+#' @param ... Additional arguments (ignored).
+#' @return A log-likelihood object with degrees of freedom (`df`).
+#' @importFrom stats logLik
+#' @export
+logLik.AdPaik <- function(object, ...) {
+  out <- object$Loglikelihood
+  if (!is.null(object$NParameters)) attr(out, "df") <- object$NParameters
+  else attr(out, "df") <- length(object$OptimalParameters)
+  class(out) <- 'logLik'
+  out
+}
+
+
+#-------------------------------------------------------------------------------
+
+#' @title Extract Model Formula for `AdPaik`
+#' @description Retrieves the formula used in the `AdPaik` model.
+#' @param x An `AdPaik` model object.
+#' @param ... Additional arguments (ignored).
+#' @return The formula object.
+#' @export
+formula.AdPaik <- function(x, ...) {
+  out <- x$formula
+  out
+}
+
+#-------------------------------------------------------------------------------
+
+#' @title Extract AIC for `AdPaik` Objects
+#' @description Computes the AIC for an `AdPaik` model.
+#' @param fit An `AdPaik` model object.
+#' @param scale Changing it is not supported for this model. It will be ignored.
+#' @param k Penalty parameter (default is 2 for AIC).
+#' @param ... Additional arguments (ignored).
+#' @return A numeric vector with the number of parameters and AIC value.
+#' @importFrom stats extractAIC
+#' @export
+extractAIC.AdPaik <- function(fit, scale = NULL, k = 2, ...) {
+  res <- logLik(fit)
+  edf <- attr(res, "df")
+  c(edf, -2 * as.numeric(res) + k * edf)
+}
+
+
+
 #-------------------------------------------------------------------------------
 #' @title 
 #' Extracts the Optimal Parameters of Each Category for the 'Adapted Paik et Al.' Model

@@ -4,12 +4,10 @@
 \alias{survival}
 \title{Compute the Conditional Survival Function}
 \usage{
-survival(result, data)
+survival(result)
 }
 \arguments{
 \item{result}{S3 object of class 'AdPaik' containing model results.}
-
-\item{data}{Data frame containing covariates used in the model.}
 }
 \value{
 A dataset where each row corresponds to an individual unit in the dataset,
@@ -35,6 +33,6 @@ formula <- time_to_event ~ Gender + CFUP + cluster(group)
 \donttest{
 result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 
-survival_df = survival(result, data_dropout)
+survival_df = survival(result)
  }  
 }

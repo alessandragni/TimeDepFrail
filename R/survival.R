@@ -6,7 +6,6 @@
 #' given the estimated coefficients and frailty effects.
 #'
 #' @param result S3 object of class 'AdPaik' containing model results.
-#' @param data Data frame containing covariates used in the model.
 #'
 #' @return A dataset where each row corresponds to an individual unit in the dataset, 
 #' and the columns represent the survival function values over time interval, 
@@ -28,11 +27,13 @@
 #' \donttest{
 #' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
-#' survival_df = survival(result, data_dropout)
+#' survival_df = survival(result)
 #'  }  
-survival <- function(result, data) {
+survival <- function(result) {
   # Check for valid input
   if (!inherits(result, "AdPaik")) stop("'result' must be of class 'AdPaik'.")
+  
+  data = data.frame(result$dataset)
   if (!is.data.frame(data)) stop("'data' must be a data frame.")
   
   # Extract beta coefficients and formula
@@ -134,13 +135,15 @@ survival <- function(result, data) {
 #' \donttest{
 #' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
-#' survival_df = survival(result, data_dropout)
-#' plot_survival(result, survival_df)
+#' survival_df = survival(result)
+#' plot_survival(result)
 #'  } 
-plot_survival <- function(result, survival_df, lwd = 1, 
+plot_survival <- function(result, lwd = 1, 
                           xlim = c(min(result$TimeDomain), max(result$TimeDomain)), ylim = c(0,1),
                           xlab = "Time", ylab = "Values", main = "Conditional Survival",
                           cex = 0.2, cexlegend = 0.8){
+  
+  survival_df = survival(result)
   
   time = result$TimeDomain
   
