@@ -2,7 +2,7 @@
 % Please edit documentation in R/extractors.AdPaik.R
 \name{coef.AdPaik}
 \alias{coef.AdPaik}
-\title{Extracts the Optimal Parameters of Each Category for the 'Adapted Paik et Al.' Model}
+\title{Extract the Coefficients for the 'Adapted Paik et Al.' Model}
 \usage{
 \method{coef}{AdPaik}(object, ...)
 }
@@ -10,14 +10,13 @@
 \item{object}{An S3 object of class \code{AdPaik}, returned by the main model function
 (\code{AdPaikModel}). This object contains all the optimal parameter estimates.}
 
-\item{...}{Additional arguments to be passed to other methods.}
+\item{...}{Additional arguments (ignored).}
 }
 \value{
-A named list containing the categories of optimal parameters.
+A named list containing the coefficients.
 }
 \description{
-Extracts the optimal parameters \eqn{\boldsymbol{\phi}}, \eqn{\boldsymbol{\beta}}, \eqn{\mu_1},
-\eqn{\nu}, \eqn{\boldsymbol{\gamma}} obtained with the
+Extracts the optimal \eqn{\boldsymbol{\beta}} obtained with the
 time-dependent frailty model proposed in the 'Adapted Paik et al.' framework.
 }
 \details{

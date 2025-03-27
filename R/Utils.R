@@ -1,3 +1,8 @@
+format_perc <- function(probs, digits) {
+  paste0(format(100 * probs, trim = TRUE, scientific = FALSE, digits = digits), " %")
+}
+
+
 #' @title Resolution of Integral with Respect to Time
 #'
 #' @description

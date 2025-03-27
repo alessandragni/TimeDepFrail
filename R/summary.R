@@ -103,11 +103,11 @@ print.summary.AdPaik <- function(x, ...) {
   cat(sprintf("Status of the algorithm: %s\n", x$convergence))
   cat("---------------------------------------------------\n")
   cat(sprintf("Overall number of parameters: %d\n", x$n_parameters))
-  cat("Parameter breakdown: ", paste(x$parameter_breakdown, collapse = ", "), "\n")
+  cat("Parameters breakdown: ", paste(x$parameter_breakdown, collapse = ", "), "\n")
   cat(sprintf("Number of intervals: %d\n", x$n_intervals))
-  cat(sprintf("Number of regressors: %d\n", x$n_regressors))
+  cat(sprintf("Number of coefficients: %d\n", x$n_regressors))
   cat("---------------------------------------------------\n")
-  cat("Estimated regressors (with standard errors):\n")
+  cat("Estimated coefficients (with standard errors):\n")
   for (r in seq_along(x$regressors)) {
     cat(sprintf("  %s: %s\n", names(x$regressors)[r], x$regressors[r]))
   }

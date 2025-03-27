@@ -2,7 +2,7 @@
 % Please edit documentation in R/extractors.AdPaik.R
 \name{confint.AdPaik}
 \alias{confint.AdPaik}
-\title{Extracts the Confidence Intervals Computed for Each Category for the 'Adapted Paik et Al.' Model}
+\title{Extracts the Confidence Intervals for the Coefficients for the 'Adapted Paik et Al.' Model}
 \usage{
 \method{confint}{AdPaik}(object, parm = NULL, level = 0.95, ...)
 }
@@ -21,12 +21,11 @@ Defaults to NULL, and all parameters are considered. Changing it is not supporte
 A named list containing the categories of the standard errors for the optimal parameters.
 }
 \description{
-Extracts the confidence intervals for \eqn{\boldsymbol{\phi}}, \eqn{\boldsymbol{\beta}}, \eqn{\mu_1},
-\eqn{\nu}, \eqn{\boldsymbol{\gamma}} obtained with the
+Extracts the confidence intervals for \eqn{\boldsymbol{\beta}} obtained with the
 time-dependent frailty model proposed in the 'Adapted Paik et al.' framework.
 }
 \details{
-The \code{confint.AdPaik} function extracts the standard errors for the estimated parameters from the
+The \code{confint.AdPaik} function extracts the standard errors for the beta coefficients from the
 \code{ParametersCI} field in \code{object}.
 
 The function validates the structure of \code{object} and ensures compatibility
