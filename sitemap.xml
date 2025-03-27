@@ -31,6 +31,7 @@
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/coefse.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/confint.AdPaik.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/data_dropout.html</loc></url>
+<url><loc>https://alessandragni.github.io/TimeDepFrail/reference/extractAIC.AdPaik.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/extract_dummy_variables.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/extract_event_data.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/frailty_Sd_internal.html</loc></url>
@@ -40,6 +41,8 @@
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/ll_AdPaik_centre_1D.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/ll_AdPaik_centre_eval.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/ll_AdPaik_eval.html</loc></url>
+<url><loc>https://alessandragni.github.io/TimeDepFrail/reference/logLik.AdPaik.html</loc></url>
+<url><loc>https://alessandragni.github.io/TimeDepFrail/reference/nobs.AdPaik.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/params_CI.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/params_se.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/plot_bas_hazard.html</loc></url>
