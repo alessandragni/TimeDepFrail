@@ -115,9 +115,6 @@ coef.AdPaik <- function (object, ...){
 
 
 
-
-
-
 #-------------------------------------------------------------------------------
 #' @title 
 #' Extracts the Confidence Intervals for the Coefficients for the 'Adapted Paik et Al.' Model
@@ -200,7 +197,6 @@ confint.AdPaik <- function(object, parm = NULL, level = 0.95, ...) {
   
   return(ci)
 }
-
 
 
 

@@ -1009,7 +1009,6 @@ AdPaik_1D <- function(formula, data, time_axis,
   
   return_list <- list("EstimatedParameter" = param_optimal,
                       "OptimizedLoglikelihood" = ll_optimized)
-  class(return_list) <- "AdPaik_1D"
   
   return (return_list)
 }

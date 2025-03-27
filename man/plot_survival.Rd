@@ -32,11 +32,6 @@ plot_survival(
 \item{cex}{Dimension of the points used for plotting the estimates. Defaults to 0.2.}
 
 \item{cexlegend}{Dimension of the text used for the legend. Defaults to 0.9.}
-
-\item{survival_df}{The dataframe returned by 'survival' function,
-where each row corresponds to the survival function values
-over the time intervals for each individual in the dataset.
-The first column represents the cluster to which the individual belongs.}
 }
 \value{
 The plot of the conditional survival function.
