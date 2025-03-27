@@ -120,6 +120,8 @@ In this case the flag_eps must be FALSE and the flag_alpha must be FALSE.</p></l
 <span class="r-in"><span><span class="co"># Call the main model</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="AdPaikModel.html">AdPaikModel</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>, <span class="va">time_axis</span>,</span></span>
 <span class="r-in"><span>                      <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if ((hessian_element == Inf) || (hessian_element == -Inf)) {    se[p] &lt;- 1e-04} else {    information_element &lt;- -hessian_element    se[p] &lt;- 1/sqrt(information_element)}:</span> missing value where TRUE/FALSE needed</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">post_frailty_est</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in post_frailty_est(result):</span> could not find function "post_frailty_est"</span>
