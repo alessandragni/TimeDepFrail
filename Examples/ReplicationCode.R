@@ -10,7 +10,7 @@ help(package = "TimeDepFrail")
 # ?AdPaikModel
 # ?summary.AdPaik
 # ?coef.AdPaik
-# ?coefse
+# ?coefseAdPaik
 # ?confint.AdPaik
 # ?plot_bas_hazard
 
@@ -22,12 +22,11 @@ help(package = "TimeDepFrail")
 # ?plot_post_frailty_est
 
 ##### Section 4.4 #####
-# ?survival
-# ?plot_survival
+# ?survivalAdPaik
+# ?plot_survivalAdPaik
 
 ##### Section 4.5 #####
 # ?AdPaik_1D
-
 
 #### Section 5: Worked example #####
 
@@ -60,7 +59,7 @@ dev.off()
 
 # Estimated regressors and frailty parameters
 coef(result)
-coefse(result)
+coefseAdPaik(result)
 confint(result)
 
 
@@ -105,10 +104,10 @@ dev.off()
 
 ##### Section 5.4 ##### 
 
-survival_df = survival(result)
+survival_df = survivalAdPaik(result)
 
 pdf("Examples/Plots/Survival.pdf", width=8, height=5)
-plot_survival(result)
+plot_survivalAdPaik(result)
 dev.off()
 
 

@@ -37,10 +37,10 @@
 #'                       categories_range_min, categories_range_max, TRUE)
 #'
 #' # Extract the coefficients
-#' coefse(result)
+#' coefseAdPaik(result)
 #' }
 
-coefse <- function(object){
+coefseAdPaik <- function(object){
   
   # Check object structure
   check.result(object)

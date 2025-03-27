@@ -132,7 +132,7 @@ post_frailty_var <- function(object, flag_eps = FALSE, flag_alpha = FALSE){
     value = object$PosteriorFrailtyVariance$alphaVar
   }
   else{
-    value = object$PosteriorFrailtyVariances$ZVar
+    value = object$PosteriorFrailtyVariance$ZVar
   }
   return(value)
 }

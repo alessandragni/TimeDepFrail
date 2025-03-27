@@ -27,9 +27,9 @@
 #' \donttest{
 #' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
-#' survival_df = survival(result)
+#' survivalAdPaik(result)
 #'  }  
-survival <- function(result) {
+survivalAdPaik <- function(result) {
   # Check for valid input
   if (!inherits(result, "AdPaik")) stop("'result' must be of class 'AdPaik'.")
   
@@ -131,15 +131,14 @@ survival <- function(result) {
 #' \donttest{
 #' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
-#' survival_df = survival(result)
 #' plot_survival(result)
 #'  } 
-plot_survival <- function(result, lwd = 1, 
+plot_survivalAdPaik <- function(result, lwd = 1, 
                           xlim = c(min(result$TimeDomain), max(result$TimeDomain)), ylim = c(0,1),
                           xlab = "Time", ylab = "Values", main = "Conditional Survival",
                           cex = 0.2, cexlegend = 0.8){
   
-  survival_df = survival(result)
+  survival_df = survivalAdPaik(result)
   
   time = result$TimeDomain
   

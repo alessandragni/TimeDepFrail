@@ -201,3 +201,67 @@ confint.AdPaik <- function(object, parm = NULL, level = 0.95, ...) {
 
 
 
+#-------------------------------------------------------------------------------
+
+#' Plots Related to the the 'Adapted Paik et Al.' Model
+#'
+#' @param x An object of class 'AdPaik'.
+#' @param which A numeric vector indicating which plots to display. 
+#'             Choices: 1 = Baseline Hazard, 
+#'                      2 = Posterior Frailty Estimate, 
+#'                      3 = Conditional Survival Function.
+#' @param captions A character vector with captions for each plot.
+#'
+#' @return No return value. This function generates plots.
+#' 
+#' @examples
+#' # Import data
+#' data(data_dropout)
+#' 
+#' # Define the variables needed for the model execution
+#' eps_paik <- 1e-10
+#' categories_range_min <- c(-8, -2, eps_paik, eps_paik, eps_paik)
+#' categories_range_max <- c(-eps_paik, 0.4, 1 - eps_paik, 1, 10)
+#' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
+#' formula <- time_to_event ~ Gender + CFUP + cluster(group)
+#'
+#' # Call the main model function
+#' \donttest{
+#' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
+#'
+#' plot(result)
+#'  }  
+#' 
+#' @export
+
+plot.AdPaik <- function(x, which = c(1, 2), 
+                        captions = c("Plot 1: Baseline Hazard", 
+                                     "Plot 2: Posterior Frailty Estimate")) {
+  
+  if (!inherits(x, "AdPaik")) 
+    stop("This function is only applicable to 'AdPaik' objects")
+  
+  if (!is.numeric(which) || any(which < 1) || any(which > 2)) 
+    stop("'which' must be in 1:2")
+  
+  show <- rep(FALSE, 2)
+  show[which] <- TRUE
+  
+  # Plot 1:
+  if (show[1]) {
+    plot_bas_hazard(x)
+    dev.flush()
+  }
+  
+  # Plot 2: 
+  if (show[2]) {
+    plot_post_frailty_est(x)
+    dev.flush()
+  }
+  
+  
+  invisible()
+}
+
+
+
