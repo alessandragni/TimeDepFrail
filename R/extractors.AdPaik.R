@@ -208,9 +208,9 @@ confint.AdPaik <- function(object, parm = NULL, level = 0.95, ...) {
 #' @param x An object of class 'AdPaik'.
 #' @param which A numeric vector indicating which plots to display. 
 #'             Choices: 1 = Baseline Hazard, 
-#'                      2 = Posterior Frailty Estimate, 
-#'                      3 = Conditional Survival Function.
+#'                      2 = Posterior Frailty Estimate.
 #' @param captions A character vector with captions for each plot.
+#' @param ... Additional arguments to be passed to other methods.
 #'
 #' @return No return value. This function generates plots.
 #' 
@@ -236,7 +236,7 @@ confint.AdPaik <- function(object, parm = NULL, level = 0.95, ...) {
 
 plot.AdPaik <- function(x, which = c(1, 2), 
                         captions = c("Plot 1: Baseline Hazard", 
-                                     "Plot 2: Posterior Frailty Estimate")) {
+                                     "Plot 2: Posterior Frailty Estimate"), ...) {
   
   if (!inherits(x, "AdPaik")) 
     stop("This function is only applicable to 'AdPaik' objects")
@@ -250,13 +250,13 @@ plot.AdPaik <- function(x, which = c(1, 2),
   # Plot 1:
   if (show[1]) {
     plot_bas_hazard(x)
-    dev.flush()
+    grDevices::dev.flush()
   }
   
   # Plot 2: 
   if (show[2]) {
     plot_post_frailty_est(x)
-    dev.flush()
+    grDevices::dev.flush()
   }
   
   

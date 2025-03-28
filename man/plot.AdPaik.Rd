@@ -7,7 +7,8 @@
 \method{plot}{AdPaik}(
   x,
   which = c(1, 2),
-  captions = c("Plot 1: Baseline Hazard", "Plot 2: Posterior Frailty Estimate")
+  captions = c("Plot 1: Baseline Hazard", "Plot 2: Posterior Frailty Estimate"),
+  ...
 )
 }
 \arguments{
@@ -15,10 +16,11 @@
 
 \item{which}{A numeric vector indicating which plots to display.
 Choices: 1 = Baseline Hazard,
-2 = Posterior Frailty Estimate,
-3 = Conditional Survival Function.}
+2 = Posterior Frailty Estimate.}
 
 \item{captions}{A character vector with captions for each plot.}
+
+\item{...}{Additional arguments to be passed to other methods.}
 }
 \value{
 No return value. This function generates plots.

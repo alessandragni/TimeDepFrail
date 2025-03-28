@@ -62,6 +62,7 @@ coef(result)
 coefseAdPaik(result)
 confint(result)
 
+plot(result)
 
 ##### Section 5.3 #####
 
@@ -90,6 +91,9 @@ plot_post_frailty_est(result, pch_type = pch_type, color_bg = color_bg)
 dev.off()
 
 mean(post_frailty_est(result))
+
+post_frailty_var(result)
+plot_post_frailty_var(result)
 
 pdf("Examples/Plots/post_estimates_eps.pdf", width=5, height=5)
 plot_post_frailty_est(result, flag_eps = TRUE, flag_alpha = FALSE,

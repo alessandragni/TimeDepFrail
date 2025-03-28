@@ -45,7 +45,7 @@ summary.AdPaik <- function(object, ...) {
     ),
     n_intervals = n_intervals,
     n_regressors = n_regressors,
-    regressors = setNames(betar, object$Regressors)
+    regressors = stats::setNames(betar, object$Regressors)
   )
   
   class(summary_list) <- "summary.AdPaik"

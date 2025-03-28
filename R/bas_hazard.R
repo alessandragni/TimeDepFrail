@@ -10,6 +10,8 @@
 #'
 #' @return Numerical vector of length equal to the number of intervals of the time-domain, with the value of the baseline hazard step-function.
 #' 
+#' @export 
+#' 
 #' @examples
 #' # Consider the 'Academic Dropout dataset'
 #' data(data_dropout)
