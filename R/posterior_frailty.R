@@ -31,6 +31,8 @@
 #'  - Matrix of dimension (N, L) containing posterior frailty estimates for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. 
 #'    In this case the flag_eps must be FALSE and the flag_alpha must be FALSE.
 #' 
+#' @export
+#' 
 #' @examples
 #' # Consider the 'Academic Dropout dataset'
 #' data(data_dropout)
@@ -50,7 +52,6 @@
 #' post_frailty_est(result)
 #' }
 #' 
-#' @export
 post_frailty_est <- function(object, flag_eps = FALSE, flag_alpha = FALSE){
   
   if(flag_eps & flag_alpha)
