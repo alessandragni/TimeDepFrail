@@ -3,7 +3,7 @@
 \docType{data}
 \name{data_dropout}
 \alias{data_dropout}
-\title{Data Dropout Dataset}
+\title{Dropout Dataset}
 \format{
 A data frame with 4448 rows and 4 columns:
 \describe{
