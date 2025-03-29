@@ -230,7 +230,7 @@ confint.AdPaik <- function(object, parm = NULL, level = 0.95, ...) {
 #' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
 #' plot(result)
-#'  }  
+#' }  
 #' 
 #' @export
 

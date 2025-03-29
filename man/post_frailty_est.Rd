@@ -62,4 +62,5 @@ result <- AdPaikModel(formula, data_dropout, time_axis,
 
 post_frailty_est(result)
 }
+
 }

@@ -49,6 +49,8 @@
 #'
 #' post_frailty_est(result)
 #' }
+#' 
+#' @export
 post_frailty_est <- function(object, flag_eps = FALSE, flag_alpha = FALSE){
   
   if(flag_eps & flag_alpha)
@@ -121,6 +123,8 @@ post_frailty_est <- function(object, flag_eps = FALSE, flag_alpha = FALSE){
 #'
 #' post_frailty_var(result)
 #' }
+#' 
+#' @export
 post_frailty_var <- function(object, flag_eps = FALSE, flag_alpha = FALSE){
   
   if(flag_eps & flag_alpha)
