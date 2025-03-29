@@ -131,7 +131,7 @@ survivalAdPaik <- function(result) {
 #' \donttest{
 #' result <- AdPaikModel(formula, data_dropout, time_axis, categories_range_min, categories_range_max)
 #'
-#' plot_survival(result)
+#' plot_survivalAdPaik(result)
 #'  } 
 plot_survivalAdPaik <- function(result, lwd = 1, 
                           xlim = c(min(result$TimeDomain), max(result$TimeDomain)), ylim = c(0,1),

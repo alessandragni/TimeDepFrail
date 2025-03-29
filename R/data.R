@@ -1,4 +1,4 @@
-#' Data Dropout Dataset
+#' Dropout Dataset
 #'
 #' This dataset is extracted from an administrative database provided by a 
 #' non-specified university and tracks students enrolled in 2012 over three academic years (or 6 semesters).
