@@ -86,7 +86,6 @@ conditional survival function, Akaike Information Criterion (AIC), ...</p>
 <span>  tol_ll <span class="op">=</span> <span class="fl">1e-06</span>,</span>
 <span>  tol_optimize <span class="op">=</span> <span class="fl">1e-06</span>,</span>
 <span>  h_dd <span class="op">=</span> <span class="fl">0.001</span>,</span>
-<span>  level <span class="op">=</span> <span class="fl">0.95</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  print_previous_ll_values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -134,11 +133,6 @@ the formula variables. It is not necessary to attach it (in case of a data.frame
 
 <dt id="arg-h-dd">h_dd<a class="anchor" aria-label="anchor" href="#arg-h-dd"></a></dt>
 <dd><p>Discretization step used for the numerical approximation of the second derivative of the log-likelihood function.</p></dd>
-
-
-<dt id="arg-level">level<a class="anchor" aria-label="anchor" href="#arg-level"></a></dt>
-<dd><p>A numeric value for internal use representing the confidence level for the optimal parameters and posterior frailty confidence intervals.
-Default is 0.95 for 95% confidence.</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
