@@ -48,11 +48,11 @@ You can find a relevant example in the `Examples/ReplicationCode.R`, in the Appe
 ## Analyzing results
 Several built-in methods are available to analyze the results of the fitted model:
 
-- Model Summaries: `summary()`, `coef()`, `coefse()`, `confint()`
-- Baseline Hazard Step-Function: `plot_bas_hazard()`
+- Model Summaries: `summary()`, `plot()`, `print()`, `coef()`, `confint()`, `coefseAdPaik()`, `extractAIC()`, `logLik()`
+- Baseline Hazard Step-Function: `bas_hazard()` and `plot_bas_hazard()`
 - Frailty Standard Deviation/Variance: `frailty_sd()` and `plot_frailty_sd()`
-- Posterior Frailty Estimates: `plot_post_frailty_est()`
-- Conditional Survival Function: `survival()` and `plot_survival()`
+- Posterior Frailty Estimates: `post_frailty_est()`, `plot_post_frailty_est()`, `post_frailty_var()`, `plot_post_frailty_var()`, `post_frailty_confint()`
+- Conditional Survival Function: `survivalAdPaik()` and `plot_survivalAdPaik()`
 
 These methods provide insightful visualizations and summaries to help you interpret your model results effectively.
 
