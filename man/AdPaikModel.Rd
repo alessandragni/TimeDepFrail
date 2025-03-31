@@ -42,7 +42,7 @@ the formula variables. It is not necessary to attach it (in case of a data.frame
 
 \item{h_dd}{Discretization step used for the numerical approximation of the second derivative of the log-likelihood function.}
 
-\item{level}{A numeric value for internal use representing the confidence level for the optimal parameters and posterior frailty confidence intervals.
+\item{level}{A numeric value for internal use representing the confidence level for the optimal parameters.
 Default is 0.95 for 95\% confidence.}
 
 \item{verbose}{Logical. If \code{TRUE}, detailed progress messages will be printed to the console. Defaults to \code{FALSE}.}

@@ -55,7 +55,7 @@
 #' @param tol_ll Tolerance on the log-likelihood value.
 #' @param tol_optimize Internal tolerance for the one-dimensional optimization through 'optimize' R function.
 #' @param h_dd Discretization step used for the numerical approximation of the second derivative of the log-likelihood function.
-#' @param level A numeric value for internal use representing the confidence level for the optimal parameters and posterior frailty confidence intervals.
+#' @param level A numeric value for internal use representing the confidence level for the optimal parameters.
 #' Default is 0.95 for 95% confidence.
 #' @param verbose Logical. If `TRUE`, detailed progress messages will be printed to the console. Defaults to `FALSE`.
 #' @param print_previous_ll_values If we want to print the previous values of the log-likelihood function. This can
