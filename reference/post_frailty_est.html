@@ -120,42 +120,11 @@ In this case the flag_eps must be FALSE and the flag_alpha must be FALSE.</p></l
 <span class="r-in"><span><span class="co"># Call the main model</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="AdPaikModel.html">AdPaikModel</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>, <span class="va">time_axis</span>,</span></span>
 <span class="r-in"><span>                      <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NaNs produced</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if ((hessian_element == Inf) || (hessian_element == -Inf)) {    se[p] &lt;- 1e-04} else {    information_element &lt;- -hessian_element    se[p] &lt;- 1/sqrt(information_element)}:</span> missing value where TRUE/FALSE needed</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">post_frailty_est</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]     [,2]      [,3]      [,4]      [,5]      [,6]      [,7]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] 1.1048099 1.108778 1.1474606 1.1059507 1.1023955 0.9904692 1.0244158</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] 0.8379035 0.783926 0.6487763 0.8449023 0.8444907 0.8022560 0.7888707</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] 1.1625687 1.132694 1.1164256 1.1623134 1.1654970 1.1567724 1.1361889</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] 1.4271733 1.568561 1.6006542 1.4236236 1.4622341 1.4087053 1.3630470</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] 1.0151256 1.010793 0.8952022 1.0126754 1.0077753 0.9719531 0.9590429</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] 1.1586254 1.137414 1.2133180 1.1713028 1.1852623 1.0503533 1.1159622</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] 1.5066891 1.523512 1.4942505 1.5035662 1.4868939 1.4476778 1.4707300</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] 1.1898437 1.165316 1.1408176 1.1802813 1.1676276 1.1581899 1.2267386</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] 1.2029324 1.202930 1.1728438 1.2033448 1.2188235 1.1907893 1.1795115</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 1.2415568 1.279429 1.2641002 1.2343066 1.2156415 1.2301263 1.4222394</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] 1.3800678 1.363966 1.5389846 1.3763751 1.3666882 1.3816956 1.3480006</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 1.3800415 1.447069 1.5676168 1.3933870 1.4089605 1.6238984 1.4235893</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] 1.4914569 1.450032 1.6247054 1.4920596 1.4806474 1.5839701 1.6188176</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] 1.2537564 1.208664 1.2219562 1.2492643 1.2451434 1.4184832 1.2740312</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] 1.2117198 1.197533 1.1892684 1.2103585 1.2043671 1.2365956 1.2591659</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] 1.1414471 1.137668 1.1241106 1.1360576 1.1440819 1.1523448 1.0931569</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,8]      [,9]     [,10]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] 1.0215715 1.1045176 1.1116220</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] 0.7205037 0.8418778 0.8501212</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] 1.0399474 1.1603842 1.1567365</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] 1.3158066 1.4271740 1.4399610</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] 1.0479828 1.0123399 1.0156064</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] 1.1145679 1.1678661 1.1733476</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] 1.5770105 1.4959642 1.5102808</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] 1.3905476 1.1823149 1.1862538</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] 1.2793412 1.2046692 1.2139537</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 1.1758852 1.2370983 1.2456182</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] 1.4289084 1.3807875 1.3819703</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 1.2935091 1.3915455 1.4073177</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] 1.9939486 1.4888409 1.5011507</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] 1.1674317 1.2563327 1.2909260</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] 1.3057431 1.2090995 1.2080818</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] 0.9903576 1.1384504 1.1518946</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'result' not found</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
