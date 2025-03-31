@@ -56,7 +56,7 @@ categories_range_max <- c(-eps, 0.5, 1 - eps, 1, 10)
 
 ###### Section 5.2 ######
 # Main model and summary
-set.seed(123)
+set.seed(1)
 result <- AdPaikModel(formula, data_dropout, time_axis,
                       categories_range_min, categories_range_max)
 summary(result)
@@ -82,23 +82,22 @@ dev.off()
 
 ##### Section 5.3 #####
 
-# Frailty standard deviation
+# Frailty standard deviation and variance
 frailty_sd(result)
-frailty_sd(result, flag_full = TRUE) # same
-frailty_sd(result, flag_full = FALSE) # to get only the time-dependent one
-frailty_sd(result, flag_variance = TRUE) # to get the variance
+frailty_sd(result, flag_variance = TRUE) 
 
 pdf("Examples/Plots/FrailtySD.pdf", width=8, height=5)
 plot_frailty_sd(result)
 dev.off()
 
 plot_frailty_sd(result, flag_variance = TRUE)
-plot_frailty_sd(result, flag_full = FALSE)
-
-frailty_sd(result, flag_full = FALSE)
-plot_frailty_sd(result, flag_variance = FALSE, flag_full = FALSE)
 
 # Posterior Frailty Estimates
+
+post_frailty_est(result, flag_eps = FALSE, flag_alpha = TRUE)
+post_frailty_est(result, flag_eps = TRUE, flag_alpha = FALSE)
+post_frailty_est(result, flag_eps = FALSE, flag_alpha = FALSE)
+
 pch_type <- c(21, seq(21,25,1), seq(21,25,1), seq(21,25,1))
 color_bg <- c("darkblue", rep("red", 5), rep("purple", 5), rep("green",5))
 
@@ -107,9 +106,6 @@ plot_post_frailty_est(result, pch_type = pch_type, color_bg = color_bg)
 dev.off()
 
 mean(post_frailty_est(result))
-
-post_frailty_var(result)
-plot_post_frailty_var(result)
 
 pdf("Examples/Plots/post_estimates_eps.pdf", width=5, height=5)
 plot_post_frailty_est(result, flag_eps = TRUE, flag_alpha = FALSE,
@@ -120,6 +116,10 @@ pdf("Examples/Plots/post_estimates_alpha.pdf", width=5, height=5)
 plot_post_frailty_est(result, flag_eps = FALSE, flag_alpha = TRUE,
                       pch_type = pch_type, color_bg = color_bg)
 dev.off()
+
+post_frailty_var(result)
+plot_post_frailty_var(result)
+post_frailty_confint(result)
 
 
 ##### Section 5.4 ##### 
@@ -143,9 +143,19 @@ analysis_1D_opt <- AdPaik_1D(formula, data_dropout,
                              flag_plot = TRUE,
                              categories_range_min, categories_range_max, 
                              n_iter = 5)
-
 analysis_1D_opt
 
+# save the plots
+pdf("Examples/Plots/ll_par1.pdf", width=8, height=5)
+set.seed(123)
+analysis_1D_opt <- AdPaik_1D(formula, data_dropout,
+                             time_axis, index_param_to_vary, 
+                             flag_optimal_params = FALSE, 
+                             optimal_params = NULL,
+                             flag_plot = TRUE,
+                             categories_range_min, categories_range_max, 
+                             n_iter = 5)
+dev.off()
 
 
 categories_range_min <- c(-8, -1, eps, eps, eps)
@@ -161,7 +171,17 @@ analysis_1D_opt <- AdPaik_1D(formula, data_dropout,
                              categories_range_min, categories_range_max, 
                              n_iter = 5)
 analysis_1D_opt
-
+# save the plots
+pdf("Examples/Plots/ll_12par.pdf", width=8, height=5)
+set.seed(123)
+analysis_1D_opt <- AdPaik_1D(formula, data_dropout, 
+                             time_axis, index_param_to_vary, 
+                             flag_optimal_params = FALSE, 
+                             optimal_params = NULL,
+                             flag_plot = TRUE,
+                             categories_range_min, categories_range_max, 
+                             n_iter = 5)
+dev.off()
 
 
 # Study the log-likelihood behaviour
@@ -175,6 +195,14 @@ analysis_1D_opt <- AdPaik_1D(formula, data_dropout, time_axis,
                              categories_range_min, categories_range_max, n_iter = 1)
 analysis_1D_opt
 
+# save the plots
+pdf("Examples/Plots/Loglik14_1.pdf", width=8, height=5)
+set.seed(1)
+analysis_1D_opt <- AdPaik_1D(formula, data_dropout, time_axis,
+                             index_param_to_vary, flag_optimal_params = TRUE, 
+                             flag_plot = TRUE, optimal_params = result$OptimalParameters,
+                             categories_range_min, categories_range_max, n_iter = 1)
+dev.off()
 
 
 
