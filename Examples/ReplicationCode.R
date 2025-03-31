@@ -56,7 +56,7 @@ categories_range_max <- c(-eps, 0.5, 1 - eps, 1, 10)
 
 ###### Section 5.2 ######
 # Main model and summary
-set.seed(1)
+set.seed(123)
 result <- AdPaikModel(formula, data_dropout, time_axis,
                       categories_range_min, categories_range_max)
 summary(result)
