@@ -86,9 +86,9 @@ conditional survival function, Akaike Information Criterion (AIC), ...</p>
 <span>  tol_ll <span class="op">=</span> <span class="fl">1e-06</span>,</span>
 <span>  tol_optimize <span class="op">=</span> <span class="fl">1e-06</span>,</span>
 <span>  h_dd <span class="op">=</span> <span class="fl">0.001</span>,</span>
-<span>  print_previous_ll_values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="fl">3</span><span class="op">)</span>,</span>
 <span>  level <span class="op">=</span> <span class="fl">0.95</span>,</span>
-<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  print_previous_ll_values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -136,14 +136,6 @@ the formula variables. It is not necessary to attach it (in case of a data.frame
 <dd><p>Discretization step used for the numerical approximation of the second derivative of the log-likelihood function.</p></dd>
 
 
-<dt id="arg-print-previous-ll-values">print_previous_ll_values<a class="anchor" aria-label="anchor" href="#arg-print-previous-ll-values"></a></dt>
-<dd><p>If we want to print the previous values of the log-likelihood function. This can
-be useful for controlling that the optimization procedure is proceeding in a monotone way and it does not
-oscillate.
-This argument is composed of two elements: TRUE/FALSE if we want or not to print the previous values and how many values we
-want to print on the console. Default is (TRUE, 3), so that only the previous 3 values of the log-likelihood are printed.</p></dd>
-
-
 <dt id="arg-level">level<a class="anchor" aria-label="anchor" href="#arg-level"></a></dt>
 <dd><p>A numeric value for internal use representing the confidence level for the optimal parameters and posterior frailty confidence intervals.
 Default is 0.95 for 95% confidence.</p></dd>
@@ -151,6 +143,14 @@ Default is 0.95 for 95% confidence.</p></dd>
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>Logical. If <code>TRUE</code>, detailed progress messages will be printed to the console. Defaults to <code>FALSE</code>.</p></dd>
+
+
+<dt id="arg-print-previous-ll-values">print_previous_ll_values<a class="anchor" aria-label="anchor" href="#arg-print-previous-ll-values"></a></dt>
+<dd><p>If we want to print the previous values of the log-likelihood function. This can
+be useful for controlling that the optimization procedure is proceeding in a monotone way and it does not
+oscillate.
+This argument is composed of two elements: TRUE/FALSE if we want or not to print the previous values and how many values we
+want to print on the console. Default is (TRUE, 3), so that only the previous 3 values of the log-likelihood are printed.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -214,9 +214,6 @@ of the frailty.</p></li>
 <li><p>PosteriorFrailtyVariance: S3 object of class 'PFV.AdPaik'. The object of class 'PFV.AdPaik' contains the Posterior Frailty Variances computed as indicated in the reference papaer and it is  composed of three elements:</p><ul><li><p>'alphaVar': posterior frailty variance for \(\alpha_j, \forall j\). It is a vector of length equal to the number of centres.</p></li>
 <li><p>'epsVar': posterior frailty variance for \(\epsilon_{jk}, \forall j,k\). Matrix of dimension (N, L).</p></li>
 <li><p>'ZVar': posterior frailty variance for \(Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k\). Matrix of dimension (N, L).</p></li>
-</ul></li>
-<li><p>PosteriorFrailtyCI: S3 object of class 'PFCI.AdPaik'. The object of class 'PFCI.AdPaik' contains the Posterior Frailty Confidence Interval and it is composed of two elements:</p><ul><li><p>left confidence interval for the estimated \(\hat{Z}_{jk}, \forall j,k\). Matrix of dimension (N, L).</p></li>
-<li><p>right confidence interval for the estimated \(\hat{Z}_{jk}, \forall j,k\). Matrix of dimension (N, L).</p></li>
 </ul></li>
 </ul></div>
 

@@ -22,7 +22,6 @@
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/check.range_params.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/check.result.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/check.structure_paramsCI.html</loc></url>
-<url><loc>https://alessandragni.github.io/TimeDepFrail/reference/check.structure_post_frailty_CI.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/check.structure_post_frailty_est.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/check.structure_post_frailty_var.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/check.time_axis.html</loc></url>
@@ -53,6 +52,7 @@
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/plot_post_frailty_var.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/plot_survivalAdPaik.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/post_frailty_CI_internal.html</loc></url>
+<url><loc>https://alessandragni.github.io/TimeDepFrail/reference/post_frailty_confint.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/post_frailty_est.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/post_frailty_internal.html</loc></url>
 <url><loc>https://alessandragni.github.io/TimeDepFrail/reference/post_frailty_var.html</loc></url>
