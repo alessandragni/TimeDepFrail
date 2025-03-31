@@ -15,5 +15,5 @@
 Prints a summary of the \code{AdPaik} object and returns it invisibly.
 }
 \description{
-This function prints a summary of an AdPaik object.
+This function prints a summary of the optimal parameters estimated in an AdPaik object.
 }

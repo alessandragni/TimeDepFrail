@@ -4,31 +4,43 @@ library(TimeDepFrail)
 
 help(package = "TimeDepFrail")
 
-#### Section 4: Syntax and Implementation details #####
+#### Section 5: Syntax and Implementation details #####
 
-##### Section 4.1 #####
+##### Section 5.1 #####
 # ?AdPaikModel
+
 # ?summary.AdPaik
+# ?print.AdPaik
+# ?plot.AdPaik
+# ?logLik.AdPaik
+# ?extractAIC.AdPaik
+# ?nobs.AdPaik
+
 # ?coef.AdPaik
 # ?coefseAdPaik
 # ?confint.AdPaik
+
+# ?bas_hazard
 # ?plot_bas_hazard
 
-##### Section 4.2 #####
+##### Section 5.2 #####
 # ?frailty_sd
 # ?plot_frailty_sd
 
-##### Section 4.3 #####
+# ?post_frailty_est
 # ?plot_post_frailty_est
+# ?post_frailty_var
+# ?plot_post_frailty_var
+# ?post_frailty_confint
 
-##### Section 4.4 #####
+##### Section 5.3 #####
 # ?survivalAdPaik
 # ?plot_survivalAdPaik
 
-##### Section 4.5 #####
+##### Section 5.4 #####
 # ?AdPaik_1D
 
-#### Section 5: Worked example #####
+#### Section 6: Worked example #####
 
 ##### Section 5.1 #####
 data(data_dropout)
@@ -48,7 +60,17 @@ set.seed(1)
 result <- AdPaikModel(formula, data_dropout, time_axis,
                       categories_range_min, categories_range_max)
 summary(result)
-print(summary(result))
+print(result)
+plot(result)
+logLik(result)
+extractAIC(result)
+nobs(result)
+formula(result)
+
+# Estimated regressors
+coef(result)
+coefseAdPaik(result)
+confint(result)
 
 # Baseline Hazard function
 bas_hazard(result)
@@ -57,12 +79,6 @@ pdf("Examples/Plots/BaselineHazard.pdf", width=8, height=5)
 plot_bas_hazard(result)
 dev.off()
 
-# Estimated regressors and frailty parameters
-coef(result)
-coefseAdPaik(result)
-confint(result)
-
-plot(result)
 
 ##### Section 5.3 #####
 
