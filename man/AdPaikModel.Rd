@@ -48,7 +48,8 @@ oscillate.
 This argument is composed of two elements: TRUE/FALSE if we want or not to print the previous values and how many values we
 want to print on the console. Default is (TRUE, 3), so that only the previous 3 values of the log-likelihood are printed.}
 
-\item{level}{A numeric value representing the confidence level for the optimal parameters (default is 0.95 for 95\% confidence).}
+\item{level}{A numeric value for internal use representing the confidence level for the optimal parameters and posterior frailty confidence intervals.
+Default is 0.95 for 95\% confidence.}
 
 \item{verbose}{Logical. If \code{TRUE}, detailed progress messages will be printed to the console. Defaults to \code{FALSE}.}
 }

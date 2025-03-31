@@ -60,7 +60,8 @@
 #' oscillate.
 #' This argument is composed of two elements: TRUE/FALSE if we want or not to print the previous values and how many values we
 #' want to print on the console. Default is (TRUE, 3), so that only the previous 3 values of the log-likelihood are printed.
-#' @param level A numeric value representing the confidence level for the optimal parameters (default is 0.95 for 95% confidence).
+#' @param level A numeric value for internal use representing the confidence level for the optimal parameters and posterior frailty confidence intervals.
+#' Default is 0.95 for 95% confidence.
 #' @param verbose Logical. If `TRUE`, detailed progress messages will be printed to the console. Defaults to `FALSE`.
 #'
 #' @return S3 object of class 'AdPaik', composed of several elements. See Details.
@@ -367,8 +368,8 @@ AdPaikModel <- function(formula, data, time_axis,
   post_frailty_var <- post_frailty_estimates$PostFrailtyVar
   
   # Compute posterior frailty estimates confidence interval
-  if (verbose) message(paste("Compute posterior frailty estimates confidence interval"))
-  post_frailty_CI <- post_frailty_CI_internal(post_frailty_est, post_frailty_var, n_centres, n_intervals, level)
+  # if (verbose) message(paste("Compute posterior frailty estimates confidence interval"))
+  # post_frailty_CI <- post_frailty_CI_internal(post_frailty_est, post_frailty_var, n_centres, n_intervals, level)
   
   # Akaike Information Criterium
   AIC = 2 * n_params - 2 * optimal_loglikelihood
@@ -397,8 +398,7 @@ AdPaikModel <- function(formula, data, time_axis,
                       "BaselineHazard" = bas_hazard,
                       "FrailtyDispersion" = frailty_dispersion,
                       "PosteriorFrailtyEstimates" = post_frailty_est,
-                      "PosteriorFrailtyVariance" = post_frailty_var,
-                      "PosteriorFrailtyCI" = post_frailty_CI)
+                      "PosteriorFrailtyVariance" = post_frailty_var)
   class(return_list) <- "AdPaik"
   
   # Return list of results

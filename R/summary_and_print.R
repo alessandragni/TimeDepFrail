@@ -134,7 +134,7 @@ print.AdPaik <- function(x, ...) {
   cat(sprintf("Overall number of parameters: %d\n", x$NParameters))
   
   # Print estimated parameters
-  cat("\nEstimated Parameters:\n")
+  cat("\nOptimal Parameters:\n")
   print(x$OptimalParameters)
   
   # Print standard errors if available
