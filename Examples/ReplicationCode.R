@@ -4,6 +4,8 @@ library(TimeDepFrail)
 
 help(package = "TimeDepFrail")
 
+# knitr::spin("ReplicationCode.R")
+
 #### Section 5: Syntax and Implementation details #####
 
 ##### Section 5.1 #####
@@ -42,7 +44,7 @@ help(package = "TimeDepFrail")
 
 #### Section 6: Worked example #####
 
-##### Section 5.1 #####
+##### Section 6.1 #####
 data(data_dropout)
 head(data_dropout)
 
@@ -54,7 +56,7 @@ eps <- 1e-10
 categories_range_min <- c(-8, -2, eps, eps, eps)
 categories_range_max <- c(-eps, 0.5, 1 - eps, 1, 10)
 
-###### Section 5.2 ######
+##### Section 6.2 #####
 # Main model and summary
 set.seed(1)
 result <- AdPaikModel(formula, data_dropout, time_axis,
@@ -80,7 +82,7 @@ plot_bas_hazard(result)
 dev.off()
 
 
-##### Section 5.3 #####
+##### Section 6.3 #####
 
 # Frailty standard deviation and variance
 frailty_sd(result)
@@ -122,7 +124,7 @@ plot_post_frailty_var(result)
 post_frailty_confint(result)
 
 
-##### Section 5.4 ##### 
+##### Section 6.4 ##### 
 
 survival_df = survivalAdPaik(result)
 
@@ -131,7 +133,7 @@ plot_survivalAdPaik(result)
 dev.off()
 
 
-##### Section 5.5 ##### 
+##### Section 6.5 ##### 
 
 # Identify a parameter existence range
 set.seed(123)
@@ -241,5 +243,5 @@ plot(smoothingSpline$x[17:98], smoothingSpline$y[17:98], type = 'l', col="black"
      main = "Estimated baseline hazard function", xlab = "Time [semesters]", ylab="Instantaneous risk of failure")
 dev.off()
 
-
+sessionInfo() 
 
