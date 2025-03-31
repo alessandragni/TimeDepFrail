@@ -200,51 +200,6 @@ check.post_frailty_centre <- function(post_frailty_est, centre_codes){
 }
 #-------------------------------------------------------------------------------
 #' @title
-#' Check Structure of Posterior Frailty Confidence Interval
-#'
-#' @description
-#' The function controls that the structure of the 'Posterior Frailty Confidence Interval' coincides with the theoretical one.
-#'
-#' @param post_frailty_CI Posterior frailty estimates S3 object of class 'PFCI.AdPaik', composed of two elements:
-#' - left confidence interval for the estimated \eqn{\hat{Z}_{jk}, \forall j,k}
-#' - right confidence interval for the estimated \eqn{\hat{Z}_{jk}, \forall j,k}
-#' @param n_intervals Number of intervals of the time-domain
-#' @param n_centres Number of centres/clusters.
-#'
-#' @return An error if any condition is not satisfied.
-#' 
-#' @keywords internal
-
-check.structure_post_frailty_CI <- function(post_frailty_CI, n_intervals, n_centres){
-  # Check class
-  if(!inherits(post_frailty_CI, "PFCI.AdPaik"))
-    stop("First argument is not of class 'PFCI.AdPaik'.")
-  
-  # Check structure
-  if((! is.list(post_frailty_CI)) || (length(post_frailty_CI) != 2))
-    stop("Wrong structure for first input variable (post_frailty_CI).")
-  
-  # Check internal structures
-  if(names(post_frailty_CI)[1] != "PostFrailtyCI_left")
-    stop("Wrong name for the first element of 'post_frailty_CI' variable.")
-  if(! is.matrix(post_frailty_CI$PostFrailtyCI_left))
-    stop("Wrong structure for the first element of 'post_frailty_CI' variable.")
-  if((dim(post_frailty_CI$PostFrailtyCI_left)[1]) != n_centres)
-    stop("Different values for the number of centres and the left confidence interval.")
-  if((dim(post_frailty_CI$PostFrailtyCI_left)[2]) != n_intervals)
-    stop("Different values for the number of intervals and the left confidence interval.")
-  
-  if(names(post_frailty_CI)[2] != "PostFrailtyCI_right")
-    stop("Wrong name for the second element of 'post_frailty_CI' variable.")
-  if(! is.matrix(post_frailty_CI$PostFrailtyCI_right))
-    stop("Wrong structure for the second element of 'post_frailty_CI' variable.")
-  if((dim(post_frailty_CI$PostFrailtyCI_right)[1]) != n_centres)
-    stop("Different values for the number of centres and the right confidence interval.")
-  if((dim(post_frailty_CI$PostFrailtyCI_right)[2]) != n_intervals)
-    stop("Different values for the number of intervals and the right confidence interval.")
-}
-#-------------------------------------------------------------------------------
-#' @title
 #' Check Correctness for the Cluster Variable
 #'
 #' @description

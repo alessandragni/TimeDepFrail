@@ -14,9 +14,9 @@ AdPaikModel(
   tol_ll = 1e-06,
   tol_optimize = 1e-06,
   h_dd = 0.001,
-  print_previous_ll_values = c(TRUE, 3),
   level = 0.95,
-  verbose = FALSE
+  verbose = FALSE,
+  print_previous_ll_values = c(TRUE, 3)
 )
 }
 \arguments{
@@ -42,16 +42,16 @@ the formula variables. It is not necessary to attach it (in case of a data.frame
 
 \item{h_dd}{Discretization step used for the numerical approximation of the second derivative of the log-likelihood function.}
 
+\item{level}{A numeric value for internal use representing the confidence level for the optimal parameters and posterior frailty confidence intervals.
+Default is 0.95 for 95\% confidence.}
+
+\item{verbose}{Logical. If \code{TRUE}, detailed progress messages will be printed to the console. Defaults to \code{FALSE}.}
+
 \item{print_previous_ll_values}{If we want to print the previous values of the log-likelihood function. This can
 be useful for controlling that the optimization procedure is proceeding in a monotone way and it does not
 oscillate.
 This argument is composed of two elements: TRUE/FALSE if we want or not to print the previous values and how many values we
 want to print on the console. Default is (TRUE, 3), so that only the previous 3 values of the log-likelihood are printed.}
-
-\item{level}{A numeric value for internal use representing the confidence level for the optimal parameters and posterior frailty confidence intervals.
-Default is 0.95 for 95\% confidence.}
-
-\item{verbose}{Logical. If \code{TRUE}, detailed progress messages will be printed to the console. Defaults to \code{FALSE}.}
 }
 \value{
 S3 object of class 'AdPaik', composed of several elements. See Details.
@@ -144,11 +144,6 @@ of the frailty.
 \item 'alphaVar': posterior frailty variance for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of centres.
 \item 'epsVar': posterior frailty variance for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 \item 'ZVar': posterior frailty variance for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
-}
-\item PosteriorFrailtyCI: S3 object of class 'PFCI.AdPaik'. The object of class 'PFCI.AdPaik' contains the Posterior Frailty Confidence Interval and it is composed of two elements:
-\itemize{
-\item left confidence interval for the estimated \eqn{\hat{Z}_{jk}, \forall j,k}. Matrix of dimension (N, L).
-\item right confidence interval for the estimated \eqn{\hat{Z}_{jk}, \forall j,k}. Matrix of dimension (N, L).
 }
 }
 }

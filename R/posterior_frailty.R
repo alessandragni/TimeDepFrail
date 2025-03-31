@@ -426,3 +426,130 @@ post_frailty_CI_internal <- function(post_frailty_est, post_frailty_est_var, n_c
   
   return (post_frailty_CI)
 }
+
+
+
+#_______________________________________________________________________________________________________________________
+
+
+#' @title
+#' Posterior Frailty Confidence Intervals
+#'
+#' @description
+#' Function for computing the posterior frailty confidence intervals of the time-dependent shared frailty Cox model.
+#' 
+#' Recalling the structure of the frailty \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k} 
+#' with \eqn{k=1,\dots,L} and \eqn{j=1,\dots,N} as being composed by the sum
+#' of two independent gamma distributions:
+#' - \eqn{\alpha_j \sim gamma(\mu_1/\nu, 1/\nu), \forall j}
+#' - \eqn{\epsilon_{jk} \sim gamma(\mu_2/\gamma_k, 1/\gamma_k), \forall j,k}
+#' 
+#' The posterior frailty estimate is \eqn{\hat{Z}_{jk} = \hat{\alpha}_{j}/\hat{\alpha}_{max} + \hat{\epsilon}_{jk}/\hat{\epsilon}_{max}}. 
+#' This function allows to get the confidence intervals of either the entire posterior frailty estimates \eqn{\hat{Z}_{jk}}
+#' or its time-independent \eqn{\frac{\hat{\alpha}_{j}}{\hat{\alpha}_{\text{max}}}} or 
+#' time-dependent \eqn{\frac{\hat{\epsilon}_{jk}}{\hat{\epsilon}_{\text{max}}}} components.
+#' The user can control which components to display using the flag_eps and flag_alpha parameters. 
+#' Only one of these flags can be set to TRUE at a time.
+#'
+#' @param object S3 object of class 'AdPaik' returned by the main model output, that contains all the information for the computation
+#' of the frailty standard deviation.
+#' @param level A numeric value representing the confidence level for the posterior frailty confidence intervals.
+#' Default is 0.95 for 95% confidence.
+#' @param flag_eps Logical flag indicating whether to extract only the time-dependent posterior frailty estimates. Default is FALSE.
+#' @param flag_alpha Logical flag indicating whether to extract only the time-independent posterior frailty estimates. Default is FALSE.
+#'
+#' @return A list for posterior frailty confidence intervals, depending on the flag_eps and flag_alpha values. 
+#' Specifically:
+#'  - A list of length equal to the N containing posterior frailty confidence intervals for \eqn{\alpha_j, \forall j}.
+#'    In this case the flag_eps must be FALSE and the flag_alpha must be TRUE.
+#'  - A list of length equal to the NxL containing posterior frailty confidence intervals for \eqn{\epsilon_{jk}, \forall j,k}.
+#'    In this case the flag_eps must be TRUE and the flag_alpha must be FALSE.
+#'  - A list of length equal to the NxL containing posterior frailty confidence intervals for \eqn{Z_{jk} \forall j,k}. 
+#'    In this case the flag_eps must be FALSE and the flag_alpha must be FALSE.
+#' 
+#' @examples
+#' # Consider the 'Academic Dropout dataset'
+#' data(data_dropout)
+#'
+#' # Define the variables needed for the model execution
+#' formula <- time_to_event ~ Gender + CFUP + cluster(group)
+#' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
+#' eps <- 1e-10
+#' categories_range_min <- c(-8, -2, eps, eps, eps)
+#' categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
+#'
+#' \donttest{
+#' # Call the main model
+#' result <- AdPaikModel(formula, data_dropout, time_axis,
+#'                       categories_range_min, categories_range_max)
+#'
+#' post_frailty_confint(result)
+#' }
+#' 
+#' @export
+post_frailty_confint <- function(object, level = 0.95, flag_eps = FALSE, flag_alpha = FALSE) {
+  
+  alpha <- 1 - level
+  z_critical <- stats::qnorm(1 - alpha / 2)  # Two-tailed
+  
+  n_centres = object$NClusters
+  n_intervals = object$NIntervals
+  
+  # Format confidence levels
+  a <- (1 - level) / 2
+  pct <- format_perc(c(a, 1 - a), 3)
+  
+  if (flag_alpha) {
+    # Handle alpha confidence intervals
+    alpha_est <- object$PosteriorFrailtyEstimates$alpha
+    alpha_sd <- sqrt(object$PosteriorFrailtyVariance$alphaVar)
+    
+    alpha_CI_left <- alpha_est - z_critical * alpha_sd
+    alpha_CI_right <- alpha_est + z_critical * alpha_sd
+    
+    # Create named vector with confidence intervals
+    alpha_ci <- cbind(alpha_CI_left, alpha_CI_right)
+    colnames(alpha_ci) <- pct
+    rownames(alpha_ci) <- object$ClusterCodes
+    
+    return(alpha_ci)
+    
+  } else {
+    # Initialize matrices
+    post_frailty_CI_left <- matrix(0, nrow = n_centres, ncol = n_intervals)
+    post_frailty_CI_right <- matrix(0, nrow = n_centres, ncol = n_intervals)
+    
+    for (i in 1:n_centres) {
+      for (k in 1:n_intervals) {
+        if(flag_eps == FALSE){
+          sd_est <- sqrt(object$PosteriorFrailtyVariance$ZVar[i, k])
+          post_frailty_CI_left[i, k] <- object$PosteriorFrailtyEstimates$Z[i, k] - z_critical * sd_est
+          post_frailty_CI_right[i, k] <- object$PosteriorFrailtyEstimates$Z[i, k] + z_critical * sd_est
+        }
+        else if(flag_eps == TRUE){
+          sd_est <- sqrt(object$PosteriorFrailtyVariance$epsVar[i, k])
+          post_frailty_CI_left[i, k] <- object$PosteriorFrailtyEstimates$eps[i, k] - z_critical * sd_est
+          post_frailty_CI_right[i, k] <- object$PosteriorFrailtyEstimates$eps[i, k] + z_critical * sd_est
+        }
+      }
+    }
+    
+    # Combine into a single matrix
+    ci_matrix <- matrix(NA_real_, nrow = n_centres * n_intervals, ncol = 2)
+    ci_matrix[, 1] <- as.vector(post_frailty_CI_left)
+    ci_matrix[, 2] <- as.vector(post_frailty_CI_right)
+    
+    # Assign row and column names
+    rownames(ci_matrix) <- paste0(rep(object$ClusterCodes, times = n_intervals), 
+                                  "_Interval_", rep(1:n_intervals, each = n_centres))
+    colnames(ci_matrix) <- pct
+    
+    return(ci_matrix)
+    
+  }
+
+}
+
+
+
+

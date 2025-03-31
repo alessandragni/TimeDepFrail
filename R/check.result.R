@@ -41,7 +41,6 @@
 #' of the frailty.
 #' - PosteriorFrailtyEstimates: S3 object of class 'PFE.AdPaik'. See details.
 #' - PosteriorFrailtyVariance: S3 object of class 'PFV.AdPaik'. See details.
-#' - PosteriorFrailtyCI: S3 object of class 'PFCI.AdPaik'. See details.
 #'
 #' @details
 #' The object of class 'PFE.AdPaik' contains the Posterior Frailty Estimates computed with the procedure indicated in the reference paper and
@@ -56,11 +55,6 @@
 #' - 'alphaVar': posterior frailty variance for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of groups/centres.
 #' - 'epsVar': posterior frailty variance for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 #' - 'ZVar': posterior frailty variance for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
-#'
-#' @details
-#' The object of class 'PFCI.AdPaik' contains the Posterior Frailty Confidence Interval and it is composed of two elements:
-#' - left confidence interval for the estimated \eqn{\hat{Z}_{jk}, \forall j,k}. Matrix of dimension (N, L).
-#' - right confidence interval for the estimated \eqn{\hat{Z}_{jk}, \forall j,k}. Matrix of dimension (N, L).
 #'
 #'
 #' @return An error if any condition is not satisfied.
@@ -77,7 +71,7 @@ check.result <- function(result){
                          "OptimalParameters", "StandardErrorParameters",
                          "ParametersCI", "BaselineHazard",
                          "FrailtyDispersion", "PosteriorFrailtyEstimates",
-                         "PosteriorFrailtyVariance","PosteriorFrailtyCI")
+                         "PosteriorFrailtyVariance")
   
   # Other than a class, it is a list
   if(! is.list(result))
@@ -152,6 +146,5 @@ check.result <- function(result){
   
   check.structure_post_frailty_est(result$PosteriorFrailtyEstimates, result$NIntervals, result$NClusters)
   check.structure_post_frailty_var(result$PosteriorFrailtyVariance, result$NIntervals, result$NClusters)
-  check.structure_post_frailty_CI(result$PosteriorFrailtyCI, result$NIntervals, result$NClusters)
 }
 

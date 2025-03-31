@@ -50,7 +50,6 @@ interval of each estimated parameter.
 of the frailty.
 \item PosteriorFrailtyEstimates: S3 object of class 'PFE.AdPaik'. See details.
 \item PosteriorFrailtyVariance: S3 object of class 'PFV.AdPaik'. See details.
-\item PosteriorFrailtyCI: S3 object of class 'PFCI.AdPaik'. See details.
 }
 
 The object of class 'PFE.AdPaik' contains the Posterior Frailty Estimates computed with the procedure indicated in the reference paper and
@@ -67,12 +66,6 @@ is  composed of three elements:
 \item 'alphaVar': posterior frailty variance for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of groups/centres.
 \item 'epsVar': posterior frailty variance for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 \item 'ZVar': posterior frailty variance for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
-}
-
-The object of class 'PFCI.AdPaik' contains the Posterior Frailty Confidence Interval and it is composed of two elements:
-\itemize{
-\item left confidence interval for the estimated \eqn{\hat{Z}_{jk}, \forall j,k}. Matrix of dimension (N, L).
-\item right confidence interval for the estimated \eqn{\hat{Z}_{jk}, \forall j,k}. Matrix of dimension (N, L).
 }
 }
 \keyword{internal}

@@ -55,14 +55,14 @@
 #' @param tol_ll Tolerance on the log-likelihood value.
 #' @param tol_optimize Internal tolerance for the one-dimensional optimization through 'optimize' R function.
 #' @param h_dd Discretization step used for the numerical approximation of the second derivative of the log-likelihood function.
+#' @param level A numeric value for internal use representing the confidence level for the optimal parameters and posterior frailty confidence intervals.
+#' Default is 0.95 for 95% confidence.
+#' @param verbose Logical. If `TRUE`, detailed progress messages will be printed to the console. Defaults to `FALSE`.
 #' @param print_previous_ll_values If we want to print the previous values of the log-likelihood function. This can
 #' be useful for controlling that the optimization procedure is proceeding in a monotone way and it does not
 #' oscillate.
 #' This argument is composed of two elements: TRUE/FALSE if we want or not to print the previous values and how many values we
 #' want to print on the console. Default is (TRUE, 3), so that only the previous 3 values of the log-likelihood are printed.
-#' @param level A numeric value for internal use representing the confidence level for the optimal parameters and posterior frailty confidence intervals.
-#' Default is 0.95 for 95% confidence.
-#' @param verbose Logical. If `TRUE`, detailed progress messages will be printed to the console. Defaults to `FALSE`.
 #'
 #' @return S3 object of class 'AdPaik', composed of several elements. See Details.
 #' 
@@ -108,9 +108,6 @@
 #'   - 'alphaVar': posterior frailty variance for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of centres.
 #'   - 'epsVar': posterior frailty variance for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 #'   - 'ZVar': posterior frailty variance for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
-#' - PosteriorFrailtyCI: S3 object of class 'PFCI.AdPaik'. The object of class 'PFCI.AdPaik' contains the Posterior Frailty Confidence Interval and it is composed of two elements:
-#'   - left confidence interval for the estimated \eqn{\hat{Z}_{jk}, \forall j,k}. Matrix of dimension (N, L).
-#'   - right confidence interval for the estimated \eqn{\hat{Z}_{jk}, \forall j,k}. Matrix of dimension (N, L).
 #'
 #' @export
 #'
@@ -134,9 +131,8 @@
 AdPaikModel <- function(formula, data, time_axis,
                         categories_range_min, categories_range_max,
                         n_extrarun = 60, tol_ll = 1e-6, tol_optimize = 1e-6, h_dd = 1e-3,
-                        print_previous_ll_values = c(TRUE, 3),
                         level = 0.95,
-                        verbose = FALSE){
+                        verbose = FALSE, print_previous_ll_values = c(TRUE, 3)){
   
   if (verbose) message("Adapted Paik et al.'s Model:")
   
