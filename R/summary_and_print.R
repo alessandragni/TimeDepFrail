@@ -132,6 +132,7 @@ print.AdPaik <- function(x, ...) {
   
   # Fix incorrect usage of cat() with formatted printing
   cat(sprintf("Overall number of parameters: %d\n", x$NParameters))
+  cat(sprintf("divided as (phi, beta, mu1, nu, gammak) = (%s)", paste(x$ParametersCategories, collapse = ",")))
   
   # Print estimated parameters
   cat("\nOptimal Parameters:\n")
@@ -141,6 +142,16 @@ print.AdPaik <- function(x, ...) {
   if (!is.null(x$StandardErrorParameters)) {
     cat("\nStandard Errors:\n")
     print(x$StandardErrorParameters)
+  }
+  
+  # Print standard errors if available
+  if (!is.null(x$ParametersCI$ParamsCI_left)) {
+    ci <- cbind(x$ParametersCI$ParamsCI_left, x$ParametersCI$ParamsCI_right)
+    a <- (1 - 0.95) / 2
+    pct <- format_perc(c(a, 1 - a), 3)
+    colnames(ci) <- pct
+    cat("\n95% Confidence Intervals:\n")
+    print(ci)
   }
   
   # Return object invisibly

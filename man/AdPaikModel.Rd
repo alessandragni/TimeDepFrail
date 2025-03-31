@@ -14,7 +14,6 @@ AdPaikModel(
   tol_ll = 1e-06,
   tol_optimize = 1e-06,
   h_dd = 0.001,
-  level = 0.95,
   verbose = FALSE,
   print_previous_ll_values = c(TRUE, 3)
 )
@@ -41,9 +40,6 @@ the formula variables. It is not necessary to attach it (in case of a data.frame
 \item{tol_optimize}{Internal tolerance for the one-dimensional optimization through 'optimize' R function.}
 
 \item{h_dd}{Discretization step used for the numerical approximation of the second derivative of the log-likelihood function.}
-
-\item{level}{A numeric value for internal use representing the confidence level for the optimal parameters.
-Default is 0.95 for 95\% confidence.}
 
 \item{verbose}{Logical. If \code{TRUE}, detailed progress messages will be printed to the console. Defaults to \code{FALSE}.}
 
