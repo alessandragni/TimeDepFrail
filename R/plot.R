@@ -559,7 +559,8 @@ plot_ll_1D <- function(param_1D, index_param_1D, ll_1D, params, param_range_min,
   plot(param_values, ll_values, pch=pch, col=color_bg, cex = cex,
        xlim = c(param_range_min, param_range_max), #ylim=c(min(ll_values), max(ll_values)),
        main = string_title, xlab = "Values", ylab = "Log-likelihood")
-  points(param_1D, ll_1D, bg = color_max_bg, pch = pch+5, cex = cex_max)
+  points(param_1D, ll_1D, bg = color_max_bg, pch = pch, cex = cex_max)
+  points(param_1D, ll_1D, col = color_max_bg, pch = 4, cex = cex_max * 2.5, lwd = 2)
 }
 #-------------------------------------------------------------------------------
 
