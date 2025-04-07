@@ -1,7 +1,7 @@
 Package: TimeDepFrail
 Type: Package
 Title: Time Dependent Shared Frailty Cox Model
-Version: 0.0.1
+Version: 0.1.0
 Authors@R: c(
     person("Alessandra", "Ragni", , "alessandra.ragni@polimi.it", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-3647-7340")),
