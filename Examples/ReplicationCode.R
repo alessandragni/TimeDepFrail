@@ -228,19 +228,16 @@ frailty_model$beta_p.value
 
 # Baseline Hazard function 
 
-frailty_time <- frailty_model$x
-frailty_hazard <- frailty_model$lam[,1,1]
-
-smoothingSpline = smooth.spline(frailty_time, frailty_hazard, spar=0.35)
-area = 0 
-for(ii in 1:(length(smoothingSpline$y)-1)){
-  area<-area+(smoothingSpline$x[ii+1]-smoothingSpline$x[ii])*smoothingSpline$y[ii+1]
-}
-smoothingSpline$y <- smoothingSpline$y/area
+plot(frailty_model, type.plot = "Hazard", 
+     xlim = c(1, 6.1), ylim = c(0, 0.045),
+     main = "Estimated baseline hazard function", 
+     col = 'black', conf.bands = FALSE)
 
 pdf("Examples/Plots/Baseline.pdf", width=10, height=5)
-plot(smoothingSpline$x[17:98], smoothingSpline$y[17:98], type = 'l', col="black",
-     main = "Estimated baseline hazard function", xlab = "Time [semesters]", ylab="Instantaneous risk of failure")
+plot(frailty_model, type.plot = "Hazard", 
+     xlim = c(1, 6.1), ylim = c(0, 0.045),
+     main = "Estimated baseline hazard function", 
+     col = 'black', conf.bands = FALSE)
 dev.off()
 
 sessionInfo() 
