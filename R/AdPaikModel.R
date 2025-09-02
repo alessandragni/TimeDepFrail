@@ -123,7 +123,7 @@
 #'\donttest{
 #' # Call the main model
 #' result <- AdPaikModel(formula, data_dropout, time_axis,
-#'                       categories_range_min, categories_range_max, TRUE)
+#'                       categories_range_min, categories_range_max)
 #' }
 
 AdPaikModel <- function(formula, data, time_axis,
@@ -835,7 +835,7 @@ ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
 #' index_param_to_vary <- 14
 #' # Call the main model
 #' result <- AdPaikModel(formula, data_dropout, time_axis,
-#'                       categories_range_min, categories_range_max, TRUE)
+#'                       categories_range_min, categories_range_max)
 #' analysis_1D_opt <- AdPaik_1D(formula, data_dropout, time_axis,
 #'                              index_param_to_vary, flag_optimal_params = TRUE, 
 #'                              flag_plot = TRUE, optimal_params = result$OptimalParameters,
