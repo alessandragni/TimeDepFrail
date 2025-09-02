@@ -120,42 +120,10 @@ In this case the flag_eps must be FALSE and the flag_alpha must be FALSE.</p></l
 <span class="r-in"><span><span class="co"># Call the main model</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="AdPaikModel.html">AdPaikModel</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">data_dropout</span>, <span class="va">time_axis</span>,</span></span>
 <span class="r-in"><span>                      <span class="va">categories_range_min</span>, <span class="va">categories_range_max</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in while (r &lt;= n_run &amp; actual_tol_ll &gt; tol_ll) {    if (verbose)         message(paste("Run ", r))    RemainingIndexes &lt;- RunIndexes[r, ]    UsedIndexes &lt;- c()    while (length(RemainingIndexes) != 0) {        index_to_vary &lt;- RemainingIndexes[1]        PosIndex &lt;- which(RemainingIndexes == index_to_vary)        RemainingIndexes &lt;- RemainingIndexes[-PosIndex]        UsedIndexes &lt;- c(UsedIndexes, index_to_vary)        result_optimize &lt;- suppressWarnings(optimize(ll_AdPaik_1D,             c(params_range_min[index_to_vary], params_range_max[index_to_vary]),             maximum = TRUE, tol = tol_optimize, index_to_vary,             params, dataset, centre, time_axis, dropout_matrix,             e_matrix))        params[index_to_vary] &lt;- result_optimize$maximum    }    global_optimal_params[r, ] &lt;- params    global_optimal_loglikelihood_run &lt;- ll_AdPaik_eval(params,         dataset, centre, time_axis, dropout_matrix, e_matrix)    global_optimal_loglikelihood[r] &lt;- global_optimal_loglikelihood_run    if (is.nan(global_optimal_loglikelihood_run))         stop("NaN value for the optimal log-likelihood value.")    if (print_previous_ll_values[1]) {        n_previous &lt;- print_previous_ll_values[2]        if (r &lt; n_previous)             if (verbose)                 message(paste("Global log-likelihood: ", global_optimal_loglikelihood[1:r]))            else if (verbose)                 message(paste("Global log-likelihood: ", global_optimal_loglikelihood[(r -                   n_previous + 1):r]))    }    actual_tol_ll &lt;- abs(ll_optimal - global_optimal_loglikelihood_run)    if (ll_optimal &lt; global_optimal_loglikelihood_run) {        ll_optimal &lt;- global_optimal_loglikelihood_run        optimal_run &lt;- r    }    r &lt;- r + 1}:</span> missing value where TRUE/FALSE needed</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">post_frailty_est</span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] 1.1048039 1.1087732 1.1474586 1.1059445 1.1023892 0.9904662 1.0244111</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] 0.8378979 0.7839215 0.6487738 0.8448966 0.8444854 0.8022525 0.7888660</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] 1.1625652 1.1326906 1.1164246 1.1623098 1.1654944 1.1567702 1.1361859</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] 1.4271670 1.5685548 1.6006521 1.4236172 1.4622315 1.4087016 1.3630419</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] 1.0151196 1.0107879 0.8951994 1.0126693 1.0077689 0.9719493 0.9590378</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] 1.1586229 1.1374121 1.2133199 1.1713000 1.1852619 1.0503538 1.1159607</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] 1.5066852 1.5235085 1.4942492 1.5035623 1.4868891 1.4476758 1.4707267</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] 1.1898357 1.1653092 1.1408120 1.1802733 1.1676181 1.1581835 1.2267306</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] 1.2029260 1.2029242 1.1728395 1.2033384 1.2188186 1.1907841 1.1795056</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 1.2415504 1.2794234 1.2640982 1.2343000 1.2156332 1.2301228 1.4222327</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] 1.3800599 1.3639587 1.5389786 1.3763672 1.3666791 1.3816889 1.3479933</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 1.3800353 1.4470644 1.5676158 1.3933804 1.4089559 1.6238949 1.4235839</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] 1.4914496 1.4500259 1.6247025 1.4920520 1.4806392 1.5839651 1.6188102</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] 1.2537506 1.2086601 1.2219552 1.2492583 1.2451371 1.4184806 1.2740265</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] 1.2117142 1.1975282 1.1892655 1.2103528 1.2043611 1.2365914 1.2591603</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] 1.1414413 1.1376630 1.1241080 1.1360517 1.1440767 1.1523408 1.0931520</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,8]      [,9]    [,10]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] 1.0215688 1.1045113 1.111616</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] 0.7205009 0.8418721 0.850116</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] 1.0399464 1.1603806 1.156733</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] 1.3158036 1.4271675 1.439955</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] 1.0479792 1.0123338 1.015600</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] 1.1145690 1.1678633 1.173345</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] 1.5770085 1.4959602 1.510278</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] 1.3905406 1.1823069 1.186246</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] 1.2793360 1.2046627 1.213948</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 1.1758823 1.2370915 1.245612</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] 1.4289020 1.3807795 1.381963</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 1.2935066 1.3915388 1.407312</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] 1.9939448 1.4888332 1.501144</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] 1.1674298 1.2563265 1.290922</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] 1.3057394 1.2090939 1.208076</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] 0.9903548 1.1384444 1.151889</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'result' not found</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
@@ -169,7 +137,7 @@ In this case the flag_eps must be FALSE and the flag_alpha must be FALSE.</p></l
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>
