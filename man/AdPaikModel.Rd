@@ -33,7 +33,7 @@ the formula variables. It is not necessary to attach it (in case of a data.frame
 
 \item{categories_range_max}{Vector containing the maximum value assumable by each parameter category.}
 
-\item{n_extrarun}{Total number of runs (iterations) are obtained summing to the number of parameters and n_extrarun.}
+\item{n_extrarun}{Total maximum number of runs (iterations) are obtained summing n_extrarun to the number of parameters.}
 
 \item{tol_ll}{Tolerance on the log-likelihood value.}
 

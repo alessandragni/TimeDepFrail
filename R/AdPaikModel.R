@@ -51,7 +51,7 @@
 #' @param time_axis Temporal domain
 #' @param categories_range_min Vector containing the minimum value assumable by each parameter category.
 #' @param categories_range_max Vector containing the maximum value assumable by each parameter category.
-#' @param n_extrarun Total number of runs (iterations) are obtained summing to the number of parameters and n_extrarun.
+#' @param n_extrarun Total maximum number of runs (iterations) are obtained summing n_extrarun to the number of parameters.
 #' @param tol_ll Tolerance on the log-likelihood value.
 #' @param tol_optimize Internal tolerance for the one-dimensional optimization through 'optimize' R function.
 #' @param h_dd Discretization step used for the numerical approximation of the second derivative of the log-likelihood function.
@@ -312,9 +312,9 @@ AdPaikModel <- function(formula, data, time_axis,
     if(print_previous_ll_values[1]){
       n_previous <- print_previous_ll_values[2]
       if(r < n_previous)
-        if (verbose) message(paste("Global log-likelihood: ", global_optimal_loglikelihood[1:r]))
+        if (verbose) message(paste(" Global log-likelihood: ", global_optimal_loglikelihood[1:r]))
       else
-        if (verbose) message(paste("Global log-likelihood: ", global_optimal_loglikelihood[(r - n_previous + 1):r]))
+        if (verbose) message(paste(" Global log-likelihood: ", global_optimal_loglikelihood[(r - n_previous + 1):r]))
     }
     
     # Update conditions in while loop
