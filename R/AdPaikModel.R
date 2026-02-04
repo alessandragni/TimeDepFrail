@@ -664,10 +664,6 @@ ll_AdPaik_eval <- function(params, dataset, centre, time_axis, dropout_matrix, e
 
 ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
   
-  # helper functions to avoid Inf/Nan
-  safe_log <- function(x, eps = 1e-12) log(pmax(x, eps))
-  log_choose <- function(n, k) lgamma(n + 1) - lgamma(k + 1) - lgamma(n - k + 1)
-  
   # Extract information from input variables
   n_individuals <- dim(dataset)[1]
   R <- n_regressors <- dim(dataset)[2]                                        # Number of regressors
@@ -710,48 +706,47 @@ ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
   for (j in 1:n_individuals){
     data_betar <- as.numeric(dataset[j,]) %*% betar
     for (k in 1:L){
-      loglik1 <- loglik1 + dropout_matrix[j,k]*(data_betar + phi[k,1])
+      loglik1 <- loglik1 + as.numeric(dropout_matrix[j,k]*(data_betar + phi[k,1]))
     }
   }
-  loglik1 <- loglik1 - (mu1 / nu) * safe_log(1 + nu * A_i)
+  loglik1 <- loglik1 - as.numeric((mu1 / nu) * log(1 + nu * A_i))
   
   # Second line of the formula
   loglik2 <- 0
   for (k in 1:L){
-    loglik2 <- loglik2 - (mu2/gammak[k,1]) * safe_log(1 + gammak[k,1] * A_ik[1,k])
+    loglik2 <- loglik2 - as.numeric(mu2/gammak[k,1]) * log(1 + gammak[k,1] * A_ik[1,k])
   }
   
-  # Third line of the log-likelihood (rewritten in log-space)
+  # Third line of the formula
   loglik3 <- 0
-  res1 <- A_i + 1/nu
-  lgamma1 <- lgamma(mu1/nu)
-  
+  res_gamma1 <- gamma(mu1/nu)
+  res1 <- (A_i + 1/nu)
   for (k in 1:L){
-    d_ikk <- d_ik[k]
-    res2  <- d_ikk + mu2/gammak[k,1]
-    res3  <- A_ik[k] + 1/gammak[k,1]
-    
-    # build terms in log-space
-    terms <- numeric(d_ikk + 1)
+    loglik4 <- 0
+    d_ikk <- d_ik[1,k]
+    res_gamma2 <- gamma(mu2/gammak[k,1])
+    res2 <- (d_ikk + mu2/gammak[k,1])
+    res3 <- (A_ik[1,k] + 1/gammak[k,1])
     for (l in 0:d_ikk){
-      terms[l+1] <-
-        log_choose(d_ikk, l) +
-        lgamma(res2 - l) - lgamma(res2) +
-        lgamma(mu1/nu + l) - lgamma1 +
-        (l - d_ikk) * safe_log(res3) -
-        l * safe_log(res1)
+      coeff_binom <- choose(d_ikk, l)
+      res_gamma3 <- gamma(res2 - l)
+      res_gamma4 <- gamma(mu1/nu + l)
+      res4 <- (res3)^(l - d_ikk)
+      res5 <- (res1)^l
+      res6 <- res_gamma4/res_gamma2
+      if(res6 == 0)
+        res6 <- 1e-10
+      
+      loglik4 <- loglik4 + res6 * (res_gamma3/res_gamma1) * (res4/res5) * coeff_binom
     }
-    
-    # log-sum-exp trick
-    max_term <- max(terms)
-    loglik4 <- max_term + safe_log(sum(exp(terms - max_term)))
-    loglik3 <- loglik3 + loglik4
+    loglik3 <- loglik3 + log(loglik4)
   }
   
   # Return the sum of the three lines
   result <- loglik1 + loglik2 + loglik3
   return (result)
 }
+
 #-------------------------------------------------------------------------------
 #' @title
 #' One-Dimensional Analysis of log-Likelihood Function
