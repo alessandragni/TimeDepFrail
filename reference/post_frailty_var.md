@@ -81,9 +81,41 @@ categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
 # Call the main model
 result <- AdPaikModel(formula, data_dropout, time_axis,
                       categories_range_min, categories_range_max)
-#> Error in while (r <= n_run & actual_tol_ll > tol_ll) {    if (verbose)         message(paste("Run ", r))    RemainingIndexes <- RunIndexes[r, ]    UsedIndexes <- c()    while (length(RemainingIndexes) != 0) {        index_to_vary <- RemainingIndexes[1]        PosIndex <- which(RemainingIndexes == index_to_vary)        RemainingIndexes <- RemainingIndexes[-PosIndex]        UsedIndexes <- c(UsedIndexes, index_to_vary)        result_optimize <- suppressWarnings(optimize(ll_AdPaik_1D,             c(params_range_min[index_to_vary], params_range_max[index_to_vary]),             maximum = TRUE, tol = tol_optimize, index_to_vary,             params, dataset, centre, time_axis, dropout_matrix,             e_matrix))        params[index_to_vary] <- result_optimize$maximum    }    global_optimal_params[r, ] <- params    global_optimal_loglikelihood_run <- ll_AdPaik_eval(params,         dataset, centre, time_axis, dropout_matrix, e_matrix)    global_optimal_loglikelihood[r] <- global_optimal_loglikelihood_run    if (is.nan(global_optimal_loglikelihood_run))         stop("NaN value for the optimal log-likelihood value.")    if (print_previous_ll_values[1]) {        n_previous <- print_previous_ll_values[2]        if (r < n_previous)             if (verbose)                 message(paste(" Global log-likelihood: ", global_optimal_loglikelihood[1:r]))            else if (verbose)                 message(paste(" Global log-likelihood: ", global_optimal_loglikelihood[(r -                   n_previous + 1):r]))    }    actual_tol_ll <- abs(ll_optimal - global_optimal_loglikelihood_run)    if (ll_optimal < global_optimal_loglikelihood_run) {        ll_optimal <- global_optimal_loglikelihood_run        optimal_run <- r    }    r <- r + 1}: missing value where TRUE/FALSE needed
 
 post_frailty_var(result)
-#> Error: object 'result' not found
+#>              [,1]       [,2]       [,3]        [,4]        [,5]       [,6]
+#>  [1,] 0.009208063 0.01948519 0.01625035 0.009189044 0.011345676 0.01675327
+#>  [2,] 0.008539039 0.01817861 0.01315513 0.008519156 0.010796773 0.01997050
+#>  [3,] 0.035183632 0.04655819 0.04659670 0.035128557 0.037541483 0.05106701
+#>  [4,] 0.016448517 0.03043441 0.02706092 0.016410353 0.018913295 0.02753686
+#>  [5,] 0.012632935 0.02382874 0.01908481 0.012583300 0.014817080 0.02400076
+#>  [6,] 0.016924983 0.02747806 0.02728709 0.016921081 0.019342300 0.02653674
+#>  [7,] 0.046995425 0.05971937 0.05902819 0.046932212 0.049192633 0.06076348
+#>  [8,] 0.022012324 0.03307887 0.03135589 0.021937808 0.024141574 0.03523329
+#>  [9,] 0.032894965 0.04480348 0.04406633 0.032844002 0.035310595 0.04788441
+#> [10,] 0.008963879 0.01952475 0.01473208 0.008930203 0.010906160 0.01790961
+#> [11,] 0.033919786 0.04516761 0.04968049 0.033862364 0.036117181 0.04895887
+#> [12,] 0.008987804 0.01912232 0.01576456 0.009031575 0.011211195 0.02222004
+#> [13,] 0.012685761 0.02151768 0.02026928 0.012672314 0.014739978 0.02456902
+#> [14,] 0.007730287 0.01592580 0.01184410 0.007712729 0.009728632 0.01914208
+#> [15,] 0.025736224 0.03710276 0.03615343 0.025683808 0.027970719 0.04124599
+#> [16,] 0.016810834 0.02804933 0.02583542 0.016752506 0.019091456 0.03049263
+#>             [,7]       [,8]        [,9]       [,10]
+#>  [1,] 0.03837373 0.02367612 0.009189142 0.010243468
+#>  [2,] 0.04191872 0.02535611 0.008509982 0.009578139
+#>  [3,] 0.07379936 0.05902863 0.035117215 0.036139735
+#>  [4,] 0.04807015 0.03201288 0.016422521 0.017510260
+#>  [5,] 0.04595105 0.03762439 0.012581302 0.013624871
+#>  [6,] 0.05096962 0.03837089 0.016909497 0.017971329
+#>  [7,] 0.08492578 0.08396340 0.046904799 0.048011215
+#>  [8,] 0.06461598 0.06305206 0.021941110 0.022993019
+#>  [9,] 0.07087392 0.06905323 0.032843144 0.033924159
+#> [10,] 0.05594357 0.02253692 0.008946395 0.010009140
+#> [11,] 0.07109628 0.06700955 0.033871019 0.034916399
+#> [12,] 0.04395489 0.02000222 0.009037689 0.010126022
+#> [13,] 0.05655574 0.05180134 0.012670481 0.013752401
+#> [14,] 0.04146032 0.01866148 0.007745280 0.008937592
+#> [15,] 0.06928247 0.06061712 0.025676401 0.026703864
+#> [16,] 0.05141540 0.03347129 0.016757913 0.017853681
 # }
 ```
