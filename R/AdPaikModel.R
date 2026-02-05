@@ -289,14 +289,22 @@ AdPaikModel <- function(formula, data, time_axis,
       UsedIndexes <- c(UsedIndexes,index_to_vary)
       
       # Optimize the log-likelihood wrt indicated index index_to_vary
-      result_optimize <- suppressWarnings(
-        optimize(ll_AdPaik_1D,
-                 c(params_range_min[index_to_vary], params_range_max[index_to_vary]),
-                 maximum = TRUE, tol = tol_optimize,
-                 index_to_vary, params, dataset, centre,
-                 time_axis, dropout_matrix, e_matrix)
+      # Inside the optimization loop
+      result_optimize <- tryCatch({
+        optimize(
+          ll_AdPaik_1D,
+          interval = c(params_range_min[index_to_vary], params_range_max[index_to_vary]),
+          maximum = TRUE, 
+          tol = tol_optimize,
+          index_to_vary, params, dataset, centre,
+          time_axis, dropout_matrix, e_matrix
         )
+      }, error = function(e) {
+        # Return the current parameter and a "penalty" log-likelihood value
+        list(maximum = params[index_to_vary], objective = -1e20)
+      })
       
+      # Update parameters using the result
       params[index_to_vary] <- result_optimize$maximum
     }
     
@@ -470,6 +478,9 @@ ll_AdPaik_1D <- function(x, index, params, dataset, centre,
     # Compute the log-likelihood of the centre
     ll_centre <- ll_AdPaik_centre_1D(x, index, params, dataset_centre,
                                      dropout_matrix_centre, e_matrix_centre)
+    if (!is.finite(ll_centre)) {
+      ll_centre <- -1e20 
+    }
     ll_overall <- ll_overall + ll_centre
   }
   return (ll_overall)
@@ -977,16 +988,32 @@ AdPaik_1D <- function(formula, data, time_axis,
                                            params_range_max[index_param_to_vary])
     }
     
-    # Optimize the log-likelihood wrt the indicated parameter
-    result_optimize <- suppressWarnings(
-      optimize(ll_AdPaik_1D,
-               c(params_range_min[index_param_to_vary], 
-                 params_range_max[index_param_to_vary]),
-               maximum = TRUE, tol = tol_optimize,
-               index_param_to_vary, params, dataset, centre,
-               time_axis, dropout_matrix, e_matrix)
-    )
+    # Define search bounds for the specific parameter
+    lower_b <- params_range_min[index_param_to_vary]
+    upper_b <- params_range_max[index_param_to_vary]
     
+    # Optimize the log-likelihood with error handling to avoid R 4.x crashes
+    result_optimize <- tryCatch({
+      # Explicit check: optimize() in newer R versions requires lower < upper
+      if (lower_b >= upper_b) {
+        stop("Invalid interval: lower bound is not less than upper bound.")
+      }
+      
+      optimize(
+        ll_AdPaik_1D,
+        interval = c(lower_b, upper_b),
+        maximum = TRUE, 
+        tol = tol_optimize,
+        index_param_to_vary, params, dataset, centre,
+        time_axis, dropout_matrix, e_matrix
+      )
+    }, error = function(e) {
+      # If optimization fails (e.g. hits -Inf or a boundary error), 
+      # return the current value as a fallback to keep the loop running
+      list(maximum = params[index_param_to_vary], objective = -1e20)
+    })
+    
+    # Store the results
     param_optimal[iter] <- result_optimize$maximum
     ll_optimized[iter] <- result_optimize$objective
     
