@@ -55,37 +55,54 @@ params_se <- function(optimal_params, params_range_min, params_range_max,
     value <- optimal_params[p]
     value_plus_h <- value + h_dd
     value_minus_h <- value - h_dd
+    # Clamp both sides independently to the parameter's declared range (a
+    # parameter estimated close to a boundary can need either clamp, and
+    # near-degenerate ranges could in principle need both at once).
     if(value_plus_h > params_range_max[p])
-      values_plus_h <- params_range_max[p]
-    else if(value_minus_h < params_range_min[p])
+      value_plus_h <- params_range_max[p]
+    if(value_minus_h < params_range_min[p])
       value_minus_h <- params_range_min[p]
-    
+
+    # Actual (possibly clamped, and therefore possibly unequal) step sizes
+    h_plus  <- value_plus_h - value
+    h_minus <- value - value_minus_h
+
     # Store original optimal parameters
     params_plus  <- optimal_params
     params_minus <- optimal_params
-    
+
     # Update current parameters value
     params_plus[p] <- value_plus_h
     params_minus[p] <- value_minus_h
-    
+
     # Compute log-likelihood function in new values and current value
     ll_eval <- ll_AdPaik_eval(optimal_params, dataset, centre, time_axis, dropout_matrix, e_matrix)
     ll_eval_plus <- ll_AdPaik_eval(params_plus, dataset, centre, time_axis, dropout_matrix, e_matrix)
     ll_eval_minus <- ll_AdPaik_eval(params_minus, dataset, centre, time_axis, dropout_matrix, e_matrix)
-    
-    # Approximate the second derivative of the log-likelihood function
-    hessian_element <- (ll_eval_plus + ll_eval_minus - 2*ll_eval)/(h_dd * h_dd)
-    
-    if((hessian_element == Inf) || (hessian_element == -Inf)){
-      #information_element <- hessian_element
+
+    if((h_plus <= 0) || (h_minus <= 0)){
+      # Parameter value sits at (or beyond) its declared boundary, leaving no
+      # room for a two-sided step: the second derivative cannot be estimated.
       se[p] <- 1e-4
     }
     else{
-      # Compute the information element from the hessian
-      information_element <- - hessian_element
-      
-      # Compute standard error of the parameter
-      se[p] <- 1/sqrt(information_element)
+      # Approximate the second derivative of the log-likelihood function with
+      # the general (unequal-step) centered finite-difference formula; this
+      # reduces to (ll_plus + ll_minus - 2*ll)/h_dd^2 when h_plus == h_minus == h_dd.
+      hessian_element <- 2 * (h_minus * ll_eval_plus + h_plus * ll_eval_minus -
+                                (h_plus + h_minus) * ll_eval) /
+        (h_plus * h_minus * (h_plus + h_minus))
+
+      if((hessian_element == Inf) || (hessian_element == -Inf) || is.nan(hessian_element)){
+        se[p] <- 1e-4
+      }
+      else{
+        # Compute the information element from the hessian
+        information_element <- - hessian_element
+
+        # Compute standard error of the parameter
+        se[p] <- 1/sqrt(information_element)
+      }
     }
   }
   

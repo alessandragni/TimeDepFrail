@@ -99,11 +99,79 @@ Traced line by line, these reproduce the paper's formulas exactly:
 
 ---
 
-## 3. Open questions — need author confirmation before any code change
+## 3. Author decisions (2026-07-07) and resulting changes
 
-These are things I found by direct comparison of code vs. paper where either the code
-looks inconsistent with the stated formula, or the paper doesn't specify enough to
-tell. **Not fixing anything until you weigh in.**
+Author reviewed Q1-Q5 below and gave explicit instructions. Summary of decisions and
+what was actually changed, kept at the top since it supersedes the "open question"
+framing for these five items:
+
+- **Q1 (Y_risk)** — author: "fix this thing, in the way you think is best."
+  Fixed in `R/posterior_frailty.R`, `extract_event_data()`: replaced the two-branch
+  condition (which excluded the failure interval itself and relied on
+  `max(time_to_event)` as a censoring-sentinel proxy) with the single condition
+  `time_to_event[j] >= time_axis[k]` — a unit is at risk in interval `k` iff its
+  event/censoring time has not occurred before the interval starts. This naturally
+  includes the failure interval (partial exposure) and no longer depends on comparing
+  against the dataset-wide max. Only affects posterior frailty
+  estimates/variances (`post_frailty_est()`, `post_frailty_var()`, and downstream
+  plots/CI) — does **not** touch the log-likelihood, the optimized `beta`/`phi`/`mu1`/
+  `nu`/`gamma`, or the reported log-likelihood/AIC (those are built from a separate
+  `dropout_matrix`/`e_matrix` pair in `AdPaikModel()`, untouched).
+
+- **Q2 (params_se typo)** — author: "fix this typo."
+  Fixed in `R/params_se_CI.R`, `params_se()`: corrected `values_plus_h` -> `value_plus_h`
+  so the upper-bound clamp actually applies; changed the `if / else if` to two
+  independent `if`s so both bounds can clamp at once for very narrow ranges; replaced
+  the fixed-step `(ll_plus + ll_minus - 2*ll)/h_dd^2` formula with the general
+  unequal-step centered second-derivative formula using the actual (possibly clamped)
+  `h_plus`/`h_minus`, which reduces exactly to the original formula whenever neither
+  side is clamped. Added a guard: if a parameter sits at (or past) its declared bound
+  so that `h_plus <= 0` or `h_minus <= 0`, the second derivative can't be estimated and
+  `se[p] <- 1e-4` (same sentinel already used for the pre-existing `Inf`/`-Inf` case).
+  This changes standard errors for any parameter that was actually within `h_dd`
+  (default `1e-3`) of a declared range bound — plausibly `nu` and/or `mu1` in the
+  paper's own worked example (Section 6.5 already discusses `nu` pinning its upper
+  bound). Not yet re-run against the published numbers — see §5.
+
+- **Q3 (bas_hazard normalization)** and **Q4 (direction-order scheme)** — author will
+  add explanatory text to the paper; short candidate sentences drafted in §3bis below.
+  No code change (nothing was wrong; these were documentation gaps).
+
+- **Q5 (undocumented `res6==0` safeguard)** — author: "do also the substitution."
+  Read as: the existing `res6` guard (against `Gamma(mu1/nu+l)/Gamma(mu2/gamma_k)`
+  underflowing to exactly `0`) only protected *one* of the two paired gamma-ratios in
+  the same product; the other, `Gamma(mu2/gamma_k+d_j.k-l)/Gamma(mu1/nu)`, had no
+  equivalent guard. Added a mirrored guard (`res7`, same `1e-10` substitution) in both
+  `ll_AdPaik_centre_1D` and `ll_AdPaik_centre_eval` (`R/AdPaikModel.R`) — these two
+  functions are textually identical copies of the same formula (one is used inside the
+  1-D `optimize()` calls, the other to evaluate the log-likelihood at a full parameter
+  vector), so the same edit was applied to both.
+
+### Q3bis / Q4bis. Draft sentences for the paper
+
+Not inserted anywhere — for you to place and adapt as needed.
+
+**For Q3 (baseline hazard normalization), candidate addition to Section 6.2** (right
+after "The piecewise linear estimated baseline hazard can be obtained by applying the
+exponential operation to $\hat\phi$."):
+
+> For visualization purposes, `bas_hazard()` rescales $\exp(\hat\phi_k)$ so that the
+> resulting piecewise-constant function integrates to one over the time domain (i.e.
+> $\sum_k \Delta_{I_k} \exp(\hat\phi_k) = 1$ after rescaling); the unnormalized values
+> $\exp(\hat\phi_k)$ are used instead wherever the baseline hazard enters a model
+> quantity, such as the conditional survival function of Eq. 9.
+
+**For Q4 (direction-order scheme), candidate addition to Section 4.3**, after "...and
+then repeats the same procedure but using another set of ordered directions.":
+
+> Concretely, the first $\sum n_p$ runs use cyclic permutations of the natural
+> parameter order (run $r$ starts from direction $r$ and wraps around through all
+> $\sum n_p$ directions); any further runs, up to $n_{\text{extra-run}}$, instead use
+> independently generated random permutations of the $\sum n_p$ directions.
+
+---
+
+## 4. Open questions — history (superseded by §3 for Q1-Q5, kept for the record)
 
 ### Q1. At-risk indicator `Y_risk` may zero out the failure interval itself
 `extract_event_data()` in `R/posterior_frailty.R` (used only for posterior frailty
@@ -215,12 +283,75 @@ limits). Flagging, not fixing.
 
 ---
 
-## 4. Not yet reviewed
+## 5. Remaining files — reviewed, nothing flagged
 
-- `R/plot.R`, `R/check.result.R` — plotting/validation-only, lower priority for "is the
-  optimization correct" but will look if relevant.
+- `R/plot.R` (`plot_bas_hazard`, `plot_post_frailty_est`, `plot_post_frailty_var`,
+  `plot_frailty_sd`, `plot_ll_1D`): pure visualization, reads already-computed
+  quantities off the `AdPaik`/vector inputs, no independent computation of anything
+  that feeds into the optimization or the posterior frailty numbers. Nothing to flag.
+- `R/check.R`, `R/check.result.R`: input/output structural validation only (types,
+  lengths, ranges). Nothing that touches the log-likelihood, optimization, or
+  posterior-frailty formulas. Nothing to flag.
+- `R/coefse.R`, `R/extractors.AdPaik.R`, `R/extract_dummy_variables.R`,
+  `R/summary_and_print.R`: thin wrappers/extractors over already-computed
+  `AdPaikModel()` output, or dummy-coding utilities. Match the paper's stated
+  conventions (Section 6.1 dummy coding; AIC formula in Eq. 12 reproduced exactly in
+  `extractAIC.AdPaik`/`AdPaikModel`'s own `AIC <- 2*n_params - 2*optimal_loglikelihood`).
+
+This completes a full pass over every file in `R/` (17 files). Everything not listed
+as a discrepancy in §3/§4 above is a confirmed match to the paper.
+
+Note (not a flagged issue, just an observation, out of scope of Q1-Q5): `N_i` in
+`extract_event_data()` (`R/posterior_frailty.R`, used for the time-independent
+`alpha_hat_j`) still uses `time_to_event[index] < max(time_to_event)` as its
+"did this individual actually fail" test — the same reliance on the dataset-wide max
+as a censoring-sentinel proxy that Q1's `Y_risk` fix removed. It's a different
+variable (event count, not at-risk indicator) and wasn't part of what was authorized
+for fixing, so left untouched — flagging only so it doesn't get lost.
+
 - Whether `optimize()`'s Brent search, given only an interval and no starting value,
   ever fails to find the true 1-D maximum in a way that matters (paper just cites
   `optimize`/`optim` with `"Brent"`, code uses `optimize()` directly — consistent, not
   flagged as an open question, just noting it's the literal R function the paper
   names).
+
+## 6. Post-fix sanity run — results
+
+Ran the paper's own worked example (`data_dropout`, same `formula`/`time_axis`/
+`categories_range_min/max`, `set.seed(1)`, reduced `n_extrarun = 10` instead of the
+default 60 for speed) against the fixed code.
+
+**Unchanged vs. the published paper (as expected — these fixes don't touch the
+log-likelihood used for optimization):**
+- `Loglikelihood = -2175.135`, `AIC = 4398.27` — exact match to the paper.
+- `coef()`: `GenderMale = 0.217802`, `CFUP = -1.270657` — exact match to the paper.
+- `Status = TRUE`, converged in 31 runs.
+
+**Changed by the fixes (this is the actual, quantified effect of Q1/Q2/Q5):**
+- Standard error of `nu` (parameter index 14 = `L+R+2` with `L=10, R=2`) is now
+  **24.236**, vs. the paper's published **218.643** (Section 7's discussion of `nu`'s
+  independence from the log-likelihood is built on that 218.643 figure — this
+  directly changes the numeric evidence behind that paragraph, though the qualitative
+  point — `nu` pinned near its upper range bound, poorly identified — still stands:
+  24.236 is still very large relative to `nu`'s point estimate near 1).
+- Four `gamma_k` (parameter indices 15, 18, 23, 24, i.e. `gamma_1, gamma_4, gamma_9,
+  gamma_10`) get the `se = 1e-4` boundary sentinel. This is the *same outcome* as
+  before the fix (they hit it via the pre-existing `Inf`-hessian catch previously;
+  now they hit it via the explicit "no room for a two-sided step" guard) — not a
+  new finding, just re-derived through the corrected code path.
+- `mu1`'s SE is 0.0511 (index 13) — did not hit the boundary sentinel, unremarkable.
+- Posterior `Z` range: `[0.687, 1.921]`; `alpha` range `[0.355, 1]`; `eps` range
+  `[0.332, 1]` (both properly bounded above by 1 since each is divided by its own
+  max) — all finite, non-negative. No quantitative comparison to the paper's exact
+  per-group numbers was done (would need the same `n_extrarun=60`/full run and the
+  paper's own random seed, which isn't published), but the shape/range matches
+  Figure 4's visual range (~0.8-1.8) reasonably closely.
+- `bas_hazard()` still integrates to exactly `1` over the time domain — confirms the
+  Q3 normalization is unaffected by the other fixes (no regression).
+- No `NA`/`Inf`/negative values anywhere in SEs or posterior frailty estimates/variances.
+
+**Caveat:** this was a single run with a reduced `n_extrarun` (10 instead of 60) for
+speed, not the paper's exact reproduction settings — good enough to confirm no
+crashes/regressions and to get an order-of-magnitude read on the `nu` SE change, but
+if the exact new SE numbers are going into the paper's revision text, it should be
+re-run with `n_extrarun = 60` (the published default) first.

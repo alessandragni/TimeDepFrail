@@ -586,8 +586,11 @@ ll_AdPaik_centre_1D <- function(param_onedim, index_param_onedim, params, datase
       res6 <- res_gamma4/res_gamma2
       if(res6 == 0)
         res6 <- 1e-10
-      
-      loglik4 <- loglik4 + res6 * (res_gamma3/res_gamma1) * (res4/res5) * coeff_binom
+      res7 <- res_gamma3/res_gamma1
+      if(res7 == 0)
+        res7 <- 1e-10
+
+      loglik4 <- loglik4 + res6 * res7 * (res4/res5) * coeff_binom
     }
     loglik3 <- loglik3 + log(loglik4)
   }
@@ -747,8 +750,11 @@ ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
       res6 <- res_gamma4/res_gamma2
       if(res6 == 0)
         res6 <- 1e-10
-      
-      loglik4 <- loglik4 + res6 * (res_gamma3/res_gamma1) * (res4/res5) * coeff_binom
+      res7 <- res_gamma3/res_gamma1
+      if(res7 == 0)
+        res7 <- 1e-10
+
+      loglik4 <- loglik4 + res6 * res7 * (res4/res5) * coeff_binom
     }
     loglik3 <- loglik3 + log(loglik4)
   }

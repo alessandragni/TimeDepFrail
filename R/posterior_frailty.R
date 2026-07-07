@@ -335,13 +335,15 @@ extract_event_data <- function(dataset, time_to_event, centre, time_axis, phi, b
     }
   }
   
-  # Define the at risk indicator for each individual and interval
+  # Define the at risk indicator for each individual and interval: a unit is at
+  # risk in interval k if its event/censoring time has not occurred before the
+  # interval starts. This includes the interval in which the unit itself fails,
+  # consistent with e_ijk capturing its partial exposure time within that interval
+  # (paper Eq. 3 / Eq. 17, Algorithm 6 step 7).
   Y_risk <- matrix(rep(0, n_individuals * n_intervals), n_individuals, n_intervals)
   for(j in 1:n_individuals){
     for(k in 1:n_intervals){
-      if((time_to_event[j] < max(time_to_event)) & (time_to_event[j] > time_axis[k+1]))
-        Y_risk[j,k] <- 1
-      else if(time_to_event[j] == max(time_to_event))
+      if(time_to_event[j] >= time_axis[k])
         Y_risk[j,k] <- 1
     }
   }
