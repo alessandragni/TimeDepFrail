@@ -69,7 +69,7 @@ result <- AdPaikModel(formula, data_dropout, time_axis,
 # Extract the coefficients
 confint(result)
 #>                 2.5 %     97.5 %
-#> GenderMale -0.1027323  0.1027309
-#> CFUP       -1.3422364 -1.2071159
+#> GenderMale -0.1027319  0.1027306
+#> CFUP       -1.3422232 -1.2071029
 # }
 ```
