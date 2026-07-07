@@ -52,8 +52,7 @@ formula <- time_to_event ~ Gender + CFUP + cluster(group)
 
 time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
 
-#eps <- 1e-10
-eps <- 1e-7
+eps <- 1e-10
 categories_range_min <- c(-8, -2, eps, eps, eps)
 categories_range_max <- c(-eps, 0.5, 1 - eps, 1, 10)
 
