@@ -55,6 +55,13 @@
 #' @param tol_ll Tolerance on the log-likelihood value.
 #' @param tol_optimize Internal tolerance for the one-dimensional optimization through 'optimize' R function.
 #' @param h_dd Discretization step used for the numerical approximation of the second derivative of the log-likelihood function.
+#' @param h_grad Discretization step used for the numerical approximation of the first derivative (gradient) of the
+#' log-likelihood function, employed for the first-order optimality check performed at the reported optimum (see Details).
+#' @param full_hessian_se Logical. If `TRUE`, additionally compute a full (non-diagonal) finite-difference Hessian at
+#' the reported optimum, once, and derive correlation-aware standard errors for the parameters not sitting at a
+#' declared range boundary (see 'HessianCheck' in Details). Its cost scales \eqn{O(n_p^2)}, unlike everything else
+#' computed by default, so it defaults to `FALSE`; the diagonal-only 'StandardErrorParameters' remains the default
+#' output regardless of this flag.
 #' @param verbose Logical. If `TRUE`, detailed progress messages will be printed to the console. Defaults to `FALSE`.
 #' @param print_previous_ll_values If we want to print the previous values of the log-likelihood function. This can
 #' be useful for controlling that the optimization procedure is proceeding in a monotone way and it does not
@@ -106,6 +113,20 @@
 #'   - 'alphaVar': posterior frailty variance for \eqn{\alpha_j, \forall j}. It is a vector of length equal to the number of centres.
 #'   - 'epsVar': posterior frailty variance for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 #'   - 'ZVar': posterior frailty variance for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
+#' - GradientCheck: numerical check of the first-order optimality conditions at the reported optimum. Since the log-likelihood
+#' is maximized through a derivative-free, coordinate-wise optimization strategy, this provides a post-hoc diagnostic (not used
+#' by, and with no effect on, the optimization itself), composed of four elements:
+#'   - 'Gradient': numerical vector of length \eqn{n_p}, containing a finite-difference approximation of each partial derivative
+#'   of the log-likelihood function at 'OptimalParameters' ('NA' where it could not be estimated).
+#'   - 'BoundaryAdjacent': integer vector of indices (possibly empty) of parameters whose optimum lies close to one of their
+#'   declared range bounds; such parameters can show a large, genuine one-sided gradient at a boundary solution, a different
+#'   phenomenon from an interior optimizer stall, and are therefore excluded from 'GradientNorm'/'GradientMaxAbs' below.
+#'   - 'GradientNorm': Euclidean (L2) norm of 'Gradient', restricted to non-boundary-adjacent components.
+#'   - 'GradientMaxAbs': maximum absolute component of 'Gradient', restricted to non-boundary-adjacent components.
+#' - HessianCheck: `NULL` unless `full_hessian_se = TRUE`, in which case it is the list returned by the internal
+#' `hessian_check()` function: the full finite-difference Hessian at the reported optimum, together with
+#' correlation-aware standard errors ('SE_full') for parameters not sitting at a declared range boundary, and their
+#' ratio to the diagonal-only 'StandardErrorParameters' ('SE_ratio'). See `hessian_check()` for full details.
 #'
 #' @export
 #'
@@ -118,7 +139,7 @@
 #' time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
 #' eps <- 1e-10
 #' categories_range_min <- c(-8, -2, eps, eps, eps)
-#' categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
+#' categories_range_max <- c(-eps, 0.5, 1 - eps, 1, 10)
 #'
 #'\donttest{
 #' # Call the main model
@@ -129,6 +150,7 @@
 AdPaikModel <- function(formula, data, time_axis,
                         categories_range_min, categories_range_max,
                         n_extrarun = 60, tol_ll = 1e-6, tol_optimize = 1e-6, h_dd = 1e-3,
+                        h_grad = 1e-4, full_hessian_se = FALSE,
                         verbose = FALSE, print_previous_ll_values = c(TRUE, 3)){
   level = 0.95
   if (verbose) message("Adapted Paik et al.'s Model:")
@@ -343,12 +365,35 @@ AdPaikModel <- function(formula, data, time_axis,
   # Extract best solution with maximum log-likelihood
   optimal_params <- global_optimal_params[optimal_run,]
   optimal_loglikelihood <- global_optimal_loglikelihood[optimal_run]
-  
+
+  # Numerical check of the first-order optimality conditions: finite-difference
+  # gradient of the log-likelihood at the reported optimum. Purely a diagnostic,
+  # computed after optimization has already finished, so it cannot affect
+  # 'optimal_params'/'optimal_loglikelihood' above.
+  if (verbose) message(paste("Compute first-order optimality check (gradient)"))
+  gradient_check_result <- gradient_check(optimal_params, params_range_min, params_range_max,
+                                          dataset, centre, time_axis, dropout_matrix, e_matrix, h_grad)
+
   # Compute the standard error from the Hessian matrix
   if (verbose) message(paste("Compute parameters standard error"))
   params_se <- params_se(optimal_params, params_range_min, params_range_max,
                          dataset, centre, time_axis, dropout_matrix, e_matrix, h_dd)
-  
+
+  # Optional: full (non-diagonal) Hessian and correlation-aware standard errors,
+  # computed once at the reported optimum. Off by default since its cost scales
+  # O(n_p^2), unlike everything else computed so far; the diagonal-only 'params_se'
+  # above remains the default output regardless of this flag.
+  hessian_check_result <- NULL
+  if(full_hessian_se){
+    if (verbose) message(paste("Compute full Hessian and correlation-aware standard errors"))
+    hessian_check_result <- hessian_check(optimal_params, params_range_min, params_range_max,
+                                          dataset, centre, time_axis, dropout_matrix, e_matrix, h_dd,
+                                          boundary_adjacent = gradient_check_result$BoundaryAdjacent,
+                                          se_diag = params_se,
+                                          mu1_index = n_intervals + n_regressors + 1,
+                                          nu_index = n_intervals + n_regressors + 2)
+  }
+
   # Compute parameters confidence interval
   if (verbose) message(paste("Compute parameters confidence interval"))
   params_CI <- params_CI(optimal_params, params_se, level)
@@ -399,7 +444,9 @@ AdPaikModel <- function(formula, data, time_axis,
                       "BaselineHazard" = bas_hazard,
                       "FrailtyDispersion" = frailty_dispersion,
                       "PosteriorFrailtyEstimates" = post_frailty_est,
-                      "PosteriorFrailtyVariance" = post_frailty_var)
+                      "PosteriorFrailtyVariance" = post_frailty_var,
+                      "GradientCheck" = gradient_check_result,
+                      "HessianCheck" = hessian_check_result)
   class(return_list) <- "AdPaik"
   
   # Return list of results
@@ -568,31 +615,32 @@ ll_AdPaik_centre_1D <- function(param_onedim, index_param_onedim, params, datase
   }
   
   # Third line of the formula
+  # Computed in log-space (lgamma/lchoose instead of raw gamma()/choose() ratios):
+  # each term of the inner sum over l is strictly positive, so
+  # log(sum_l term_l) can be obtained via the log-sum-exp identity
+  # log(sum_l exp(log_term_l)) = m + log(sum_l exp(log_term_l - m)), m = max_l(log_term_l),
+  # which is mathematically equivalent to the previous gamma-ratio formulation but avoids
+  # gamma() overflowing to Inf for the large arguments that arise when a gammak[k,1] is
+  # small (mu2/gammak[k,1] large), and removes the need for the ad hoc substitution of
+  # underflowed-to-zero ratios by 1e-10.
   loglik3 <- 0
-  res_gamma1 <- gamma(mu1/nu)
-  res1 <- (A_i + 1/nu)
+  lgamma1 <- lgamma(mu1/nu)
+  log_res1 <- log(A_i + 1/nu)
   for (k in 1:L){
-    loglik4 <- 0
     d_ikk <- d_ik[1,k]
-    res_gamma2 <- gamma(mu2/gammak[k,1])
+    lgamma2 <- lgamma(mu2/gammak[k,1])
     res2 <- (d_ikk + mu2/gammak[k,1])
-    res3 <- (A_ik[1,k] + 1/gammak[k,1])
-    for (l in 0:d_ikk){
-      coeff_binom <- choose(d_ikk, l)
-      res_gamma3 <- gamma(res2 - l)
-      res_gamma4 <- gamma(mu1/nu + l)
-      res4 <- (res3)^(l - d_ikk)
-      res5 <- (res1)^l
-      res6 <- res_gamma4/res_gamma2
-      if(res6 == 0)
-        res6 <- 1e-10
-      res7 <- res_gamma3/res_gamma1
-      if(res7 == 0)
-        res7 <- 1e-10
+    log_res3 <- log(A_ik[1,k] + 1/gammak[k,1])
 
-      loglik4 <- loglik4 + res6 * res7 * (res4/res5) * coeff_binom
-    }
-    loglik3 <- loglik3 + log(loglik4)
+    l_seq <- 0:d_ikk
+    log_terms <- lchoose(d_ikk, l_seq) +
+      (lgamma(mu1/nu + l_seq) - lgamma2) +
+      (lgamma(res2 - l_seq) - lgamma1) +
+      (l_seq - d_ikk) * log_res3 -
+      l_seq * log_res1
+
+    max_log_term <- max(log_terms)
+    loglik3 <- loglik3 + max_log_term + log(sum(exp(log_terms - max_log_term)))
   }
   
   # Return the sum of the three lines
@@ -732,31 +780,32 @@ ll_AdPaik_centre_eval <- function(params, dataset, dropout_matrix, e_matrix){
   }
   
   # Third line of the formula
+  # Computed in log-space (lgamma/lchoose instead of raw gamma()/choose() ratios):
+  # each term of the inner sum over l is strictly positive, so
+  # log(sum_l term_l) can be obtained via the log-sum-exp identity
+  # log(sum_l exp(log_term_l)) = m + log(sum_l exp(log_term_l - m)), m = max_l(log_term_l),
+  # which is mathematically equivalent to the previous gamma-ratio formulation but avoids
+  # gamma() overflowing to Inf for the large arguments that arise when a gammak[k,1] is
+  # small (mu2/gammak[k,1] large), and removes the need for the ad hoc substitution of
+  # underflowed-to-zero ratios by 1e-10.
   loglik3 <- 0
-  res_gamma1 <- gamma(mu1/nu)
-  res1 <- (A_i + 1/nu)
+  lgamma1 <- lgamma(mu1/nu)
+  log_res1 <- log(A_i + 1/nu)
   for (k in 1:L){
-    loglik4 <- 0
     d_ikk <- d_ik[1,k]
-    res_gamma2 <- gamma(mu2/gammak[k,1])
+    lgamma2 <- lgamma(mu2/gammak[k,1])
     res2 <- (d_ikk + mu2/gammak[k,1])
-    res3 <- (A_ik[1,k] + 1/gammak[k,1])
-    for (l in 0:d_ikk){
-      coeff_binom <- choose(d_ikk, l)
-      res_gamma3 <- gamma(res2 - l)
-      res_gamma4 <- gamma(mu1/nu + l)
-      res4 <- (res3)^(l - d_ikk)
-      res5 <- (res1)^l
-      res6 <- res_gamma4/res_gamma2
-      if(res6 == 0)
-        res6 <- 1e-10
-      res7 <- res_gamma3/res_gamma1
-      if(res7 == 0)
-        res7 <- 1e-10
+    log_res3 <- log(A_ik[1,k] + 1/gammak[k,1])
 
-      loglik4 <- loglik4 + res6 * res7 * (res4/res5) * coeff_binom
-    }
-    loglik3 <- loglik3 + log(loglik4)
+    l_seq <- 0:d_ikk
+    log_terms <- lchoose(d_ikk, l_seq) +
+      (lgamma(mu1/nu + l_seq) - lgamma2) +
+      (lgamma(res2 - l_seq) - lgamma1) +
+      (l_seq - d_ikk) * log_res3 -
+      l_seq * log_res1
+
+    max_log_term <- max(log_terms)
+    loglik3 <- loglik3 + max_log_term + log(sum(exp(log_terms - max_log_term)))
   }
   
   # Return the sum of the three lines

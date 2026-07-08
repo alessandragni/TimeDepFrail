@@ -32,22 +32,49 @@ summary.AdPaik <- function(object, ...) {
   } else {
     "FALSE (No Convergence)"
   }
-  
+
+  gradient_norm <- round(object$GradientCheck$GradientNorm, 6)
+  gradient_max_abs <- round(object$GradientCheck$GradientMaxAbs, 6)
+  n_boundary <- length(object$GradientCheck$BoundaryAdjacent)
+  boundary_note <- if (n_boundary == 0) {
+    "none"
+  } else {
+    paste0(n_boundary, " parameter(s) at index/indices ",
+           paste(object$GradientCheck$BoundaryAdjacent, collapse = ", "),
+           " excluded (boundary-adjacent)")
+  }
+  gradient_check <- paste0("||grad||_2 = ", gradient_norm, ", max|grad| = ", gradient_max_abs,
+                          " [interior parameters only; ", boundary_note, "]")
+
+  # Corrected (full-Hessian, cross-derivative-aware) regressor standard errors,
+  # only available if 'full_hessian_se = TRUE' was passed to AdPaikModel()
+  regressors_corrected <- NULL
+  if(!is.null(object$HessianCheck)){
+    se_full_betar <- object$HessianCheck$SE_full[(L + 1):(L + R)]
+    if(!anyNA(se_full_betar)){
+      regressors_corrected <- stats::setNames(
+        paste0(round(se_full_betar, 4), " (was ", round(object$StandardErrorParameters[(L + 1):(L + R)], 4), ")"),
+        object$Regressors)
+    }
+  }
+
   summary_list <- list(
     call = paste(object$formula[2], object$formula[1], object$formula[3]),
     cluster = paste0("Cluster variable '", object$ClusterVariable, "' (", object$NClusters, " clusters)."),
     logLik = round(object$Loglikelihood, 4),
     AIC = round(object$AIC, 4),
     convergence = convergence,
+    gradient_check = gradient_check,
     parameters_info = paste0(
       "Overall number of estimated parameters ", object$NParameters,
       " divided as (phi, beta, mu1, nu, gammak) = (", paste(params_categories, collapse = ","), ")"
     ),
     n_intervals = n_intervals,
     n_regressors = n_regressors,
-    regressors = stats::setNames(betar, object$Regressors)
+    regressors = stats::setNames(betar, object$Regressors),
+    regressors_corrected = regressors_corrected
   )
-  
+
   class(summary_list) <- "summary.AdPaik"
   return(summary_list)
 }
@@ -79,6 +106,7 @@ print.summary.AdPaik <- function(x, ...) {
     paste("Log-likelihood:", x$logLik),
     paste("AIC:", x$AIC),
     paste("Status of the algorithm:", x$convergence),
+    paste("First-order optimality check (finite-difference gradient):", x$gradient_check),
     sep_line,
     x$parameters_info,
     paste("with: number of intervals =", x$n_intervals, ", number of regressors =", x$n_regressors, "."),
@@ -89,7 +117,14 @@ print.summary.AdPaik <- function(x, ...) {
   for (r in names(x$regressors)) {
     output <- c(output, paste(r, ":", x$regressors[r]))
   }
-  
+
+  if (!is.null(x$regressors_corrected)) {
+    output <- c(output, sep_line, "Corrected (full-Hessian, cross-derivative-aware) standard error:")
+    for (r in names(x$regressors_corrected)) {
+      output <- c(output, paste(r, ":", x$regressors_corrected[r]))
+    }
+  }
+
   output <- c(output, sep_line)
   cat(paste(output, collapse = "\n"), "\n")
 }
@@ -153,7 +188,36 @@ print.AdPaik <- function(x, ...) {
     cat("\n95% Confidence Intervals:\n")
     print(ci)
   }
-  
+
+  # Print first-order optimality check (finite-difference gradient at the optimum)
+  if (!is.null(x$GradientCheck)) {
+    cat("\nFirst-order optimality check (finite-difference gradient at the optimum):\n")
+    cat(sprintf("  Interior parameters: ||grad||_2 = %s, max|grad| = %s\n",
+                signif(x$GradientCheck$GradientNorm, 6),
+                signif(x$GradientCheck$GradientMaxAbs, 6)))
+    boundary_idx <- x$GradientCheck$BoundaryAdjacent
+    if (length(boundary_idx) > 0) {
+      cat("  Boundary-adjacent parameters (excluded above; large one-sided gradient expected):\n")
+      cat(sprintf("    index %d: grad = %s\n", boundary_idx, signif(x$GradientCheck$Gradient[boundary_idx], 6)), sep = "")
+    }
+  }
+
+  # Print full-Hessian, correlation-aware standard errors, if requested via
+  # 'full_hessian_se = TRUE' in the AdPaikModel() call
+  if (!is.null(x$HessianCheck)) {
+    cat("\nFull-Hessian (cross-derivative-aware) standard errors:\n")
+    cat(sprintf("  Interior covariance matrix positive definite: %s\n", x$HessianCheck$IsPositiveDefinite))
+    cat("  SE_full (interior parameters; NA = boundary-adjacent):\n")
+    print(x$HessianCheck$SE_full)
+    cat("  SE_full / StandardErrorParameters ratio:\n")
+    print(x$HessianCheck$SE_ratio)
+    if (!is.na(x$HessianCheck$CorrelationMu1Nu)) {
+      cat(sprintf("  Correlation(mu1, nu) = %s\n", signif(x$HessianCheck$CorrelationMu1Nu, 4)))
+    } else {
+      cat("  Correlation(mu1, nu): not available (raw 2x2 Hessian sub-block is not negative definite)\n")
+    }
+  }
+
   # Return object invisibly
   invisible(x)
 }

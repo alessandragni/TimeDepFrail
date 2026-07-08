@@ -14,6 +14,8 @@ AdPaikModel(
   tol_ll = 1e-06,
   tol_optimize = 1e-06,
   h_dd = 0.001,
+  h_grad = 1e-04,
+  full_hessian_se = FALSE,
   verbose = FALSE,
   print_previous_ll_values = c(TRUE, 3)
 )
@@ -40,6 +42,15 @@ the formula variables. It is not necessary to attach it (in case of a data.frame
 \item{tol_optimize}{Internal tolerance for the one-dimensional optimization through 'optimize' R function.}
 
 \item{h_dd}{Discretization step used for the numerical approximation of the second derivative of the log-likelihood function.}
+
+\item{h_grad}{Discretization step used for the numerical approximation of the first derivative (gradient) of the
+log-likelihood function, employed for the first-order optimality check performed at the reported optimum (see Details).}
+
+\item{full_hessian_se}{Logical. If \code{TRUE}, additionally compute a full (non-diagonal) finite-difference Hessian at
+the reported optimum, once, and derive correlation-aware standard errors for the parameters not sitting at a
+declared range boundary (see 'HessianCheck' in Details). Its cost scales \eqn{O(n_p^2)}, unlike everything else
+computed by default, so it defaults to \code{FALSE}; the diagonal-only 'StandardErrorParameters' remains the default
+output regardless of this flag.}
 
 \item{verbose}{Logical. If \code{TRUE}, detailed progress messages will be printed to the console. Defaults to \code{FALSE}.}
 
@@ -141,6 +152,22 @@ of the frailty.
 \item 'epsVar': posterior frailty variance for \eqn{\epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 \item 'ZVar': posterior frailty variance for \eqn{Z_{jk} = \alpha_j + \epsilon_{jk}, \forall j,k}. Matrix of dimension (N, L).
 }
+\item GradientCheck: numerical check of the first-order optimality conditions at the reported optimum. Since the log-likelihood
+is maximized through a derivative-free, coordinate-wise optimization strategy, this provides a post-hoc diagnostic (not used
+by, and with no effect on, the optimization itself), composed of four elements:
+\itemize{
+\item 'Gradient': numerical vector of length \eqn{n_p}, containing a finite-difference approximation of each partial derivative
+of the log-likelihood function at 'OptimalParameters' ('NA' where it could not be estimated).
+\item 'BoundaryAdjacent': integer vector of indices (possibly empty) of parameters whose optimum lies close to one of their
+declared range bounds; such parameters can show a large, genuine one-sided gradient at a boundary solution, a different
+phenomenon from an interior optimizer stall, and are therefore excluded from 'GradientNorm'/'GradientMaxAbs' below.
+\item 'GradientNorm': Euclidean (L2) norm of 'Gradient', restricted to non-boundary-adjacent components.
+\item 'GradientMaxAbs': maximum absolute component of 'Gradient', restricted to non-boundary-adjacent components.
+}
+\item HessianCheck: \code{NULL} unless \code{full_hessian_se = TRUE}, in which case it is the list returned by the internal
+\code{hessian_check()} function: the full finite-difference Hessian at the reported optimum, together with
+correlation-aware standard errors ('SE_full') for parameters not sitting at a declared range boundary, and their
+ratio to the diagonal-only 'StandardErrorParameters' ('SE_ratio'). See \code{hessian_check()} for full details.
 }
 }
 \examples{
@@ -152,7 +179,7 @@ formula <- time_to_event ~ Gender + CFUP + cluster(group)
 time_axis <- c(1.0, 1.4, 1.8, 2.3, 3.1, 3.8, 4.3, 5.0, 5.5, 5.8, 6.0)
 eps <- 1e-10
 categories_range_min <- c(-8, -2, eps, eps, eps)
-categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)
+categories_range_max <- c(-eps, 0.5, 1 - eps, 1, 10)
 
 \donttest{
 # Call the main model

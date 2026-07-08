@@ -355,3 +355,253 @@ speed, not the paper's exact reproduction settings — good enough to confirm no
 crashes/regressions and to get an order-of-magnitude read on the `nu` SE change, but
 if the exact new SE numbers are going into the paper's revision text, it should be
 re-run with `n_extrarun = 60` (the published default) first.
+
+---
+
+## 7. Editor/referee comment: first-order optimality diagnostic (2026-07-07/08)
+
+Full design discussion and rationale in `Rev_1.md`. Summary of what was actually done,
+across three commits' worth of work on branch `revision` (created off `work` at
+`12543d8`):
+
+- **New post-hoc gradient diagnostic** (`R/gradient_check.R`, wired into
+  `AdPaikModel()` via a new `h_grad = 1e-4` argument): a finite-difference gradient of
+  the log-likelihood evaluated once at the reported optimum, stored as
+  `result$GradientCheck` and shown by default in `print()`/`summary()`. Chosen over
+  porting `frailtypack`'s in-loop analytic-gradient threshold, because that only works
+  for a gradient-based optimizer — `AdPaikModel()`'s Powell/Brent search is
+  derivative-free by construction, so a post-hoc check (exactly what the referee's own
+  wording proposed) is the lower-risk option: read-only, cannot perturb the existing
+  optimization or previously reported numbers.
+  - Step is always symmetric, shrunk to `min(h_grad, distance to nearer declared
+    bound)` — an asymmetric clamped step (full step one side, boundary-clamped tiny
+    step the other) was tried first and produces numerically unstable, inflated
+    gradient values; the symmetric-shrink fixes this cleanly.
+  - Parameters whose optimum sits within `10*h_grad` of a declared range bound are
+    reported separately (`GradientCheck$BoundaryAdjacent`), excluded from the headline
+    `GradientNorm`/`GradientMaxAbs`. These commonly show large, genuine one-sided
+    gradients at a boundary solution (seen for `mu1`, `nu`, and several `gamma_k` in
+    the worked example below) — a different, already-documented phenomenon (`nu`
+    pinning its upper bound is discussed in the paper's Section 7) from an interior
+    optimizer stall, which is what the referee is actually asking to rule out.
+
+- **Found and fixed a real numerical fragility while validating the diagnostic**: the
+  very first test run produced `Inf`/`NaN` gradient components. Root cause:
+  `ll_AdPaik_centre_1D`/`ll_AdPaik_centre_eval` computed the third line of the
+  log-likelihood (paper Eq. 11's `sum_k log(sum_l ...)` term) via raw `gamma()` ratios
+  (`res_gamma1..4`, `res6`, `res7`). For a `gamma_k` shrinking towards its lower range
+  bound, `mu2/gamma_k` grows past ~171, where `gamma()` overflows to `Inf` in double
+  precision — a small perturbation (as small as `h_grad = 1e-4`) is then enough to push
+  the evaluation over that edge. Rewrote both functions' third-line computation in
+  log-space (`lgamma`/`lchoose` + log-sum-exp, `R/AdPaikModel.R`), which is
+  mathematically identical (verified by direct comparison against the old formula:
+  matches to ~1e-14 away from the overflow region, matches exactly at the previously
+  overflowing point, and stays finite under the exact perturbation that used to blow up
+  to `Inf`) but has no overflow edge. This also makes the old ad hoc `res6==0`/`res7==0`
+  → `1e-10` substitution (Q5 above) unnecessary; it was removed.
+
+- **Found and fixed an unrelated pre-existing bug surfaced while investigating an
+  unexpected result**: `AdPaikModel()`'s own roxygen `@examples` block used
+  `categories_range_max <- c(-eps, 0, 1 - eps, 1, 10)` (beta category upper bound `0`),
+  but `Examples/ReplicationCode.R` — the actual script that reproduces the paper's
+  numbers — uses `0.5`. With the upper bound clamped to `0`, `GenderMale`'s true
+  coefficient (`0.2178` in the paper) is infeasible and the optimizer instead lands
+  exactly on the boundary (`~-6.6e-7`, prints as `0`). Confirmed by running the
+  **unmodified, pre-session code** (commit `12543d8`) with both bounds: `max=0` gives
+  the wrong, boundary-clamped `GenderMale≈0`/`LL=-2177.212`; `max=0.5` exactly
+  reproduces the paper's `GenderMale=0.217802`/`LL=-2175.135`/`NRun=31`. So this was a
+  pre-existing documentation bug, unrelated to (and predating) this session's other
+  changes — fixed by changing the example's bound to `0.5` to match
+  `Examples/ReplicationCode.R`.
+
+- **Final verification** (`data_dropout`, same formula/`time_axis`, `set.seed(1)`,
+  `n_extrarun=10`, corrected example bounds, all fixes above applied together):
+  `Loglikelihood = -2175.049`, `AIC = 4398.098`, `coef = (GenderMale=0.2181,
+  CFUP=-1.2706)`, converged in `31` runs — matches the paper to 2-3 decimal places (the
+  small residual difference is the expected effect of the mathematically-equivalent but
+  not bit-identical log-space reformulation, propagated through 31 rounds of
+  coordinate-wise search). No `NA`/`Inf`/`NaN` anywhere in the new gradient diagnostic.
+  Interior gradient: `‖grad‖₂ = 0.0221`, `max|grad| = 0.0162` (18 of 24 parameters) —
+  small, consistent with a genuine interior stationary point. Boundary-adjacent:
+  `mu1`, `nu`, `gamma_1`, `gamma_4`, `gamma_9`, `gamma_10` (6 of 24), with large
+  one-sided gradients as expected for boundary solutions.
+
+### 7bis. Why those 6 parameters, specifically — investigation (2026-07-08)
+
+Prompted by the author asking whether the 6 boundary-adjacent parameters above are an
+error. Not a code bug — the diagnostic is correctly reporting genuine boundary
+solutions found by the optimizer — but the mechanism is more nuanced than a single
+clean story, and one caveat about the test settings matters before treating this as
+settled:
+
+- **`mu1 -> 6e-7` (lower bound).** `alpha_j ~ Gamma(mu1/nu, 1/nu)`: as shape
+  `mu1/nu -> 0`, this degenerates to a point mass at `0`. The fit is saying the
+  group-constant frailty component `alpha_j` vanishes; essentially all frailty
+  heterogeneity is time-varying (`eps_jk`) in this run. This specific finding — `mu1`
+  itself collapsing, not just `nu` — does not appear to have been flagged before
+  anywhere else in this file.
+- **`nu -> 0.99999995` (upper bound).** Once `mu1 ~= 0`, the shape `mu1/nu ~= 0`
+  regardless of `nu`'s value, so `nu` becomes only weakly identified and likely just
+  rides wherever the coordinate sweep last left it. This *is* the same phenomenon the
+  paper's Section 7 already discusses for `nu` (previously quantified via its large SE,
+  `24.236`/`218.643` depending on the params_se fix — see §3bis above); the gradient
+  diagnostic now shows it directly as a large one-sided slope instead of only via SE.
+- **4 of 10 `gamma_k -> 0` (`gamma_1, gamma_4, gamma_9, gamma_10`).** Checked directly
+  against `data_dropout` rather than assumed:
+
+  | interval | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+  |---|---|---|---|---|---|---|---|---|---|---|
+  | total events | 76 | 47 | 233 | 24 | 53 | 110 | 13 | 79 | 6 | 10 |
+  | centres (of 16) with 0 events | 0 | 2 | 0 | 5 | 3 | 0 | 10 | 1 | 11 | 9 |
+  | `gamma_k` at boundary? | yes | no | no | yes | no | no | no | no | yes | yes |
+
+  Intervals 9/10 are cleanly explained: almost no centre has any event there, so
+  there is no information to estimate a between-centre variance component, and
+  `gamma_k -> 0` is the expected MLE behaviour for a variance parameter with no
+  evidence of heterogeneity. But this is **not** a complete explanation: interval 7 is
+  just as sparse (10/16 centres with zero events) yet its `gamma_7` did *not* collapse
+  (landed at `0.137`), while interval 1 has substantial data (76 events, every centre
+  represented) yet *did* collapse. So sparsity alone does not fully explain the
+  pattern — plausibly a mix of genuine data-sparsity-driven shrinkage (intervals 9/10,
+  maybe 4) and coordinate-wise-optimization path-dependence in a non-concave
+  24-dimensional space (interval 1, possibly 4) — i.e. partially the exact fragility
+  the referee's comment is about.
+
+- **Caveat on these specific numbers:** everything above (this run, and the "Final
+  verification" bullet before it) used `n_extrarun = 10`, reduced from the paper's own
+  default `n_extrarun = 60`, purely for iteration speed while building the diagnostic.
+  Which indices land on a boundary is plausibly sensitive to `n_extrarun`/random seed.
+  Treat "`mu1`/`nu`/4 specific `gamma_k` are boundary-pinned" as provisional pending a
+  re-run at `n_extrarun = 60` (and ideally more than one seed) before it goes into the
+  response letter or the paper as a stated finding.
+
+### 7ter. Future work (deferred): optimizer redesign — block/joint updates or adaptive directions
+
+Author asked (2026-07-08) whether to move from one-parameter-at-a-time coordinate
+updates to block-wise or fully joint optimization (grouping `gamma_k`, `beta`, `phi`
+together, leaving `mu1`/`nu` as-is), and separately whether to compute cross-derivatives
+(off-diagonal Hessian) for proper SEs. **Decision: record the analysis below, do not
+design or implement yet** — this would be a change to the optimizer/inference itself
+(unlike today's diagnostic-only work), with much higher blast radius on previously
+reported numbers, and needs to be scoped as its own dedicated piece of work.
+
+**Structural finding, derived directly from Eq. 11/Eq. 2 of the paper (not assumed):**
+- The 10 `gamma_k` are **provably separable** from each other: for fixed `phi`,
+  `beta`, `mu1`, `nu`, both `loglik2` and `loglik3`'s inner term reference only
+  `A_j.k`/`d_j.k` for that same `k` — there is no `gamma_k`/`gamma_k'` cross term
+  anywhere in the log-likelihood. So a joint/block update of all `gamma_k` together
+  converges to the *same point* as updating them one at a time in sequence; it buys no
+  correctness/convergence-quality benefit, only possibly some wall-clock speed from
+  batching evaluations. **Recommendation: don't block `gamma_k` for correctness
+  reasons** — the pattern found in §7bis (`gamma_1`/`gamma_4`/`gamma_9`/`gamma_10`
+  collapsing) is not something block-updating them would change.
+- `beta` and `phi` **are** genuinely coupled to each other (and to `mu1`/`nu`) through
+  the shared term `-(mu1/nu)*log(1+nu*A_j..)` in `loglik1`, since
+  `A_j.. = sum_{i,k} A_ijk` mixes every `phi_k` and every `beta_r` together. This is
+  exactly the kind of off-axis correlation where one-at-a-time coordinate ascent can
+  zig-zag inefficiently. `beta` (only 2 params) is cheap/low-risk to block-optimize
+  jointly; `phi` (`L` params) is the bigger, more consequential candidate.
+- **`mu1`/`nu` — pushed back on excluding these.** §7bis's own finding (`mu1 -> 0`
+  makes `nu` nearly unidentifiable, since `mu1/nu ~= 0` regardless of `nu`'s value
+  once `mu1` collapses) is a textbook off-axis ridge — precisely the pathology
+  one-at-a-time Brent search handles worst, and arguably the pair most in need of a
+  joint step, not least.
+
+**Three options discussed, not yet chosen between:**
+1. **Targeted blocking** — keep the Powell-cycle/Brent scaffolding, replace the 1-D
+   update for `beta`, `phi`, and (recommended, contrary to the original suggestion)
+   `mu1`+`nu` with small joint box-constrained optimizations (e.g.
+   `optim(method="L-BFGS-B")`) using the finite-difference gradient built today
+   (`R/gradient_check.R`); leave `gamma_k` as individual 1-D updates (per the
+   separability finding above). Moderate scope, keeps most of the existing structure.
+2. **True adaptive-direction Powell** (Press 2007, as actually cited by the paper): the
+   current code cycles through a *fixed* set of directions (the `n_p` coordinate axes,
+   reordered between sweeps) — it is coordinate-descent-with-Brent, not full Powell's
+   method as classically defined. Classical Powell additionally replaces one direction
+   per sweep with the net direction moved over that whole sweep, letting the direction
+   set adapt toward the objective's actual (possibly non-axis-aligned) valleys/ridges
+   over iterations — directly targeting exactly the `mu1`/`nu` ridge, while staying
+   derivative-free and matching the paper's own citation. Smaller conceptual change
+   than switching optimizer family, but a real implementation (needs an acceptance
+   test before swapping in the new direction, else the direction set can lose linear
+   independence over many sweeps — a known pitfall in naive implementations).
+3. **Full multivariate solve** (`optim(method="L-BFGS-B")` over all `n_p` parameters at
+   once) — replaces the coordinate-descent scaffolding entirely, handles all
+   cross-coupling uniformly without hand-picking blocks, and yields a full numerical
+   Hessian (via a follow-up `optimHess()`/finite-difference pass) for proper
+   non-diagonal-only SEs as a natural byproduct — answering the separate
+   cross-derivative-SE question in the same stroke. Largest rewrite, highest risk to
+   previously-published numbers (would need the same rigorous
+   old-vs-new-formula-equivalence verification done for the log-space log-likelihood
+   fix in §7, but for the optimizer itself, which is harder to verify since it changes
+   *which* optimum is found, not just how a fixed quantity is computed).
+
+No design/implementation performed on any of these three — deferred to a future
+session at the author's request.
+
+---
+
+## 8. Editor/referee comments: near-flat likelihood regions & cross-derivative SEs (2026-07-08)
+
+Full reasoning, draft response-letter text, and real numbers in `Rev_2_3.md`; code
+summary here for the technical record.
+
+- **`R/hessian_check.R`** (new, internal): full (non-diagonal) finite-difference
+  Hessian at a given parameter vector, using the same symmetric boundary-aware step
+  as `gradient_check()`. Off-diagonal terms via the standard 4-point mixed-partial
+  formula. Inverts only the submatrix of non-boundary-adjacent ("interior")
+  parameters for the covariance/SE computation (a single near-degenerate boundary
+  row/column can corrupt a full-matrix inverse even for otherwise well-behaved
+  parameters, unlike the diagonal-only approximation); the `mu1`/`nu` raw 2x2
+  sub-block is checked and reported separately regardless of the interior/boundary
+  split, since Section 3.3's `mu1`/`nu` algebraic coupling makes it of particular
+  interest.
+- **`R/AdPaikModel.R`**: new opt-in argument `full_hessian_se = FALSE`. When `TRUE`,
+  calls `hessian_check()` once after the existing diagonal-only `params_se()`; adds
+  `"HessianCheck"` to the returned object (`NULL` when `FALSE`; appended after
+  `"GradientCheck"`, position 25, safe per `check.result()`'s positional check — see
+  §7). Kept opt-in rather than default or a fully separate function: cost scales
+  `O(n_p^2)` (`~32s` extra at this worked example's `n_p=24`), which is fine here but
+  could matter for the larger `n_p` this package's own efficiency claims target;
+  default behavior/cost stays exactly as before.
+- **`R/summary_and_print.R`**: `summary()`/`print()` show the full-Hessian diagnostic
+  when present (`HessianCheck != NULL`), including a corrected regressor SE line in
+  `summary()`.
+- **Verified against the paper's worked example** (`n_extrarun=60`,
+  `Examples/ReplicationCode.R` settings): `full_hessian_se=TRUE` reaches the identical
+  optimum as `full_hessian_se=FALSE` (no effect on the fit itself), and the resulting
+  interior covariance matrix (18 of 24 parameters) is positive definite. The
+  cross-derivative correction is material and parameter-type-specific:
+  `SE_full/SE_diag` ratios range `1.00-2.11`; `phi_k` +10-44%, `gamma_k` (non-boundary)
+  +0.3-6% (negligible, consistent with their provable pairwise separability, §7ter),
+  `beta_CFUP` +45%, **`beta_GenderMale` +111%** (SE `0.0518 -> 0.1093`). Recomputed 95%
+  CI for `GenderMale` widens from `(0.117, 0.320)` to `(0.004, 0.432)` — still excludes
+  0, materially closer to it than the diagonal-only approximation suggested. The raw
+  `mu1`/`nu` 2x2 Hessian sub-block is not negative definite (no valid correlation/SE
+  for that pair from any Hessian-based method, not just the diagonal shortcut) —
+  independent corroboration of the boundary/ridge finding in §7bis.
+- **On an "independence" justification for the diagonal shortcut** (author question):
+  checked directly against the paper text. The only independence statements are
+  model-level (`alpha_j`/`eps_jk` as independent random variables, Section 3.3;
+  conditional independence of units given the frailty). Section 4.4's own stated
+  justification for the diagonal-only Hessian is purely computational, not an
+  independence argument. Model-level independence of random effects does not imply
+  independence of their *estimators*' sampling error — today's own numbers show `beta`
+  and `phi` are correlated (shared `A_j..` term) and the `mu1`/`nu` block is not even
+  well-behaved, contradicting any such assumption if it was implicitly relied upon.
+
+- **Multi-seed stability check** (`Examples/MultiSeedStabilityCheck.R`, new): the
+  editor/referee's near-flat-regions comment explicitly asks "how frequently" this
+  occurs and about the role of random initialization — a single seed can't answer
+  that. Refit the worked example (`full_hessian_se=TRUE`) from 5 different seeds
+  (`1, 2, 42, 123, 2024`), run in parallel. Result: `Loglikelihood` agrees to within
+  `3e-5` across all 5, `beta` estimates agree to within `1e-4`, and the **same** set
+  of 6 boundary-adjacent parameters (`mu1`, `nu`, `gamma_1`, `gamma_4`, `gamma_9`,
+  `gamma_10`) is flagged in every single run, with near-identical `SE_ratio`
+  corrections — despite the number of coordinate sweeps to converge varying (23-35).
+  For this dataset, the boundary/near-flat behavior is a robust, reproducible feature
+  of the likelihood surface given the data, not a random-seed artifact; no evidence
+  of the optimizer landing on materially different, competing optima across these 5
+  restarts (though this cannot rule out a distant optimum elsewhere in the
+  24-dimensional space — a local-stability check, not a global search). Full table
+  in `Rev_2_3.md`.
