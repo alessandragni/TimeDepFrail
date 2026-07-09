@@ -197,7 +197,7 @@ print.AdPaik <- function(x, ...) {
                 signif(x$GradientCheck$GradientMaxAbs, 6)))
     boundary_idx <- x$GradientCheck$BoundaryAdjacent
     if (length(boundary_idx) > 0) {
-      cat("  Boundary-adjacent parameters (excluded above; large one-sided gradient expected):\n")
+      cat("  Boundary-adjacent parameters (excluded above):\n")
       cat(sprintf("    index %d: grad = %s\n", boundary_idx, signif(x$GradientCheck$Gradient[boundary_idx], 6)), sep = "")
     }
   }
