@@ -66,7 +66,7 @@ summary.AdPaik <- function(object, ...) {
     convergence = convergence,
     gradient_check = gradient_check,
     parameters_info = paste0(
-      "Overall number of estimated parameters ", object$NParameters,
+      "Overall ", object$NParameters, " estimated parameters",
       " divided as (phi, beta, mu1, nu, gammak) = (", paste(params_categories, collapse = ","), ")"
     ),
     n_intervals = n_intervals,
