@@ -44,7 +44,7 @@ summary.AdPaik <- function(object, ...) {
            " excluded (boundary-adjacent)")
   }
   gradient_check <- paste0("||grad||_2 = ", gradient_norm, ", max|grad| = ", gradient_max_abs,
-                          "\n[interior parameters only; ", boundary_note, "]")
+                          "\n[", boundary_note, "]")
 
   # Corrected (full-Hessian, cross-derivative-aware) regressor standard errors,
   # only available if 'full_hessian_se = TRUE' was passed to AdPaikModel()
