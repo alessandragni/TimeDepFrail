@@ -106,7 +106,7 @@ print.summary.AdPaik <- function(x, ...) {
     paste("Log-likelihood:", x$logLik),
     paste("AIC:", x$AIC),
     paste("Status of the algorithm:", x$convergence),
-    paste("First-order optimality check (finite-difference gradient):", x$gradient_check),
+    paste("First-order optimality check:", x$gradient_check),
     sep_line,
     x$parameters_info,
     paste("with: number of intervals =", x$n_intervals, ", number of regressors =", x$n_regressors, "."),
