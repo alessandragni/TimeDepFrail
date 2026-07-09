@@ -446,8 +446,8 @@ settled:
   paper's Section 7 already discusses for `nu` (previously quantified via its large SE,
   `24.236`/`218.643` depending on the params_se fix — see §3bis above); the gradient
   diagnostic now shows it directly as a large one-sided slope instead of only via SE.
-- **4 of 10 `gamma_k -> 0` (`gamma_1, gamma_4, gamma_9, gamma_10`).** Checked directly
-  against `data_dropout` rather than assumed:
+- **4 of 10 `gamma_k -> 0` (`gamma_1, gamma_4, gamma_9, gamma_10`) — revisited
+  (2026-07-08, corrected).** Initially checked only against raw event counts:
 
   | interval | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
   |---|---|---|---|---|---|---|---|---|---|---|
@@ -455,25 +455,41 @@ settled:
   | centres (of 16) with 0 events | 0 | 2 | 0 | 5 | 3 | 0 | 10 | 1 | 11 | 9 |
   | `gamma_k` at boundary? | yes | no | no | yes | no | no | no | no | yes | yes |
 
-  Intervals 9/10 are cleanly explained: almost no centre has any event there, so
-  there is no information to estimate a between-centre variance component, and
-  `gamma_k -> 0` is the expected MLE behaviour for a variance parameter with no
-  evidence of heterogeneity. But this is **not** a complete explanation: interval 7 is
-  just as sparse (10/16 centres with zero events) yet its `gamma_7` did *not* collapse
-  (landed at `0.137`), while interval 1 has substantial data (76 events, every centre
-  represented) yet *did* collapse. So sparsity alone does not fully explain the
-  pattern — plausibly a mix of genuine data-sparsity-driven shrinkage (intervals 9/10,
-  maybe 4) and coordinate-wise-optimization path-dependence in a non-concave
-  24-dimensional space (interval 1, possibly 4) — i.e. partially the exact fragility
-  the referee's comment is about.
+  Intervals 9/10 looked cleanly explained by sparsity (almost no centre has any
+  event there), but interval 1 (substantial data, every centre represented) still
+  collapsing looked like an unexplained asymmetry against interval 7 (sparser, yet
+  did *not* collapse) — originally flagged below as possibly partially reflecting
+  optimizer path-dependence rather than being fully data-driven.
 
-- **Caveat on these specific numbers:** everything above (this run, and the "Final
-  verification" bullet before it) used `n_extrarun = 10`, reduced from the paper's own
-  default `n_extrarun = 60`, purely for iteration speed while building the diagnostic.
-  Which indices land on a boundary is plausibly sensitive to `n_extrarun`/random seed.
-  Treat "`mu1`/`nu`/4 specific `gamma_k` are boundary-pinned" as provisional pending a
-  re-run at `n_extrarun = 60` (and ideally more than one seed) before it goes into the
-  response letter or the paper as a stated finding.
+  **This was too hasty; two things resolve it.** First, the *gradient's sign and
+  magnitude* at the boundary distinguishes "weakly identified" from "precisely
+  estimated to be small": a parameter that's near a boundary purely because data are
+  too sparse to tell would show a near-flat gradient there (the likelihood barely
+  reacts either way); `gamma_1`'s gradient is large and one-signed
+  (`~-11.5` at `n_extrarun=60`; see §9 for a subsequent fix to how this value itself
+  is computed for near-boundary parameters — the qualitative argument here is
+  unaffected, only the precise magnitude changed), meaning the data push
+  *confidently* toward an even smaller value if the boundary allowed it — the
+  signature of a precise near-zero estimate, not an ambiguous one. Second, and more
+  directly: this pattern
+  is **already in the published paper**, not new. The originally published
+  `frailty_sd(result, flag_variance = TRUE)` output (Section 6.3) is
+  `[0.00619, 0.0738, 0.0776, 0.00593, 0.0379, 0.0798, 0.137, 0.165, 0.00590, 0.00597]`
+  — intervals 1, 4, 9, 10 are already the four smallest values there (`~0.006` vs.
+  `0.04-0.16` elsewhere), i.e. the exact same four intervals this session's
+  diagnostic flags as boundary-adjacent. The paper's own prose ("heterogeneity
+  increases in the first three intervals") is consistent with interval 1 starting
+  near zero, not contradicting it. Today's fixes changed the *magnitude* (from
+  `~0.006` down to `~1e-7` — plausibly because the removed `res6==0 -> 1e-10` patch,
+  §7, was acting as an inadvertent floor) but not *which* intervals are near-null.
+  Reading: cross-programme heterogeneity in dropout risk genuinely varies over the
+  academic calendar (concentrated in intervals 2-3 and 7-8, essentially absent at
+  1, 4, 9-10) — a substantive, data-driven, previously-published finding, not
+  evidence of optimizer fragility or path-dependence.
+
+- **On the `n_extrarun=10` caveat this section originally carried:** resolved by
+  §8's full `n_extrarun=60` run and 5-seed stability check — same boundary-adjacent
+  set, same qualitative pattern, in every seed. No longer provisional.
 
 ### 7ter. Future work (deferred): optimizer redesign — block/joint updates or adaptive directions
 
@@ -605,3 +621,72 @@ summary here for the technical record.
   restarts (though this cannot rule out a distant optimum elsewhere in the
   24-dimensional space — a local-stability check, not a global search). Full table
   in `Rev_2_3.md`.
+
+---
+
+## 9. Bug found and fixed in `gradient_check()` itself: unreliable values at near-boundary parameters (2026-07-09)
+
+Prompted by the author noticing that `gamma_4`'s and `gamma_9`'s reported gradients
+were *positive* (`+52.9`, `+8.15`) while `gamma_1`/`gamma_10` were negative
+(`-86.4`/`-8.99`) — inconsistent, since a genuine boundary optimum should show a
+consistently-signed one-directional score (see below for why the sign should be
+negative for a lower-bound parameter).
+
+**Investigation.** Re-running Brent's own `optimize()` for each of the 4 parameters,
+holding everything else fixed at the reported optimum, reproduced the exact same
+value with zero improvement — confirming the optimizer itself is not failing.
+Checking a *one-sided* finite difference at several step sizes spanning four orders
+of magnitude (`4.5e-7` to `0.01`) gave a consistent negative slope for all four
+parameters at every step size tested — the theoretically correct signature of a
+genuine lower-bound optimum (moving away from the bound makes the fit worse, so the
+likelihood is decreasing in that direction — the standard KKT condition for an
+active lower-bound constraint). So the previously-reported *centered*-difference
+values were wrong, not the underlying optimum.
+
+**Root cause.** `gradient_check()`'s symmetric-shrunk-step design (`Rev_1.md`) sets
+`h_p <- min(h_grad, distance to nearer bound)`. When that distance is far smaller
+than `h_grad` (here, `~4.5e-7` vs. `h_grad = 1e-4`), the "minus" evaluation point
+lands essentially exactly at the declared boundary and the "plus" point lands on the
+far side of the reported optimum. Directly checking the three log-likelihood values
+for `gamma_4` confirmed this precisely: `ll(boundary) = -2175.0488776`,
+`ll(optimum) = -2175.0488291`, `ll(optimum+h_p) = -2175.0488299` — i.e. `h_p` here
+(`4.5e-7`) is *smaller than Brent's own search tolerance* (`tol_optimize = 1e-6`
+default), so the centered difference compares two points straddling the optimum at a
+resolution finer than the search that produced it can even distinguish. The result
+is dominated by local curvature/interpolation noise rather than a real slope, and can
+come out with an inflated magnitude and an essentially arbitrary sign depending on
+which side happens to sit fractionally closer to the (imprecisely located) peak.
+
+**Fix** (`R/gradient_check.R`): when the naive symmetric step would have to be
+shrunk below `h_grad` on at least one side, use a one-sided difference with the
+*full*, unshrunk `h_grad` step, in whichever direction has that much room, instead
+of a symmetric step shrunk to the tiny boundary distance. This is also the
+statistically correct quantity for a boundary parameter (the one-directional score).
+Interior parameters (already using the full `h_grad` step, since they have room on
+both sides) are completely unaffected by this change. A genuinely degenerate range
+narrower than `h_grad` on both sides falls back to the old shrunk-symmetric-step
+behaviour (documented as reduced-accuracy), and the `BoundaryAdjacent` flagging
+threshold/logic is unchanged — only how the `Gradient` *value* is computed changes.
+
+**Verified**, both as a standalone recomputation against the saved optimum and via a
+full re-run of `AdPaikModel(..., full_hessian_se = TRUE)`:
+
+| index | parameter | before fix | after fix |
+|---|---|---|---|
+| 13 | `mu1` | -39.408 | -39.387 |
+| 14 | `nu` | 0.0000148 | 0.0000149 |
+| 15 | `gamma_1` | -86.443 | **-11.550** |
+| 18 | `gamma_4` | **+52.916** | **-1.809** |
+| 23 | `gamma_9` | **+8.151** | **-0.459** |
+| 24 | `gamma_10` | -8.985 | -0.00995 |
+
+All four `gamma_k` are now consistently negative, matching the independent one-sided
+checks above to 3+ significant figures. Interior `GradientNorm`/`GradientMaxAbs`,
+`BoundaryAdjacent` set, `Loglikelihood`, and all other outputs are unchanged (this is
+a read-only diagnostic fix; it does not touch the optimizer or any previously
+reported point estimate). No qualitative conclusion in `Rev_1.md`/`Rev_2_3.md`/§7-8
+changes — every one of them relied on the *sign and boundary-adjacency* of these
+parameters, or on magnitudes an order of magnitude apart from the corrected ones
+(e.g. `86` -> `11.5` doesn't change "large relative to the interior gradients of
+`~1e-4`" as a conclusion) — but any place quoting the specific old numeric gradient
+values has been corrected to cite these instead.

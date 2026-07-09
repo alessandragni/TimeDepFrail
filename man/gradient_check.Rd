@@ -68,21 +68,21 @@ Since the log-likelihood function is maximized using a derivative-free, coordina
 optimization strategy, no analytical gradient is available during optimization. This
 function provides a numerical check, computed once at the end of the optimization
 procedure, of the first-order optimality conditions: at a genuine interior stationary
-point, all partial derivatives of the log-likelihood should be close to zero, as opposed
-to a flat region of the likelihood surface where the coordinate-wise optimizer could
-stall.
+point, all partial derivatives of the log-likelihood should be close to zero.
 
-Each partial derivative is approximated through a centered finite-difference scheme. The
-step used is always symmetric (identical forward and backward), shrunk if necessary to
-'min(h_grad, distance to the nearer declared range bound)': this avoids the numerical
-instability that an asymmetric step (a full step on one side, a boundary-clamped, much
-smaller step on the other) would introduce. If the parameter sits at (or past) a declared
-boundary, leaving no room for any step, the corresponding entry of 'Gradient' is 'NA'. If
-perturbing a parameter pushes the log-likelihood itself to a non-finite value on one side
-(which can happen even strictly inside the declared range, since some of the gamma-ratio
-terms of the log-likelihood become steep for near-degenerate dispersion parameters), a
-one-sided difference on the finite side is used instead, or 'NA' if both sides are
-non-finite.
+With at least 'h_grad' of room on both sides of its declared range, a parameter's
+derivative is approximated by the standard centered finite difference with step 'h_grad'.
+If the optimum lies within 'h_grad' of a bound, a symmetric step shrunk to match that
+distance is deliberately \emph{not} used: both evaluation points would then straddle the
+(possibly boundary) optimum at a resolution finer than the Brent search that reported it
+can distinguish, so the result is dominated by curvature noise rather than a real slope
+(verified empirically to give inflated, inconsistently-signed values). Instead, a
+one-sided difference with the \emph{full}, unshrunk 'h_grad' step is used, in whichever
+direction has that much room - also the statistically meaningful quantity at a boundary
+(the one-directional score). Only if the whole declared range is narrower than 'h_grad'
+does the function fall back to a symmetric step using whatever small room is available.
+'NA' if no room exists on either side, or if perturbing the parameter makes the
+log-likelihood non-finite on the evaluated side(s).
 
 Parameters whose optimum lies within 'boundary_factor * h_grad' of either declared bound
 are reported separately in 'BoundaryAdjacent', rather than folded into 'GradientNorm'/

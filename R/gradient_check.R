@@ -13,21 +13,21 @@
 #' optimization strategy, no analytical gradient is available during optimization. This
 #' function provides a numerical check, computed once at the end of the optimization
 #' procedure, of the first-order optimality conditions: at a genuine interior stationary
-#' point, all partial derivatives of the log-likelihood should be close to zero, as opposed
-#' to a flat region of the likelihood surface where the coordinate-wise optimizer could
-#' stall.
+#' point, all partial derivatives of the log-likelihood should be close to zero.
 #'
-#' Each partial derivative is approximated through a centered finite-difference scheme. The
-#' step used is always symmetric (identical forward and backward), shrunk if necessary to
-#' 'min(h_grad, distance to the nearer declared range bound)': this avoids the numerical
-#' instability that an asymmetric step (a full step on one side, a boundary-clamped, much
-#' smaller step on the other) would introduce. If the parameter sits at (or past) a declared
-#' boundary, leaving no room for any step, the corresponding entry of 'Gradient' is 'NA'. If
-#' perturbing a parameter pushes the log-likelihood itself to a non-finite value on one side
-#' (which can happen even strictly inside the declared range, since some of the gamma-ratio
-#' terms of the log-likelihood become steep for near-degenerate dispersion parameters), a
-#' one-sided difference on the finite side is used instead, or 'NA' if both sides are
-#' non-finite.
+#' With at least 'h_grad' of room on both sides of its declared range, a parameter's
+#' derivative is approximated by the standard centered finite difference with step 'h_grad'.
+#' If the optimum lies within 'h_grad' of a bound, a symmetric step shrunk to match that
+#' distance is deliberately *not* used: both evaluation points would then straddle the
+#' (possibly boundary) optimum at a resolution finer than the Brent search that reported it
+#' can distinguish, so the result is dominated by curvature noise rather than a real slope
+#' (verified empirically to give inflated, inconsistently-signed values). Instead, a
+#' one-sided difference with the *full*, unshrunk 'h_grad' step is used, in whichever
+#' direction has that much room - also the statistically meaningful quantity at a boundary
+#' (the one-directional score). Only if the whole declared range is narrower than 'h_grad'
+#' does the function fall back to a symmetric step using whatever small room is available.
+#' 'NA' if no room exists on either side, or if perturbing the parameter makes the
+#' log-likelihood non-finite on the evaluated side(s).
 #'
 #' Parameters whose optimum lies within 'boundary_factor * h_grad' of either declared bound
 #' are reported separately in 'BoundaryAdjacent', rather than folded into 'GradientNorm'/
@@ -84,38 +84,65 @@ gradient_check <- function(optimal_params, params_range_min, params_range_max,
   # Compute gradient components
   for(p in 1:n_params){
     value <- optimal_params[p]
+    lower_room <- value - params_range_min[p]
+    upper_room <- params_range_max[p] - value
 
-    # Symmetric step: shrink to whatever room is available on the tighter side, so
-    # both sides of the finite difference always use the identical step size (this
-    # avoids the instability of blending two very different step sizes when a
-    # parameter sits close to one of its declared bounds).
-    h_p <- min(h_grad, value - params_range_min[p], params_range_max[p] - value)
+    if(lower_room >= h_grad && upper_room >= h_grad){
+      # Standard interior case: full symmetric centered difference.
+      params_plus  <- optimal_params
+      params_minus <- optimal_params
+      params_plus[p]  <- value + h_grad
+      params_minus[p] <- value - h_grad
 
-    if(h_p <= 0){
-      # Parameter sits at (or past) a declared boundary: no room for any step.
-      next
+      ll_plus  <- ll_AdPaik_eval(params_plus, dataset, centre, time_axis, dropout_matrix, e_matrix)
+      ll_minus <- ll_AdPaik_eval(params_minus, dataset, centre, time_axis, dropout_matrix, e_matrix)
+
+      if(is.finite(ll_plus) && is.finite(ll_minus)){
+        gradient[p] <- (ll_plus - ll_minus) / (2 * h_grad)
+      }
+      else if(is.finite(ll_plus)){
+        gradient[p] <- (ll_plus - ll_eval) / h_grad
+      }
+      else if(is.finite(ll_minus)){
+        gradient[p] <- (ll_eval - ll_minus) / h_grad
+      }
     }
-
-    params_plus  <- optimal_params
-    params_minus <- optimal_params
-    params_plus[p]  <- value + h_p
-    params_minus[p] <- value - h_p
-
-    ll_plus  <- ll_AdPaik_eval(params_plus, dataset, centre, time_axis, dropout_matrix, e_matrix)
-    ll_minus <- ll_AdPaik_eval(params_minus, dataset, centre, time_axis, dropout_matrix, e_matrix)
-
-    if(is.finite(ll_plus) && is.finite(ll_minus)){
-      gradient[p] <- (ll_plus - ll_minus) / (2 * h_p)
+    else if(upper_room >= h_grad || lower_room >= h_grad){
+      # Boundary-adjacent: a symmetric step would have to be shrunk well below
+      # h_grad on the near side, which produces a numerically meaningless
+      # result at this resolution (see Details). Use a one-sided difference
+      # with the full, unshrunk h_grad step in the feasible direction instead.
+      params_step <- optimal_params
+      if(upper_room >= h_grad){
+        params_step[p] <- value + h_grad
+        ll_step <- ll_AdPaik_eval(params_step, dataset, centre, time_axis, dropout_matrix, e_matrix)
+        if(is.finite(ll_step)) gradient[p] <- (ll_step - ll_eval) / h_grad
+      }
+      else{
+        params_step[p] <- value - h_grad
+        ll_step <- ll_AdPaik_eval(params_step, dataset, centre, time_axis, dropout_matrix, e_matrix)
+        if(is.finite(ll_step)) gradient[p] <- (ll_eval - ll_step) / h_grad
+      }
     }
-    else if(is.finite(ll_plus)){
-      # Only the forward step is usable: one-sided forward difference
-      gradient[p] <- (ll_plus - ll_eval) / h_p
+    else if(lower_room > 0 && upper_room > 0){
+      # Degenerate range, narrower than h_grad on both sides: fall back to a
+      # symmetric step using whatever (small) room is available on both sides
+      # equally. Reduced accuracy, but keeps this edge case well-defined.
+      h_p <- min(lower_room, upper_room)
+      params_plus  <- optimal_params
+      params_minus <- optimal_params
+      params_plus[p]  <- value + h_p
+      params_minus[p] <- value - h_p
+
+      ll_plus  <- ll_AdPaik_eval(params_plus, dataset, centre, time_axis, dropout_matrix, e_matrix)
+      ll_minus <- ll_AdPaik_eval(params_minus, dataset, centre, time_axis, dropout_matrix, e_matrix)
+
+      if(is.finite(ll_plus) && is.finite(ll_minus)){
+        gradient[p] <- (ll_plus - ll_minus) / (2 * h_p)
+      }
     }
-    else if(is.finite(ll_minus)){
-      # Only the backward step is usable: one-sided backward difference
-      gradient[p] <- (ll_eval - ll_minus) / h_p
-    }
-    # else: log-likelihood non-finite on both sides, leave gradient[p] as NA
+    # else: no room on either side (parameter sits at, or past, a declared
+    # boundary) -- gradient[p] stays NA.
   }
 
   # Parameters whose optimum lies close to a declared range boundary: reported

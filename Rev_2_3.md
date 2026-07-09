@@ -293,6 +293,23 @@ existing elsewhere in the 24-dimensional space. It answers "does the optimizer
 reliably find the same thing from different starting points" (yes, here), not "is
 this provably the global optimum."
 
+### Correction to `gradient_check()` itself (2026-07-09)
+
+While re-examining the boundary-adjacent gradient values above, an inconsistency
+surfaced: `gamma_4`/`gamma_9` reported a *positive* gradient while `gamma_1`/`gamma_10`
+were negative — but a genuine lower-bound optimum should show a consistently negative
+one-directional score (moving away from the bound should make the fit worse). Traced
+to the symmetric-shrunk-step formula comparing two points that straddle the optimum at
+a resolution finer than Brent's own search tolerance (`tol_optimize`), which measures
+curvature noise rather than a real slope. Fixed by using a one-sided difference with
+the full `h_grad` step for any parameter where the symmetric step would otherwise be
+shrunk below it. All four `gamma_k` are now consistently negative
+(`gamma_1: -11.55`, `gamma_4: -1.81`, `gamma_9: -0.459`, `gamma_10: -0.00995` — see
+`REVISION_NOTES.md` §9 for full detail and before/after numbers). This does not change
+any conclusion above: `BoundaryAdjacent` classification, interior `GradientNorm`, and
+every qualitative claim already relied only on sign/relative-magnitude, not the exact
+old values.
+
 ## Decision: opt-in argument (implemented and verified)
 
 Discussed three options: (a) keep `hessian_check()` standalone/opt-in, (b) always
